@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 
 function Task({ task, toggleCompleted }) {
+  const [taskName, setTaskName] = useState(task.text);
+
+  const handleNameChange = (event) => {
+    setTaskName(event.target.value);
+  };
+
   const handleCheckboxChange = () => {
     toggleCompleted(task.id);
   };
@@ -12,7 +18,16 @@ function Task({ task, toggleCompleted }) {
       className={`task ${task.completed ? 'completed' : ''}`}
       onChange={handleCheckboxChange}
       checked={task.completed}
-      label={task.text}
+      label={
+        <div>
+          <input
+            type="text"
+            value={taskName}
+            onChange={handleNameChange}
+            className="form-control"
+          />
+        </div>
+      }
     />
   );
 }
