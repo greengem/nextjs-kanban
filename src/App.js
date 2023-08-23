@@ -1,6 +1,10 @@
 // App.js
 import React, { useState } from 'react';
 import Task from './Task';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -22,12 +26,17 @@ function App() {
 
   return (
     <div className="App">
+      <Container>
       <h1>ToDo App</h1>
-      <button onClick={addTask}>Add Task</button>
+      <Button variant='primary' onClick={addTask}>Add Task</Button>
+      <Form>
       {tasks.map((task) => (
         <Task key={task.id} task={task} toggleCompleted={toggleCompleted} />
       ))}
+      </Form>
+      </Container>
     </div>
+
   );
 }
 

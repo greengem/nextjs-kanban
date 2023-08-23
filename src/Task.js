@@ -1,6 +1,5 @@
-// Task.js
 import React from 'react';
-import './Task.css';
+import { Form } from 'react-bootstrap'; // Import Form component from React-Bootstrap
 
 function Task({ task, toggleCompleted }) {
   const handleCheckboxChange = () => {
@@ -8,14 +7,14 @@ function Task({ task, toggleCompleted }) {
   };
 
   return (
-    <div className={`task ${task.completed ? 'completed' : ''}`}>
-      <input
+    <Form.Check className={`task ${task.completed ? 'completed' : ''}`}>
+      <Form.Check.Input
         type="checkbox"
         onChange={handleCheckboxChange}
         checked={task.completed}
       />
-      <p>{task.text}</p>
-    </div>
+      <Form.Check.Label>{task.text}</Form.Check.Label>
+    </Form.Check>
   );
 }
 
