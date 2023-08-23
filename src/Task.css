@@ -1,0 +1,11 @@
+/* Task.css */
+.task {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+  }
+  
+  .task input {
+    margin-right: 10px;
+  }
+  
