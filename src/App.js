@@ -8,9 +8,15 @@ function App() {
     { id: 2, text: 'Sample task 2', completed: true },
   ]);
 
+  const addTask = () => {
+    const newTask = { id: tasks.length + 1, text: 'New task', completed: false };
+    setTasks([...tasks, newTask]);
+  };
+
   return (
     <div className="App">
       <h1>ToDo App</h1>
+      <button onClick={addTask}>Add Task</button>
       {tasks.map((task) => (
         <Task key={task.id} task={task} />
       ))}
