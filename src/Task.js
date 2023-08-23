@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap'; // Import Form component from React-Bootstrap
+import { Form } from 'react-bootstrap';
 
 function Task({ task, toggleCompleted }) {
   const handleCheckboxChange = () => {
@@ -7,14 +7,13 @@ function Task({ task, toggleCompleted }) {
   };
 
   return (
-    <Form.Check className={`task ${task.completed ? 'completed' : ''}`}>
-      <Form.Check.Input
-        type="checkbox"
-        onChange={handleCheckboxChange}
-        checked={task.completed}
-      />
-      <Form.Check.Label>{task.text}</Form.Check.Label>
-    </Form.Check>
+    <Form.Check
+      type="checkbox"
+      className={`task ${task.completed ? 'completed' : ''}`}
+      onChange={handleCheckboxChange}
+      checked={task.completed}
+      label={task.text}
+    />
   );
 }
 
