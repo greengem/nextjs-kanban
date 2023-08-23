@@ -8,4 +8,6 @@
   .task input {
     margin-right: 10px;
   }
-  
+  .task.completed {
+    text-decoration: line-through;
+  }
