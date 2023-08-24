@@ -3,9 +3,14 @@ import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-function Task({ task, toggleCompleted, setTasks }) {
+function Task({ task, toggleCompleted, setTasks, tasks }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(task.text);
+
+  const handleDeleteClick = () => {
+    const updatedTasks = tasks.filter(t => t.id !== task.id);
+    setTasks(updatedTasks);
+  };
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -16,15 +21,14 @@ function Task({ task, toggleCompleted, setTasks }) {
   };
 
   const handleEditSave = () => {
-    const updatedTasks = setTasks(prevTasks => {
-      return prevTasks.map(t => {
-        if (t.id === task.id) {
-          return { ...t, text: editedText };
-        }
-        return t;
-      });
+    const updatedTasks = tasks.map(t => {
+      if (t.id === task.id) {
+        return { ...t, text: editedText };
+      }
+      return t;
     });
 
+    setTasks(updatedTasks);
     setIsEditing(false);
   };
 
@@ -54,7 +58,10 @@ function Task({ task, toggleCompleted, setTasks }) {
       {isEditing ? (
         <Button variant="success" onClick={handleEditSave}>Save</Button>
       ) : (
-        <Button onClick={handleEditClick}>Edit</Button>
+        <>
+          <Button onClick={handleEditClick}>Edit</Button>
+          <Button variant="danger" onClick={handleDeleteClick}>Delete</Button>
+        </>
       )}
     </InputGroup>
   );

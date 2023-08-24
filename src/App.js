@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-//import "bootswatch/dist/quartz/bootstrap.min.css";
 import Task from './Task';
 import AppNavbar from './Navbar';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
 function App() {
@@ -13,13 +11,11 @@ function App() {
     { id: 2, text: 'Sample task 2', completed: true },
   ]);
 
-  // Function to add a new task
   const addTask = () => {
     const newTask = { id: tasks.length + 1, text: 'New task', completed: false };
     setTasks([...tasks, newTask]);
   };
 
-  // Function to toggle task completion status
   const toggleCompleted = (taskId) => {
     const updatedTasks = tasks.map(task => {
       if (task.id === taskId) {
@@ -38,14 +34,15 @@ function App() {
         <Card>
           <Card.Body>
             <Card.Text>
-            <Button variant="primary" onClick={addTask}>Add Task</Button> {/* Use the addTask prop */}
+              <Button variant="primary" onClick={addTask}>Add Task</Button>
             </Card.Text>
             {tasks.map((task) => (
               <Task
                 key={task.id}
                 task={task}
                 toggleCompleted={toggleCompleted}
-                setTasks={setTasks} // Pass setTasks function as prop
+                setTasks={setTasks}
+                tasks={tasks}
               />
             ))}
           </Card.Body>
