@@ -35,8 +35,9 @@ function App() {
 
   return (
     <div className="App">
-      <AppNavbar />
+      {/*<AppNavbar />*/}
       <Container className='mt-4'>
+        <h1>TASKS</h1>
         <Card>
           <Card.Body>
             <InputGroup className='mb-3'> 
