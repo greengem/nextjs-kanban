@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 
-function Task({ task, toggleCompleted }) {
+function Task({ task, toggleCompleted, setTasks }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedText, setEditedText] = useState(task.text);
 
@@ -16,7 +16,14 @@ function Task({ task, toggleCompleted }) {
   };
 
   const handleEditSave = () => {
-    // Implement logic to update the task text
+    const updatedTasks = setTasks(prevTasks => {
+      return prevTasks.map(t => {
+        if (t.id === task.id) {
+          return { ...t, text: editedText };
+        }
+        return t;
+      });
+    });
 
     setIsEditing(false);
   };
@@ -34,16 +41,18 @@ function Task({ task, toggleCompleted }) {
           aria-label="Text input with checkbox" 
           value={editedText}
           onChange={handleEditChange}
+          className='shadow-none'
         />
       ) : (
         <Form.Control 
           aria-label="Text input with checkbox" 
           value={task.text}
           readOnly
+          className='shadow-none'
         />
       )}
       {isEditing ? (
-        <Button onClick={handleEditSave}>Save</Button>
+        <Button variant="success" onClick={handleEditSave}>Save</Button>
       ) : (
         <Button onClick={handleEditClick}>Edit</Button>
       )}
