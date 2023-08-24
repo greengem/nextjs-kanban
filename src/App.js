@@ -4,6 +4,7 @@ import AppNavbar from './Navbar';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
 function App() {
   const [tasks, setTasks] = useState([
@@ -31,18 +32,20 @@ function App() {
 
   return (
     <div className="App">
-      <AppNavbar addTask={addTask} />
+      <AppNavbar />
       <Container className='mt-4'>
         <Card>
           <Card.Body>
-            <Card.Text>Bla!</Card.Text>
-          </Card.Body>
+            <Card.Text>
+            <Button variant="primary" onClick={addTask}>Add Task</Button> {/* Use the addTask prop */}
+            </Card.Text>
+          
           <ListGroup variant="flush">
-            {/* Map through tasks and render Task component */}
             {tasks.map((task) => (
               <Task key={task.id} task={task} toggleCompleted={toggleCompleted} />
             ))}
           </ListGroup>
+          </Card.Body>
         </Card>
       </Container>
     </div>
