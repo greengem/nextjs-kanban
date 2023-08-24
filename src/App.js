@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "bootswatch/dist/quartz/bootstrap.min.css";
 import Task from './Task';
 import AppNavbar from './Navbar';
 import Container from 'react-bootstrap/Container';
@@ -39,12 +40,9 @@ function App() {
             <Card.Text>
             <Button variant="primary" onClick={addTask}>Add Task</Button> {/* Use the addTask prop */}
             </Card.Text>
-          
-          <ListGroup variant="flush">
             {tasks.map((task) => (
               <Task key={task.id} task={task} toggleCompleted={toggleCompleted} />
             ))}
-          </ListGroup>
           </Card.Body>
         </Card>
       </Container>
