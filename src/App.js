@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Task from './Task';
-import AppNavbar from './Navbar';
 import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
