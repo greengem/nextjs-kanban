@@ -24,7 +24,7 @@ export default function RootLayout({
         <Providers>
           <div className='flex min-h-screen'>
             <Sidebar />
-            <div className='flex-grow bg-gray-300 overflow-y-auto '>
+            <div className='flex-grow overflow-y-auto overflow-x-hidden'>
             <Navbar />
             <SubNavbar />
               <main className="p-5">
