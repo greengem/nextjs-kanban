@@ -8,13 +8,16 @@ export default function ToggleSlimSidebarButton() {
   return (
     <li>
       {isSlimSidebar
-        ? (<button onClick={toggleSlimSidebar} className="w-full flex items-center space-x-3">
+        ? (
+          <button onClick={toggleSlimSidebar} className="w-full flex items-center space-x-3">
             <span><IconLayoutSidebarLeftExpand /></span>
-          </button>)
-        : (<button onClick={toggleSlimSidebar} className="w-full flex items-center space-x-3">
+          </button>
+        ) : (
+          <button onClick={toggleSlimSidebar} className="w-full flex items-center space-x-3">
             <span><IconLayoutSidebarLeftCollapse /></span>
             <span>Slim</span>
-          </button>)
+          </button>
+        )
       }
     </li>
   );
