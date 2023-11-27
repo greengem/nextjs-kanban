@@ -15,9 +15,9 @@ function DeleteButton() {
     <button 
       type="submit" 
       aria-disabled={pending}
-      className="p-1 bg-red-500 text-white rounded"
+      className="text-red-500"
     >
-      <IconTrash size={16} />
+      <IconTrash size={22} />
     </button>
   )
 }
@@ -27,10 +27,11 @@ export default function DeleteColumnForm({ columnId, columnTitle, boardId }: { c
 
   return (
     <form 
+      className="leading-none"
       action={formAction}
       onSubmit={(e) => {
         e.preventDefault();
-        const confimed = confirm("Are you sure you want to delete this task?");
+        const confimed = confirm("Are you sure you want to delete this column?");
         if (confimed) {
           formAction(new FormData(e.currentTarget));
         }
