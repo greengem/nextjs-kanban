@@ -5,6 +5,7 @@ import { Providers } from './providers'
 import Sidebar from '@/ui/Sidebar/Sidebar'
 import Navbar from '@/ui/Navbar/Navbar'
 import SubNavbar from '@/ui/Navbar/SubNavbar'
+import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
+        <Toaster />
           <div className='flex min-h-screen'>
             <Sidebar />
             <div className='flex-grow overflow-y-auto overflow-x-hidden'>
