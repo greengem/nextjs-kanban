@@ -49,7 +49,7 @@ export async function handleDeleteColumn(prevState: any, formData: FormData) {
 
     try {
 
-        const column = await prisma.column.delete({
+        await prisma.column.delete({
             where: {
                 id: data.columnId,
             }
