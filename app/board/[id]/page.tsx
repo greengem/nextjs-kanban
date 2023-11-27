@@ -16,23 +16,26 @@ export default async function Board({ params }: BoardProps) {
   }
 
   return (
-    <div className="flex gap-x-5">
-      {board.columns.map(column => (
-        <Column key={column.id} title={column.title} columnId={column.id} boardId={board.id}>
-          {column.tasks.map(task => (
-            <TaskItem 
-              key={task.id} 
-              title={task.title} 
-              priority={task.priority} 
-              taskId={task.id}
-              boardId={board.id}
-            />
-          ))}
-        </Column>
-      ))}
-      <div className="bg-blue-300 p-3 w-64 rounded-lg">
-        <CreateColumnForm boardId={board.id} />
+    <>
+      <h1 className="text-3xl font-semibold mb-5">Board: {board.title}</h1>
+      <div className="flex gap-x-5">
+        {board.columns.map(column => (
+          <Column key={column.id} title={column.title} columnId={column.id} boardId={board.id}>
+            {column.tasks.map(task => (
+              <TaskItem 
+                key={task.id} 
+                title={task.title} 
+                priority={task.priority} 
+                taskId={task.id}
+                boardId={board.id}
+              />
+            ))}
+          </Column>
+        ))}
+        <div className="bg-blue-300 p-3 w-64 rounded-lg">
+          <CreateColumnForm boardId={board.id} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
