@@ -12,7 +12,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ title, priority, taskId, boardId })
   const priorityClass = priority ? priority.toLowerCase() : 'default-priority';
 
   return (
-    <li className={`bg-blue-200 flex justify-between items-center rounded-lg px-3 py-2 ${priorityClass}`}>
+    <li className={`bg-blue-300 te flex justify-between items-center rounded-lg px-3 py-1 ${priorityClass}`}>
       <span>{title}</span>
       <span>{priority}</span>
       <span><DeleteTaskForm taskId={taskId} boardId={boardId} taskTitle={title} /></span>

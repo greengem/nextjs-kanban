@@ -11,15 +11,19 @@ interface ColumnProps {
 
 const Column: React.FC<ColumnProps> = ({ title, columnId, boardId, children }) => {
   return (
-    <div className="bg-blue-300 p-3 w-64 rounded-lg">
-      <h4 className='font-semibold mb-2'>{title}</h4>
-      <div>
-        <ul className='text-sm space-y-2 mb-5'>
+    <div className="w-full md:w-64">
+      <div className='flex justify-between items-center bg-blue-300 rounded-t-lg py-2 px-5'>
+        <h4 className='tracking-tight'>{title}</h4>
+        <DeleteColumnForm boardId={boardId} columnId={columnId} columnTitle={title} />
+      </div>
+      <div className='bg-blue-200 px-2 py-3'>
+        <ul className='text-sm space-y-2'>
           {children}
         </ul>
       </div>
-      <CreateTaskForm boardId={boardId} columnId={columnId} />
-      <DeleteColumnForm boardId={boardId} columnId={columnId} columnTitle={title} />
+      <div className='bg-blue-300 p-3 rounded-b-lg'>
+        <CreateTaskForm boardId={boardId} columnId={columnId} />
+      </div>
     </div>
   );
 }
