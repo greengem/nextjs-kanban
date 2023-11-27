@@ -1,6 +1,6 @@
 import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
-import NewColumnForm from "@/ui/Forms/NewColumnForm";
+import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import Column from "@/ui/Task/Column";
 import TaskItem from "@/ui/Task/TaskItem";
 
@@ -24,12 +24,14 @@ export default async function Board({ params }: BoardProps) {
               key={task.id} 
               title={task.title} 
               priority={task.priority} 
+              taskId={task.id}
+              boardId={board.id}
             />
           ))}
         </Column>
       ))}
-      <div className="bg-blue-300 p-5 w-64 rounded-lg">
-        <NewColumnForm boardId={board.id} />
+      <div className="bg-blue-300 p-3 w-64 rounded-lg">
+        <CreateColumnForm boardId={board.id} />
       </div>
     </div>
   );
