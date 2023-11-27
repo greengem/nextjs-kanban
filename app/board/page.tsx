@@ -1,5 +1,7 @@
 import { getBoardsSummary } from "@/lib/FetchData";
 import { BoardSummary } from "@/types/types";
+import CreateBoardForm from "@/ui/Forms/CreateBoardForm";
+import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
 import Link from "next/link";
 
 export default async function Boards() {
@@ -14,8 +16,12 @@ export default async function Boards() {
             <h4 className="font-semibold">{board.title}</h4>
             <p className="text-sm">{board.description}</p>
             <Link href={`/board/${board.id}`}>View</Link>
+            <DeleteBoardForm boardId={board.id} boardTitle={board.title} />
           </div>
         ))}
+        <div className="p-5 bg-blue-300 rounded-xl">
+          <CreateBoardForm />
+        </div>
       </div>
     </div>
   );
