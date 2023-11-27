@@ -1,16 +1,26 @@
 'use client'
 import ToggleSlimSidebarButton from "./ToggleSlimSidebarButton";
-import { IconLayoutKanban } from "@tabler/icons-react";
+import { IconLayoutKanban, IconHome, IconDashboard } from "@tabler/icons-react";
 import Link from "next/link";
 import { useSidebarVisibility } from "@/contexts/SidebarContext";
 
 
 const SidebarLinks = [
     {
-      path: "/",
-      label: "Boards",
-      Icon: IconLayoutKanban,
-    }
+        path: "/",
+        label: "Home",
+        Icon: IconHome,
+    },
+    {
+        path: "/dashboard",
+        label: "Dashboard",
+        Icon: IconDashboard,
+      },
+      {
+        path: "/board",
+        label: "Boards",
+        Icon: IconLayoutKanban,
+      },
   ];
 
 export default function SidebarNav() {
