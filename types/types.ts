@@ -1,4 +1,4 @@
-import { Board, Column, Task } from "@prisma/client";
+import { Board, Task } from "@prisma/client";
 
 export type BoardSummary = Pick<Board, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>;
 
