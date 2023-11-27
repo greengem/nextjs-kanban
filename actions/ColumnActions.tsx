@@ -3,64 +3,62 @@ import { z } from 'zod'
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache'
 
-const CreateColumnSchema = z.object({
-    boardId: z.string(),
-    columnTitle: z.string(),
-});
+export async function handleCreateColumn(prevState: any, formData: FormData) {
+    const CreateColumnSchema = z.object({
+        boardId: z.string().min(1),
+        columnTitle: z.string().min(1),
+    });
 
-const DeleteColumnSchema = z.object({
-    boardId: z.string(),
-    columnId: z.string(),
-});
+    const parse = CreateColumnSchema.safeParse({
+        boardId: formData.get('boardId') as string,
+        columnTitle: formData.get('columnTitle') as string,
+    })
 
-export async function handleCreateColumn(formData: FormData) {
-    const boardId = formData.get('boardId') as string;
-    const columnTitle = formData.get('columnTitle') as string;
+    if (!parse.success) {
+        return { message: 'Failed to create column' }
+    }
 
-    const columnData = {
-        boardId, columnTitle
-    };
+    const data = parse.data
 
     try {
-        const validatedData = CreateColumnSchema.parse(columnData);
-        const column = await prisma.column.create({
+        await prisma.column.create({
             data: {
-                title: validatedData.columnTitle,
-                boardId: validatedData.boardId,
+                title: data.columnTitle,
+                boardId: data.boardId,
             }
         });
-        
-        revalidatePath(`/board/${boardId}`);
 
-    } catch (error) {
-        console.error(error);
-    throw error;
+        revalidatePath(`/board/${data.boardId}`);
+        return { message: `Added board ${data.columnTitle}`}
+    } catch (e) {
+        return { message: `Failed to create column`}
     }
-    
 }
 
-export async function handleDeleteColumn(formData: FormData) {
-    const boardId = formData.get('boardId') as string;
-    const columnId = formData.get('columnId') as string;
+export async function handleDeleteColumn(prevState: any, formData: FormData) {
 
-    const columnData = {
-        boardId, columnId
-    };
+    const DeleteColumnSchema = z.object({
+        columnId: z.string().min(1),
+        columnTitle: z.string().min(1),
+    });
+
+    const data = DeleteColumnSchema.parse({
+        columnId: formData.get('columnId') as string,
+        columnTitle: formData.get('columnTitle') as string,
+    })
 
     try {
-        const validatedData = DeleteColumnSchema.parse(columnData);
 
         const column = await prisma.column.delete({
             where: {
-                id: validatedData.columnId,
+                id: data.columnId,
             }
         });
-        
-        revalidatePath(`/board/${boardId}`);
 
-    } catch (error) {
-        console.error(error);
-    throw error;
+        const boardId = formData.get('boardId') as string;
+        revalidatePath(`/board/${boardId}`);
+        return { message: `Deleted column ${data.columnTitle}` }
+    } catch (e) {
+        return { message: 'Failed to delete column' }
     }
-    
 }
