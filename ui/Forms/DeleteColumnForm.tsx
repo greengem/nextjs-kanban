@@ -1,18 +1,49 @@
-import { handleDeleteColumn } from "@/actions/ColumnActions";
+'use client'
 
-interface DeleteColumnFormProps {
-    boardId: string;
-    columnId: string;
+import { useFormState, useFormStatus } from "react-dom";
+import { handleDeleteColumn } from "@/actions/ColumnActions";
+import { IconTrash } from "@tabler/icons-react";
+
+const initialState = {
+  message: "",
 }
 
-const DeleteColumnForm: React.FC<DeleteColumnFormProps> = ({ columnId, boardId }) => {
+function DeleteButton() {
+  const { pending } = useFormStatus()
+
   return (
-    <form action={handleDeleteColumn}>
+    <button 
+      type="submit" 
+      aria-disabled={pending}
+      className="p-1 bg-red-500 text-white rounded"
+    >
+      <IconTrash size={16} />
+    </button>
+  )
+}
+
+export default function DeleteColumnForm({ columnId, columnTitle, boardId }: { columnId: string; columnTitle: string; boardId: string; }) {
+  const [state, formAction] = useFormState(handleDeleteColumn, initialState)
+
+  return (
+    <form 
+      action={formAction}
+      onSubmit={(e) => {
+        e.preventDefault();
+        const confimed = confirm("Are you sure you want to delete this task?");
+        if (confimed) {
+          formAction(new FormData(e.currentTarget));
+        }
+      }}
+    >
       <input type="hidden" name="boardId" value={boardId} />
       <input type="hidden" name="columnId" value={columnId} />
-      <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Delete Column</button>
+      <input type="hidden" name="columnTitle" value={columnTitle} />
+      <DeleteButton />
+      <p aria-live="polite" className="sr-only" role="status">
+        {state?.message}
+      </p>
     </form>
   )
 }
 
-export default DeleteColumnForm;
