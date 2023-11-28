@@ -3,13 +3,14 @@ import { z } from 'zod'
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache'
 
+// CREATE TASK
 export async function handleCreateTask(prevState: any, formData: FormData) {
     const CreateTaskSchema = z.object({
         taskTitle: z.string().min(1), 
-        taskDescription: z.string().optional(),
-        taskPriority: z.string().optional(),
+        taskDescription: z.union([z.string(), z.null()]).optional(),
+        taskPriority: z.union([z.string(), z.null()]).optional(),
         columnId: z.string().min(1),
-    });
+    });    
 
     const parse = CreateTaskSchema.safeParse({
         taskTitle: formData.get('taskTitle') as string,
@@ -42,6 +43,50 @@ export async function handleCreateTask(prevState: any, formData: FormData) {
     }
 }
 
+// EDIT TASK
+export async function handleEditTask(prevState: any, formData: FormData) {
+    const EditTaskSchema = z.object({
+        taskId: z.string().min(1),
+        taskTitle: z.string().min(1), 
+        taskDescription: z.union([z.string(), z.null()]).optional(),
+        taskPriority: z.union([z.string(), z.null()]).optional(),
+    });
+
+    const parse = EditTaskSchema.safeParse({
+        taskId: formData.get('taskId') as string,
+        taskTitle: formData.get('taskTitle') as string,
+        taskDescription: formData.get('taskDescription') as string | null,
+        taskPriority: formData.get('taskPriority') as string | null,
+    });
+
+    if (!parse.success) {
+        return { message: 'Failed to edit task' };
+    }
+
+    const data = parse.data;
+
+    try {
+        const updatedTask = await prisma.task.update({
+            where: {
+                id: data.taskId
+            },
+            data: {
+                title: data.taskTitle,
+                description: data.taskDescription,
+                priority: data.taskPriority,
+            }
+        });
+
+        const boardId = formData.get('boardId') as string;
+        revalidatePath(`/board/${boardId}`);
+        return { message: `Edited task ${data.taskTitle}` };
+    } catch (e) {
+        return { message: `Failed to edit task` };
+    }
+}
+
+
+// DELETE TASK
 export async function handleDeleteTask(prevState: any, formData: FormData) {
 
     const DeleteTaskSchema = z.object({
@@ -63,7 +108,7 @@ export async function handleDeleteTask(prevState: any, formData: FormData) {
         
         const boardId = formData.get('boardId') as string;
         revalidatePath(`/board/${boardId}`);
-        return { message: `Deleted todo ${data.taskTitle}` }
+        return { message: `Deleted task ${data.taskTitle}` }
     } catch (e) {
         return { message: 'Failed to delete task' }
     }
