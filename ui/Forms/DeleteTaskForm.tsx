@@ -13,14 +13,14 @@ function DeleteButton() {
     <button 
       type="submit" 
       aria-disabled={pending}
-      className="ml-1"
+      className="p-1 bg-red-500 text-white rounded-md"
     >
-      <IconTrash size={18} />
+      <IconTrash size={14} />
     </button>
   )
 }
 
-export default function DeleteTaskForm({ boardId, taskId, taskTitle }: { boardId: string; taskId: string; taskTitle: string; }) {
+export default function DeleteTaskForm({ boardId, taskId, columnId }: { boardId: string; taskId: string; columnId: string; }) {
   const [state, formAction] = useFormState(handleDeleteTask, null)
 
   useEffect(() => {
@@ -44,6 +44,7 @@ export default function DeleteTaskForm({ boardId, taskId, taskTitle }: { boardId
         }
       }}
     >
+      <input type="hidden" name="columnId" value={columnId} />
       <input type="hidden" name="boardId" value={boardId} />
       <input type="hidden" name="taskId" value={taskId} />
       <DeleteButton />
