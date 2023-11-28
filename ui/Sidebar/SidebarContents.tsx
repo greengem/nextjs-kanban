@@ -18,14 +18,14 @@ export default function SidebarContents() {
     
     return (
       <aside className={`
-        bg-blue-500 
         z-10 
         flex-none
         overflow-hidden 
+        bg-white
         transition-width duration-500 ease-in-out 
         ${determineWidthClass()}`}
       >
-        <div className="border-r-2 border-white h-full">
+        <div className="border-r-2 border-blue-300 h-full">
           <SidebarHeader />
           <SidebarNav />
         </div>
