@@ -2,8 +2,8 @@
 import { handleEditTask } from "@/actions/TaskActions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
-import { IconEdit } from "@tabler/icons-react";
 import toast from "react-hot-toast";
+import { IconX } from "@tabler/icons-react";
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -36,30 +36,26 @@ export default function EditTaskForm({ title, taskId, boardId }: { title: string
 
   return (
     <form action={formAction} className="w-full">
-
       <input type="hidden" name="boardId" value={boardId} />
       <input type="hidden" name="taskId" value={taskId} />
 
       {!isEditing ? (
-
         <div className="flex justify-between">
-          <span>{title}</span>
-          <button type="button" onClick={toggleEdit}><IconEdit size={20} /></button>
+          <span onClick={toggleEdit} className="cursor-pointer w-full">{title}</span>
         </div>
-
       ) : (
-
         <div>
-          <input autoFocus type='text' name='taskTitle' id='editTaskTitle' defaultValue={title} className="mb-1 w-full p-2 border rounded" />
-          <SubmitButton />
+          <input autoFocus type='text' name='taskTitle' id='editTaskTitle' defaultValue={title} className="mb-2 w-full p-2 border rounded" />
+          <div className="flex items-center justify-between">
+            <SubmitButton />
+            <button onClick={toggleEdit} type="button" className="p-1"><IconX size={20} /></button>
+          </div>
         </div>
-
       )}
 
       <p aria-live="polite" className="sr-only" role="status">
         {state?.message}
       </p>
-      
     </form>
   )
 }
