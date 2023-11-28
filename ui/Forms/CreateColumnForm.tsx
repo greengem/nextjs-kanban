@@ -2,10 +2,6 @@
 import { handleCreateColumn } from "@/actions/ColumnActions";
 import { useFormState, useFormStatus } from "react-dom";
 
-const initialState = {
-  message: "",
-}
-
 function SubmitButton() {
   const { pending } = useFormStatus()
 
@@ -21,7 +17,7 @@ function SubmitButton() {
 }
 
 export default function CreateColumnForm({ boardId }: { boardId: string }) {
-  const [state, formAction] = useFormState(handleCreateColumn, initialState)
+  const [state, formAction] = useFormState(handleCreateColumn, null)
   return (
     <form action={formAction}>
       <div className="mb-3">

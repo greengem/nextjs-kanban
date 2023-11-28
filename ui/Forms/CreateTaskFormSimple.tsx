@@ -3,10 +3,7 @@ import { handleCreateTask } from "@/actions/TaskActions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { IconPlus, IconX } from "@tabler/icons-react";
-
-const initialState = {
-  message: "",
-}
+import toast from "react-hot-toast";
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -35,14 +32,23 @@ function CloseButton({ onClick }: { onClick: () => void }) {
 }
 
 export default function CreateTaskForm({ boardId, columnId }: { boardId: string; columnId: string;  }) {
-  const [state, formAction] = useFormState(handleCreateTask, initialState);
-  const [isInputVisible, setInputVisible] = useState(false);
-  const handleToggleInput = () => setInputVisible(!isInputVisible);
+  const [state, formAction] = useFormState(handleCreateTask, null);
+  const [isEditing, setIsEditing] = useState(false);
 
+  useEffect(() => {
+    if (state?.message) {
+      setIsEditing(false);
+      toast.success('Task Created Successfully');
+    }
+  }, [state?.message]);
+
+  const toggleEdit = () => {
+    setIsEditing(!isEditing);
+  };
 
   return (
     <div>
-      {isInputVisible ? (
+      {isEditing ? (
 <>
         <form action={formAction}>
 
@@ -56,7 +62,7 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
 
           <div className="flex justify-between items-center">
             <SubmitButton />
-            <CloseButton onClick={handleToggleInput} />
+            <CloseButton onClick={toggleEdit} />
           </div>
           
 
@@ -68,7 +74,7 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
 </>
       ) : (
 
-        <button onClick={handleToggleInput} className="text-sm flex items-center gap-2">
+        <button onClick={toggleEdit} className="text-sm flex items-center gap-2">
           <IconPlus size={16} />Add a card
         </button>
 

@@ -2,10 +2,6 @@
 import { handleCreateTask } from "@/actions/TaskActions";
 import { useFormState, useFormStatus } from "react-dom";
 
-const initialState = {
-  message: "",
-}
-
 function SubmitButton() {
   const { pending } = useFormStatus()
 
@@ -21,7 +17,7 @@ function SubmitButton() {
 }
 
 export default function CreateTaskForm({ boardId, columnId }: { boardId: string; columnId: string;  }) {
-  const [state, formAction] = useFormState(handleCreateTask, initialState)
+  const [state, formAction] = useFormState(handleCreateTask, null)
   return (
     <form action={formAction}>
       <div className="mb-3">

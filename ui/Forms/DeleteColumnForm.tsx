@@ -4,10 +4,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import { handleDeleteColumn } from "@/actions/ColumnActions";
 import { IconTrash } from "@tabler/icons-react";
 
-const initialState = {
-  message: "",
-}
-
 function DeleteButton() {
   const { pending } = useFormStatus()
 
@@ -23,7 +19,7 @@ function DeleteButton() {
 }
 
 export default function DeleteColumnForm({ columnId, columnTitle, boardId }: { columnId: string; columnTitle: string; boardId: string; }) {
-  const [state, formAction] = useFormState(handleDeleteColumn, initialState)
+  const [state, formAction] = useFormState(handleDeleteColumn, null)
 
   return (
     <form 

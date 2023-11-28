@@ -4,10 +4,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import { handleDeleteTask} from "@/actions/TaskActions";
 import { IconTrash } from "@tabler/icons-react";
 
-const initialState = {
-  message: "",
-}
-
 function DeleteButton() {
   const { pending } = useFormStatus()
 
@@ -15,6 +11,7 @@ function DeleteButton() {
     <button 
       type="submit" 
       aria-disabled={pending}
+      className="ml-1"
     >
       <IconTrash size={18} />
     </button>
@@ -22,7 +19,7 @@ function DeleteButton() {
 }
 
 export default function DeleteTaskForm({ boardId, taskId, taskTitle }: { boardId: string; taskId: string; taskTitle: string; }) {
-  const [state, formAction] = useFormState(handleDeleteTask, initialState)
+  const [state, formAction] = useFormState(handleDeleteTask, null)
 
   return (
     <form 

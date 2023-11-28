@@ -4,10 +4,6 @@ import { useFormState, useFormStatus } from "react-dom";
 import { handleDeleteBoard } from "@/actions/BoardActions";
 import { IconTrash } from "@tabler/icons-react";
 
-const initialState = {
-  message: "",
-}
-
 function DeleteButton() {
   const { pending } = useFormStatus()
 
@@ -23,7 +19,7 @@ function DeleteButton() {
 }
 
 export default function DeleteBoardForm({ boardTitle, boardId }: { boardTitle: string; boardId: string; }) {
-  const [state, formAction] = useFormState(handleDeleteBoard, initialState)
+  const [state, formAction] = useFormState(handleDeleteBoard, null)
 
   return (
     <form 

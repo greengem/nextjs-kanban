@@ -2,10 +2,6 @@
 import { handleCreateBoard } from "@/actions/BoardActions";
 import { useFormState, useFormStatus } from "react-dom";
 
-const initialState = {
-  message: "",
-}
-
 function SubmitButton() {
   const { pending } = useFormStatus()
 
@@ -21,7 +17,7 @@ function SubmitButton() {
 }
 
 export default function CreateBoardForm() {
-  const [state, formAction] = useFormState(handleCreateBoard, initialState)
+  const [state, formAction] = useFormState(handleCreateBoard, null)
   return (
     <form action={formAction}>
 

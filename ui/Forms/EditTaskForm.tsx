@@ -3,10 +3,7 @@ import { handleEditTask } from "@/actions/TaskActions";
 import { useFormState, useFormStatus } from "react-dom";
 import { useState, useEffect } from "react";
 import { IconEdit } from "@tabler/icons-react";
-
-const initialState = {
-  message: "",
-}
+import toast from "react-hot-toast";
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -23,14 +20,15 @@ function SubmitButton() {
 }
 
 export default function EditTaskForm({ title, taskId, boardId }: { title: string; taskId: string; boardId: string;  }) {
-  const [state, formAction] = useFormState(handleEditTask, initialState)
+  const [state, formAction] = useFormState(handleEditTask, null)
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    if (state.message) {
+    if (state?.message) {
       setIsEditing(false);
+      toast.success(`${title} Updated Successfully`);
     }
-  }, [state.message]);
+  }, [state?.message]);
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
@@ -52,7 +50,7 @@ export default function EditTaskForm({ title, taskId, boardId }: { title: string
       ) : (
 
         <div>
-          <input type='text' name='taskTitle' id='editTaskTitle' defaultValue={title} />
+          <input autoFocus type='text' name='taskTitle' id='editTaskTitle' defaultValue={title} className="mb-1 w-full p-2 border rounded" />
           <SubmitButton />
         </div>
 
