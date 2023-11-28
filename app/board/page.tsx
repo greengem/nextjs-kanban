@@ -3,6 +3,7 @@ import { BoardSummary } from "@/types/types";
 import CreateBoardForm from "@/ui/Forms/CreateBoardForm";
 import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
 import Link from "next/link";
+import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 
 export default async function Boards() {
   const boards: BoardSummary[] = await getBoardsSummary();
@@ -10,18 +11,19 @@ export default async function Boards() {
   return (
     <div>
       <p>Boards</p>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {boards.map((board) => (
-          <div key={board.id} className="p-5 bg-blue-300 rounded-xl">
-            <h4 className="font-semibold">{board.title}</h4>
-            <p className="text-sm">{board.description}</p>
-            <Link href={`/board/${board.id}`}>View</Link>
-            <DeleteBoardForm boardId={board.id} boardTitle={board.title} />
-          </div>
+          <Card key={board.id}>
+            <CardHeader>
+              <Link href={`/board/${board.id}`}>{board.title}</Link>
+            </CardHeader>
+            <CardBody>{board.description}</CardBody>
+            <CardFooter><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></CardFooter>
+          </Card>
         ))}
-        <div className="p-5 bg-blue-300 rounded-xl">
-          <CreateBoardForm />
-        </div>
+        <Card>
+          <CardBody><CreateBoardForm /></CardBody>
+        </Card>
       </div>
     </div>
   );
