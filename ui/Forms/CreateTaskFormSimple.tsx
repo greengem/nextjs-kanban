@@ -38,7 +38,6 @@ function CloseButton({ onClick }: { onClick: () => void }) {
 export default function CreateTaskForm({ boardId, columnId }: { boardId: string; columnId: string;  }) {
   const [state, formAction] = useFormState(handleCreateTask, initialState);
   const [isEditing, setIsEditing] = useState(false);
-  console.log("CREATE STATE " + state.message);
 
   useEffect(() => {
     if (state?.message) {
