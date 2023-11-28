@@ -12,7 +12,7 @@ export default function Navbar () {
                 {!isSidebarVisible && (
                     <button onClick={toggleSidebar} className="mr-3"><IconMenu2 /></button>
                 )}
-                <p className="font-semibold mr-10">Reactify Tasks</p>
+                <p className="font-semibold text-lg tracking-tight mr-10">Reactify Tasks</p>
             </div>
         </nav>
     )

@@ -29,7 +29,7 @@ export default function RootLayout({
             <div className='flex-grow overflow-x-hidden'>
             <Navbar />
             <SubNavbar />
-              <main className="p-5 min-h-screen">
+              <main className="p-5">
                 {children}
               </main>
             </div>
