@@ -23,7 +23,7 @@ model Column {
   id         String    @id @default(cuid())
   title      String
   boardId    String
-  board      Board     @relation(fields: [boardId], references: [id])
+  board      Board     @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks      Task[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
@@ -36,7 +36,7 @@ model Task {
   priority    String?
   dueDate     DateTime?
   columnId    String
-  column      Column    @relation(fields: [columnId], references: [id])
+  column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
