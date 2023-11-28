@@ -25,6 +25,7 @@ model Column {
   boardId    String
   board      Board     @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks      Task[]
+  order      Int
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 }
@@ -37,6 +38,7 @@ model Task {
   dueDate     DateTime?
   columnId    String
   column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  order       Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
