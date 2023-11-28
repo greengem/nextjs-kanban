@@ -30,6 +30,7 @@ export default async function Board({ params }: BoardProps) {
                 taskId={task.id}
                 boardId={board.id}
                 columnId={column.id}
+                order={task.order}
               />
             ))}
           </Column>

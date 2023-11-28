@@ -6,12 +6,13 @@ import { IconArrowDown, IconArrowUp, IconEdit, IconTrash } from '@tabler/icons-r
 interface TaskItemProps {
   taskId: string;
   boardId: string;
+  order: number;
   columnId: string;
   title: string;
   priority: string | null;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ title, priority, taskId, boardId, columnId }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ title, order, priority, taskId, boardId, columnId }) => {
   const priorityClass = priority ? priority.toLowerCase() : 'default-priority';
 
   return (

@@ -8,7 +8,7 @@ export type ColumnWithTasks = {
     tasks: TaskSummary[];
 };
 
-export type TaskSummary = Pick<Task, 'id' | 'title' | 'description' | 'priority' | 'dueDate' | 'createdAt' | 'updatedAt'>;
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'priority' | 'dueDate' | 'createdAt' | 'updatedAt'>;
 
 export type BoardDetails = Pick<Board, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'> & {
     columns: ColumnWithTasks[];
