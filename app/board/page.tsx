@@ -5,6 +5,8 @@ import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
 import Link from "next/link";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 
+export const dynamic = 'auto'
+
 export default async function Boards() {
   const boards: BoardSummary[] = await getBoardsSummary();
 
