@@ -15,7 +15,7 @@ export async function handleCreateBoard(prevState: any, formData: FormData) {
     })
 
     if (!parse.success) {
-        return { message: 'Failed to create board' }
+        return { success: false, message: 'Failed to create board' }
     }
 
     const data = parse.data
@@ -29,9 +29,9 @@ export async function handleCreateBoard(prevState: any, formData: FormData) {
         });
 
         revalidatePath(`/board/`);
-        return { message: `Added board ${data.boardTitle}`}
+        return { success: true, message: `Added board ${data.boardTitle}`}
     } catch (e) {
-        return { message: `Failed to create board`}
+        return { success: false, message: `Failed to create board`}
     }
 }
 
@@ -42,10 +42,16 @@ export async function handleDeleteBoard(prevState: any, formData: FormData) {
         boardTitle: z.string().min(1),
     });
 
-    const data = DeleteBoardSchema.parse({
+    const parse = DeleteBoardSchema.safeParse({
         boardId: formData.get('boardId') as string,
         boardTitle: formData.get('boardTitle') as string,
     })
+
+    if (!parse.success) {
+        return { success: false, message: 'Failed to delete task' };
+    }
+
+    const data = parse.data;
 
     try {
 
@@ -56,8 +62,8 @@ export async function handleDeleteBoard(prevState: any, formData: FormData) {
         });
 
         revalidatePath(`/board/`);
-        return { message: `Deleted board ${data.boardTitle}` }
+        return { success: true, message: `Deleted board ${data.boardTitle}` }
     } catch (e) {
-        return { message: 'Failed to delete board' }
+        return { success: false, message: 'Failed to delete board' }
     }
 }
