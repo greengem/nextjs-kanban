@@ -1,7 +1,6 @@
 import prisma from '@/db/prisma';
 import { BoardSummary, BoardDetails } from '@/types/types';
 
-// Get A list of boards without columns or tasks
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
     const boards = await prisma.board.findMany({
         select: {
@@ -15,7 +14,6 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
     return boards;
 }
 
-// Get a board by ID
 export async function getBoard(id: string): Promise<BoardDetails | null> {
     const board = await prisma.board.findUnique({
         where: {
@@ -28,10 +26,17 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
             createdAt: true,
             updatedAt: true,
             columns: {
+                orderBy: {
+                    order: 'asc'
+                },
                 select: {
                     id: true,
                     title: true,
+                    order: true,
                     tasks: {
+                        orderBy: {
+                            order: 'asc'
+                        },
                         select: {
                             id: true,
                             title: true,
@@ -40,6 +45,7 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                             dueDate: true,
                             createdAt: true,
                             updatedAt: true,
+                            order: true,
                         },
                     },
                 },
