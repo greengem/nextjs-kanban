@@ -15,9 +15,8 @@ function DeleteButton() {
     <button 
       type="submit" 
       aria-disabled={pending}
-      className="p-1 bg-red-500 text-white rounded"
     >
-      <IconTrash size={16} />
+      <IconTrash size={18} />
     </button>
   )
 }
@@ -28,6 +27,7 @@ export default function DeleteTaskForm({ boardId, taskId, taskTitle }: { boardId
   return (
     <form 
       action={formAction}
+      className="leading-none"
       onSubmit={(e) => {
         e.preventDefault();
         const confimed = confirm("Are you sure you want to delete this task?");

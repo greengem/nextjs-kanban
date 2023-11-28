@@ -34,10 +34,7 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
         <input type="text" id="taskDescription" name="taskDescription" className="w-full p-2 border rounded" />
       </div>
 
-      <div className="mb-3 hidden">
-        <label htmlFor="taskPriority" className="block mb-2 text-sm font-medium">Task Priority</label>
-        <input type="text" id="taskPriority" name="taskPriority" className="w-full p-2 border rounded" />
-      </div>
+
 
       <input type="hidden" name="boardId" value={boardId} />
       <input type="hidden" name="columnId" value={columnId} />
