@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import DeleteColumnForm from '../Forms/DeleteColumnForm';
-import CreateTaskForm from '../Forms/CreateTaskForm';
+import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
 
 interface ColumnProps {
   title: string;
@@ -22,7 +22,7 @@ const Column: React.FC<ColumnProps> = ({ title, columnId, boardId, children }) =
         </ul>
       </div>
       <div className='bg-blue-300 p-3 rounded-b-lg'>
-        <CreateTaskForm boardId={boardId} columnId={columnId} />
+        <CreateTaskFormSimple boardId={boardId} columnId={columnId} />
       </div>
     </div>
   );
