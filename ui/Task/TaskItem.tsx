@@ -15,7 +15,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ title, priority, taskId, boardId })
   return (
     <li className={`bg-blue-300 flex justify-between items-center rounded-lg px-3 py-1 ${priorityClass}`}>
       <EditTaskForm title={title} boardId={boardId} taskId={taskId} />
-      <span><DeleteTaskForm taskId={taskId} boardId={boardId} taskTitle={title} /></span>
+      <DeleteTaskForm taskId={taskId} boardId={boardId} taskTitle={title} />
     </li>
   );
 }
