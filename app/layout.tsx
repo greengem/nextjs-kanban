@@ -21,15 +21,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`bg-blue-100 ${inter.className}`}>
         <Providers>
         <Toaster />
           <div className='flex min-h-screen'>
             <Sidebar />
-            <div className='flex-grow overflow-y-auto overflow-x-hidden'>
+            <div className='flex-grow overflow-x-hidden'>
             <Navbar />
             <SubNavbar />
-              <main className="p-5">
+              <main className="p-5 min-h-screen">
                 {children}
               </main>
             </div>
