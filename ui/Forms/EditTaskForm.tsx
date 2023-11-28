@@ -26,7 +26,7 @@ export default function EditTaskForm({ title, taskId, boardId }: { title: string
   useEffect(() => {
     if (state?.message) {
       setIsEditing(false);
-      toast.success(`${title} Updated Successfully`);
+      toast.success(state.message);
     }
   }, [state?.message]);
 

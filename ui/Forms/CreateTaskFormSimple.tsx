@@ -5,6 +5,10 @@ import { useState, useEffect } from "react";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 
+const initialState = {
+  message: '',
+}
+
 function SubmitButton() {
   const { pending } = useFormStatus()
 
@@ -32,13 +36,14 @@ function CloseButton({ onClick }: { onClick: () => void }) {
 }
 
 export default function CreateTaskForm({ boardId, columnId }: { boardId: string; columnId: string;  }) {
-  const [state, formAction] = useFormState(handleCreateTask, null);
+  const [state, formAction] = useFormState(handleCreateTask, initialState);
   const [isEditing, setIsEditing] = useState(false);
+  console.log("CREATE STATE " + state.message);
 
   useEffect(() => {
     if (state?.message) {
       setIsEditing(false);
-      toast.success('Task Created Successfully');
+      toast.success(state.message);
     }
   }, [state?.message]);
 
@@ -49,7 +54,7 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
   return (
     <div>
       {isEditing ? (
-<>
+
         <form action={formAction}>
 
           <div className="mb-2">
@@ -64,21 +69,20 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
             <SubmitButton />
             <CloseButton onClick={toggleEdit} />
           </div>
-          
 
           <p aria-live="polite" className="sr-only" role="status">
             {state?.message}
           </p>
-          
+
         </form>
-</>
+
       ) : (
 
         <button onClick={toggleEdit} className="text-sm flex items-center gap-2">
           <IconPlus size={16} />Add a card
         </button>
 
-      )}  
+      )}
     </div>
   )
 }

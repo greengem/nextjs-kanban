@@ -91,12 +91,12 @@ export async function handleDeleteTask(prevState: any, formData: FormData) {
 
     const DeleteTaskSchema = z.object({
         taskId: z.string().min(1),
-        taskTitle: z.string().min(1),
+        boardId: z.string().min(1),
     });
 
     const data = DeleteTaskSchema.parse({
         taskId: formData.get('taskId') as string,
-        taskTitle: formData.get('taskTitle') as string,
+        boardId: formData.get('boardId') as string,
     })
 
     try {
@@ -105,12 +105,17 @@ export async function handleDeleteTask(prevState: any, formData: FormData) {
                 id: data.taskId,
             }
         });
-        
-        const boardId = formData.get('boardId') as string;
-        revalidatePath(`/board/${boardId}`);
-        return { message: `Deleted task ${data.taskTitle}` }
+
+        revalidatePath(`/board/${data.boardId}`);
+
+        return { 
+            success: true,
+            message: `Deleted task`,
+        }
     } catch (e) {
-        return { message: 'Failed to delete task' }
+        return { 
+            success: false,
+            message: 'Failed to delete task'
+        }
     }
-    
 }
