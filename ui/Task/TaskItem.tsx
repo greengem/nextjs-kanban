@@ -2,7 +2,7 @@
 import DeleteTaskForm from '../Forms/DeleteTaskForm';
 import EditTaskForm from '../Forms/EditTaskForm';
 import { IconArrowDown, IconArrowUp } from '@tabler/icons-react';
-import { Reorder } from "framer-motion"
+import { Reorder, useDragControls } from "framer-motion"
 import { IconGripVertical } from '@tabler/icons-react';
 
 interface TaskItemProps {
@@ -12,11 +12,20 @@ interface TaskItemProps {
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, boardId, columnId }) => {
-
-
+  const dragControls = useDragControls();
+  const handleDragStart = (e) => {
+    e.preventDefault(); // Prevent default action
+    dragControls.start(e);
+  };
   return (
-    <Reorder.Item key={task.id} value={task} className='bg-blue-100 rounded-lg my-2 flex shadow-md'>
-      <div className='px-1 flex items-center'>
+    <Reorder.Item 
+      key={task.id} 
+      value={task} 
+      className='bg-blue-100 rounded-lg my-2 flex select-none'
+      dragControls={dragControls}
+      dragListener={false}
+    >
+      <div className='px-1 flex items-center cursor-grab' onPointerDown={handleDragStart}>
         <IconGripVertical className='text-blue-500 cursor-grab' />
       </div>
       <div className='flex-grow px-3 py-2 text-sm'>
