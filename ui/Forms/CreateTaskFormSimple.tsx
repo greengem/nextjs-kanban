@@ -16,7 +16,7 @@ function SubmitButton() {
     <button 
       type="submit" 
       aria-disabled={pending}
-      className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm"
+      className="px-3 py-1 bg-purple-500 text-white rounded-md text-sm"
     >
       Add Card
     </button>
@@ -58,7 +58,7 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
 
           <div className="mb-2">
             <label htmlFor="taskTitle" className="block mb-2 font-medium sr-only">Task Title</label>
-            <input autoFocus type="text" id="taskTitle" name="taskTitle" className="w-full px-2 py-2 border rounded text-sm" required />
+            <input autoFocus type="text" id="taskTitle" name="taskTitle" className="w-full px-2 py-2 border rounded text-sm text-black" required />
           </div>
 
           <input type="hidden" name="boardId" value={boardId} />

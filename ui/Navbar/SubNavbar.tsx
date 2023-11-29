@@ -5,7 +5,7 @@ import Link from "next/link";
 export default async function SubNavbar () {
     const boards = await getBoardsSummary();
     return (
-        <nav className="flex px-5 py-1 bg-white items-center justify-between border-b-2 border-blue-300">
+        <nav className="flex px-5 py-2 bg-zinc-800 items-center justify-between">
             <SubNavbarMenu boards={boards} />
         </nav>
     )

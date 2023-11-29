@@ -7,7 +7,7 @@ export default function Navbar () {
     const { toggleSidebar, isSidebarVisible } = useSidebarVisibility();
 
     return (
-        <nav className="flex px-5 py-4 text-blue-500 bg-white items-center justify-between border-b-2 border-blue-300">
+        <nav className="flex px-5 py-4 text-purple-500 bg-zinc-900 items-center justify-between">
             <div className="flex items-center">
                 {!isSidebarVisible && (
                     <button onClick={toggleSidebar} className="mr-3"><IconMenu2 /></button>

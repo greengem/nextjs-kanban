@@ -21,11 +21,11 @@ export default function SidebarContents() {
         z-10 
         flex-none
         overflow-hidden 
-        bg-white
+        bg-zinc-900
         transition-width duration-500 ease-in-out 
         ${determineWidthClass()}`}
       >
-        <div className="border-r-2 border-blue-300 h-full">
+        <div className="h-full">
           <SidebarHeader />
           <SidebarNav />
         </div>

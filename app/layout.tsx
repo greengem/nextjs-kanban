@@ -4,7 +4,7 @@ import './globals.css'
 import { Providers } from './providers'
 import Sidebar from '@/ui/Sidebar/Sidebar'
 import Navbar from '@/ui/Navbar/Navbar'
-import SubNavbar from '@/ui/Navbar/SubNavbar'
+
 import { Toaster } from 'react-hot-toast'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -21,14 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`bg-blue-100 ${inter.className}`}>
+      <body className={`bg-black text-white ${inter.className}`}>
         <Providers>
         <Toaster />
           <div className='flex min-h-screen'>
             <Sidebar />
-            <div className='flex-grow overflow-x-hidden'>
-            <Navbar />
-            <SubNavbar />
+            <div className='flex-grow overflow-auto'>
+              <Navbar />
               <main className="p-5">
                 {children}
               </main>

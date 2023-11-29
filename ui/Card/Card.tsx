@@ -5,9 +5,24 @@ export function Card({ children, className = '' }: { children: ReactNode, classN
         <div className={`
             w-full
             flex-none
-            bg-white 
-            rounded-lg 
             shadow-md
+            text-white
+            ${className}
+        `}>
+            {children}
+        </div>
+    )
+}
+
+export function CardHeaderGrab({ children, className = '' }: { children: ReactNode, className?: string }) {
+    return (
+        <div className={`
+            rounded-t-lg
+            py-1
+            text-purple-500
+            cursor-grab
+            bg-zinc-800
+            flex justify-center items-center
             ${className}
         `}>
             {children}
@@ -18,7 +33,8 @@ export function Card({ children, className = '' }: { children: ReactNode, classN
 export function CardHeader({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
         <div className={`
-            py-2 px-2
+            bg-zinc-900
+            px-5 pt-3
             ${className}
         `}>
             {children}
@@ -30,6 +46,7 @@ export function CardBody({ children, className = '' }: { children: ReactNode, cl
     return (
         <div className={`
             p-3
+            bg-zinc-900
             ${className}
         `}>
             {children}
@@ -40,7 +57,8 @@ export function CardBody({ children, className = '' }: { children: ReactNode, cl
 export function CardFooter({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
         <div className={`
-            p-3
+            p-3 rounded-b-lg
+            bg-zinc-900
             ${className}
         `}>
             {children}

@@ -91,7 +91,7 @@ export async function handleEditTask(prevState: any, formData: FormData) {
 
         
         revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: `Edited task ${data.taskTitle}` };
+        return { success: true, message: `Edited task sucessfully!` };
     } catch (e) {
         return { success: false, message: `Failed to edit task` };
     }
