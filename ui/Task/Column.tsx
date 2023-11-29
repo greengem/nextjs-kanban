@@ -29,7 +29,7 @@ const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
         <DeleteColumnForm boardId={boardId} columnId={column.id} columnTitle={column.title} />
       </CardHeader>
       <CardBody>
-        <Reorder.Group axis="y" values={tasks} onReorder={setTasks}>
+        <Reorder.Group axis="y" values={tasks} onReorder={setTasks} style={{ overflowY: "scroll" }} layoutScroll>
           {tasks.map(task => (
               <TaskItem 
                 key={task.id}
