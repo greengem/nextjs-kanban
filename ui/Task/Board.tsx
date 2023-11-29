@@ -1,26 +1,41 @@
-
-import { BoardDetails } from "@/types/types";
+'use client';
+import { useState } from 'react';
+import { Reorder } from "framer-motion"
+import { BoardDetails, ColumnWithTasks } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import Column from "@/ui/Task/Column";
-import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
+import { Card, CardBody } from '@/ui/Card/Card';
 
 interface BoardProps {
-    board: BoardDetails;
-  }
+  board: BoardDetails;
+}
 
-export default async function Board({ board }: BoardProps) {
+interface ColumnListProps {
+  columns: ColumnWithTasks[];
+  boardId: string;
+}
+
+const ColumnList: React.FC<ColumnListProps> = ({ columns, boardId }) => (
+  <>
+    {columns.map(column => (
+      <Column key={column.id} boardId={boardId} column={column} />
+    ))}
+  </>
+);
+
+export default function Board({ board }: BoardProps) {
+  const [columns, setColumns] = useState(board.columns);
 
   return (
-    <>
-
-      <ul className="flex gap-5">
-        {board.columns.map(column => (
-          <Column key={column.id} boardId={board.id} column={column} />
-        ))}
+    <Reorder.Group axis="x" values={columns} onReorder={setColumns} className='flex gap-5'>
+      <ColumnList columns={columns} boardId={board.id} />
+      <li className="flex-col flex-shrink-0 w-64">
         <Card>
-            <CardBody><CreateColumnForm boardId={board.id} /></CardBody>
+          <CardBody>
+            <CreateColumnForm boardId={board.id} />
+          </CardBody>
         </Card>
-      </ul>
-    </>
+      </li>
+    </Reorder.Group>
   );
 }
