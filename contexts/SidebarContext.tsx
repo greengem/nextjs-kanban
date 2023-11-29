@@ -9,7 +9,7 @@ interface SidebarContextType {
 
 const SidebarVisibilityContext = createContext<SidebarContextType>({
   isSidebarVisible: true,
-  isSlimSidebar: false,
+  isSlimSidebar: true,
   toggleSidebar: () => {},
   toggleSlimSidebar: () => {},
 });
@@ -20,7 +20,7 @@ interface SidebarProviderProps {
 
 export const SidebarProvider: React.FC<SidebarProviderProps> = ({ children }) => {
   const [isSidebarVisible, setSidebarVisible] = useState(true);
-  const [isSlimSidebar, setSlimSidebar] = useState(false);
+  const [isSlimSidebar, setSlimSidebar] = useState(true);
 
   const toggleSidebar = () => {
     setSidebarVisible(!isSidebarVisible);
