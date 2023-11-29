@@ -24,15 +24,7 @@ export default function RootLayout({
       <body className={`bg-black text-white ${inter.className}`}>
         <Providers>
         <Toaster />
-          <div className='flex min-h-screen'>
-            <Sidebar />
-            <div className='flex-grow overflow-auto'>
-              <Navbar />
-              <main className="p-5">
-                {children}
-              </main>
-            </div>
-          </div>
+          {children}
         </Providers>
       </body>
     </html>

@@ -2,11 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  min-height: 100vh;
-  width: 100%;
-}
-
 @layer utilities {
   .no-scrollbar::-webkit-scrollbar {
       display: none;
