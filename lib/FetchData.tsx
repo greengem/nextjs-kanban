@@ -33,6 +33,8 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                     id: true,
                     title: true,
                     order: true,
+                    createdAt: true,
+                    updatedAt: true,
                     tasks: {
                         orderBy: {
                             order: 'asc'
