@@ -4,9 +4,10 @@ import EditTaskForm from '../Forms/EditTaskForm';
 import { IconArrowDown, IconArrowUp } from '@tabler/icons-react';
 import { Reorder, useDragControls } from "framer-motion"
 import { IconGripVertical } from '@tabler/icons-react';
+import { TaskSummary } from '@/types/types';
 
 interface TaskItemProps {
-  task: any;
+  task: TaskSummary;
   boardId: string;
   columnId: string;
 }
@@ -23,14 +24,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, boardId, columnId }) => {
     <Reorder.Item 
       key={task.id} 
       value={task} 
-      className='bg-blue-100 rounded-lg my-2 flex select-none'
+      className='my-2 flex select-none shadow-md'
       dragControls={dragControls}
       dragListener={false}
     >
-      <div className='px-1 flex items-center cursor-grab' onPointerDown={handleDragStart}>
+      <div className='px-0 flex items-center cursor-grab bg-blue-200 rounded-l-lg' onPointerDown={handleDragStart}>
         <IconGripVertical className='text-blue-500 cursor-grab' />
       </div>
-      <div className='flex-grow px-3 py-2 text-sm'>
+      <div className='flex-grow px-3 py-2 text-sm rounded-r-lg bg-blue-100'>
         <div className='mb-1'>
           <EditTaskForm title={task.title} boardId={boardId} taskId={task.id} />
         </div>
