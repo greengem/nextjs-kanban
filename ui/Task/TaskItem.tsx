@@ -13,10 +13,12 @@ interface TaskItemProps {
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, boardId, columnId }) => {
   const dragControls = useDragControls();
-  const handleDragStart = (e) => {
-    e.preventDefault(); // Prevent default action
+
+  const handleDragStart = (e: React.PointerEvent) => {
+    e.preventDefault();
     dragControls.start(e);
   };
+
   return (
     <Reorder.Item 
       key={task.id} 
