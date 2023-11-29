@@ -27,15 +27,21 @@ export default function Board({ board }: BoardProps) {
   const [columns, setColumns] = useState(board.columns);
 
   return (
-    <Reorder.Group axis="x" values={columns} onReorder={setColumns} className='flex gap-5'>
-      <ColumnList columns={columns} boardId={board.id} />
-      <li className="flex-col flex-shrink-0 w-64">
-        <Card>
-          <CardBody>
-            <CreateColumnForm boardId={board.id} />
-          </CardBody>
-        </Card>
-      </li>
-    </Reorder.Group>
+      <Reorder.Group 
+        layoutScroll 
+        axis="x" 
+        values={columns} 
+        onReorder={setColumns} 
+        className="flex gap-5 p-2 min-w-0 no-scrollbar overflow-x-scroll"
+      >
+        <ColumnList columns={columns} boardId={board.id} />
+        <li className="flex-none w-64">
+          <Card>
+            <CardBody>
+              <CreateColumnForm boardId={board.id} />
+            </CardBody>
+          </Card>
+        </li>
+      </Reorder.Group>
   );
 }

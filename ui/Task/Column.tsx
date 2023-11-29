@@ -29,16 +29,18 @@ const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
     <Reorder.Item 
     key={column.id} 
     value={column} 
-    className='flex-col flex-shrink-0 w-64'
+    className='flex-none w-64 min-w-0'
     dragControls={dragControls}
     dragListener={false}
   >
     <Card>
+    <div className='touch-none' onPointerDown={handleDragStart}>
       <CardHeaderGrab>
-      <div className='touch-none' onPointerDown={handleDragStart}>
+      
         <IconGripHorizontal className='text-purple-500' />
-      </div>
+      
       </CardHeaderGrab>
+      </div>
       <CardHeader className='py-1 flex justify-between'>
         <h4 className='tracking-tight'>{column.title}</h4>
         <DeleteColumnForm boardId={boardId} columnId={column.id} columnTitle={column.title} />
