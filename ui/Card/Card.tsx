@@ -19,7 +19,7 @@ export function CardHeader({ children, className = '' }: { children: ReactNode, 
     return (
         <div className={`
             flex justify-between items-center 
-            p-3
+            pt-3 px-5
             ${className}
         `}>
             {children}

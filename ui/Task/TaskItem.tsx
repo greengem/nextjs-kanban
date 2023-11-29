@@ -1,29 +1,35 @@
-'use client'
+'use client';
 import DeleteTaskForm from '../Forms/DeleteTaskForm';
 import EditTaskForm from '../Forms/EditTaskForm';
-import { IconArrowDown, IconArrowUp, IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconArrowDown, IconArrowUp } from '@tabler/icons-react';
+import { Reorder } from "framer-motion"
+import { IconGripVertical } from '@tabler/icons-react';
 
 interface TaskItemProps {
-  taskId: string;
+  task: any;
   boardId: string;
-  order: number;
   columnId: string;
-  title: string;
-  priority: string | null;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ title, order, priority, taskId, boardId, columnId }) => {
-  const priorityClass = priority ? priority.toLowerCase() : 'default-priority';
+const TaskItem: React.FC<TaskItemProps> = ({ task, boardId, columnId }) => {
+
 
   return (
-    <li className={`bg-blue-100 rounded-lg space-y-2 px-3 py-2 my-2 ${priorityClass}`}>
-      <div><EditTaskForm title={title} boardId={boardId} taskId={taskId} /></div>
-      <div className='flex justify-end gap-1'>
-        <button className='p-1 bg-blue-500 text-white rounded-md'><IconArrowUp size={14} /></button>
-        <button className='p-1 bg-blue-500 text-white rounded-md'><IconArrowDown size={14} /></button>
-        <DeleteTaskForm taskId={taskId} boardId={boardId} columnId={columnId} />
+    <Reorder.Item key={task.id} value={task} className='bg-blue-100 rounded-lg my-2 flex shadow-md'>
+      <div className='px-1 flex items-center'>
+        <IconGripVertical className='text-blue-500 cursor-grab' />
       </div>
-    </li>
+      <div className='flex-grow px-3 py-2 text-sm'>
+        <div className='mb-1'>
+          <EditTaskForm title={task.title} boardId={boardId} taskId={task.id} />
+        </div>
+        <div className='flex justify-end gap-1'>
+          <button className='p-1 bg-blue-500 text-white rounded-md'><IconArrowUp size={14} /></button>
+          <button className='p-1 bg-blue-500 text-white rounded-md'><IconArrowDown size={14} /></button>
+          <DeleteTaskForm taskId={task.id} boardId={boardId} columnId={columnId} />
+        </div>
+      </div>
+    </Reorder.Item>
   );
 }
 
