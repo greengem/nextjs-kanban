@@ -39,7 +39,7 @@ export default function Board({ board }: BoardProps) {
     axis="x" 
     values={columns} 
     onReorder={setColumns} 
-    className="flex gap-5 no-scrollbar overflow-x-scroll"
+    className="flex gap-3 md:gap-5 no-scrollbar overflow-x-scroll"
   >
         <ColumnList columns={columns} boardId={board.id} />
         <li className="shrink-0 w-64">
