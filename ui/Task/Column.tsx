@@ -29,7 +29,7 @@ const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
     <Reorder.Item 
       key={column.id} 
       value={column} 
-      className='shrink-0 w-full md:w-64 min-w-0'
+      className='shrink-0 w-64'
       dragControls={dragControls}
       dragListener={false}
     >
