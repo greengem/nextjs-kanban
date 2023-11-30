@@ -1,8 +1,19 @@
 import prisma from '@/db/prisma';
+import { auth } from "@/auth";
 import { BoardSummary, BoardDetails } from '@/types/types';
 
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
+    const session = await auth();
+
+    const userId = session?.user?.id;
+    if (!userId) {
+        return [];
+    }
+
     const boards = await prisma.board.findMany({
+        where: {
+            userId: session?.user?.id
+        },
         select: {
             id: true,
             title: true,
@@ -15,6 +26,7 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 }
 
 export async function getBoard(id: string): Promise<BoardDetails | null> {
+    const session = await auth();
     const board = await prisma.board.findUnique({
         where: {
             id: id,
