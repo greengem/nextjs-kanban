@@ -13,9 +13,9 @@ export default async function Boards() {
   return (
     <>
       <p>Boards</p>
-      <div className="flex gap-5">
+      <ul className="flex gap-5">
         {boards.map((board) => (
-          <div key={board.id} className="w-64 shrink-0">
+          <li key={board.id} className="w-64 shrink-0">
           <Card>
             <CardBody>
               <div><Link href={`/board/${board.id}`}>{board.title}</Link></div>
@@ -23,12 +23,14 @@ export default async function Boards() {
               <div><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></div>
             </CardBody>
           </Card>
-          </div>
+          </li>
         ))}
-        <Card>
-          <CardBody><CreateBoardForm /></CardBody>
-        </Card>
-      </div>
+        <li className="w-64 shrink-0">
+          <Card>
+            <CardBody><CreateBoardForm /></CardBody>
+          </Card>
+        </li>
+      </ul>
     </>
   );
 }
