@@ -18,7 +18,6 @@ export default function SidebarContents() {
     
     return (
       <aside className={`
-        z-10 
         shrink-0
         overflow-hidden 
         bg-zinc-900
