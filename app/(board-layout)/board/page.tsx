@@ -15,8 +15,8 @@ export default async function Boards() {
       <p>Boards</p>
       <div className="flex gap-5">
         {boards.map((board) => (
-          <div className="w-64 shrink-0">
-          <Card key={board.id}>
+          <div key={board.id} className="w-64 shrink-0">
+          <Card>
             <CardBody>
               <div><Link href={`/board/${board.id}`}>{board.title}</Link></div>
               <div>{board.description}</div>
