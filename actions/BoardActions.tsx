@@ -2,8 +2,15 @@
 import { z } from 'zod'
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache'
+import { auth } from "@/auth";
 
 export async function handleCreateBoard(prevState: any, formData: FormData) {
+    const session = await auth();
+
+    if (!session?.user?.id) {
+        return { success: false, message: 'User is not authenticated' };
+    }
+    
     const CreateBoardSchema = z.object({
         boardTitle: z.string().min(1),
         boardDescription: z.string().optional(),
@@ -23,6 +30,7 @@ export async function handleCreateBoard(prevState: any, formData: FormData) {
     try {
         await prisma.board.create({
             data: {
+                userId: session?.user?.id,
                 title: data.boardTitle,
                 description: data.boardDescription,
             }
