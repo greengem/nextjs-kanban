@@ -19,7 +19,7 @@ export default function SidebarContents() {
     return (
       <aside className={`
         z-10 
-        flex-none
+        shrink-0
         overflow-hidden 
         bg-zinc-900
         transition-width duration-500 ease-in-out 

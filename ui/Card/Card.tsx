@@ -7,6 +7,8 @@ export function Card({ children, className = '' }: { children: ReactNode, classN
             flex-none
             shadow-md
             text-white
+            bg-zinc-900
+            rounded-lg
             ${className}
         `}>
             {children}
@@ -20,8 +22,8 @@ export function CardHeaderGrab({ children, className = '' }: { children: ReactNo
             rounded-t-lg
             py-1
             text-purple-500
-            cursor-grab
             bg-zinc-800
+            cursor-grab
             flex justify-center items-center
             ${className}
         `}>
@@ -33,7 +35,6 @@ export function CardHeaderGrab({ children, className = '' }: { children: ReactNo
 export function CardHeader({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
         <div className={`
-            bg-zinc-900
             px-5 pt-3
             ${className}
         `}>
@@ -46,7 +47,6 @@ export function CardBody({ children, className = '' }: { children: ReactNode, cl
     return (
         <div className={`
             p-3
-            bg-zinc-900
             ${className}
         `}>
             {children}
@@ -58,7 +58,6 @@ export function CardFooter({ children, className = '' }: { children: ReactNode, 
     return (
         <div className={`
             p-3 rounded-b-lg
-            bg-zinc-900
             ${className}
         `}>
             {children}

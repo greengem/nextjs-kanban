@@ -27,16 +27,15 @@ export default function Board({ board }: BoardProps) {
   const [columns, setColumns] = useState(board.columns);
 
   return (
-    <div className='overflow-x-hidden'>
-      <Reorder.Group 
-        layoutScroll 
-        axis="x" 
-        values={columns} 
-        onReorder={setColumns} 
-        className="flex flex-wrap gap-5 p-2 min-w-0 no-scrollbar overflow-x-scroll"
-      >
+    <Reorder.Group 
+    layoutScroll 
+    axis="x" 
+    values={columns} 
+    onReorder={setColumns} 
+    className="flex gap-5 no-scrollbar overflow-x-scroll"
+  >
         <ColumnList columns={columns} boardId={board.id} />
-        <li className="flex-none w-64">
+        <li className="shrink-0 w-64">
           <Card>
             <CardBody>
               <CreateColumnForm boardId={board.id} />
@@ -44,6 +43,5 @@ export default function Board({ board }: BoardProps) {
           </Card>
         </li>
       </Reorder.Group>
-      </div>
   );
 }

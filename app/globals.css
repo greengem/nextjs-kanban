@@ -12,3 +12,14 @@
       scrollbar-width: none;
   }
 }
+
+html {
+  background-color: black;
+  color: white;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+}

@@ -26,10 +26,10 @@ const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
   const [tasks, setTasks] = useState<TaskSummary[]>(column.tasks);
   
   return (
-    <Reorder.Item 
+        <Reorder.Item 
     key={column.id} 
     value={column} 
-    className='flex-none w-full md:w-64 min-w-0'
+    className='shrink-0 w-full md:w-64 min-w-0'
     dragControls={dragControls}
     dragListener={false}
   >
@@ -46,7 +46,7 @@ const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
         <DeleteColumnForm boardId={boardId} columnId={column.id} columnTitle={column.title} />
       </CardHeader>
       <CardBody>
-        <Reorder.Group axis="y" values={tasks} onReorder={setTasks} className='overflow-y-scroll no-scrollbar' layoutScroll>
+        <Reorder.Group axis="y" values={tasks} onReorder={setTasks}>
           {tasks.map(task => (
               <TaskItem 
                 key={task.id}

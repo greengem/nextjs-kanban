@@ -11,22 +11,24 @@ export default async function Boards() {
   const boards: BoardSummary[] = await getBoardsSummary();
 
   return (
-    <div>
+    <>
       <p>Boards</p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="flex gap-5">
         {boards.map((board) => (
+          <div className="w-64 shrink-0">
           <Card key={board.id}>
-            <CardHeader>
-              <Link href={`/board/${board.id}`}>{board.title}</Link>
-            </CardHeader>
-            <CardBody>{board.description}</CardBody>
-            <CardFooter><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></CardFooter>
+            <CardBody>
+              <div><Link href={`/board/${board.id}`}>{board.title}</Link></div>
+              <div>{board.description}</div>
+              <div><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></div>
+            </CardBody>
           </Card>
+          </div>
         ))}
         <Card>
           <CardBody><CreateBoardForm /></CardBody>
         </Card>
       </div>
-    </div>
+    </>
   );
 }
