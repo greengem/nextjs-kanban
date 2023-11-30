@@ -26,13 +26,13 @@ const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
   const [tasks, setTasks] = useState<TaskSummary[]>(column.tasks);
   
   return (
-        <Reorder.Item 
-    key={column.id} 
-    value={column} 
-    className='shrink-0 w-full md:w-64 min-w-0'
-    dragControls={dragControls}
-    dragListener={false}
-  >
+    <Reorder.Item 
+      key={column.id} 
+      value={column} 
+      className='shrink-0 w-full md:w-64 min-w-0'
+      dragControls={dragControls}
+      dragListener={false}
+    >
     <Card>
     <div className='touch-none' onPointerDown={handleDragStart}>
       <CardHeaderGrab>

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Reorder } from "framer-motion"
 import { BoardDetails, ColumnWithTasks } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
@@ -15,6 +15,8 @@ interface ColumnListProps {
   boardId: string;
 }
 
+
+
 const ColumnList: React.FC<ColumnListProps> = ({ columns, boardId }) => (
   <>
     {columns.map(column => (
@@ -25,8 +27,13 @@ const ColumnList: React.FC<ColumnListProps> = ({ columns, boardId }) => (
 
 export default function Board({ board }: BoardProps) {
   const [columns, setColumns] = useState(board.columns);
+  
+  useEffect(() => {
+    setColumns(board.columns);
+  }, [board.columns]);
 
   return (
+    <>
     <Reorder.Group 
     layoutScroll 
     axis="x" 
@@ -43,5 +50,6 @@ export default function Board({ board }: BoardProps) {
           </Card>
         </li>
       </Reorder.Group>
+      </>
   );
 }
