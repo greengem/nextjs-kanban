@@ -16,6 +16,7 @@
 html {
   background-color: black;
   color: white;
+  overflow: hidden;
 }
 
 html,
