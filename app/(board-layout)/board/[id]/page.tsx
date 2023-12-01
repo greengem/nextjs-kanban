@@ -14,7 +14,7 @@ export default async function BoardPage({ params }: BoardProps) {
 
   return (
     <>
-      <h1 className="text-3xl font-semibold mb-5 text-purple-500">Board: {board.title}</h1>
+      <h1 className="text-3xl tracking-tight mb-5">{board.title}</h1>
       <Board board={board} />
     </>
   );

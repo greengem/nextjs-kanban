@@ -35,19 +35,9 @@ export default function Board({ board: initialBoard }: BoardProps) {
     useSensor(KeyboardSensor)
   );
 
-  const handleDragOver = (event: any) => {
-    const { active, over } = event;
-
-    if (!over) return;
-
-    const fromColumnId = active.data.current.sortable.containerId;
-    const toColumnId = over.data.current.sortable.containerId;
-
-    if (fromColumnId !== toColumnId) {
-      // Logic to handle item being dragged over a different column
-      // Update state to reflect the item's new position for better visual feedback
-    }
-  };
+  function handleDragStart(event: any) {
+    setActiveId(event.active.id);
+  }
 
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
@@ -116,15 +106,25 @@ export default function Board({ board: initialBoard }: BoardProps) {
   };
   
   return (
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} onDragOver={handleDragOver} id="unique-dnd-context-id">
-      <ul className="flex gap-3 md:gap-5 no-scrollbar overflow-x-scroll">
+    <>
+    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} onDragStart={handleDragStart} id="unique-dnd-context-id">
+      <div className="flex gap-3 md:gap-5 no-scrollbar overflow-x-scroll">
         {board.columns.map(column => (
           <SortableContext key={column.id} items={column.tasks} strategy={verticalListSortingStrategy}>
             <Column key={column.id} boardId={board.id} column={column} />
           </SortableContext>
         ))}
         <CreateColumnForm boardId={board.id} />
-      </ul>
+      </div>
+
+      <DragOverlay>
+        {activeId ? (
+          <div className='bg-red-500 p-3 z-50'>My div</div>
+        ): null}
+      </DragOverlay>
+
     </DndContext>
+    <pre>{JSON.stringify(board, null, 2)}</pre>
+    </>
   );
 }

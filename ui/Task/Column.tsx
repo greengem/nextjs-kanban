@@ -13,17 +13,15 @@ interface ColumnProps {
 
 export default function Column({ column, boardId }: ColumnProps) {  
   return (
-    <li className='shrink-0 w-64'>
-      <Card>
-        <CardHeaderGrab className='touch-none'>
-          <IconGripHorizontal className='text-purple-500' />
-        </CardHeaderGrab>
-        <CardHeader className='py-1'>
-          <h4 className='tracking-tight'>{column.title}</h4>
-        </CardHeader>
-        <CardBody>
+    <Card className='shrink-0 w-64'>
+      <CardHeaderGrab className='touch-none'>
+        <IconGripHorizontal className='text-purple-500' />
+      </CardHeaderGrab>
+      <CardHeader className='py-1'>
+        <h4 className='tracking-tight'>{column.title}</h4>
+      </CardHeader>
+      <CardBody>
         <SortableContext items={column.tasks} id={column.id}>
-          <div>
             {column.tasks.map(task => (
                 <TaskItem 
                   key={task.id}
@@ -32,14 +30,12 @@ export default function Column({ column, boardId }: ColumnProps) {
                   columnId={column.id}
                 />
             ))}
-          </div>
-          </SortableContext>
-        </CardBody>
-        <CardFooter>
-          <CreateTaskFormSimple boardId={boardId} columnId={column.id} />
-        </CardFooter>
-      </Card>
-    </li>
+        </SortableContext>
+      </CardBody>
+      <CardFooter>
+        <CreateTaskFormSimple boardId={boardId} columnId={column.id} />
+      </CardFooter>
+    </Card>
   );
 }
 

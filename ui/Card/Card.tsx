@@ -3,7 +3,6 @@ import { ReactNode } from "react";
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
         <div className={`
-            w-full
             flex-none
             shadow-md
             text-white
