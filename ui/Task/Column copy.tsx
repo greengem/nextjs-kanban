@@ -11,15 +11,19 @@ interface ColumnProps {
   boardId: string;
 }
 
-export default function Column({ column, boardId }: ColumnProps) {  
+const Column: React.FC<ColumnProps> = ({ column, boardId }) => {
+  
   return (
     <li className='shrink-0 w-64'>
       <Card>
-        <CardHeaderGrab className='touch-none'>
-          <IconGripHorizontal className='text-purple-500' />
-        </CardHeaderGrab>
-        <CardHeader className='py-1'>
+        <div className='touch-none'>
+          <CardHeaderGrab>
+            <IconGripHorizontal className='text-purple-500' />
+          </CardHeaderGrab>
+        </div>
+        <CardHeader className='py-1 flex justify-between'>
           <h4 className='tracking-tight'>{column.title}</h4>
+          <DeleteColumnForm boardId={boardId} columnId={column.id} columnTitle={column.title} />
         </CardHeader>
         <CardBody>
         <SortableContext items={column.tasks}>
@@ -43,3 +47,4 @@ export default function Column({ column, boardId }: ColumnProps) {
   );
 }
 
+export default Column;

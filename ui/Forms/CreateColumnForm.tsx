@@ -1,6 +1,7 @@
 'use client'
 import { handleCreateColumn } from "@/actions/ColumnActions";
 import { useFormState, useFormStatus } from "react-dom";
+import { Card, CardBody } from '@/ui/Card/Card';
 
 function SubmitButton() {
   const { pending } = useFormStatus()
@@ -19,20 +20,26 @@ function SubmitButton() {
 export default function CreateColumnForm({ boardId }: { boardId: string }) {
   const [state, formAction] = useFormState(handleCreateColumn, null)
   return (
-    <form action={formAction}>
-      <div className="mb-2">
-        <label htmlFor="columnTitle" className="sr-only">Column Title</label>
-        <input type="text" id="columnTitle" name="columnTitle" className="w-full p-2 border rounded text-sm text-black" placeholder="New Column" />
-      </div>
+    <li className="shrink-0 w-64">
+      <Card>
+        <CardBody>
+          <form action={formAction}>
+            <div className="mb-2">
+              <label htmlFor="columnTitle" className="sr-only">Column Title</label>
+              <input type="text" id="columnTitle" name="columnTitle" className="w-full p-2 border rounded text-sm text-black" placeholder="New Column" />
+            </div>
 
-      <input type="hidden" name="boardId" value={boardId} />
+            <input type="hidden" name="boardId" value={boardId} />
 
-      <SubmitButton />
+            <SubmitButton />
 
-      <p aria-live="polite" className="sr-only" role="status">
-        {state?.message}
-      </p>
+            <p aria-live="polite" className="sr-only" role="status">
+              {state?.message}
+            </p>
 
-    </form>
+          </form>
+        </CardBody>
+      </Card>
+    </li>
   )
 }
