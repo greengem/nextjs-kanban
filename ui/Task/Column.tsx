@@ -22,7 +22,7 @@ export default function Column({ column, boardId }: ColumnProps) {
           <h4 className='tracking-tight'>{column.title}</h4>
         </CardHeader>
         <CardBody>
-        <SortableContext items={column.tasks}>
+        <SortableContext items={column.tasks} id={column.id}>
           <div>
             {column.tasks.map(task => (
                 <TaskItem 

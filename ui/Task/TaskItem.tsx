@@ -21,7 +21,7 @@ export default function TaskItem({ task, boardId, columnId }: TaskItemProps) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className='my-3 flex select-none rounded-lg shadow-md bg-zinc-800 p-2'>
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className='my-3 touch-none flex select-none rounded-lg shadow-md bg-zinc-800 p-2'>
       {task.title}
     </div>
   );
