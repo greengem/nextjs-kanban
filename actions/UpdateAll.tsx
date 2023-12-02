@@ -3,6 +3,7 @@ import { z } from 'zod';
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache';
 import { auth } from "@/auth";
+import { BoardDetails, ColumnWithTasks, TaskSummary } from '@/types/types';
 
 // Define a Zod schema that matches the structure of your BoardDetails
 const TaskSchema = z.object({
@@ -46,7 +47,7 @@ export async function handleUpdateBoard(prevState: any, formData: FormData) {
     console.log('Received board data:', boardDataStr);
 
     try {
-        const boardData = JSON.parse(boardDataStr);
+        const boardData = JSON.parse(boardDataStr) as BoardDetails;
         const validationResult = BoardDataSchema.safeParse(boardData);
 
         if (!validationResult.success) {
@@ -67,11 +68,11 @@ export async function handleUpdateBoard(prevState: any, formData: FormData) {
                     title: boardData.title,
                     description: boardData.description,
                     columns: {
-                        create: boardData.columns.map(column => ({
+                        create: boardData.columns.map((column: ColumnWithTasks) => ({
                             title: column.title,
                             order: column.order,
                             tasks: {
-                                create: column.tasks.map(task => ({
+                                create: column.tasks.map((task: TaskSummary) => ({
                                     title: task.title,
                                     description: task.description,
                                     priority: task.priority,

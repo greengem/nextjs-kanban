@@ -123,7 +123,6 @@ export default function Board({ board: initialBoard }: BoardProps) {
   
   return (
     <>
-    <UpdateBoardForm board={board} />
 
     <DndContext 
       sensors={sensors} 
@@ -146,6 +145,8 @@ export default function Board({ board: initialBoard }: BoardProps) {
 
       </div>
     </DndContext>
+    
+    <UpdateBoardForm board={board} />
           </>
   );
 }

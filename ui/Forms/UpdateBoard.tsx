@@ -14,7 +14,7 @@ function SubmitButton() {
     <button 
       type="submit" 
       aria-disabled={pending}
-      className="px-4 py-2 bg-purple-500 text-white rounded-md"
+      className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm"
     >
         Save Changes
     </button>
@@ -25,7 +25,7 @@ export default function UpdateBoardForm({ board }: BoardProps) {
   const [state, formAction] = useFormState(handleUpdateBoard, null)
 
   return (
-    <form action={formAction}>
+    <form action={formAction} className="mt-5">
         <input
             type='hidden'
             name="boardData"
@@ -34,9 +34,9 @@ export default function UpdateBoardForm({ board }: BoardProps) {
 
         <SubmitButton />
 
-        <p aria-live="polite" role="status">
+        <pre aria-live="polite" role="status">
             {state?.message}
-        </p>
+        </pre>
     </form>
   )
 }
