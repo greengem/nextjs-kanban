@@ -7,16 +7,19 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
-  DragOverlay
+  DragOverlay,
+  DragStartEvent,
+  DragEndEvent,
 } from '@dnd-kit/core';
 import {
   arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { BoardDetails } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import Column from "@/ui/Task/Column";
+import TaskItemDraggable from './TaskItemDraggable';
+import { TaskSummary } from '@/types/types';
+import UpdateBoardForm from '../Forms/UpdateBoard';
 
 interface BoardProps {
   board: BoardDetails;
@@ -25,6 +28,7 @@ interface BoardProps {
 export default function Board({ board: initialBoard }: BoardProps) {
   const [board, setBoard] = useState(initialBoard);
   const [activeId, setActiveId] = useState(null);
+  const [activeTask, setActiveTask] = useState<TaskSummary | null>(null);
 
   useEffect(() => {
     setBoard(initialBoard);
@@ -35,37 +39,43 @@ export default function Board({ board: initialBoard }: BoardProps) {
     useSensor(KeyboardSensor)
   );
 
-  function handleDragStart(event: any) {
-    setActiveId(event.active.id);
+  function handleDragStart(event: DragStartEvent) {
+    const draggedTaskId = event.active.id;
+    const fromColumnId = event.active.data.current?.sortable.containerId;
+  
+    if (!fromColumnId) return;
+  
+    const fromColumnIndex = board.columns.findIndex(column => column.id === fromColumnId);
+    const draggedTask = board.columns[fromColumnIndex]?.tasks.find(task => task.id === draggedTaskId);
+  
+    if (draggedTask) {
+      setActiveTask(draggedTask);
+    }
   }
-
-  const handleDragEnd = (event: any) => {
+  
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
+    setActiveTask(null);
   
+    // Ensure we have a valid drop target
     if (over && active.id !== over.id) {
-      const fromColumnId = active.data.current.sortable.containerId;
-      const toColumnId = over.data.current.sortable.containerId;
+      const fromColumnId = active.data.current?.sortable.containerId;
+      const toColumnId = over.data.current?.sortable.containerId;
   
-      console.log("From Column ID:", fromColumnId);
-      console.log("To Column ID:", toColumnId);
+      // Exit if we don't have valid container IDs
+      if (!fromColumnId || !toColumnId) {
+        return;
+      }
   
       const fromColumnIndex = board.columns.findIndex(column => column.id === fromColumnId);
       const toColumnIndex = board.columns.findIndex(column => column.id === toColumnId);
   
-      console.log("From Column Index:", fromColumnIndex);
-      console.log("To Column Index:", toColumnIndex);
-  
+      // Exit if column indices are invalid
       if (fromColumnIndex === -1 || toColumnIndex === -1) {
-        console.error("Column not found. Check column IDs.");
         return;
       }
   
-      const fromColumn = board.columns[fromColumnIndex];
-      const toColumn = board.columns[toColumnIndex];
-  
-      console.log("From Column:", fromColumn);
-      console.log("To Column:", toColumn);
-  
+      // Reordering within the same column
       if (fromColumnId === toColumnId) {
         const oldIndex = board.columns[fromColumnIndex].tasks.findIndex(task => task.id === active.id);
         const newIndex = board.columns[toColumnIndex].tasks.findIndex(task => task.id === over.id);
@@ -81,22 +91,28 @@ export default function Board({ board: initialBoard }: BoardProps) {
           return { ...prevBoard, columns: newColumns };
         });
       } else {
+        // Moving to a different column
         const task = board.columns[fromColumnIndex].tasks.find(task => task.id === active.id);
-  
         if (!task) {
-          console.error("Task not found in the column. Check task IDs.");
           return;
         }
   
+        // Determine the index to insert the task in the new column
+        const overIndex = over.data.current?.sortable.index ?? board.columns[toColumnIndex].tasks.length;
+  
+        // Move the task to the new column at the determined index
         setBoard(prevBoard => {
           const newColumns = [...prevBoard.columns];
+          const newToColumnTasks = [...newColumns[toColumnIndex].tasks];
+          newToColumnTasks.splice(overIndex, 0, task);
+  
           newColumns[fromColumnIndex] = {
             ...newColumns[fromColumnIndex],
             tasks: newColumns[fromColumnIndex].tasks.filter(task => task.id !== active.id)
           };
           newColumns[toColumnIndex] = {
             ...newColumns[toColumnIndex],
-            tasks: [...newColumns[toColumnIndex].tasks, task]
+            tasks: newToColumnTasks
           };
   
           return { ...prevBoard, columns: newColumns };
@@ -107,24 +123,29 @@ export default function Board({ board: initialBoard }: BoardProps) {
   
   return (
     <>
-    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd} onDragStart={handleDragStart} id="unique-dnd-context-id">
+    <UpdateBoardForm board={board} />
+
+    <DndContext 
+      sensors={sensors} 
+      collisionDetection={closestCenter} 
+      onDragEnd={handleDragEnd} 
+      onDragStart={handleDragStart} 
+      id="dnd-context-id"
+    >
       <div className="flex gap-3 md:gap-5 no-scrollbar overflow-x-scroll">
+
         {board.columns.map(column => (
-          <SortableContext key={column.id} items={column.tasks} strategy={verticalListSortingStrategy}>
             <Column key={column.id} boardId={board.id} column={column} />
-          </SortableContext>
         ))}
+
         <CreateColumnForm boardId={board.id} />
+
+        <DragOverlay>
+        {activeTask ? <TaskItemDraggable task={activeTask} /> : null}
+        </DragOverlay>
+
       </div>
-
-      <DragOverlay>
-        {activeId ? (
-          <div className='bg-red-500 p-3 z-50'>My div</div>
-        ): null}
-      </DragOverlay>
-
     </DndContext>
-    <pre>{JSON.stringify(board, null, 2)}</pre>
-    </>
+          </>
   );
 }

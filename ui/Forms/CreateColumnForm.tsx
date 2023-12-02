@@ -20,7 +20,7 @@ function SubmitButton() {
 export default function CreateColumnForm({ boardId }: { boardId: string }) {
   const [state, formAction] = useFormState(handleCreateColumn, null)
   return (
-    <li className="shrink-0 w-64">
+    <div className="shrink-0 w-64">
       <Card>
         <CardBody>
           <form action={formAction}>
@@ -40,6 +40,6 @@ export default function CreateColumnForm({ boardId }: { boardId: string }) {
           </form>
         </CardBody>
       </Card>
-    </li>
+    </div>
   )
 }
