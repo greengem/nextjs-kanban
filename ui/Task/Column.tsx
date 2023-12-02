@@ -14,22 +14,23 @@ interface ColumnProps {
 export default function Column({ column, boardId }: ColumnProps) {  
   return (
     <Card className='shrink-0 w-64'>
-      <CardHeaderGrab className='touch-none'>
-        <IconGripHorizontal className='text-purple-500' />
-      </CardHeaderGrab>
-      <CardHeader className='py-1'>
-        <h4 className='tracking-tight'>{column.title}</h4>
-      </CardHeader>
+      <CardHeader className='py-1 tracking-tight'>{column.title}</CardHeader>
       <CardBody>
         <SortableContext items={column.tasks} id={column.id}>
-            {column.tasks.map(task => (
-                <TaskItem 
-                  key={task.id}
-                  task={task}
-                  boardId={boardId}
-                  columnId={column.id}
-                />
-            ))}
+          {
+            column.tasks.length > 0 ? (
+                column.tasks.map(task => (
+                    <TaskItem 
+                        key={task.id}
+                        task={task}
+                        boardId={boardId}
+                        columnId={column.id}
+                    />
+                ))
+            ) : (
+                <div className='h-16 bg-zinc-800 rounded-lg shadow-md text-zinc-500 flex items-center justify-center border-dashed border-4 border-zinc-700'>DROP HERE</div>
+            )
+          }
         </SortableContext>
       </CardBody>
       <CardFooter>
