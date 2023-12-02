@@ -22,7 +22,11 @@ export default function TaskItemDraggable({ task }: { task: TaskSummary }){
           <div className='text-xs font-semibold text-purple-300'>{task.priority && `${task.priority}`}</div>
           <div className='flex gap-1'>
             <button className='bg-purple-500 p-1 rounded-md text-white'><IconInfoCircle size={14} /></button>
-            <IconTrash />
+            <button 
+              className="p-1 bg-red-500 text-white rounded-md"
+            >
+              <IconTrash size={14} />
+            </button>
           </div>
         </div>
         
