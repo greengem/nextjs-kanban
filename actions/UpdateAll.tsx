@@ -44,8 +44,6 @@ export async function handleUpdateBoard(prevState: any, formData: FormData) {
         return { success: false, message: 'No board data provided' };
     }
 
-    console.log('Received board data:', boardDataStr);
-
     try {
         const boardData = JSON.parse(boardDataStr) as BoardDetails;
         const validationResult = BoardDataSchema.safeParse(boardData);
