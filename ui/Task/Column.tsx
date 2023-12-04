@@ -13,6 +13,7 @@ interface ColumnProps {
 
 export default function Column({ column, boardId }: ColumnProps) {  
   return (
+    <div>
     <Card className='shrink-0 w-64'>
       <CardHeader className='py-1 tracking-tight'>{column.title}</CardHeader>
       <CardBody>
@@ -37,6 +38,7 @@ export default function Column({ column, boardId }: ColumnProps) {
         <CreateTaskFormSimple boardId={boardId} columnId={column.id} />
       </CardFooter>
     </Card>
+    </div>
   );
 }
 
