@@ -77,7 +77,7 @@ export default function CreateTaskForm({ boardId, columnId }: { boardId: string;
 
       ) : (
 
-        <button onClick={toggleEdit} className="text-sm flex items-center gap-2">
+        <button onClick={toggleEdit} className="text-sm flex items-center gap-2 w-full">
           <IconPlus size={16} />Add a card
         </button>
 
