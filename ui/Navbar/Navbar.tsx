@@ -12,7 +12,7 @@ export default async function Navbar () {
         <nav className="flex px-5 py-2 bg-zinc-900 items-center justify-between">
             <NavbarTitle />
             <div className="flex gap-5 items-center">
-                <div className="flex gap-2">
+                <div className="flex gap-2 hidden">
                     <SignInButton />
                     <SignOutButton />
                     <IconNotification />
