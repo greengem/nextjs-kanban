@@ -21,7 +21,7 @@ export default function TaskItem({ task, boardId, columnId }: TaskItemProps) {
   };
 
   return (
-    <div ref={setNodeRef} style={style} className='my-3 flex select-none rounded-lg shadow-md'>
+    <div ref={setNodeRef} style={style} className='flex select-none rounded-lg shadow-md'>
       
       <div className='px-0 flex items-center cursor-grab bg-zinc-800 rounded-l-lg touch-none' {...attributes} {...listeners}>
         <IconGripVertical className='text-purple-500' />
