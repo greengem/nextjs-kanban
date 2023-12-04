@@ -145,8 +145,6 @@ export default function Board({ board: initialBoard }: BoardProps) {
 
       </div>
     </DndContext>
-    
-    <UpdateBoardForm board={board} />
           </>
   );
 }
