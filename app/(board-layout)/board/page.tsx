@@ -14,25 +14,24 @@ export default async function Boards() {
   return (
     <>
       <PageHeading title='Boards' />
-      <ul className="flex gap-5">
+      <div className="flex gap-5">
         {boards.map((board) => (
-          <li key={board.id} className="w-64 shrink-0">
-          <Card>
-            <CardBody>
-              <div className="text-xl py-5"><Link href={`/board/${board.id}`}>{board.title}</Link></div>
+          <div>
+          <Card key={board.id} className="w-64 shrink-0">
+            <CardBody className="py-5">
+              <div className="text-xl"><Link href={`/board/${board.id}`}>{board.title}</Link></div>
+              <p>{board.description}</p>
             </CardBody>
             <CardFooter className="bg-zinc-800">
               <div className="flex justify-end"><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></div>
             </CardFooter>
           </Card>
-          </li>
+          </div>
         ))}
-        <li className="w-64 shrink-0">
-          <Card>
+          <Card className="w-64 shrink-0">
             <CardBody><CreateBoardForm /></CardBody>
           </Card>
-        </li>
-      </ul>
+      </div>
     </>
   );
 }
