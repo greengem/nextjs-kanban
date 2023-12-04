@@ -18,10 +18,11 @@ export default async function Boards() {
           <li key={board.id} className="w-64 shrink-0">
           <Card>
             <CardBody>
-              <div><Link href={`/board/${board.id}`}>{board.title}</Link></div>
-              <div>{board.description}</div>
-              <div><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></div>
+              <div className="text-xl py-5"><Link href={`/board/${board.id}`}>{board.title}</Link></div>
             </CardBody>
+            <CardFooter className="bg-zinc-800">
+              <div className="flex justify-end"><DeleteBoardForm boardId={board.id} boardTitle={board.title} /></div>
+            </CardFooter>
           </Card>
           </li>
         ))}
