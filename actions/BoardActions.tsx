@@ -1,47 +1,52 @@
 'use server';
-import { z } from 'zod'
+import { z } from 'zod';
 import prisma from '@/db/prisma';
-import { revalidatePath } from 'next/cache'
+import { revalidatePath } from 'next/cache';
 import { auth } from "@/auth";
 
-export async function handleCreateBoard(prevState: any, formData: FormData) {
-    const session = await auth();
+interface BoardData {
+  boardTitle: string;
+  boardDescription?: string;
+}
 
-    if (!session?.user?.id) {
-        return { success: false, message: 'User is not authenticated' };
-    }
-    
-    const CreateBoardSchema = z.object({
-        boardTitle: z.string().min(1),
-        boardDescription: z.string().optional(),
+export async function handleCreateBoard(prevState: any, data: BoardData) {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    return { success: false, message: 'User is not authenticated' };
+  }
+
+  // Zod schema for validation
+  const CreateBoardSchema = z.object({
+    boardTitle: z.string().min(1, "Title is required"),
+    boardDescription: z.string().optional(),
+  });
+
+  // Validate incoming data with Zod
+  const parse = CreateBoardSchema.safeParse(data);
+
+  if (!parse.success) {
+    return { success: false, message: 'Failed to create board due to validation error' };
+  }
+
+  try {
+    // Create a new board record in the database
+    await prisma.board.create({
+      data: {
+        userId: session?.user?.id,
+        title: parse.data.boardTitle,
+        description: parse.data.boardDescription,
+      }
     });
 
-    const parse = CreateBoardSchema.safeParse({
-        boardTitle: formData.get('boardTitle') as string,
-        boardDescription: formData.get('boardDescription') as string,
-    })
+    revalidatePath('/board/');
 
-    if (!parse.success) {
-        return { success: false, message: 'Failed to create board' }
-    }
-
-    const data = parse.data
-
-    try {
-        await prisma.board.create({
-            data: {
-                userId: session?.user?.id,
-                title: data.boardTitle,
-                description: data.boardDescription,
-            }
-        });
-
-        revalidatePath(`/board/`);
-        return { success: true, message: `Added board ${data.boardTitle}`}
-    } catch (e) {
-        return { success: false, message: `Failed to create board`}
-    }
+    return { success: true, message: `Board Created` };
+  } catch (e) {
+    return { success: false, message: `Failed to create board` };
+  }
 }
+
 
 export async function handleDeleteBoard(prevState: any, formData: FormData) {
 
