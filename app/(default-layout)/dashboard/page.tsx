@@ -1,5 +1,7 @@
+import PageHeading from "@/ui/PageHeading";
+
 export default function Dashboard() {
     return (
-        <p>Dashboard</p>
+        <PageHeading title="Dashboard" />
     )
 }

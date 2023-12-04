@@ -4,6 +4,7 @@ import CreateBoardForm from "@/ui/Forms/CreateBoardForm";
 import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
 import Link from "next/link";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
+import PageHeading from "@/ui/PageHeading";
 
 export const dynamic = 'auto'
 
@@ -12,7 +13,7 @@ export default async function Boards() {
 
   return (
     <>
-      <p>Boards</p>
+      <PageHeading title='Boards' />
       <ul className="flex gap-5">
         {boards.map((board) => (
           <li key={board.id} className="w-64 shrink-0">

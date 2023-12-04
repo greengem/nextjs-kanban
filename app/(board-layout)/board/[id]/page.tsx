@@ -1,5 +1,6 @@
 import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
+import PageHeading from "@/ui/PageHeading";
 import Board from "@/ui/Task/Board";
 interface BoardProps {
   params: { id: string };
@@ -14,7 +15,7 @@ export default async function BoardPage({ params }: BoardProps) {
 
   return (
     <>
-      <h1 className="text-3xl tracking-tight mb-5">{board.title}</h1>
+      <PageHeading title={board.title} />
       <Board board={board} />
     </>
   );
