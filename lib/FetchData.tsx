@@ -20,6 +20,9 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
             description: true,
             createdAt: true,
             updatedAt: true,
+        },
+        orderBy: {
+            createdAt: 'asc',
         }
     });
     return boards;
