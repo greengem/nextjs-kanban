@@ -1,57 +1,49 @@
 'use client'
-
-import { useFormState, useFormStatus } from "react-dom";
-import { useEffect } from "react";
-import { handleDeleteTask} from "@/actions/TaskActions";
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
+import { handleDeleteTask } from "@/actions/TaskActions";
+import { DeleteTaskSchema } from '@/types/zodTypes';
+import { TaskDeletionData } from '@/types/types';
 import { IconTrash } from "@tabler/icons-react";
-import toast from "react-hot-toast";
 
-function DeleteButton() {
-  const { pending } = useFormStatus()
+export default function DeleteTaskForm({ 
+  boardId, taskId, columnId 
+} : { 
+  boardId: string; taskId: string; columnId: string; 
+}) {
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<TaskDeletionData>({
+    resolver: zodResolver(DeleteTaskSchema),
+    defaultValues: { id: taskId, boardId, columnId }
+  });
 
-  return (
-    <button 
-      type="submit" 
-      aria-disabled={pending}
-      className="p-1 bg-red-500 text-white rounded-md"
-    >
-      <IconTrash size={14} />
-    </button>
-  )
-}
-
-export default function DeleteTaskForm({ boardId, taskId, columnId }: { boardId: string; taskId: string; columnId: string; }) {
-  const [state, formAction] = useFormState(handleDeleteTask, null)
-
-  useEffect(() => {
-    if (state?.success) {
-      toast.success(state.message);
-    } else if (state?.success === false) {
-      toast.error(state.message);
+  const onSubmit: SubmitHandler<TaskDeletionData> = async (data) => {
+    if (window.confirm('Are you sure you want to delete this task?')) {
+      const response = await handleDeleteTask(data);
+  
+      if (response.success) {
+        toast.success('Task Deleted');
+      } else {
+        toast.error(response.message);
+      }
     }
-  }, [state?.success, state?.message]);
+  };
 
   return (
     <>
-    <form 
-      action={formAction}
-      className="leading-none"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const confimed = confirm("Are you sure you want to delete this task?");
-        if (confimed) {
-          formAction(new FormData(e.currentTarget));
-        }
-      }}
-    >
-      <input type="hidden" name="columnId" value={columnId} />
-      <input type="hidden" name="boardId" value={boardId} />
-      <input type="hidden" name="taskId" value={taskId} />
-      <DeleteButton />
-      <p aria-live="polite" className="sr-only" role="status">
-        {state?.message}
-      </p>
-    </form>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input type="hidden" {...register('id')} />
+        <input type="hidden" {...register('boardId')} />
+        <input type="hidden" {...register('columnId')} />
+        
+        <button 
+          type="submit" 
+          disabled={isSubmitting}
+          className="p-1 bg-red-500 text-white rounded-md"
+        >
+          {isSubmitting ? 'Deleting...' : <IconTrash size={14} />}
+        </button>
+      </form>
     </>
   )
 }
