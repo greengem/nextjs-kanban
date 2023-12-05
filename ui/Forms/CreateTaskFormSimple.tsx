@@ -53,7 +53,7 @@ export default function CreateTaskForm({
               id="taskTitle" 
               placeholder='Task'
               {...register('title')}
-              className="w-full px-2 py-2 border rounded text-sm text-black" 
+              className="w-full px-3 py-2 rounded text-sm bg-zinc-800 text-white border-none outline-none" 
               required 
             />
           </div>
@@ -65,7 +65,7 @@ export default function CreateTaskForm({
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm flex justify-center items-center"
+              className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md text-xs flex justify-center items-center"
             >
               {isSubmitting ? (
                 <>

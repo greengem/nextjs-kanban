@@ -29,7 +29,6 @@ export default function CreateBoardForm() {
     <Card className="w-64 shrink-0">
       <CardBody className="
         text-center 
-        bg-gradient-to-br from-purple-600 to-purple-800
         h-28
       ">
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-between h-full'>
@@ -40,7 +39,8 @@ export default function CreateBoardForm() {
               type="text" 
               id="title" 
               {...register('title')}
-              className="w-full p-2 border rounded text-zinc-900 focus:outline-none text-sm" 
+              placeholder='Board Name...'
+              className="w-full p-3 border rounded bg-zinc-800 text-white border-none focus:outline-none text-sm" 
               autoFocus 
               required
               minLength={3}
@@ -50,7 +50,7 @@ export default function CreateBoardForm() {
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm w-full flex justify-center items-center"
+            className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md text-sm w-full flex justify-center items-center"
           >
             {isSubmitting ? (
               <>
