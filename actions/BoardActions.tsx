@@ -19,6 +19,8 @@ export async function handleCreateBoard(data: BoardCreationData) {
     return { success: false, message: 'Failed to create board due to validation error' };
   }
 
+  await new Promise(resolve => setTimeout(resolve, 2000));
+
   try {
     const createdBoard = await prisma.board.create({
       data: {
@@ -45,6 +47,8 @@ export async function handleDeleteBoard(data: BoardDeletionData) {
       return { success: false, message: 'Failed to delete board due to validation error' };
     }
 
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
     try {
 
         await prisma.board.delete({
