@@ -1,30 +1,21 @@
 'use server';
-import { z } from 'zod'
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache'
+import { CreateColumnSchema , DeleteColumnSchema} from '@/types/zodTypes';
+import { ColumnCreationData, ColumnDeletionData } from '@/types/types';
 
+// Create Column
+export async function handleCreateColumn(data: ColumnCreationData) {
 
-// CREATE COLUMN
-export async function handleCreateColumn(prevState: any, formData: FormData) {
-    const CreateColumnSchema = z.object({
-        boardId: z.string().min(1),
-        columnTitle: z.string().min(1),
-    });
-
-    const parse = CreateColumnSchema.safeParse({
-        boardId: formData.get('boardId') as string,
-        columnTitle: formData.get('columnTitle') as string,
-    });
+    const parse = CreateColumnSchema.safeParse(data);
 
     if (!parse.success) {
-        return { success: false, message: 'Failed to create column' };
+        return { success: false, message: 'Failed to create column due to validation error' };
     }
-
-    const data = parse.data;
 
     try {
         const maxOrderColumn = await prisma.column.findFirst({
-            where: { boardId: data.boardId },
+            where: { boardId: parse.data.boardId },
             orderBy: { order: 'desc' },
             select: { order: true },
         });
@@ -32,14 +23,15 @@ export async function handleCreateColumn(prevState: any, formData: FormData) {
 
         await prisma.column.create({
             data: {
-                title: data.columnTitle,
-                boardId: data.boardId,
+                title: parse.data.title,
+                boardId: parse.data.boardId,
                 order: newOrder,
             }
         });
 
-        revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: `Added column ${data.columnTitle}` };
+        revalidatePath(`/board/${parse.data.boardId}`);
+
+        return { success: true, message: 'Created column' };
     } catch (e) {
         return { success: false, message: `Failed to create column` };
     }
@@ -47,33 +39,24 @@ export async function handleCreateColumn(prevState: any, formData: FormData) {
 
 
 // DELETE COLUMN
-export async function handleDeleteColumn(prevState: any, formData: FormData) {
-    const DeleteColumnSchema = z.object({
-        columnId: z.string().min(1),
-        boardId: z.string().min(1),
-    });
+export async function handleDeleteColumn(data: ColumnDeletionData) {
 
-    const parse = DeleteColumnSchema.safeParse({
-        columnId: formData.get('columnId') as string,
-        boardId: formData.get('boardId') as string,
-    });
+    const parse = DeleteColumnSchema.safeParse(data);
 
     if (!parse.success) {
-        return { success: false, message: 'Failed to delete column' };
+        return { success: false, message: 'Failed to delete column due to validation error' };
     }
-
-    const data = parse.data;
 
     try {
         const deletedColumn = await prisma.column.delete({
-            where: { id: data.columnId },
+            where: { id: parse.data.id },
             select: { order: true }
         });
 
         if (deletedColumn) {
             await prisma.column.updateMany({
                 where: {
-                    boardId: data.boardId,
+                    boardId: parse.data.boardId,
                     order: { gt: deletedColumn.order }
                 },
                 data: {
@@ -82,7 +65,8 @@ export async function handleDeleteColumn(prevState: any, formData: FormData) {
             });
         }
 
-        revalidatePath(`/board/${data.boardId}`);
+        revalidatePath(`/board/${parse.data.boardId}`);
+
         return { success: true, message: `Deleted column` };
     } catch (e) {
         return { success: false, message: 'Failed to delete column' };
