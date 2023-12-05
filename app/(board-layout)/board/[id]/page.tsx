@@ -18,7 +18,7 @@ export default async function BoardPage({ params }: BoardProps) {
     <>
       <div className="flex justify-between">
         <PageHeading title={board.title} />
-        <DeleteBoardForm boardId={board.id} boardTitle={board.title} />
+        <DeleteBoardForm boardId={board.id} />
       </div>
       <Board board={board} />
     </>
