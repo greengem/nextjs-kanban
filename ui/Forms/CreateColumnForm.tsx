@@ -1,42 +1,64 @@
 'use client'
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
 import { handleCreateColumn } from "@/actions/ColumnActions";
-import { useFormState, useFormStatus } from "react-dom";
+import { CreateColumnSchema } from '@/types/zodTypes';
+import { ColumnCreationData } from '@/types/types';
 import { Card, CardBody } from '@/ui/Card/Card';
 
-function SubmitButton() {
-  const { pending } = useFormStatus()
+export default function CreateColumnForm({ 
+  boardId 
+} : { 
+  boardId: string 
+}) {
+  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<ColumnCreationData>({
+    resolver: zodResolver(CreateColumnSchema),
+    defaultValues: { boardId }
+  });
 
-  return (
-    <button 
-      type="submit" 
-      aria-disabled={pending}
-      className="px-2 py-1 bg-purple-500 text-white rounded-md text-sm w-full"
-    >
-      New Column
-    </button>
-  )
-}
+  const onSubmit: SubmitHandler<ColumnCreationData> = async (data) => {
+    const response = await handleCreateColumn(data);
+  
+    if (response.success) {
+      toast.success('Column Created!');
+      reset();
+    } else {
+      toast.error(response.message);
+    }
+  };
 
-export default function CreateColumnForm({ boardId }: { boardId: string }) {
-  const [state, formAction] = useFormState(handleCreateColumn, null)
   return (
     <div className="shrink-0 w-64">
       <Card>
         <CardBody>
-          <form action={formAction}>
+          <form onSubmit={handleSubmit(onSubmit)}>
+
             <div className="mb-2">
               <label htmlFor="columnTitle" className="sr-only">Column Title</label>
-              <input type="text" id="columnTitle" name="columnTitle" className="w-full p-2 border rounded text-sm text-black" placeholder="New Column" />
+              <input 
+                type="text" 
+                id="columnTitle" 
+                {...register('title')}
+                className="w-full p-2 border rounded text-sm text-black" 
+                placeholder="New Column"
+                required
+                minLength={3}
+              />
             </div>
 
-            <input type="hidden" name="boardId" value={boardId} />
+            <input 
+              type="hidden" 
+              {...register('boardId')}
+            />
 
-            <SubmitButton />
-
-            <p aria-live="polite" className="sr-only" role="status">
-              {state?.message}
-            </p>
-
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="px-2 py-1 bg-purple-500 text-white rounded-md text-sm w-full"
+            >
+              {isSubmitting ? 'Creating...' : 'New Column'}
+            </button>
           </form>
         </CardBody>
       </Card>
