@@ -1,43 +1,41 @@
 'use client'
+import { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
 import { handleEditTask } from "@/actions/TaskActions";
-import { useFormState, useFormStatus } from "react-dom";
-import { useState, useEffect } from "react";
-import toast from "react-hot-toast";
+import { EditTaskSchema } from '@/types/zodTypes';
+import { TaskEditData } from '@/types/types';
 import { IconX } from "@tabler/icons-react";
 
-function SubmitButton() {
-  const { pending } = useFormStatus()
-
-  return (
-    <button 
-      type="submit" 
-      aria-disabled={pending}
-      className="px-3 py-1 bg-purple-500 text-white rounded-md text-sm"
-    >
-      Save
-    </button>
-  )
-}
-
-export default function EditTaskForm({ title, taskId, boardId }: { title: string; taskId: string; boardId: string;  }) {
-  const [state, formAction] = useFormState(handleEditTask, null)
+export default function EditTaskForm({ 
+  title, taskId, boardId 
+} : { 
+  title: string; taskId: string; boardId: string; 
+}) {
   const [isEditing, setIsEditing] = useState(false);
+  const toggleEdit = () => setIsEditing(!isEditing);
+  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<TaskEditData>({
+    resolver: zodResolver(EditTaskSchema),
+    defaultValues: { id: taskId, boardId, title }
+  });
 
-  useEffect(() => {
-    if (state?.message) {
+  const onSubmit: SubmitHandler<TaskEditData> = async (data) => {
+    const response = await handleEditTask(data);
+    
+    if (response.success) {
+      toast.success('Task Edited');
+      reset({ ...data, title: data.title });
       setIsEditing(false);
-      toast.success(state.message);
+    } else {
+      toast.error(response.message);
     }
-  }, [state?.message]);
-
-  const toggleEdit = () => {
-    setIsEditing(!isEditing);
   };
 
   return (
-    <form action={formAction} className="w-full">
-      <input type="hidden" name="boardId" value={boardId} />
-      <input type="hidden" name="taskId" value={taskId} />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input type="hidden" {...register('id')} />
+      <input type="hidden" {...register('boardId')} />
 
       {!isEditing ? (
         <div className="flex justify-between">
@@ -45,17 +43,25 @@ export default function EditTaskForm({ title, taskId, boardId }: { title: string
         </div>
       ) : (
         <div>
-          <input autoFocus type='text' name='taskTitle' id='editTaskTitle' defaultValue={title} className="mb-2 w-full p-2 rounded bg-zinc-900" />
+          <input 
+            autoFocus 
+            type='text' 
+            {...register('title')}
+            className="mb-2 w-full p-2 rounded bg-zinc-900" 
+          />
+
           <div className="flex items-center justify-between">
-            <SubmitButton />
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="px-3 py-1 bg-purple-500 text-white rounded-md text-sm"
+            >
+              Save
+            </button>
             <button onClick={toggleEdit} type="button" className="p-1"><IconX size={20} /></button>
           </div>
         </div>
       )}
-
-      <p aria-live="polite" className="sr-only" role="status">
-        {state?.message}
-      </p>
     </form>
   )
 }
