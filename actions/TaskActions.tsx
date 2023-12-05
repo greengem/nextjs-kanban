@@ -1,35 +1,21 @@
 'use server';
-import { z } from 'zod'
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache'
+import { CreateTaskSchema, EditTaskSchema, DeleteTaskSchema } from '@/types/zodTypes';
+import { TaskCreationData, TaskEditData, TaskDeletionData } from '@/types/types';
 
-// CREATE TASK
-export async function handleCreateTask(prevState: any, formData: FormData) {
-    const CreateTaskSchema = z.object({
-        taskTitle: z.string().min(1), 
-        taskDescription: z.union([z.string(), z.null()]).optional(),
-        taskPriority: z.union([z.string(), z.null()]).optional(),
-        columnId: z.string().min(1),
-        boardId: z.string().min(1),
-    });
+// Create Task
+export async function handleCreateTask(data: TaskCreationData) {
 
-    const parse = CreateTaskSchema.safeParse({
-        taskTitle: formData.get('taskTitle') as string,
-        taskDescription: formData.get('taskDescription') as string | null,
-        taskPriority: formData.get('taskPriority') as string | null,
-        columnId: formData.get('columnId') as string,
-        boardId: formData.get('boardId') as string,
-    });
+    const parse = CreateTaskSchema.safeParse(data);
 
     if (!parse.success) {
         return { success: false, message: 'Failed to create task' };
     }
 
-    const data = parse.data;
-
     try {
         const maxOrderTask = await prisma.task.findFirst({
-            where: { columnId: data.columnId },
+            where: { columnId: parse.data.columnId },
             orderBy: { order: 'desc' },
             select: { order: true },
         });
@@ -37,16 +23,17 @@ export async function handleCreateTask(prevState: any, formData: FormData) {
 
         await prisma.task.create({
             data: {
-                title: data.taskTitle,
-                description: data.taskDescription,
-                priority: data.taskPriority,
-                columnId: data.columnId,
+                title: parse.data.title,
+                description: parse.data.description,
+                priority: parse.data.priority,
+                columnId: parse.data.columnId,
                 order: newOrder,
             }
         });
 
-        revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: `Added task ${data.taskTitle}` };
+        revalidatePath(`/board/${parse.data.boardId}`);
+
+        return { success: true, message: `Added task` };
     } catch (e) {
         return { success: false, message: `Failed to create task` };
     }
@@ -54,43 +41,29 @@ export async function handleCreateTask(prevState: any, formData: FormData) {
 
 
 // EDIT TASK
-export async function handleEditTask(prevState: any, formData: FormData) {
-    const EditTaskSchema = z.object({
-        taskId: z.string().min(1),
-        taskTitle: z.string().min(1), 
-        taskDescription: z.union([z.string(), z.null()]).optional(),
-        taskPriority: z.union([z.string(), z.null()]).optional(),
-        boardId: z.string().min(1),
-    });
-
-    const parse = EditTaskSchema.safeParse({
-        taskId: formData.get('taskId') as string,
-        taskTitle: formData.get('taskTitle') as string,
-        taskDescription: formData.get('taskDescription') as string | null,
-        taskPriority: formData.get('taskPriority') as string | null,
-        boardId: formData.get('boardId') as string,
-    });
+export async function handleEditTask(data: TaskEditData) {
+    
+    const parse = EditTaskSchema.safeParse(data);
 
     if (!parse.success) {
         return { success: false, message: 'Failed to edit task' };
     }
 
-    const data = parse.data;
-
     try {
-        const updatedTask = await prisma.task.update({
+        await prisma.task.update({
             where: {
-                id: data.taskId
+                id: parse.data.id
             },
             data: {
-                title: data.taskTitle,
-                description: data.taskDescription,
-                priority: data.taskPriority,
+                title: parse.data.title,
+                description: parse.data.description,
+                priority: parse.data.priority,
             }
         });
 
         
-        revalidatePath(`/board/${data.boardId}`);
+        revalidatePath(`/board/${parse.data.boardId}`);
+
         return { success: true, message: `Edited task sucessfully!` };
     } catch (e) {
         return { success: false, message: `Failed to edit task` };
@@ -99,35 +72,24 @@ export async function handleEditTask(prevState: any, formData: FormData) {
 
 
 // DELETE TASK
-export async function handleDeleteTask(prevState: any, formData: FormData) {
-    const DeleteTaskSchema = z.object({
-        taskId: z.string().min(1),
-        columnId: z.string().min(1),
-        boardId: z.string().min(1),
-    });
+export async function handleDeleteTask(data: TaskDeletionData) {
 
-    const parse = DeleteTaskSchema.safeParse({
-        taskId: formData.get('taskId') as string,
-        columnId: formData.get('columnId') as string,
-        boardId: formData.get('boardId') as string,
-    });
+    const parse = DeleteTaskSchema.safeParse(data);
 
     if (!parse.success) {
-        return { success: false, message: 'Failed to delete task' };
+        return { success: false, message: 'Failed to delete task due to validation error' };
     }
-
-    const data = parse.data;
 
     try {
         const deletedTask = await prisma.task.delete({
-            where: { id: data.taskId },
+            where: { id: parse.data.id },
             select: { order: true }
         });
 
         if (deletedTask) {
             await prisma.task.updateMany({
                 where: {
-                    columnId: data.columnId,
+                    columnId: parse.data.columnId,
                     order: { gt: deletedTask.order }
                 },
                 data: {
@@ -136,7 +98,7 @@ export async function handleDeleteTask(prevState: any, formData: FormData) {
             });
         }
 
-        revalidatePath(`/board/${data.boardId}`);
+        revalidatePath(`/board/${parse.data.boardId}`);
         return { success: true, message: `Deleted task` };
     } catch (e) {
         return { success: false, message: 'Failed to delete task' };
