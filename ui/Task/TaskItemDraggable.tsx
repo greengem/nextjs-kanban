@@ -6,7 +6,7 @@ import { TaskSummary } from '@/types/types';
 
 export default function TaskItemDraggable({ task }: { task: TaskSummary }){
   return (
-    <div className='my-3 flex select-none rounded-lg shadow-md'>
+    <div className='my-3 flex select-none rounded-lg shadow-md border-2 border-purple-500'>
       
       <div className='px-0 flex items-center cursor-grab bg-zinc-800 rounded-l-lg touch-none'>
         <IconGripVertical className='text-purple-500' />
