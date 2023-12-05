@@ -1,36 +1,26 @@
 'use client'
 import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { handleCreateBoard } from "@/actions/BoardActions";
-import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
-import { revalidatePath } from 'next/cache';
 import toast from 'react-hot-toast';
-
-const CreateBoardSchema = z.object({
-  boardTitle: z.string().min(3, "Title must be at least 3 characters"),
-  boardDescription: z.string().optional(),
-});
+import { handleCreateBoard } from "@/actions/BoardActions";
+import { CreateBoardSchema } from '@/types/zodTypes';
+import { Card, CardBody } from '@/ui/Card/Card';
+import { BoardCreationData } from '@/types/types';
 
 export default function CreateBoardForm() {
   const router = useRouter()
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm({
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<BoardCreationData>({
     resolver: zodResolver(CreateBoardSchema),
   });
 
-  const onSubmit = async (data: any) => {
-    const response = await handleCreateBoard(null, data);
-  
+  const onSubmit: SubmitHandler<BoardCreationData> = async (data) => {
+    const response = await handleCreateBoard(data);
     if (response.success && response.boardId) {
       router.push(`/board/${response.boardId}`);
       toast.success('Board Created!');
     } else {
-      console.error(response.message);
+      toast.error(response.message);
     }
   };
 
@@ -44,13 +34,15 @@ export default function CreateBoardForm() {
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-between h-full'>
 
           <div>
-            <label htmlFor="boardTitle" className="block mb-2 text-sm font-medium sr-only">Board Title</label>
+            <label htmlFor="title" className="block mb-2 text-sm font-medium sr-only">Board Title</label>
             <input 
               type="text" 
-              id="boardTitle" 
-              {...register('boardTitle')}
+              id="title" 
+              {...register('title')}
               className="w-full p-2 border rounded text-zinc-900 focus:outline-none text-sm" 
               autoFocus 
+              required
+              minLength={3}
             />
           </div>
 
