@@ -23,7 +23,7 @@ export default function Column({ column, boardId }: ColumnProps) {
           </div>
         </CardHeader>
 
-        <CardBody className='space-y-4'>
+        <CardBody className='space-y-2'>
           <SortableContext items={column.tasks} id={column.id}>
             {
               column.tasks.length > 0 ? (

@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { handleDeleteTask } from "@/actions/TaskActions";
 import { DeleteTaskSchema } from '@/types/zodTypes';
 import { TaskDeletionData } from '@/types/types';
-import { IconTrash } from "@tabler/icons-react";
+import { IconLoader2, IconTrash } from "@tabler/icons-react";
 
 export default function DeleteTaskForm({ 
   boardId, taskId, columnId 
@@ -41,7 +41,7 @@ export default function DeleteTaskForm({
           disabled={isSubmitting}
           className="p-1 bg-red-500 text-white rounded-md"
         >
-          {isSubmitting ? 'Deleting...' : <IconTrash size={14} />}
+          {isSubmitting ? <IconLoader2 size={14} className='animate-spin' /> : <IconTrash size={14} />}
         </button>
       </form>
     </>

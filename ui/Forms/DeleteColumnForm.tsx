@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { handleDeleteColumn } from "@/actions/ColumnActions";
 import { DeleteColumnSchema } from '@/types/zodTypes';
 import { ColumnDeletionData } from '@/types/types';
-import { IconTrash } from "@tabler/icons-react";
+import { IconLoader2, IconTrash } from "@tabler/icons-react";
 
 export default function DeleteColumnForm({ 
   columnId, boardId
@@ -39,7 +39,7 @@ export default function DeleteColumnForm({
         disabled={isSubmitting}
         className="text-red-500"
       >
-        {isSubmitting ? 'Deleting...' : <IconTrash size={22} />}
+        {isSubmitting ? <IconLoader2 size={22} className='animate-spin' /> : <IconTrash size={22} />}
       </button>
     </form>
   )

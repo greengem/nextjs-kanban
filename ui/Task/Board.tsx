@@ -19,7 +19,6 @@ import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import Column from "@/ui/Task/Column";
 import TaskItemDraggable from './TaskItemDraggable';
 import { TaskSummary } from '@/types/types';
-import UpdateBoardForm from '../Forms/UpdateBoard';
 
 interface BoardProps {
   board: BoardDetails;
@@ -122,8 +121,6 @@ export default function Board({ board: initialBoard }: BoardProps) {
   };
   
   return (
-    <>
-
     <DndContext 
       sensors={sensors} 
       collisionDetection={closestCenter} 
@@ -140,11 +137,10 @@ export default function Board({ board: initialBoard }: BoardProps) {
         <CreateColumnForm boardId={board.id} />
 
         <DragOverlay>
-        {activeTask ? <TaskItemDraggable task={activeTask} /> : null}
+          {activeTask ? <TaskItemDraggable task={activeTask} /> : null}
         </DragOverlay>
 
       </div>
     </DndContext>
-          </>
   );
 }

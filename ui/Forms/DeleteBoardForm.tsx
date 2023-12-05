@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { handleDeleteBoard } from "@/actions/BoardActions";
 import { DeleteBoardSchema } from '@/types/zodTypes';
 import { BoardDeletionData } from '@/types/types';
-import { IconTrash } from "@tabler/icons-react";
+import { IconLoader2, IconTrash } from "@tabler/icons-react";
 
 export default function DeleteBoardForm({ 
   boardId 
@@ -41,7 +41,7 @@ export default function DeleteBoardForm({
         disabled={isSubmitting}
         className="p-1 bg-red-500 text-white rounded"
       >
-        {isSubmitting ? 'Deleting...' : <IconTrash size={16} />}
+        {isSubmitting ? <IconLoader2 size={16} className='animate-spin' /> : <IconTrash size={16} />}
       </button>
     </form>
   )

@@ -7,6 +7,7 @@ import { handleCreateBoard } from "@/actions/BoardActions";
 import { CreateBoardSchema } from '@/types/zodTypes';
 import { Card, CardBody } from '@/ui/Card/Card';
 import { BoardCreationData } from '@/types/types';
+import { IconLoader2 } from '@tabler/icons-react';
 
 export default function CreateBoardForm() {
   const router = useRouter()
@@ -49,10 +50,16 @@ export default function CreateBoardForm() {
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm w-full" 
+            className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm w-full flex justify-center items-center"
           >
-            {isSubmitting ? 'Creating...' : 'Create New Board'}
+            {isSubmitting ? (
+              <>
+                <IconLoader2 size={16} className="animate-spin mr-2" />
+                Creating...
+              </>
+            ) : 'Create New Board'}
           </button>
+
 
         </form>
       </CardBody>

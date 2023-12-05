@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { handleCreateTask } from "@/actions/TaskActions";
 import { CreateTaskSchema } from '@/types/zodTypes';
 import { TaskCreationData } from '@/types/types';
-import { IconPlus, IconX } from "@tabler/icons-react";
+import { IconLoader2, IconPlus, IconX } from "@tabler/icons-react";
 
 function CloseButton({ onClick }: { onClick: () => void }) {
   return (
@@ -51,6 +51,7 @@ export default function CreateTaskForm({
               autoFocus 
               type="text" 
               id="taskTitle" 
+              placeholder='Task'
               {...register('title')}
               className="w-full px-2 py-2 border rounded text-sm text-black" 
               required 
@@ -64,9 +65,14 @@ export default function CreateTaskForm({
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-3 py-1 bg-purple-500 text-white rounded-md text-sm"
+              className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm flex justify-center items-center"
             >
-              Add Card
+              {isSubmitting ? (
+                <>
+                  <IconLoader2 size={16} className="animate-spin mr-2" />
+                  Creating...
+                </>
+              ) : 'Create Task'}
             </button>
             <CloseButton onClick={toggleEdit} />
           </div>

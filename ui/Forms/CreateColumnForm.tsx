@@ -6,6 +6,7 @@ import { handleCreateColumn } from "@/actions/ColumnActions";
 import { CreateColumnSchema } from '@/types/zodTypes';
 import { ColumnCreationData } from '@/types/types';
 import { Card, CardBody } from '@/ui/Card/Card';
+import { IconLoader2 } from '@tabler/icons-react';
 
 export default function CreateColumnForm({ 
   boardId 
@@ -55,9 +56,14 @@ export default function CreateColumnForm({
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-2 py-1 bg-purple-500 text-white rounded-md text-sm w-full"
+              className="px-4 py-2 bg-purple-500 text-white rounded-md text-sm w-full flex justify-center items-center"
             >
-              {isSubmitting ? 'Creating...' : 'New Column'}
+            {isSubmitting ? (
+              <>
+                <IconLoader2 size={16} className="animate-spin mr-2" />
+                Creating...
+              </>
+            ) : 'Add another list'}
             </button>
           </form>
         </CardBody>

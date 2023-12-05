@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
 import { TaskEditData } from '@/types/types';
-import { IconX } from "@tabler/icons-react";
+import { IconLoader2, IconX } from "@tabler/icons-react";
 
 export default function EditTaskForm({ 
   title, taskId, boardId 
@@ -51,13 +51,18 @@ export default function EditTaskForm({
           />
 
           <div className="flex items-center justify-between">
-            <button 
-              type="submit" 
-              disabled={isSubmitting}
-              className="px-3 py-1 bg-purple-500 text-white rounded-md text-sm"
-            >
-              Save
-            </button>
+          <button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="px-4 py-1 bg-purple-500 text-white rounded-md text-sm flex justify-center items-center"
+          >
+            {isSubmitting ? (
+              <>
+                <IconLoader2 size={16} className="animate-spin mr-2" />
+                Creating...
+              </>
+            ) : 'Save'}
+          </button>
             <button onClick={toggleEdit} type="button" className="p-1"><IconX size={20} /></button>
           </div>
         </div>

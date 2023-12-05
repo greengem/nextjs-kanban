@@ -25,6 +25,7 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
             createdAt: 'asc',
         }
     });
+    await new Promise(resolve => setTimeout(resolve, 2000));
     return boards;
 }
 
@@ -69,5 +70,6 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
             },
         },
     });
+    await new Promise(resolve => setTimeout(resolve, 2000));
     return board;
 }
