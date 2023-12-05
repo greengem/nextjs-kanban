@@ -1,5 +1,6 @@
 import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
+import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
 import PageHeading from "@/ui/PageHeading";
 import Board from "@/ui/Task/Board";
 interface BoardProps {
@@ -15,7 +16,10 @@ export default async function BoardPage({ params }: BoardProps) {
 
   return (
     <>
-      <PageHeading title={board.title} />
+      <div className="flex justify-between">
+        <PageHeading title={board.title} />
+        <DeleteBoardForm boardId={board.id} boardTitle={board.title} />
+      </div>
       <Board board={board} />
     </>
   );
