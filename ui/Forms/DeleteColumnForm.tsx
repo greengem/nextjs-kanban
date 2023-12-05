@@ -1,46 +1,46 @@
 'use client'
-
-import { useFormState, useFormStatus } from "react-dom";
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
 import { handleDeleteColumn } from "@/actions/ColumnActions";
+import { DeleteColumnSchema } from '@/types/zodTypes';
+import { ColumnDeletionData } from '@/types/types';
 import { IconTrash } from "@tabler/icons-react";
 
-function DeleteButton() {
-  const { pending } = useFormStatus()
+export default function DeleteColumnForm({ 
+  columnId, boardId
+} : { 
+  columnId: string; boardId: string;
+}) {
+  const { register, handleSubmit, formState: { isSubmitting } } = useForm<ColumnDeletionData>({
+    resolver: zodResolver(DeleteColumnSchema),
+    defaultValues: { id: columnId, boardId }
+  });
+
+  const onSubmit: SubmitHandler<ColumnDeletionData> = async (data) => {
+    if (window.confirm('Are you sure you want to delete this column?')) {
+      const response = await handleDeleteColumn(data);
+  
+      if (response.success) {
+        toast.success('Column Deleted');
+      } else {
+        toast.error(response.message);
+      }
+    }
+  };
 
   return (
-    <button 
-      type="submit" 
-      aria-disabled={pending}
-      className="text-red-500"
-    >
-      <IconTrash size={22} />
-    </button>
-  )
-}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input type="hidden" {...register('id')} />
+      <input type="hidden" {...register('boardId')} />
 
-export default function DeleteColumnForm({ columnId, columnTitle, boardId }: { columnId: string; columnTitle: string; boardId: string; }) {
-  const [state, formAction] = useFormState(handleDeleteColumn, null)
-
-  return (
-    <form 
-      className="leading-none"
-      action={formAction}
-      onSubmit={(e) => {
-        e.preventDefault();
-        const confimed = confirm("Are you sure you want to delete this column?");
-        if (confimed) {
-          formAction(new FormData(e.currentTarget));
-        }
-      }}
-    >
-      <input type="hidden" name="boardId" value={boardId} />
-      <input type="hidden" name="columnId" value={columnId} />
-      <input type="hidden" name="columnTitle" value={columnTitle} />
-      <DeleteButton />
-      <p aria-live="polite" className="sr-only" role="status">
-        {state?.message}
-      </p>
+      <button 
+        type="submit" 
+        disabled={isSubmitting}
+        className="text-red-500"
+      >
+        {isSubmitting ? 'Deleting...' : <IconTrash size={22} />}
+      </button>
     </form>
   )
 }
-
