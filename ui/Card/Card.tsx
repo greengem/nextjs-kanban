@@ -3,7 +3,7 @@ import { IconGripHorizontal } from '@tabler/icons-react';
 
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
-        <div className={`flex-none shadow-md text-white rounded-lg ${className}`}>
+        <div className={`flex-none shadow-md text-white ${className}`}>
             {children}
         </div>
     )
@@ -17,8 +17,11 @@ export function CardHeaderGrab() {
     )
 }
 
-
-export function CardHeader({ children, className = '', showGrab = false }: { children: ReactNode, className?: string, showGrab?: boolean }) {
+export function CardHeader({ 
+    children, className = '', showGrab = false 
+} : { 
+    children: ReactNode, className?: string, showGrab?: boolean 
+}) {
     return (
         <div className={`${showGrab ? '' : 'rounded-t-lg'} ${className}`}>
             {showGrab && <CardHeaderGrab />}
@@ -29,16 +32,24 @@ export function CardHeader({ children, className = '', showGrab = false }: { chi
     )
 }
 
-
-export function CardBody({ children, className = '' }: { children: ReactNode, className?: string }) {
+export function CardBody({ 
+    children, className = '' 
+} : { 
+    children: ReactNode, className?: string 
+}) {
     return (
-        <div className={`p-3 bg-zinc-900 ${className}`}>
+        // Apply 'rounded-t-lg' if first child and 'rounded-b-lg' if last child
+        <div className={`p-3 bg-zinc-900 first:rounded-t-lg last:rounded-b-lg ${className}`}>
             {children}
         </div>
-    )
+    );
 }
 
-export function CardFooter({ children, className = '' }: { children: ReactNode, className?: string }) {
+export function CardFooter({ 
+    children, className = '' 
+} : { 
+    children: ReactNode, className?: string 
+}) {
     return (
         <div className={`p-3 bg-zinc-900 rounded-b-lg ${className}`}>
             {children}
