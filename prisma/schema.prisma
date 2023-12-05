@@ -60,8 +60,8 @@ model Board {
   id          String    @id @default(cuid())
   title       String
   description String?
-  userId      String    // Add this line
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade) // Add this line
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   columns     Column[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
