@@ -17,7 +17,10 @@ export default function Column({ column, boardId }: ColumnProps) {
       <Card className='shrink-0 w-64'>
 
         <CardHeader className='tracking-tight' showGrab>
-          {column.title}
+          <div className='flex justify-between'>
+            {column.title}
+            <DeleteColumnForm columnId={column.id} boardId={boardId} />
+          </div>
         </CardHeader>
 
         <CardBody className='space-y-4'>
