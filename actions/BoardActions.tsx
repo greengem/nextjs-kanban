@@ -16,13 +16,11 @@ export async function handleCreateBoard(prevState: any, data: BoardData) {
     return { success: false, message: 'User is not authenticated' };
   }
 
-  // Zod schema for validation
   const CreateBoardSchema = z.object({
     boardTitle: z.string().min(1, "Title is required"),
     boardDescription: z.string().optional(),
   });
 
-  // Validate incoming data with Zod
   const parse = CreateBoardSchema.safeParse(data);
 
   if (!parse.success) {
@@ -30,8 +28,7 @@ export async function handleCreateBoard(prevState: any, data: BoardData) {
   }
 
   try {
-    // Create a new board record in the database
-    await prisma.board.create({
+    const createdBoard = await prisma.board.create({
       data: {
         userId: session?.user?.id,
         title: parse.data.boardTitle,
@@ -41,7 +38,7 @@ export async function handleCreateBoard(prevState: any, data: BoardData) {
 
     revalidatePath('/board/');
 
-    return { success: true, message: `Board Created` };
+    return { success: true, message: `Board Created`, boardId: createdBoard.id };
   } catch (e) {
     return { success: false, message: `Failed to create board` };
   }
@@ -75,6 +72,7 @@ export async function handleDeleteBoard(prevState: any, formData: FormData) {
         });
 
         revalidatePath(`/board/`);
+
         return { success: true, message: `Deleted board ${data.boardTitle}` }
     } catch (e) {
         return { success: false, message: 'Failed to delete board' }
