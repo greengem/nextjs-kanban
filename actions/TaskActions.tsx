@@ -13,8 +13,6 @@ export async function handleCreateTask(data: TaskCreationData) {
         return { success: false, message: 'Failed to create task' };
     }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
     try {
         const maxOrderTask = await prisma.task.findFirst({
             where: { columnId: parse.data.columnId },
@@ -51,8 +49,6 @@ export async function handleEditTask(data: TaskEditData) {
         return { success: false, message: 'Failed to edit task' };
     }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
     try {
         await prisma.task.update({
             where: {
@@ -83,8 +79,6 @@ export async function handleDeleteTask(data: TaskDeletionData) {
     if (!parse.success) {
         return { success: false, message: 'Failed to delete task due to validation error' };
     }
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
     try {
         const deletedTask = await prisma.task.delete({

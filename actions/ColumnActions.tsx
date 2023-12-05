@@ -13,8 +13,6 @@ export async function handleCreateColumn(data: ColumnCreationData) {
         return { success: false, message: 'Failed to create column due to validation error' };
     }
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
     try {
         const maxOrderColumn = await prisma.column.findFirst({
             where: { boardId: parse.data.boardId },
@@ -48,8 +46,6 @@ export async function handleDeleteColumn(data: ColumnDeletionData) {
     if (!parse.success) {
         return { success: false, message: 'Failed to delete column due to validation error' };
     }
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
 
     try {
         const deletedColumn = await prisma.column.delete({
