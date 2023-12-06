@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { BoardDetails } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
-import { TaskSummary } from '@/types/types';
 import { Card, CardHeader, CardBody, CardFooter, CardHeaderGrab } from '@/ui/Card/Card';
 import DeleteColumnForm from '../Forms/DeleteColumnForm';
 import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
 import TaskItem from "@/ui/Task/TaskItem";
-import { ColumnWithTasks } from '@/types/types';
 
 interface BoardProps {
   board: BoardDetails;
@@ -17,25 +15,26 @@ interface BoardProps {
 export default function Board({ board: initialBoard }: BoardProps) {
   const [board, setBoard] = useState(initialBoard);
 
-  const onDragEnd = (result: DropResult) => {
+  const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
   
     if (!destination) {
       return;
     }
   
+    let newBoard = { ...board };
+  
     if (type === "COLUMN") {
-      // Handling column reordering
       const newColumns = Array.from(board.columns);
       const [removedColumn] = newColumns.splice(source.index, 1);
       newColumns.splice(destination.index, 0, removedColumn);
+      newColumns.forEach((col, index) => col.order = index + 1);
   
-      setBoard({
+      newBoard = {
         ...board,
         columns: newColumns
-      });
+      };
     } else {
-      // Handling task reordering
       const sourceColumn = board.columns.find(col => col.id === source.droppableId);
       const destColumn = board.columns.find(col => col.id === destination.droppableId);
   
@@ -45,22 +44,24 @@ export default function Board({ board: initialBoard }: BoardProps) {
         const copiedTasks = [...sourceColumn.tasks];
         const [removed] = copiedTasks.splice(source.index, 1);
         copiedTasks.splice(destination.index, 0, removed);
+        copiedTasks.forEach((task, index) => task.order = index + 1);
   
-        const newBoard = {
+        newBoard = {
           ...board,
           columns: board.columns.map(col => 
             col.id === sourceColumn.id ? {...col, tasks: copiedTasks} : col
           )
         };
-  
-        setBoard(newBoard);
       } else {
         const sourceTasks = [...sourceColumn.tasks];
         const destTasks = [...destColumn.tasks];
         const [removed] = sourceTasks.splice(source.index, 1);
         destTasks.splice(destination.index, 0, removed);
   
-        const newBoard = {
+        sourceTasks.forEach((task, index) => task.order = index + 1);
+        destTasks.forEach((task, index) => task.order = index + 1);
+  
+        newBoard = {
           ...board,
           columns: board.columns.map(col => {
             if (col.id === sourceColumn.id) {
@@ -72,13 +73,25 @@ export default function Board({ board: initialBoard }: BoardProps) {
             }
           })
         };
-  
-        setBoard(newBoard);
       }
+    }
+  
+    setBoard(newBoard);
+  
+    try {
+      await fetch(`/api/board/${board.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ boardData: newBoard }),
+      });
+
+    } catch (error) {
+      console.error('Error updating board:', error);
     }
   };
   
-
   useEffect(() => {
     setBoard(initialBoard);
   }, [initialBoard]);
@@ -155,7 +168,4 @@ export default function Board({ board: initialBoard }: BoardProps) {
       </Droppable>
     </DragDropContext>
   );
-  
-  
-  
 }
