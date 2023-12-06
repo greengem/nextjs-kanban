@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
 import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
@@ -8,6 +10,10 @@ interface BoardProps {
 }
 
 export default async function BoardPage({ params }: BoardProps) {
+  const session = await auth();
+  if (!session) {
+    redirect("/api/auth/signin");
+  }
   const board: BoardDetails | null = await getBoard(params.id);
 
   if (!board) {
