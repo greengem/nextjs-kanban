@@ -6,5 +6,5 @@ export function SignInButton() {
 }
 
 export function SignOutButton() {
-    return <button onClick={() => signOut()}>Sign Out</button>;
+    return <button onClick={() => signOut({ callbackUrl: '/'})} className="text-sm">Sign Out</button>;
 }
