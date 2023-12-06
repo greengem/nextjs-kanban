@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { IconGripHorizontal } from '@tabler/icons-react';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
@@ -9,22 +10,35 @@ export function Card({ children, className = '' }: { children: ReactNode, classN
     )
 }
 
-export function CardHeaderGrab() {
+export function CardHeaderGrab({ 
+    dragHandleProps 
+} : {
+    dragHandleProps?: DraggableProvidedDragHandleProps
+}) {
     return (
-        <div className='py-1 text-purple-500 bg-zinc-800 cursor-grab flex justify-center items-center rounded-t-lg'>
+        <div 
+            {...dragHandleProps}
+            className='py-1 text-purple-500 bg-zinc-800 cursor-grab flex justify-center items-center rounded-t-lg'
+        >
             <IconGripHorizontal />
         </div>
     )
 }
 
 export function CardHeader({ 
-    children, className = '', showGrab = false 
+    children, 
+    className = '', 
+    showGrab = false, 
+    dragHandleProps 
 } : { 
-    children: ReactNode, className?: string, showGrab?: boolean 
+    children: ReactNode, 
+    className?: string, 
+    showGrab?: boolean, 
+    dragHandleProps?: DraggableProvidedDragHandleProps
 }) {
     return (
         <div className={`${showGrab ? '' : 'rounded-t-lg'} ${className}`}>
-            {showGrab && <CardHeaderGrab />}
+            {showGrab && <CardHeaderGrab dragHandleProps={dragHandleProps} />}
             <div className={`px-5 pt-3 bg-zinc-900 ${showGrab ? '' : 'rounded-t-lg'}`}>
                 {children}
             </div>
