@@ -12,17 +12,14 @@ export default async function Navbar () {
         <nav className="flex px-5 py-2 bg-zinc-900 items-center justify-between">
             <NavbarTitle />
             <div className="flex gap-5 items-center">
-                <div className="flex gap-2 hidden">
-                    <SignInButton />
+                <div className="flex gap-2">
                     <SignOutButton />
-                    <IconNotification />
-                    <IconInbox size={24} />
                 </div>
                 <Image
                     src={session?.user?.image || defaultImageUrl}
                     height={36}
                     width={36}
-                    className="p-1 rounded-full ring-2 ring-purple-500"
+                    className="p-1 rounded-full ring-1 ring-purple-500"
                     alt="User profile picture"
                 />
             </div>

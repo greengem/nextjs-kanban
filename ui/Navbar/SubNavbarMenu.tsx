@@ -13,7 +13,7 @@ export default function SubNavbarMenu({ boards }: { boards: Board[] }) {
     return (
         <ul className="flex items-center text-xs space-x-3  overflow-x-scroll no-scrollbar text-white">
             <li 
-                className={`px-3 py-1  flex-none rounded-xl bg-black hover:bg-purple-500 ${pathname === '/board' ? 'bg-purple-500' : ''}`}
+                className={`px-3 py-1  flex-none rounded-xl  hover:bg-purple-500 ${pathname === '/board' ? 'bg-purple-500' : ''}`}
             >
                 <Link href='/board'>
                     All Boards
@@ -22,7 +22,7 @@ export default function SubNavbarMenu({ boards }: { boards: Board[] }) {
             {boards.map((board) => (
                 <li 
                     key={board.id} 
-                    className={`px-3 py-1 rounded-xl flex-none bg-black hover:bg-purple-500 ${pathname === `/board/${board.id}` ? 'bg-purple-500' : ''}`}
+                    className={`px-3 py-1 rounded-xl flex-none hover:bg-purple-500 ${pathname === `/board/${board.id}` ? 'bg-purple-500' : ''}`}
                 >
                     <Link href={`/board/${board.id}`}>
                         {board.title}
