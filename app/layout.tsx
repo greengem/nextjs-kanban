@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`overflow-x-hidden ${inter.className} bg-zinc-950`}>
+      <body className={`${inter.className} bg-zinc-950`}>
         <Toaster />
         <Providers>
           {children}
