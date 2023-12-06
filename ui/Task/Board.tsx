@@ -18,52 +18,66 @@ export default function Board({ board: initialBoard }: BoardProps) {
   const [board, setBoard] = useState(initialBoard);
 
   const onDragEnd = (result: DropResult) => {
-    const { source, destination } = result;
-
+    const { source, destination, type } = result;
+  
     if (!destination) {
       return;
     }
-
-    const sourceColumn = board.columns.find(col => col.id === source.droppableId);
-    const destColumn = board.columns.find(col => col.id === destination.droppableId);
-
-    if (!sourceColumn || !destColumn) return;
-
-    if (source.droppableId === destination.droppableId) {
-      const copiedTasks = [...sourceColumn.tasks];
-      const [removed] = copiedTasks.splice(source.index, 1);
-      copiedTasks.splice(destination.index, 0, removed);
-
-      const newBoard = {
+  
+    if (type === "COLUMN") {
+      // Handling column reordering
+      const newColumns = Array.from(board.columns);
+      const [removedColumn] = newColumns.splice(source.index, 1);
+      newColumns.splice(destination.index, 0, removedColumn);
+  
+      setBoard({
         ...board,
-        columns: board.columns.map(col => 
-          col.id === sourceColumn.id ? {...col, tasks: copiedTasks} : col
-        )
-      };
-
-      setBoard(newBoard);
+        columns: newColumns
+      });
     } else {
-      const sourceTasks = [...sourceColumn.tasks];
-      const destTasks = [...destColumn.tasks];
-      const [removed] = sourceTasks.splice(source.index, 1);
-      destTasks.splice(destination.index, 0, removed);
-
-      const newBoard = {
-        ...board,
-        columns: board.columns.map(col => {
-          if (col.id === sourceColumn.id) {
-            return {...col, tasks: sourceTasks};
-          } else if (col.id === destColumn.id) {
-            return {...col, tasks: destTasks};
-          } else {
-            return col;
-          }
-        })
-      };
-
-      setBoard(newBoard);
+      // Handling task reordering
+      const sourceColumn = board.columns.find(col => col.id === source.droppableId);
+      const destColumn = board.columns.find(col => col.id === destination.droppableId);
+  
+      if (!sourceColumn || !destColumn) return;
+  
+      if (source.droppableId === destination.droppableId) {
+        const copiedTasks = [...sourceColumn.tasks];
+        const [removed] = copiedTasks.splice(source.index, 1);
+        copiedTasks.splice(destination.index, 0, removed);
+  
+        const newBoard = {
+          ...board,
+          columns: board.columns.map(col => 
+            col.id === sourceColumn.id ? {...col, tasks: copiedTasks} : col
+          )
+        };
+  
+        setBoard(newBoard);
+      } else {
+        const sourceTasks = [...sourceColumn.tasks];
+        const destTasks = [...destColumn.tasks];
+        const [removed] = sourceTasks.splice(source.index, 1);
+        destTasks.splice(destination.index, 0, removed);
+  
+        const newBoard = {
+          ...board,
+          columns: board.columns.map(col => {
+            if (col.id === sourceColumn.id) {
+              return {...col, tasks: sourceTasks};
+            } else if (col.id === destColumn.id) {
+              return {...col, tasks: destTasks};
+            } else {
+              return col;
+            }
+          })
+        };
+  
+        setBoard(newBoard);
+      }
     }
   };
+  
 
   useEffect(() => {
     setBoard(initialBoard);
@@ -74,7 +88,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
       <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
         {(provided) => (
           <div
-            className="flex gap-3 md:gap-5 no-scrollbar overflow-x-scroll"
+            className="flex no-scrollbar overflow-x-scroll"
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
@@ -84,14 +98,15 @@ export default function Board({ board: initialBoard }: BoardProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className='shrink-0 w-72'
+                    className='shrink-0 w-72 mr-5'
                   >
                     <Card>
                       <CardHeader 
                         className='tracking-tight' 
                         showGrab
+                        dragHandleProps={provided.dragHandleProps ?? undefined}
                       >
-                        <div className='flex justify-between' {...provided.dragHandleProps}>
+                        <div className='flex justify-between'>
                           {column.title}
                           <DeleteColumnForm columnId={column.id} boardId={board.id} />
                         </div>
