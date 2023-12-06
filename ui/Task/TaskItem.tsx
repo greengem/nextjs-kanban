@@ -1,10 +1,8 @@
-import { useSortable } from '@dnd-kit/sortable';
 import DeleteTaskForm from '../Forms/DeleteTaskForm';
 import EditTaskForm from '../Forms/EditTaskForm';
 import { IconGripVertical } from '@tabler/icons-react';
 import { TaskSummary } from '@/types/types';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { CSS } from '@dnd-kit/utilities';
 
 interface TaskItemProps {
   task: TaskSummary;
@@ -13,26 +11,24 @@ interface TaskItemProps {
 }
 
 export default function TaskItem({ task, boardId, columnId }: TaskItemProps) {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
 
   return (
-    <div ref={setNodeRef} style={style} className='flex select-none rounded-lg shadow-md'>
+    <div className={`flex select-none rounded-lg bg-zinc-800 shadow-md`}>
       
-      <div className='px-0 flex items-center cursor-grab bg-zinc-800 rounded-l-lg touch-none' {...attributes} {...listeners}>
+      {/* Drag Handle */}
+      <div className='px-0 flex items-center cursor-grab touch-none'>
         <IconGripVertical className='text-purple-500' />
       </div>
 
-      <div className='flex-grow px-3 py-2 rounded-r-lg bg-zinc-800'>
+      {/* Task Contents */}
+      <div className='flex-grow px-3 py-2'>
 
-        <div className='mb-1 text-sm font-semibold'>
+        {/* Task title and edit toggle */}
+        <div className='mb-1 text-sm'>
           <EditTaskForm title={task.title} boardId={boardId} taskId={task.id} />
         </div>
 
+        {/* Task Controls */}
         <div className='flex justify-between items-center'>
           <div className='text-xs font-semibold text-purple-300'>{task.priority && `${task.priority}`}</div>
           <div className='flex gap-1'>
