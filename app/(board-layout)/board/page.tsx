@@ -4,10 +4,9 @@ import { getBoardsSummary } from "@/lib/FetchData";
 import { BoardSummary } from "@/types/types";
 import CreateBoardForm from "@/ui/Forms/CreateBoardForm";
 import Link from "next/link";
-import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
+import { Card, CardBody } from '@/ui/Card/Card';
 import PageHeading from "@/ui/PageHeading";
 import { IconList  } from "@tabler/icons-react";
-import Image from "next/image";
 
 export default async function Boards() {
   const session = await auth();
@@ -19,7 +18,7 @@ export default async function Boards() {
   return (
     <>
       <PageHeading title='Boards' />
-      <div className="flex gap-5">
+      <div className="flex gap-5 overflow-x-scroll no-scrollbar">
         <CreateBoardForm />
         {boards.map((board) => (
           <Link key={board.id} href={`/board/${board.id}`}>
