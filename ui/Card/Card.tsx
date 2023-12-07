@@ -39,7 +39,7 @@ export function CardHeader({
     return (
         <div className={`${showGrab ? '' : 'rounded-t-lg'} ${className}`}>
             {showGrab && <CardHeaderGrab dragHandleProps={dragHandleProps} />}
-            <div className={`px-5 pt-3 bg-zinc-900 ${showGrab ? '' : 'rounded-t-lg'}`}>
+            <div className={`px-3 pt-3 bg-zinc-900 ${showGrab ? '' : 'rounded-t-lg'}`}>
                 {children}
             </div>
         </div>
