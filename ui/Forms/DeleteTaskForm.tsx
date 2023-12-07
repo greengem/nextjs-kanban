@@ -6,11 +6,12 @@ import { handleDeleteTask } from "@/actions/TaskActions";
 import { DeleteTaskSchema } from '@/types/zodTypes';
 import { TaskDeletionData } from '@/types/types';
 import { IconLoader2, IconTrash } from "@tabler/icons-react";
+import { Button } from '@nextui-org/button';
 
 export default function DeleteTaskForm({ 
-  boardId, taskId, columnId 
+  boardId, taskId, columnId, onCloseModal 
 } : { 
-  boardId: string; taskId: string; columnId: string; 
+  boardId: string; taskId: string; columnId: string; onCloseModal: () => void; 
 }) {
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<TaskDeletionData>({
     resolver: zodResolver(DeleteTaskSchema),
@@ -23,6 +24,7 @@ export default function DeleteTaskForm({
   
       if (response.success) {
         toast.success('Task Deleted');
+        onCloseModal();
       } else {
         toast.error(response.message);
       }
@@ -35,14 +37,21 @@ export default function DeleteTaskForm({
         <input type="hidden" {...register('id')} />
         <input type="hidden" {...register('boardId')} />
         <input type="hidden" {...register('columnId')} />
-        
-        <button 
+        <Button 
           type="submit" 
+          color='danger'
           disabled={isSubmitting}
-          className="p-1 bg-red-500 text-white rounded-md"
         >
-          {isSubmitting ? <IconLoader2 size={14} className='animate-spin' /> : <IconTrash size={14} />}
-        </button>
+            {isSubmitting ? (
+              <>
+                Deleting <IconLoader2 size={14} className="animate-spin" />
+              </>
+            ) : (
+              <>
+                Delete <IconTrash size={14} />
+              </>
+            )}
+        </Button>
       </form>
     </>
   )
