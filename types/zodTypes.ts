@@ -45,3 +45,9 @@ export const EditTaskSchema = z.object({
     priority: z.union([z.string(), z.null()]).optional(),
     boardId: z.string().min(1),
 });
+
+export const EditColumnSchema = z.object({
+    title: z.string().min(3),
+    columnId: z.string().min(1, "ID is required"),
+    boardId: z.string().min(1, "ID is required"),
+});
