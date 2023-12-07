@@ -7,14 +7,37 @@ import { Card, CardHeader, CardBody, CardFooter, CardHeaderGrab } from '@/ui/Car
 import DeleteColumnForm from '../Forms/DeleteColumnForm';
 import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
 import TaskItem from "@/ui/Task/TaskItem";
+import {  Modal,   ModalContent,   ModalHeader,   ModalBody,   ModalFooter} from "@nextui-org/modal";
+import { Textarea, useDisclosure } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
+import { TaskSummary } from '@/types/types';
+import { format } from 'date-fns';
+import { IconCards, IconList, IconTextPlus } from '@tabler/icons-react';
+import TaskDetailModal from './TaskDetailModal';
 
 interface BoardProps {
   board: BoardDetails;
 }
 
 export default function Board({ board: initialBoard }: BoardProps) {
+  // State for entire Board data
   const [board, setBoard] = useState(initialBoard);
 
+  //State to track selected task for modal
+  const [selectedTask, setSelectedTask] = useState<TaskSummary | null>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  
+  const handleTaskClick = (task: TaskSummary) => {
+    setSelectedTask(task);
+    onOpen(); // Opens the modal
+  };
+  
+  const handleCloseModal = () => {
+    onClose(); // Closes the modal
+    setSelectedTask(null); // Clears selected task when modal closes
+  };
+  
+  // Handle DnD Drag End
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
   
@@ -92,11 +115,13 @@ export default function Board({ board: initialBoard }: BoardProps) {
     }
   };
   
+  // Update the state when the db is changed and refetched
   useEffect(() => {
     setBoard(initialBoard);
   }, [initialBoard]);
   
   return (
+    <>
     <DragDropContext onDragEnd={onDragEnd}>
       <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
         {(provided) => (
@@ -135,13 +160,12 @@ export default function Board({ board: initialBoard }: BoardProps) {
                                     <div
                                       ref={provided.innerRef}
                                       {...provided.draggableProps}
-                                      {...provided.dragHandleProps}
                                       className={`mb-2`}
                                     >
                                       <TaskItem
                                         task={task}
-                                        boardId={board.id}
-                                        columnId={column.id}
+                                        onTaskClick={handleTaskClick}
+                                        dragHandleProps={provided.dragHandleProps}
                                       />
                                     </div>
                                   )}
@@ -167,5 +191,14 @@ export default function Board({ board: initialBoard }: BoardProps) {
         )}
       </Droppable>
     </DragDropContext>
+
+    <TaskDetailModal
+      isOpen={isOpen}
+      onClose={handleCloseModal}
+      selectedTask={selectedTask}
+      boardId={board.id}
+      
+    />
+</>
   );
 }
