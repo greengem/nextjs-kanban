@@ -6,12 +6,12 @@ export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order' | 'createdAt
     tasks: TaskSummary[];
 };
 
-export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'priority' | 'dueDate' | 'createdAt' | 'updatedAt'>;
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'priority' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'>;
+
 
 export type BoardDetails = BoardSummary & {
     columns: ColumnWithTasks[];
 };
-
 
 // Form validation
 
