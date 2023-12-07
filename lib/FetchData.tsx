@@ -64,6 +64,7 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                             createdAt: true,
                             updatedAt: true,
                             order: true,
+                            columnId: true,
                         },
                     },
                 },
