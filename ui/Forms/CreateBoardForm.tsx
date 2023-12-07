@@ -34,12 +34,12 @@ export default function CreateBoardForm() {
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-between h-full'>
 
           <div>
-            <label htmlFor="title" className="block mb-2 text-sm font-medium sr-only">Board Title</label>
+            <label htmlFor="title" className="sr-only hidden">Board Title</label>
             <input 
               type="text" 
               id="title" 
               {...register('title')}
-              placeholder='Board Name...'
+              placeholder='Board Title...'
               className="w-full p-3 border rounded bg-zinc-800 text-white border-none focus:outline-none text-sm" 
               autoFocus 
               required

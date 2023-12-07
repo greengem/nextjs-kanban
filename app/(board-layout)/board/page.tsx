@@ -34,7 +34,6 @@ export default async function Boards() {
             </Card>
           </Link>
         ))}
-        
       </div>
     </>
   );
