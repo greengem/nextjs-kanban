@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import NavbarTitle from "./NavbarTitle";
 import Image from "next/image";
-import { IconInbox, IconNotification } from "@tabler/icons-react";
-import { SignInButton, SignOutButton } from "../AuthButtons";
+import { SignOutButton } from "../AuthButtons";
+import { Avatar } from "@nextui-org/avatar";
 
 export default async function Navbar () {
     const session = await auth();
@@ -15,13 +15,7 @@ export default async function Navbar () {
                 <div className="flex gap-2">
                     <SignOutButton />
                 </div>
-                <Image
-                    src={session?.user?.image || defaultImageUrl}
-                    height={36}
-                    width={36}
-                    className="p-1 rounded-full ring-1 ring-purple-500"
-                    alt="User profile picture"
-                />
+                <Avatar isBordered color="secondary" src={session?.user?.image || defaultImageUrl} size="sm" />
             </div>
         </nav>
     )
