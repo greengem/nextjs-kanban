@@ -1,7 +1,7 @@
 'use server';
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache'
-import { CreateColumnSchema , DeleteColumnSchema} from '@/types/zodTypes';
+import { CreateColumnSchema , DeleteColumnSchema, EditColumnSchema } from '@/types/zodTypes';
 import { ColumnCreationData, ColumnDeletionData } from '@/types/types';
 
 // Create Column
@@ -34,6 +34,35 @@ export async function handleCreateColumn(data: ColumnCreationData) {
         return { success: true, message: 'Created column' };
     } catch (e) {
         return { success: false, message: `Failed to create column` };
+    }
+}
+
+
+// EDIT TASK
+export async function handleEditColumn(data: any) {
+    
+    const parse = EditColumnSchema.safeParse(data);
+
+    if (!parse.success) {
+        return { success: false, message: 'Failed to edit column' };
+    }
+
+    try {
+        await prisma.column.update({
+            where: {
+                id: parse.data.columnId
+            },
+            data: {
+                title: parse.data.title,
+            }
+        });
+
+        
+        revalidatePath(`/board/${parse.data.boardId}`);
+
+        return { success: true, message: `Edited column sucessfully!` };
+    } catch (e) {
+        return { success: false, message: `Failed to edit column` };
     }
 }
 
