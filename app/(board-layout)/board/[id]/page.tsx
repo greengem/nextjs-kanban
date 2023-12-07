@@ -4,7 +4,7 @@ import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
 import DeleteBoardForm from "@/ui/Forms/DeleteBoardForm";
 import PageHeading from "@/ui/PageHeading";
-import Board from "@/ui/Task/Board";
+import Board from "@/ui/Board/Board";
 interface BoardProps {
   params: { id: string };
 }

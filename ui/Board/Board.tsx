@@ -1,20 +1,17 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { BoardDetails } from "@/types/types";
+import { useDisclosure } from '@nextui-org/react';
+import { BoardDetails, TaskSummary } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
-import { Card, CardHeader, CardBody, CardFooter, CardHeaderGrab } from '@/ui/Card/Card';
+import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
+import TaskItem from "@/ui/Task/TaskItem";
 import DeleteColumnForm from '../Forms/DeleteColumnForm';
 import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
-import TaskItem from "@/ui/Task/TaskItem";
-import {  Modal,   ModalContent,   ModalHeader,   ModalBody,   ModalFooter} from "@nextui-org/modal";
-import { Textarea, useDisclosure } from '@nextui-org/react';
-import { Button } from '@nextui-org/react';
-import { TaskSummary } from '@/types/types';
-import { format } from 'date-fns';
-import { IconCards, IconList, IconTextPlus } from '@tabler/icons-react';
-import TaskDetailModal from './TaskDetailModal';
-
+import TaskDetailModal from '@/ui/Task/TaskDetailModal';
+import { Button } from '@nextui-org/button';
+import { IconMenu2 } from '@tabler/icons-react';
+import ColumnActions from './ColumnActions';
 interface BoardProps {
   board: BoardDetails;
 }
@@ -144,9 +141,8 @@ export default function Board({ board: initialBoard }: BoardProps) {
                         showGrab
                         dragHandleProps={provided.dragHandleProps ?? undefined}
                       >
-                        <div className='flex justify-between'>
-                          {column.title}
-                          <DeleteColumnForm columnId={column.id} boardId={board.id} />
+                        <div className='flex justify-between items-center gap-2'>
+                          <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
                         </div>
                       </CardHeader>
   
@@ -197,7 +193,6 @@ export default function Board({ board: initialBoard }: BoardProps) {
       onClose={handleCloseModal}
       selectedTask={selectedTask}
       boardId={board.id}
-      
     />
 </>
   );
