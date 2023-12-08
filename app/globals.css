@@ -15,10 +15,13 @@
 }
 
 /* NextUI overlay full height nad width */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
 
-
-html,
-body {
+div[data-overlay-container="true"] {
   min-height: 100%;
-  width: 100%;
+  height: 100%;
 }
