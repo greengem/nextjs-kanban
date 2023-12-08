@@ -2,9 +2,9 @@
 import {useTheme} from "next-themes";
 import { useEffect, useState } from "react";
 
-export default function ThemePicker() {
+export default function ColourPicker() {
     const [mounted, setMounted] = useState(false)
-    const { theme, setTheme } = useTheme()
+    const { theme: activeTheme, setTheme } = useTheme();
   
     const themes = [
 
@@ -35,15 +35,17 @@ export default function ThemePicker() {
     if(!mounted) return null
 
     return (
+        <>
         <ul className="flex flex-wrap gap-2 justify-center">
             {themes.map(theme => (
                 <li key={theme.name}>
                     <div 
                         onClick={() => setTheme(theme.name)} 
-                        className={`rounded-full h-4 w-4 ${theme.colorClass}`}
+                        className={`rounded-full h-6 w-6 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
                     />
                 </li>
             ))}
         </ul>
+        </>
     )
 }

@@ -11,6 +11,7 @@ export function Providers({children}: { children: React.ReactNode }) {
               defaultTheme="purple"
               themes={[
                 'red',
+                'amber',
                 'orange',
                 'yellow',
                 'lime',

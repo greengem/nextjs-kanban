@@ -2,6 +2,7 @@
 import { useSidebarVisibility } from "@/contexts/SidebarContext";
 import SidebarHeader from "./SidebarHeader";
 import SidebarNav from "./SidebarNav";
+import ThemePicker from "../Navbar/ColourPicker";
 
 export default function SidebarContents() {
     const { isSidebarVisible, isSlimSidebar } = useSidebarVisibility();
