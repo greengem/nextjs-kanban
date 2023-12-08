@@ -9,7 +9,7 @@ import { TaskEditData } from '@/types/types';
 import { IconLoader2, IconX } from "@tabler/icons-react";
 import { Button } from '@nextui-org/react';
 
-export default function EditTaskForm({ 
+export default function EditTaskNameForm({ 
   title, taskId, boardId 
 } : { 
   title: string; taskId: string; boardId: string; 
