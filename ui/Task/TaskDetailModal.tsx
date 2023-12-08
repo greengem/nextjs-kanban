@@ -3,8 +3,8 @@ import { TaskSummary } from '@/types/types';
 import { format } from 'date-fns';
 import { IconArrowRight, IconCalendar, IconCards, IconCheckbox, IconExclamationCircle, IconPaint, IconPaperclip, IconTag, IconTextPlus, IconTrash, IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
-import {RadioGroup, Radio} from "@nextui-org/radio";
 import DeleteTaskForm from '../Forms/DeleteTaskForm';
+import EditTaskForm from '../Forms/EditTaskForm';
 
 interface TaskDetailModalProps {
   isOpen: boolean;
@@ -33,8 +33,8 @@ export default function TaskDetailModal({
         <>
         <ModalHeader className='flex gap-2 bg-primary'>
           <IconCards size={20} className='mt-1 w-5' />
-          <div className='flex-col'>
-            <h2>{selectedTask.title}</h2>
+          <div className='flex-col w-full pr-5'>
+            <EditTaskForm taskId={selectedTask.id} title={selectedTask.title} boardId={boardId} />
             <div className='text-xs text-zinc-100 font-normal'>
               <p>In list Col Name</p>
               <p>Created on {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')} | Updated on {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>

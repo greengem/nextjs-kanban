@@ -7,6 +7,7 @@ import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
 import { TaskEditData } from '@/types/types';
 import { IconLoader2, IconX } from "@tabler/icons-react";
+import { Button } from '@nextui-org/react';
 
 export default function EditTaskForm({ 
   title, taskId, boardId 
@@ -45,25 +46,27 @@ export default function EditTaskForm({
         <div>
           <input 
             autoFocus 
+            
             type='text' 
             {...register('title')}
-            className="mb-2 w-full p-2 rounded bg-zinc-900" 
+            className="mb-2 w-full p-2 rounded bg-zinc-900 border-none focus:outline-none" 
           />
 
-          <div className="flex items-center justify-between">
-          <button 
-            type="submit" 
-            disabled={isSubmitting}
-            className="px-4 py-1 bg-primary text-white rounded-md text-sm flex justify-center items-center"
-          >
-            {isSubmitting ? (
-              <>
-                <IconLoader2 size={16} className="animate-spin mr-2" />
-                Creating...
-              </>
-            ) : 'Save'}
-          </button>
-            <button onClick={toggleEdit} type="button" className="p-1"><IconX size={20} /></button>
+          <div className="flex gap-1 mb-2">
+            <Button 
+              type="submit" 
+              size='sm'
+              disabled={isSubmitting}
+              className="px-4 py-1 text-white rounded-md text-sm flex justify-center items-center"
+            >
+              {isSubmitting ? (
+                <>
+                  <IconLoader2 size={16} className="animate-spin mr-2" />
+                  Creating...
+                </>
+              ) : 'Save'}
+            </Button>
+            <Button isIconOnly size='sm' onClick={toggleEdit} type="button" className="p-1"><IconX size={20} /></Button>
           </div>
         </div>
       )}
