@@ -1,10 +1,14 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Textarea, Button } from '@nextui-org/react';
+'use client'
+import { useState } from 'react';
+import { Modal, ModalContent, ModalBody, ModalFooter } from '@nextui-org/modal';
+import { Textarea } from "@nextui-org/input";
+import { Button } from '@nextui-org/button';
 import { TaskSummary } from '@/types/types';
 import { format } from 'date-fns';
-import { IconArrowRight, IconCalendar, IconCards, IconCheckbox, IconExclamationCircle, IconPaint, IconPaperclip, IconTag, IconTextPlus, IconTrash, IconUser } from '@tabler/icons-react';
-import { useState } from 'react';
+import { IconArrowRight, IconCalendar, IconCheckbox, IconPaint, IconPaperclip, IconTag, IconTextPlus, IconTrash, IconUser } from '@tabler/icons-react';
+
 import DeleteTaskForm from '../Forms/DeleteTaskForm';
-import EditTaskForm from '../Forms/EditTaskForm';
+import TaskModalHeader from './TaskModalHeader';
 
 interface TaskDetailModalProps {
   isOpen: boolean;
@@ -31,17 +35,7 @@ export default function TaskDetailModal({
       <ModalContent>
       {selectedTask ? (
         <>
-        <ModalHeader className='flex gap-2 bg-primary'>
-          <IconCards size={20} className='mt-1 w-5' />
-          <div className='flex-col w-full pr-5'>
-            <EditTaskForm taskId={selectedTask.id} title={selectedTask.title} boardId={boardId} />
-            <div className='text-xs text-zinc-100 font-normal'>
-              <p>In list Col Name</p>
-              <p>Created on {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')} | Updated on {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>
-              <p></p>
-            </div>
-          </div>
-        </ModalHeader>
+        <TaskModalHeader selectedTask={selectedTask} boardId={boardId} />
 
         <ModalBody>
 
@@ -89,7 +83,15 @@ export default function TaskDetailModal({
               <h4 className='text-sm text-zinc-500'>Actions</h4>
               <ul className='text-sm space-y-2'>
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-1 rounded-md'><IconArrowRight size={14} /> Move</li>
-                <li className='flex items-center gap-2 bg-zinc-800 px-2 py-1 rounded-md'><IconTrash size={14} /> Delete</li>
+                <li className='flex items-center gap-2 bg-zinc-800 px-2 py-1 rounded-md'>
+                <DeleteTaskForm 
+                  taskId={selectedTask.id} 
+                  boardId={boardId} 
+                  columnId={selectedTask.columnId}
+                  onCloseModal={onClose}
+                />
+                  <IconTrash size={14} /> Delete
+                </li>
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-1 rounded-md'><IconTrash size={14} /> Make Template</li>
               </ul>
             </div>
@@ -97,12 +99,6 @@ export default function TaskDetailModal({
           </div>
         </ModalBody>
         <ModalFooter>
-          <DeleteTaskForm 
-            taskId={selectedTask.id} 
-            boardId={boardId} 
-            columnId={selectedTask.columnId}
-            onCloseModal={onClose}
-          />
           <Button onClick={onClose}>Close</Button>
         </ModalFooter>
         </>
