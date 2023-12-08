@@ -27,7 +27,7 @@ export default function TaskDetailModal({
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size='3xl'>
+    <Modal isOpen={isOpen} onClose={onClose} size='3xl' scrollBehavior='outside'>
       <ModalContent>
       {selectedTask ? (
         <>
