@@ -73,20 +73,27 @@ export async function handleEditTask(data: TaskEditData) {
 
 // DELETE TASK
 export async function handleDeleteTask(data: TaskDeletionData) {
+    console.log('handleDeleteTask called with data:', data);
 
     const parse = DeleteTaskSchema.safeParse(data);
+    console.log('Validation result:', parse);
 
     if (!parse.success) {
+        console.log('Validation failed');
         return { success: false, message: 'Failed to delete task due to validation error' };
     }
 
     try {
+        console.log('Deleting task with id:', parse.data.id);
         const deletedTask = await prisma.task.delete({
             where: { id: parse.data.id },
             select: { order: true }
         });
 
+        console.log('Deleted task:', deletedTask);
+
         if (deletedTask) {
+            console.log('Updating task order for columnId:', parse.data.columnId);
             await prisma.task.updateMany({
                 where: {
                     columnId: parse.data.columnId,
@@ -98,9 +105,11 @@ export async function handleDeleteTask(data: TaskDeletionData) {
             });
         }
 
+        console.log('Revalidating path for boardId:', parse.data.boardId);
         revalidatePath(`/board/${parse.data.boardId}`);
         return { success: true, message: `Deleted task` };
     } catch (e) {
+        console.error('Error in handleDeleteTask:', e);
         return { success: false, message: 'Failed to delete task' };
     }
 }
