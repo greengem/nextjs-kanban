@@ -36,7 +36,7 @@ export default function ColourPicker() {
 
     return (
         <>
-        <ul className="flex flex-wrap gap-2 justify-center">
+        <ul className="flex gap-2 justify-center">
             {themes.map(theme => (
                 <li key={theme.name}>
                     <div 
