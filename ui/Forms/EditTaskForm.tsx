@@ -54,7 +54,7 @@ export default function EditTaskForm({
           <button 
             type="submit" 
             disabled={isSubmitting}
-            className="px-4 py-1 bg-purple-500 text-white rounded-md text-sm flex justify-center items-center"
+            className="px-4 py-1 bg-primary text-white rounded-md text-sm flex justify-center items-center"
           >
             {isSubmitting ? (
               <>

@@ -64,7 +64,7 @@ export default function ColumnActions({
                         className="pl-0 mb-2"
                     />
                     <div className="flex gap-2">
-                        <Button size="sm" color="secondary" onClick={handleSave}>Save</Button>
+                        <Button size="sm" color="primary" onClick={handleSave}>Save</Button>
                         <Button size="sm" onClick={handleCancel}>Cancel</Button>
                     </div>
                 </div>

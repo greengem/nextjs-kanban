@@ -26,7 +26,7 @@ const SidebarLinks = [
 export default function SidebarNav() {
     const { isSlimSidebar } = useSidebarVisibility();
     return (
-        <ul className="px-5 space-y-5 text-sm text-purple-500">
+        <ul className="px-5 space-y-5 text-sm text-primary">
             {SidebarLinks.map((link, index) => (
                 <li key={index}>
                 <Link href={link.path} className="flex items-center space-x-3">

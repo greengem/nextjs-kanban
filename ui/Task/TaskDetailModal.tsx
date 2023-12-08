@@ -63,7 +63,7 @@ export default function TaskDetailModal({
                       defaultValue={selectedTask.description || ''}
                     />
                     <div className='flex gap-2'>
-                      <Button size='sm' color='secondary'>Save</Button>
+                      <Button size='sm' color='primary'>Save</Button>
                       <Button size='sm' onClick={toggleEditDescription}>Cancel</Button>
                     </div>
                   </>
@@ -81,7 +81,7 @@ export default function TaskDetailModal({
                   defaultValue='low'
                   label="Select your task priority"
                 >
-                  <Radio color='secondary' value="none">None</Radio>
+                  <Radio color='primary' value="none">None</Radio>
                   <Radio color='success' value="low">Low</Radio>
                   <Radio color='warning' value="medium">Medium</Radio>
                   <Radio color='danger' value="high">High</Radio>
@@ -96,12 +96,9 @@ export default function TaskDetailModal({
 
             <div className='col-span-1 space-y-2'>
               <h4 className='text-sm text-zinc-500'>Add to card</h4>
-              <div className='bg-purple-500 p-5 text-white'>Item</div>
-              <div className='bg-purple-500 p-5 text-white'>Item</div>
+              <div className='bg-primary p-5 text-white'>Item</div>
               <h4 className='text-sm text-zinc-500'>Actions</h4>
-              <div className='bg-purple-500 p-5 text-white'>Item</div>
-              <div className='bg-purple-500 p-5 text-white'>Item</div>
-              <div className='bg-purple-500 p-5 text-white'>Item</div>
+              <div className='bg-primary p-5 text-white'>Item</div>
             </div>
 
           </div>

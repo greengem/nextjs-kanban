@@ -28,7 +28,7 @@ export default async function Boards() {
                 flex flex-col justify-end relative
                 hover:bg-zinc-800
               ">
-                <span className="absolute text-xs top-2 right-2 bg-zinc-800 w-10 h-6 rounded-lg flex items-center justify-center text-purple-500 gap-1"><IconList size={16} />3</span>
+                <span className="absolute text-xs top-2 right-2 bg-zinc-800 w-10 h-6 rounded-lg flex items-center justify-center text-primary gap-1"><IconList size={16} />3</span>
                 {board.title}
               </CardBody>
             </Card>

@@ -13,11 +13,11 @@ interface TaskItemProps {
 
 export default function TaskItem({ task, onTaskClick, dragHandleProps }: TaskItemProps) {
   return (
-    <div className='flex select-none rounded-lg bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-purple-500'>
+    <div className='flex select-none rounded-lg bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
 
       <div className='pl-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
-        <IconGripVertical className='text-purple-500' size={22} />
+        <IconGripVertical className='text-primary' size={22} />
       </div>
 
       <div className='flex-grow px-3 py-2' onClick={() => onTaskClick(task)}>

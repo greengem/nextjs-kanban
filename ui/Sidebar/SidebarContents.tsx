@@ -22,6 +22,7 @@ export default function SidebarContents() {
         overflow-hidden 
         bg-zinc-900
         transition-width duration-500 ease-in-out 
+        opacity-80
         ${determineWidthClass()}`}
       >
         <div className="h-full">

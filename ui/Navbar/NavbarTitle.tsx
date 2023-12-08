@@ -7,7 +7,7 @@ export default function NavbarTitle() {
     const { toggleSidebar, isSidebarVisible } = useSidebarVisibility();
 
     return (
-        <div className="flex items-center my-2">
+        <div className="flex items-center my-2 w-15 shrink-0 grow-0">
             {!isSidebarVisible && (
                 <button onClick={toggleSidebar} className="mr-3"><IconMenu2 /></button>
             )}
