@@ -25,7 +25,6 @@ export async function handleCreateTask(data: TaskCreationData) {
             data: {
                 title: parse.data.title,
                 description: parse.data.description,
-                priority: parse.data.priority,
                 columnId: parse.data.columnId,
                 order: newOrder,
             }
@@ -57,7 +56,6 @@ export async function handleEditTask(data: TaskEditData) {
             data: {
                 title: parse.data.title,
                 description: parse.data.description,
-                priority: parse.data.priority,
             }
         });
 

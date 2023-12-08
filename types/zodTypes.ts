@@ -27,7 +27,6 @@ export const DeleteColumnSchema = z.object({
 export const CreateTaskSchema = z.object({
     title: z.string().min(1), 
     description: z.union([z.string(), z.null()]).optional(),
-    priority: z.union([z.string(), z.null()]).optional(),
     columnId: z.string().min(1),
     boardId: z.string().min(1),
 });
@@ -42,7 +41,6 @@ export const EditTaskSchema = z.object({
     id: z.string().min(1),
     title: z.string().min(1), 
     description: z.union([z.string(), z.null()]).optional(),
-    priority: z.union([z.string(), z.null()]).optional(),
     boardId: z.string().min(1),
 });
 

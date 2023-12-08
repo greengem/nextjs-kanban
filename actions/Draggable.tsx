@@ -9,7 +9,6 @@ const TaskSchema = z.object({
     id: z.string(),
     title: z.string(),
     description: z.string().nullable(),
-    priority: z.string().nullable(),
     dueDate: z.date().nullable(),
     order: z.number(),
 });
@@ -74,7 +73,6 @@ export async function handleUpdateBoard(formData: any) {
                                 create: column.tasks.map((task: TaskSummary) => ({
                                     title: task.title,
                                     description: task.description,
-                                    priority: task.priority,
                                     dueDate: task.dueDate,
                                     order: task.order,
                                 })),

@@ -23,7 +23,6 @@ export async function PUT(request, { params }) {
                                 create: column.tasks.map(task => ({
                                     title: task.title,
                                     description: task.description,
-                                    priority: task.priority,
                                     dueDate: task.dueDate,
                                     order: task.order,
                                 })),

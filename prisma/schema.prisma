@@ -46,6 +46,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   boards        Board[]
+  labels        Label[]
 }
 
 model VerificationToken {
@@ -63,6 +64,7 @@ model Board {
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   columns     Column[]
+  labels  Label[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -79,14 +81,52 @@ model Column {
 }
 
 model Task {
-  id          String    @id @default(cuid())
+  id          String         @id @default(cuid())
   title       String
   description String?
-  priority    String?
   dueDate     DateTime?
+  startDate   DateTime?      // New field for start date
   columnId    String
-  column      Column    @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  column      Column         @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  labels      LabelOnTask[]
+  checklists  Checklist[]    // Relation to Checklist
   order       Int
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model Label {
+  id      String  @id @default(cuid())
+  name    String
+  color   String
+  userId  String
+  user    User    @relation(fields: [userId], references: [id])
+  boardId String
+  board   Board   @relation(fields: [boardId], references: [id])
+  tasks   LabelOnTask[]
+}
+
+model LabelOnTask {
+  labelId String
+  taskId  String
+  label   Label    @relation(fields: [labelId], references: [id])
+  task    Task     @relation(fields: [taskId], references: [id])
+
+  @@id([labelId, taskId])
+}
+
+model Checklist {
+  id        String           @id @default(cuid())
+  title     String
+  taskId    String
+  task      Task             @relation(fields: [taskId], references: [id])
+  items     ChecklistItem[]
+}
+
+model ChecklistItem {
+  id          String     @id @default(cuid())
+  content     String
+  isChecked   Boolean    @default(false)
+  checklistId String
+  checklist   Checklist  @relation(fields: [checklistId], references: [id])
 }

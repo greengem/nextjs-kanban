@@ -35,10 +35,10 @@ export default function TaskDetailModal({
           <IconCards size={20} className='mt-1 w-5' />
           <div className='flex-col'>
             <h2>{selectedTask.title}</h2>
-            <div className='text-sm text-zinc-500 font-normal'>
+            <div className='text-xs text-zinc-500 font-normal'>
               <p>In list Col Name</p>
-              <p>Created: {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')}</p>
-              <p>Last Updated: {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>
+              <p>Created on {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')} | Updated on {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>
+              <p></p>
             </div>
           </div>
         </ModalHeader>
@@ -68,24 +68,6 @@ export default function TaskDetailModal({
                     </div>
                   </>
                 )}
-              </div>
-            </div>
-
-            <div className='flex gap-2 w-full'>
-              <IconExclamationCircle size={20} className='mt-1 w-5' />
-              <div className='flex-col w-full'>
-                <h4 className='text-large font-semibold'>Priority</h4>
-                <RadioGroup 
-                  orientation="horizontal" 
-
-                  defaultValue='low'
-                  label="Select your task priority"
-                >
-                  <Radio color='primary' value="none">None</Radio>
-                  <Radio color='success' value="low">Low</Radio>
-                  <Radio color='warning' value="medium">Medium</Radio>
-                  <Radio color='danger' value="high">High</Radio>
-                </RadioGroup>
               </div>
             </div>
 

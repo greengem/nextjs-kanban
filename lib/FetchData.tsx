@@ -59,7 +59,6 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                             id: true,
                             title: true,
                             description: true,
-                            priority: true,
                             dueDate: true,
                             createdAt: true,
                             updatedAt: true,

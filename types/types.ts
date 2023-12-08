@@ -6,7 +6,7 @@ export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order' | 'createdAt
     tasks: TaskSummary[];
 };
 
-export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'priority' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'>;
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'>;
 
 
 export type BoardDetails = BoardSummary & {
@@ -32,7 +32,6 @@ export type ColumnDeletionData = {
 export type TaskCreationData = {
     title: Task['title'];
     description?: Task['description'];
-    priority: Task['priority'];
     boardId: Board['id'];
     columnId: Column['id'];
 };
@@ -41,7 +40,6 @@ export type TaskEditData = {
     id: Task['id'];
     title: Task['title'];
     description?: Task['description'];
-    priority: Task['priority'];
     boardId: Board['id'];
 };
 
