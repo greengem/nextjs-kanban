@@ -36,12 +36,12 @@ export default function ColourPicker() {
 
     return (
         <>
-        <ul className="gap-2 justify-center hidden md:flex">
+        <ul className="gap-2 justify-center flex overflow-x-scroll no-scrollbar py-2 px-5">
             {themes.map(theme => (
                 <li key={theme.name}>
                     <div 
                         onClick={() => setTheme(theme.name)} 
-                        className={`rounded-full h-6 w-6 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
+                        className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
                     />
                 </li>
             ))}
