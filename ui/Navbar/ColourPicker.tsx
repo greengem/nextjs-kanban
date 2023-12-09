@@ -36,7 +36,7 @@ export default function ColourPicker() {
 
     return (
         <>
-        <ul className="flex gap-2 justify-center hidden md:block">
+        <ul className="gap-2 justify-center hidden md:flex">
             {themes.map(theme => (
                 <li key={theme.name}>
                     <div 

@@ -12,7 +12,7 @@ export default function NavbarTitle() {
                 <button onClick={toggleSidebar} className="mr-3"><IconMenu2 /></button>
             )}
             <p className="font-semibold text-lg tracking-tight">
-                <Link href='/dashboard/'>Reactify Tasks</Link></p>
+                <Link href='/dashboard/'>Next.Kanban</Link></p>
         </div>
     )
 }
