@@ -150,26 +150,39 @@ export default function Board({ board: initialBoard }: BoardProps) {
                         {(provided) => (
                           <CardBody>
                             <div ref={provided.innerRef} {...provided.droppableProps}>
-                              {column.tasks.map((task, taskIndex) => (
-                                <Draggable key={task.id} draggableId={task.id} index={taskIndex}>
-                                  {(provided) => (
-                                    <div
-                                      ref={provided.innerRef}
-                                      {...provided.draggableProps}
-                                      className={`mb-2`}
-                                    >
-                                      <TaskItem
-                                        task={task}
-                                        onTaskClick={handleTaskClick}
-                                        dragHandleProps={provided.dragHandleProps}
-                                      />
-                                    </div>
-                                  )}
-                                </Draggable>
-                              ))}
+                              {column.tasks.length === 0 ? (
+                                <div className="
+                                  bg-zinc-800 text-zinc-400
+                                  text-center text-sm
+                                  py-3
+                                  rounded-lg
+                                  border-dashed border-3 border-zinc-700
+                                ">
+                                  Drop here
+                                </div>
+                              ) : (
+                                column.tasks.map((task, taskIndex) => (
+                                  <Draggable key={task.id} draggableId={task.id} index={taskIndex}>
+                                    {(provided) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        className="mb-2"
+                                      >
+                                        <TaskItem
+                                          task={task}
+                                          onTaskClick={handleTaskClick}
+                                          dragHandleProps={provided.dragHandleProps}
+                                        />
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                ))
+                              )}
                               {provided.placeholder}
                             </div>
                           </CardBody>
+
                         )}
                       </Droppable>
   
