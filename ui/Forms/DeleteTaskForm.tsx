@@ -37,21 +37,21 @@ export default function DeleteTaskForm({
         <input type="hidden" {...register('id')} />
         <input type="hidden" {...register('boardId')} />
         <input type="hidden" {...register('columnId')} />
-        <Button 
+        <button 
           type="submit" 
-          color='danger'
+          className='flex items-center gap-2 w-full'
           disabled={isSubmitting}
         >
             {isSubmitting ? (
               <>
-                Deleting <IconLoader2 size={14} className="animate-spin" />
+                <IconLoader2 size={14} className="animate-spin" /> Deleting
               </>
             ) : (
               <>
-                Delete <IconTrash size={14} />
+                <IconTrash size={14} /> Delete
               </>
             )}
-        </Button>
+        </button>
       </form>
     </>
   )
