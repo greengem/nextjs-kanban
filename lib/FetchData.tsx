@@ -1,6 +1,7 @@
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { BoardSummary, BoardDetails } from '@/types/types';
+import { Task } from '@prisma/client';
 
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
     const session = await auth();
@@ -72,4 +73,28 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
     });
 
     return board;
+}
+
+
+
+export async function getTask(id: string): Promise<Task | null> {
+    const task = await prisma.task.findUnique({
+        where: {
+            id: id,
+        },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            dueDate: true,
+            startDate: true,
+            columnId: true,
+            createdAt: true,
+            updatedAt: true,
+            order: true,
+            
+        },
+    });
+
+    return task;
 }
