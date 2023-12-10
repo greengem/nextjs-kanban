@@ -15,7 +15,9 @@ export default function EditTaskNameForm({
   title: string; taskId: string; boardId: string; 
 }) {
   const [isEditing, setIsEditing] = useState(false);
+
   const toggleEdit = () => setIsEditing(!isEditing);
+
   const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<TaskEditData>({
     resolver: zodResolver(EditTaskSchema),
     defaultValues: { id: taskId, boardId, title }
@@ -46,7 +48,6 @@ export default function EditTaskNameForm({
         <div>
           <input 
             autoFocus 
-            
             type='text' 
             {...register('title')}
             className="mb-2 w-full p-2 rounded bg-zinc-900 border-none focus:outline-none" 
