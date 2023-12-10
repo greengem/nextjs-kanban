@@ -62,6 +62,7 @@ export default function ColumnActions({
                       value={editedTitle}
                       onChange={(e) => setEditedTitle(e.target.value)}
                       className="pl-0 mb-2"
+                      autoFocus
                   />
                   <div className="flex gap-2">
                       <Button size="sm" color="primary" onClick={handleSave}>Save</Button>
