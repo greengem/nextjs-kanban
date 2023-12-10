@@ -146,7 +146,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className='shrink-0 w-64 md:w-72 lg:w-80 xl:w-96 mr-5'
+                    className='shrink-0 w-64 md:w-72 lg:w-80 mr-5'
                   >
                     <Card>
                       <CardHeader 
