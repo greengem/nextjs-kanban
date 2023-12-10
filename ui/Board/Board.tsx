@@ -6,12 +6,10 @@ import { BoardDetails, TaskSummary } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 import TaskItem from "@/ui/Task/TaskItem";
-import DeleteColumnForm from '../Forms/DeleteColumnForm';
 import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
-import TaskDetailModal from '@/ui/Task/TaskDetailModal';
-import { Button } from '@nextui-org/button';
-import { IconMenu2 } from '@tabler/icons-react';
 import ColumnActions from './ColumnActions';
+import TaskModal from '../TaskModal/TaskModal';
+
 interface BoardProps {
   board: BoardDetails;
 }
@@ -116,6 +114,21 @@ export default function Board({ board: initialBoard }: BoardProps) {
   useEffect(() => {
     setBoard(initialBoard);
   }, [initialBoard]);
+
+  useEffect(() => {
+    if (selectedTask) {
+      // Find the updated task in the new board state
+      const updatedTask = board.columns
+        .flatMap(column => column.tasks)
+        .find(task => task.id === selectedTask.id);
+  
+      // Update selectedTask if the task data has changed
+      if (updatedTask && (updatedTask !== selectedTask)) {
+        setSelectedTask(updatedTask);
+      }
+    }
+  }, [board, selectedTask]);
+  
   
   return (
     <>
@@ -133,7 +146,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}
-                    className='shrink-0 w-72 mr-5'
+                    className='shrink-0 w-64 md:w-72 lg:w-80 xl:w-96 mr-5'
                   >
                     <Card>
                       <CardHeader 
@@ -201,7 +214,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
       </Droppable>
     </DragDropContext>
 
-    <TaskDetailModal
+    <TaskModal
       isOpen={isOpen}
       onClose={handleCloseModal}
       selectedTask={selectedTask}
