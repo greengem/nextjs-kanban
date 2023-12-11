@@ -1,8 +1,9 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { Session } from "next-auth";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { useDisclosure } from '@nextui-org/react';
-import { BoardDetails, TaskSummary } from "@/types/types";
+import { BoardDetails, ExpandedTask } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 import TaskItem from "@/ui/Task/TaskItem";
@@ -12,24 +13,22 @@ import TaskModal from '../TaskModal/TaskModal';
 
 interface BoardProps {
   board: BoardDetails;
+  session: Session | null;
 }
 
-export default function Board({ board: initialBoard }: BoardProps) {
-  // State for entire Board data
+export default function Board({ board: initialBoard, session }: BoardProps) {
   const [board, setBoard] = useState(initialBoard);
-
-  //State to track selected task for modal
-  const [selectedTask, setSelectedTask] = useState<TaskSummary | null>(null);
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null); // Store only the task ID
   const { isOpen, onOpen, onClose } = useDisclosure();
-  
-  const handleTaskClick = (task: TaskSummary) => {
-    setSelectedTask(task);
-    onOpen(); // Opens the modal
+
+  const handleTaskClick = (task: ExpandedTask) => {
+      setSelectedTaskId(task.id); // Store the ID of the clicked task
+      onOpen();
   };
-  
+
   const handleCloseModal = () => {
-    onClose(); // Closes the modal
-    setSelectedTask(null); // Clears selected task when modal closes
+      onClose();
+      setSelectedTaskId(null); // Reset the selected task ID
   };
   
   // Handle DnD Drag End
@@ -114,21 +113,6 @@ export default function Board({ board: initialBoard }: BoardProps) {
   useEffect(() => {
     setBoard(initialBoard);
   }, [initialBoard]);
-
-  useEffect(() => {
-    if (selectedTask) {
-      // Find the updated task in the new board state
-      const updatedTask = board.columns
-        .flatMap(column => column.tasks)
-        .find(task => task.id === selectedTask.id);
-  
-      // Update selectedTask if the task data has changed
-      if (updatedTask && (updatedTask !== selectedTask)) {
-        setSelectedTask(updatedTask);
-      }
-    }
-  }, [board, selectedTask]);
-  
   
   return (
     <>
@@ -217,8 +201,9 @@ export default function Board({ board: initialBoard }: BoardProps) {
     <TaskModal
       isOpen={isOpen}
       onClose={handleCloseModal}
-      selectedTask={selectedTask}
+      taskId={selectedTaskId ?? ''}
       boardId={board.id}
+      session={session}
     />
 </>
   );
