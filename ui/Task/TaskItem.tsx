@@ -1,11 +1,9 @@
 import { IconGripVertical } from '@tabler/icons-react';
-import { TaskSummary } from '@/types/types';
-import { IconInfoCircle } from '@tabler/icons-react';
-import { Button } from '@nextui-org/button';
+import { ExpandedTask } from '@/types/types';
 
 interface TaskItemProps {
-  task: TaskSummary;
-  onTaskClick: (task: TaskSummary) => void;
+  task: ExpandedTask;
+  onTaskClick: (task: ExpandedTask) => void;
   dragHandleProps: any;
 }
 
