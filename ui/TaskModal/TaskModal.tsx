@@ -39,12 +39,10 @@ export default function TaskModal({
 
         <ModalBody>
           <div className='grid grid-cols-1 md:grid-cols-4 gap-5'>
+
             <div className='col-span-3 space-y-5'>
               <TaskModalDescription selectedTask={selectedTask} boardId={boardId} />
               <TaskModalActivity />
-              {selectedTask.dueDate && 
-                <p>Due Date: {format(new Date(selectedTask.dueDate), 'MMMM d, yyyy')}</p>
-              }
             </div>
 
             <div className='col-span-1 space-y-2'>
@@ -54,6 +52,7 @@ export default function TaskModal({
 
           </div>
         </ModalBody>
+        
         <ModalFooter>
           <Button onClick={onClose}>Close</Button>
         </ModalFooter>

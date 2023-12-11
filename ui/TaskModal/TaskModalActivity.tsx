@@ -7,10 +7,11 @@ import { Button } from "@nextui-org/button"
 export default function TaskModalActivity() {
 
     return (
+        <>
         <div className='flex gap-2 w-full'>
             <IconActivity size={20} className='mt-1 w-5' />
-            <div className='flex-col w-full'>
-                <h4 className='text-large font-semibold mb-2'>Activity</h4>
+            <h4 className='text-large font-semibold'>Activity</h4>
+        </div>
                 <div className="flex gap-3 mb-3">
                     <Avatar 
                         showFallback 
@@ -31,7 +32,6 @@ export default function TaskModalActivity() {
                 <ul>
                     <TaskModalActivityItem />
                 </ul>
-            </div>
-        </div>
+        </>
     )
 }

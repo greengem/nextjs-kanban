@@ -47,6 +47,7 @@ model User {
   sessions      Session[]
   boards        Board[]
   labels        Label[]
+  activities Activity[]
 }
 
 model VerificationToken {
@@ -67,6 +68,7 @@ model Board {
   labels  Label[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  activities Activity[]
 }
 
 model Column {
@@ -93,6 +95,7 @@ model Task {
   order       Int
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+  activities Activity[]
 }
 
 model Label {
@@ -129,4 +132,25 @@ model ChecklistItem {
   isChecked   Boolean    @default(false)
   checklistId String
   checklist   Checklist  @relation(fields: [checklistId], references: [id])
+}
+
+model Activity {
+  id          String     @id @default(cuid())
+  type        ActivityType
+  content     String?
+  createdAt   DateTime   @default(now())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  taskId      String?
+  task        Task?      @relation(fields: [taskId], references: [id])
+  boardId     String?
+  board       Board?     @relation(fields: [boardId], references: [id])
+}
+
+enum ActivityType {
+  TASK_CREATED
+  TASK_UPDATED
+  TASK_DELETED
+  COMMENT_ADDED
+  BOARD_UPDATED
 }
