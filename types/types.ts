@@ -1,20 +1,29 @@
-import { Board, Column, Task } from "@prisma/client";
+import { Board, Column, Task, Activity, User } from "@prisma/client";
 
 export type BoardSummary = Pick<Board, 'id' | 'title' | 'description' | 'createdAt' | 'updatedAt'>;
-
-export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order' | 'createdAt' | 'updatedAt'> & {
-    tasks: TaskSummary[];
-};
-
-export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'>;
-
 
 export type BoardDetails = BoardSummary & {
     columns: ColumnWithTasks[];
 };
 
-// Form validation
+export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order' | 'createdAt' | 'updatedAt'> & {
+    tasks: ExpandedTask[];
+};
 
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'>;
+
+export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
+    activities: ActivityWithUser[];
+    columnTitle?: string;
+};
+
+
+export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'createdAt'> & {
+    user: Pick<User, 'id' | 'name' | 'image'>
+};
+
+
+// Form validation
 export type BoardCreationData = Pick<Board, 'title' | 'description'>;
 
 export type BoardDeletionData = Pick<Board, 'id'>;
@@ -47,4 +56,16 @@ export type TaskDeletionData = {
     id: Task['id'];
     boardId: Board['id'];
     columnId: Column['id'];
+};
+
+export type ActivityCreationData = {
+    type?: Activity['type'];
+    content: Activity['content'];
+    boardId: Board['id'];
+    taskId: Task['id'];
+};
+
+export type ActivityDeletionData = {
+    boardId: Board['id'];
+    activityId: Activity['id'];
 };

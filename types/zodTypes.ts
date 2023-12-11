@@ -49,3 +49,16 @@ export const DeleteTaskSchema = z.object({
     columnId: z.string().min(1),
     boardId: z.string().min(1),
 });
+
+
+// Activity
+export const CreateActivitySchema = z.object({
+    content: z.string().min(1), 
+    taskId: z.string().min(1),
+    boardId: z.string().min(1),
+});
+
+export const DeleteActivitySchema = z.object({
+    activityId: z.string().min(1),
+    boardId: z.string().min(1),
+});
