@@ -65,6 +65,24 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                             updatedAt: true,
                             order: true,
                             columnId: true,
+                            activities: {
+                                orderBy: {
+                                    createdAt: 'desc'
+                                },
+                                select: {
+                                    id: true,
+                                    type: true,
+                                    content: true,
+                                    createdAt: true,
+                                    user: {
+                                        select: {
+                                            id: true,
+                                            name: true,
+                                            image: true,
+                                        }
+                                    },
+                                }
+                            }
                         },
                     },
                 },
@@ -74,6 +92,7 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
 
     return board;
 }
+
 
 
 
