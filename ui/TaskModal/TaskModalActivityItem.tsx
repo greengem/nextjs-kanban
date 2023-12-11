@@ -50,6 +50,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                 showFallback 
                 name={activity.user.name ?? 'Unknown'} 
                 src={activity.user.image ?? undefined} 
+                className="shrink-0 grow-0"
             />
 
             {activity.type === 'COMMENT_ADDED' ? (
