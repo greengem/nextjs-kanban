@@ -1,12 +1,14 @@
 'use server';
 import prisma from '@/db/prisma';
+import { auth } from "@/auth";
 import { revalidatePath } from 'next/cache'
 import { CreateTaskSchema, EditTaskSchema, DeleteTaskSchema } from '@/types/zodTypes';
 import { TaskCreationData, TaskEditData, TaskDeletionData } from '@/types/types';
 
 // Create Task
 export async function handleCreateTask(data: TaskCreationData) {
-
+    const session = await auth();
+    const userId = session?.user?.id;
     const parse = CreateTaskSchema.safeParse(data);
 
     if (!parse.success) {
@@ -21,7 +23,8 @@ export async function handleCreateTask(data: TaskCreationData) {
         });
         const newOrder = (maxOrderTask?.order || 0) + 1;
 
-        await prisma.task.create({
+        // Store the result of task creation
+        const createdTask = await prisma.task.create({
             data: {
                 title: parse.data.title,
                 description: parse.data.description,
@@ -30,6 +33,19 @@ export async function handleCreateTask(data: TaskCreationData) {
             }
         });
 
+        // Add activity logging
+        if (createdTask && userId) {
+            await prisma.activity.create({
+                data: {
+                    type: 'TASK_CREATED',
+                    content: `added this card to`,
+                    userId: userId,
+                    taskId: createdTask.id,
+                    boardId: parse.data.boardId
+                }
+            });
+        }
+
         revalidatePath(`/board/${parse.data.boardId}`);
 
         return { success: true, message: `Added task` };
@@ -37,6 +53,7 @@ export async function handleCreateTask(data: TaskCreationData) {
         return { success: false, message: `Failed to create task` };
     }
 }
+
 
 
 // EDIT TASK
