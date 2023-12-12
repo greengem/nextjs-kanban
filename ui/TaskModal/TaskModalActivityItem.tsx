@@ -57,9 +57,9 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                         {activity.content}
                     </div>
                     <div className="flex gap-2">
-                        <button onClick={handleReaction}><IconMoodPlus size={18} /></button>
-                        <button onClick={handleEdit}><IconEdit size={18} /></button>
-                        <button onClick={handleDelete}><IconTrash className="text-red-500" size={18} /></button>
+                        <button onClick={handleReaction}><IconMoodPlus className='text-zinc-500' size={16} /></button>
+                        <button onClick={handleEdit}><IconEdit className='text-zinc-500' size={16} /></button>
+                        <button onClick={handleDelete}><IconTrash className="text-red-500" size={16} /></button>
                     </div>
                 </div>
             ) : (
