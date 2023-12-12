@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
-import { TaskEditData } from '@/types/types';
+import { ExpandedTask, TaskEditData } from '@/types/types';
 import { Textarea } from "@nextui-org/react";
 import { Button } from '@nextui-org/react';
 import { IconTextPlus, IconLoader2, IconX } from '@tabler/icons-react';
@@ -13,7 +13,7 @@ import { IconTextPlus, IconLoader2, IconX } from '@tabler/icons-react';
 export default function TaskModalDescription({ 
     selectedTask, boardId
 } : {
-    selectedTask: any; boardId: string;
+    selectedTask: ExpandedTask; boardId: string;
 }) {
     const [isEditingDescription, setIsEditingDescription] = useState(false);
 

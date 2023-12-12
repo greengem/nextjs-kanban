@@ -2,9 +2,9 @@ import DeleteTaskForm from '@/ui/Forms/DeleteTaskForm';
 import { IconArrowRight, IconTrash } from '@tabler/icons-react';
 
 export default function TaskModalActions({
-    selectedTask, boardId, onClose,
+    selectedTask, boardId,
 } : {
-    selectedTask: any, boardId: string, onClose: any;
+    selectedTask: any, boardId: string,
 }) {
     return (
         <>
@@ -16,7 +16,6 @@ export default function TaskModalActions({
                     taskId={selectedTask.id} 
                     boardId={boardId} 
                     columnId={selectedTask.columnId}
-                    onCloseModal={onClose}
                   />
                 </li>
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-1 rounded-md'><IconTrash size={14} /> Make Template</li>

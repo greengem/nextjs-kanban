@@ -1,4 +1,5 @@
 'use client'
+import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
@@ -9,10 +10,12 @@ import { IconLoader2, IconTrash } from "@tabler/icons-react";
 import { Button } from '@nextui-org/button';
 
 export default function DeleteTaskForm({ 
-  boardId, taskId, columnId, onCloseModal 
+  boardId, taskId, columnId,
 } : { 
-  boardId: string; taskId: string; columnId: string; onCloseModal: () => void; 
+  boardId: string; taskId: string; columnId: string;
 }) {
+  const router = useRouter();
+
   const { register, handleSubmit, formState: { isSubmitting } } = useForm<TaskDeletionData>({
     resolver: zodResolver(DeleteTaskSchema),
     defaultValues: { id: taskId, boardId, columnId }
@@ -24,7 +27,7 @@ export default function DeleteTaskForm({
   
       if (response.success) {
         toast.success('Task Deleted');
-        onCloseModal();
+        router.back();
       } else {
         toast.error(response.message);
       }

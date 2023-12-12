@@ -1,3 +1,4 @@
+import { ExpandedTask } from '@/types/types';
 import EditTaskNameForm from '@/ui/Forms/EditTaskNameForm';
 import { IconCards } from '@tabler/icons-react';
 import { format } from 'date-fns';
@@ -5,7 +6,7 @@ import { format } from 'date-fns';
 export default function TaskModalTitle( {
     selectedTask, boardId
 } : {
-    selectedTask: any; boardId: any;
+    selectedTask: ExpandedTask; boardId: string;
 }) {
     return (
        <>
