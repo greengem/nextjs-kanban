@@ -2,14 +2,12 @@
 import { useState, useEffect } from 'react';
 import { Session } from "next-auth";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { useDisclosure } from '@nextui-org/react';
-import { BoardDetails, TaskSummary } from "@/types/types";
+import { BoardDetails } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 import TaskItem from "@/ui/Task/TaskItem";
 import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
 import ColumnActions from './ColumnActions';
-import TaskModal from '../TaskModal/TaskModal';
 
 interface BoardProps {
   board: BoardDetails;
@@ -18,18 +16,6 @@ interface BoardProps {
 
 export default function Board({ board: initialBoard, session }: BoardProps) {
   const [board, setBoard] = useState(initialBoard);
-  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const handleTaskClick = (task: TaskSummary) => {
-    setSelectedTaskId(task.id);
-    onOpen();
-  };
-
-  const handleCloseModal = () => {
-      onClose();
-      setSelectedTaskId(null);
-  };
   
   // Handle DnD Drag End
   const onDragEnd = async (result: DropResult) => {
@@ -168,7 +154,6 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
                                       >
                                         <TaskItem
                                           task={task}
-                                          onTaskClick={handleTaskClick}
                                           dragHandleProps={provided.dragHandleProps}
                                         />
                                       </div>
@@ -197,14 +182,6 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
         )}
       </Droppable>
     </DragDropContext>
-
-    <TaskModal
-      isOpen={isOpen}
-      onClose={handleCloseModal}
-      taskId={selectedTaskId ?? ''}
-      boardId={board.id}
-      session={session}
-    />
 </>
   );
 }
