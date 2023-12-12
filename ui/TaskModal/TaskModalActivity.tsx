@@ -65,7 +65,7 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
                         <input type="hidden" {...register('taskId')} />
 
                         <div className="flex gap-2">
-                        <Button type="submit">Submit</Button>
+                        <Button size="sm" type="submit">Submit</Button>
 
                         </div>
                     </form>
