@@ -18,9 +18,6 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
         select: {
             id: true,
             title: true,
-            description: true,
-            createdAt: true,
-            updatedAt: true,
         },
         orderBy: {
             createdAt: 'asc',
@@ -39,9 +36,6 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
         select: {
             id: true,
             title: true,
-            description: true,
-            createdAt: true,
-            updatedAt: true,
             columns: {
                 orderBy: {
                     order: 'asc'
@@ -50,8 +44,6 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                     id: true,
                     title: true,
                     order: true,
-                    createdAt: true,
-                    updatedAt: true,
                     tasks: {
                         orderBy: {
                             order: 'asc'
