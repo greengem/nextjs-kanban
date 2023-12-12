@@ -141,7 +141,6 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
                         <div className='flex justify-between items-center gap-2'>
                           <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
                         </div>
-                        {column.id}
                       </CardHeader>
   
                       <Droppable droppableId={column.id} type="TASK">
