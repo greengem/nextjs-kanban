@@ -6,8 +6,8 @@ import toast from 'react-hot-toast';
 import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
 import { ExpandedTask, TaskEditData } from '@/types/types';
-import { Textarea } from "@nextui-org/react";
-import { Button } from '@nextui-org/react';
+import { Textarea } from "@nextui-org/input";
+import { Button } from '@nextui-org/button';
 import { IconTextPlus, IconLoader2, IconX } from '@tabler/icons-react';
 
 export default function TaskModalDescription({ 

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import { IconLayoutKanban } from "@tabler/icons-react";
 export default function Home() {
   return (

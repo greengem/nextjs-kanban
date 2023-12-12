@@ -5,7 +5,7 @@ import { Button } from "@nextui-org/button";
 import { IconMenu2 } from "@tabler/icons-react";
 import toast from 'react-hot-toast';
 import { handleDeleteColumn, handleEditColumn } from "@/actions/ColumnActions";
-import { Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/input";
 import { useState } from "react";
 
 export default function ColumnActions({

@@ -2,7 +2,6 @@ import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Input } from "@nextui-org/input";
 import {CheckboxGroup, Checkbox} from "@nextui-org/checkbox";
 import { IconEdit, IconTag } from '@tabler/icons-react';
-import { cn } from "@nextui-org/react";
 
 export default function TaskModalLabelAddToCard() {
     return(

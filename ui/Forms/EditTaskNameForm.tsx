@@ -7,7 +7,7 @@ import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
 import { TaskEditData } from '@/types/types';
 import { IconLoader2, IconX } from "@tabler/icons-react";
-import { Button } from '@nextui-org/react';
+import { Button } from '@nextui-org/button';
 
 export default function EditTaskNameForm({ 
   title, taskId, boardId 
