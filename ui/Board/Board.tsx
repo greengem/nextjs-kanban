@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Session } from "next-auth";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
 import { useDisclosure } from '@nextui-org/react';
-import { BoardDetails, ExpandedTask } from "@/types/types";
+import { BoardDetails, TaskSummary } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 import TaskItem from "@/ui/Task/TaskItem";
@@ -21,9 +21,9 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
   const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleTaskClick = (task: ExpandedTask) => {
-      setSelectedTaskId(task.id);
-      onOpen();
+  const handleTaskClick = (task: TaskSummary) => {
+    setSelectedTaskId(task.id);
+    onOpen();
   };
 
   const handleCloseModal = () => {

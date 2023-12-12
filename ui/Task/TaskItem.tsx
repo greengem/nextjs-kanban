@@ -1,9 +1,9 @@
 import { IconGripVertical } from '@tabler/icons-react';
-import { ExpandedTask } from '@/types/types';
+import { TaskSummary, ExpandedTask } from '@/types/types';
 
 interface TaskItemProps {
-  task: ExpandedTask;
-  onTaskClick: (task: ExpandedTask) => void;
+  task: TaskSummary;
+  onTaskClick: (task: TaskSummary) => void;
   dragHandleProps: any;
 }
 
