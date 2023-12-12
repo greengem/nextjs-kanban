@@ -7,10 +7,10 @@ export type BoardDetails = BoardSummary & {
 };
 
 export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order'> & {
-    tasks: ExpandedTask[];
+    tasks: TaskSummary[];
 };
 
-export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'>;
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'columnId'>;
 
 export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
     activities: ActivityWithUser[];
