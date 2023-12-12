@@ -14,7 +14,7 @@ export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'columnId'>;
 
 export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
     activities: ActivityWithUser[];
-    column: Pick<Column, 'title'>;
+    column: Pick<Column, 'title' | 'boardId'>;
 };
 
 export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'createdAt'> & {
