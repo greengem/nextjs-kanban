@@ -51,30 +51,8 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
                         select: {
                             id: true,
                             title: true,
-                            description: true,
-                            dueDate: true,
-                            createdAt: true,
-                            updatedAt: true,
                             order: true,
                             columnId: true,
-                            activities: {
-                                orderBy: {
-                                    createdAt: 'desc'
-                                },
-                                select: {
-                                    id: true,
-                                    type: true,
-                                    content: true,
-                                    createdAt: true,
-                                    user: {
-                                        select: {
-                                            id: true,
-                                            name: true,
-                                            image: true,
-                                        }
-                                    },
-                                }
-                            }
                         },
                     },
                 },
