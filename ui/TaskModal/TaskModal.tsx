@@ -79,7 +79,7 @@ export default function TaskModal({
                 activities={taskData.activities} 
                 taskId={taskData.id}
                 boardId={boardId}
-                columnTitle={taskData.columnTitle} 
+                columnTitle={taskData.column?.title}
                 session={session} 
               />
             </div>
