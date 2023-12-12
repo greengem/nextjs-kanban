@@ -48,7 +48,6 @@ export async function handleFetchTask(taskId: string) {
             return { success: false, message: 'Task not found' };
         }
     } catch (e) {
-        console.error('Error fetching task:', e);
         return { success: false, message: 'Failed to fetch task' };
     }
 }
