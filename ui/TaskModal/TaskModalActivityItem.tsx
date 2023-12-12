@@ -1,28 +1,17 @@
 'use client'
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import { ActivityWithUser } from "@/types/types";
 import { Avatar } from "@nextui-org/avatar";
 import { IconEdit, IconMoodPlus, IconTrash } from "@tabler/icons-react";
 import { handleDeleteActivity } from '@/actions/ActivityActions';
-import { ActivityDeletionData } from '@/types/types';
-import { DeleteActivitySchema } from '@/types/zodTypes';
 
 interface TaskModalActivityItemProps {
     activity: ActivityWithUser;
-    columnTitle?: string;
-    boardId?: string;
+    columnTitle: string;
+    boardId: string;
 }
 
 export default function TaskModalActivityItem({ activity, columnTitle, boardId }: TaskModalActivityItemProps) {
-    const activityId = activity.id;
-
-    const { register, handleSubmit, formState: { isSubmitting } } = useForm<ActivityDeletionData>({
-        resolver: zodResolver(DeleteActivitySchema),
-        defaultValues: { boardId, activityId }
-    });
-    
     const handleEdit = () => {
         console.log("Edit comment");
         // Implement edit functionality
@@ -33,9 +22,13 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
         // Implement reaction functionality
     };
 
-    const handleDelete: SubmitHandler<ActivityDeletionData> = async (data) => {
+    const handleDelete = async () => {
         if (window.confirm('Are you sure you want to delete this activity?')) {
-            const response = await handleDeleteActivity(data);
+            const deletionData = {
+                boardId: boardId,
+                activityId: activity.id,
+            };
+            const response = await handleDeleteActivity(deletionData);
             if (response.success) {
                 toast.success('Activity Deleted');
             } else {
@@ -66,11 +59,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                     <div className="flex gap-2">
                         <button onClick={handleReaction}><IconMoodPlus size={18} /></button>
                         <button onClick={handleEdit}><IconEdit size={18} /></button>
-                        <form onSubmit={handleSubmit(handleDelete)}>
-                            <input type="hidden" {...register('boardId')} />
-                            <input type="hidden" {...register('activityId')} />
-                            <button type='submit'><IconTrash className="text-red-500" size={18} /></button>
-                        </form>
+                        <button onClick={handleDelete}><IconTrash className="text-red-500" size={18} /></button>
                     </div>
                 </div>
             ) : (

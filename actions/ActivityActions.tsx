@@ -42,23 +42,21 @@ export async function handleCreateActivity(data: ActivityCreationData) {
 
 
 // Delete Activity
-export async function handleDeleteActivity(data: ActivityDeletionData) {
+export async function handleDeleteActivity(data: { boardId: string; activityId: string; }) {
 
-    const parse = DeleteActivitySchema.safeParse(data);
-
-    if (!parse.success) {
-        return { success: false, message: 'Failed to delete activity due to validation error' };
+    if (!data.boardId || !data.activityId) {
+        return { success: false, message: 'Board ID or Activity ID is missing' };
     }
 
     try {
         await prisma.activity.delete({
-            where: { id: parse.data.activityId },
+            where: { id: data.activityId },
         });
 
-
-        revalidatePath(`/board/${parse.data.boardId}`);
-        return { success: true, message: `Deleted activity` };
+        revalidatePath(`/board/${data.boardId}`);
+        return { success: true, message: 'Deleted activity' };
     } catch (e) {
+        console.error('Error deleting activity:', e);
         return { success: false, message: 'Failed to delete activity' };
     }
 }
