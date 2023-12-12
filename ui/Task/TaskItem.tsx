@@ -9,7 +9,7 @@ interface TaskItemProps {
 
 export default function TaskItem({ task, onTaskClick, dragHandleProps }: TaskItemProps) {
   return (
-    <div className='flex select-none rounded-lg bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
+    <div className='flex select-none rounded-md bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
 
       <div className='pl-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
