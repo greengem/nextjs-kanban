@@ -15,7 +15,7 @@ import { ActivityCreationData } from "@/types/types";
 
 interface TaskModalActivityProps {
     activities: ActivityWithUser[];
-    columnTitle?: string;
+    columnTitle: string;
     boardId: string;
     taskId: string;
     session: Session | null;
@@ -73,9 +73,9 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
             </div>
 
             <ul className="space-y-3">
-                {activities && activities.map((activity, index) => (
+                {activities && activities.map((activity) => (
                     <TaskModalActivityItem 
-                        key={index}
+                        key={activity.id}
                         activity={activity}
                         columnTitle={columnTitle}
                         boardId={boardId}
