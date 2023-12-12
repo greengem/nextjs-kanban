@@ -11,17 +11,15 @@ export default function NavbarWrapper({
 } : {
     userAvatar: string | null | undefined; userName: string | null | undefined;
 }) {
-    // State to manage the visibility of the ColourPicker
     const [showColourPicker, setShowColourPicker] = useState(false);
 
-    // Function to toggle the visibility
     const toggleColourPicker = () => {
         setShowColourPicker(!showColourPicker);
     }
 
     return (
         <>
-        <nav className="flex gap-2 px-5 py-2 bg-zinc-900 items-center justify-between opacity-80">
+        <nav className="flex gap-2 px-5 py-1 bg-zinc-900 items-center justify-between opacity-80">
             <NavbarTitle />
             <div className="flex gap-5 items-center justify-between">
                 <button onClick={toggleColourPicker}>

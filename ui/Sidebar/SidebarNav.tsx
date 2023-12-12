@@ -1,8 +1,5 @@
-'use client'
-import ToggleSlimSidebarButton from "./ToggleSlimSidebarButton";
 import { IconLayoutKanban, IconHome, IconDashboard } from "@tabler/icons-react";
 import Link from "next/link";
-import { useSidebarVisibility } from "@/contexts/SidebarContext";
 
 
 const SidebarLinks = [
@@ -24,18 +21,15 @@ const SidebarLinks = [
   ];
 
 export default function SidebarNav() {
-    const { isSlimSidebar } = useSidebarVisibility();
     return (
-        <ul className="px-5 space-y-5 text-sm text-primary">
+        <ul className="px-5 pt-3 space-y-5 text-sm text-primary">
             {SidebarLinks.map((link, index) => (
                 <li key={index}>
-                <Link href={link.path} className="flex items-center space-x-3">
-                    <span>{link.Icon && <link.Icon />}</span>
-                    {!isSlimSidebar && <span>{link.label}</span>}
-                </Link>
+                    <Link href={link.path} className="flex items-center space-x-3" aria-label={link.label}>
+                        <span>{link.Icon && <link.Icon />}</span>
+                    </Link>
                 </li>
             ))}
-            <ToggleSlimSidebarButton />
         </ul>
     )
 }
