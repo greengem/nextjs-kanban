@@ -1,5 +1,6 @@
 'use client'
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
 import { ActivityWithUser } from "@/types/types";
 import { Avatar } from "@nextui-org/avatar";
 import { IconEdit, IconMoodPlus, IconTrash } from "@tabler/icons-react";
@@ -12,6 +13,8 @@ interface TaskModalActivityItemProps {
 }
 
 export default function TaskModalActivityItem({ activity, columnTitle, boardId }: TaskModalActivityItemProps) {
+    const formattedDate = format(new Date(activity.createdAt), 'MM/dd/yyyy, HH:mm:ss');
+
     const handleEdit = () => {
         console.log("Edit comment");
         // Implement edit functionality
@@ -51,7 +54,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                 <div>
                     <div className="text-sm">
                         <span className="font-semibold">{activity.user.name} </span> 
-                        <span className="text-xs text-zinc-500">{new Date(activity.createdAt).toLocaleString()}</span>
+                        <span className="text-xs text-zinc-500">{formattedDate}</span>
                     </div>
                     <div>
                         {activity.content}
@@ -70,7 +73,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                         {activity.content} {columnTitle || ''}
                     </div>
                     <div className="text-xs text-zinc-500">
-                        {new Date(activity.createdAt).toLocaleString()}
+                        {formattedDate}
                     </div>
                 </div>
             )}
