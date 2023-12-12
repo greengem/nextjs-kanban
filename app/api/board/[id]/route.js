@@ -7,34 +7,31 @@ export async function PUT(request, { params }) {
         const { boardData } = await request.json();
 
         await prisma.$transaction(async (prisma) => {
-            await prisma.task.deleteMany({ where: { column: { boardId: boardId } } });
-            await prisma.column.deleteMany({ where: { boardId: boardId } });
+            for (const column of boardData.columns) {
+                if (column.id) {
+                    await prisma.column.update({
+                        where: { id: column.id },
+                        data: { order: column.order },
+                    });
+                }
+            }
 
-            return prisma.board.update({
-                where: { id: boardId },
-                data: {
-                    title: boardData.title,
-                    description: boardData.description,
-                    columns: {
-                        create: boardData.columns.map(column => ({
-                            title: column.title,
-                            order: column.order,
-                            tasks: {
-                                create: column.tasks.map(task => ({
-                                    title: task.title,
-                                    description: task.description,
-                                    dueDate: task.dueDate,
-                                    order: task.order,
-                                })),
+            for (const column of boardData.columns) {
+                for (const task of column.tasks) {
+                    if (task.id) {
+                        await prisma.task.update({
+                            where: { id: task.id },
+                            data: {
+                                order: task.order,
+                                columnId: column.id,
                             },
-                        })),
-                    },
-                },
-            });
+                        });
+                    }
+                }
+            }
         });
 
         revalidatePath(`/board/${boardId}`);
-
         return new Response(JSON.stringify({ success: true }), {
             status: 200,
             headers: {
