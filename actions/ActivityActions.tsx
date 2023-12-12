@@ -2,8 +2,8 @@
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { revalidatePath } from 'next/cache'
-import { CreateActivitySchema, DeleteActivitySchema } from '@/types/zodTypes';
-import { ActivityCreationData, ActivityDeletionData } from '@/types/types';
+import { CreateActivitySchema } from '@/types/zodTypes';
+import { ActivityCreationData } from '@/types/types';
 
 // Create Activity
 export async function handleCreateActivity(data: ActivityCreationData) {
@@ -52,11 +52,10 @@ export async function handleDeleteActivity(data: { boardId: string; activityId: 
         await prisma.activity.delete({
             where: { id: data.activityId },
         });
-
+        
         revalidatePath(`/board/${data.boardId}`);
         return { success: true, message: 'Deleted activity' };
     } catch (e) {
-        console.error('Error deleting activity:', e);
         return { success: false, message: 'Failed to delete activity' };
     }
 }
