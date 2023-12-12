@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { Suspense } from 'react'
 import { getTask } from "@/lib/FetchData";
 import { ExpandedTask } from "@/types/types";
 
@@ -17,10 +18,11 @@ export default async function TaskPage({
   if (!task) {
     return <div>Task not found or loading error</div>;
   }
-
+  
   const session = await auth();
+
   return (
-    <>
+    <Suspense fallback={<p>Loading feed...</p>}>
       <div className='flex gap-2 bg-primary p-5'>
         <TaskModalTitle selectedTask={task} boardId={task?.column.boardId} />
       </div>
@@ -43,6 +45,6 @@ export default async function TaskPage({
         </div>
 
       </div>
-    </>
+    </Suspense>
   );
 }
