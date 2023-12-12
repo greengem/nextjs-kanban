@@ -16,6 +16,11 @@ export async function handleFetchTask(taskId: string) {
                 updatedAt: true,
                 order: true,
                 columnId: true,
+                column: {
+                    select: {
+                        title: true,
+                    },
+                },
                 activities: {
                     orderBy: {
                         createdAt: 'desc'
