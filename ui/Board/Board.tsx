@@ -18,17 +18,17 @@ interface BoardProps {
 
 export default function Board({ board: initialBoard, session }: BoardProps) {
   const [board, setBoard] = useState(initialBoard);
-  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null); // Store only the task ID
+  const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleTaskClick = (task: ExpandedTask) => {
-      setSelectedTaskId(task.id); // Store the ID of the clicked task
+      setSelectedTaskId(task.id);
       onOpen();
   };
 
   const handleCloseModal = () => {
       onClose();
-      setSelectedTaskId(null); // Reset the selected task ID
+      setSelectedTaskId(null);
   };
   
   // Handle DnD Drag End
@@ -141,6 +141,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
                         <div className='flex justify-between items-center gap-2'>
                           <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
                         </div>
+                        {column.id}
                       </CardHeader>
   
                       <Droppable droppableId={column.id} type="TASK">
