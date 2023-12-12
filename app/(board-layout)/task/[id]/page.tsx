@@ -1,14 +1,10 @@
-import { getTask } from "@/lib/FetchData";
+import TaskPage from "@/ui/TaskPage/TaskPage";
+
 interface BoardProps {
   params: { id: string };
 }
 
-export default async function TaskPage({ params }: BoardProps) {
-  const task = await getTask(params.id);
+export default async function Task({ params }: BoardProps) {
 
-  return (
-    <>
-        <pre>{JSON.stringify(task, null, 2)}</pre>
-    </>
-  );
+  return <TaskPage taskId={params.id} />;
 }
