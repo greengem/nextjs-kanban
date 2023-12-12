@@ -56,11 +56,16 @@ export default function TaskModal({
   };
   
 
-  // Fetch task data when the modal opens or taskId changes
   useEffect(() => {
     if (isOpen && taskId) {
       fetchTaskData();
     }
+
+    return () => {
+      if (!isOpen) {
+        setTaskData(null);
+      }
+    };
   }, [isOpen, taskId]);
 
   return (
