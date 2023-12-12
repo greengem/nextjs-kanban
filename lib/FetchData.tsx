@@ -81,6 +81,7 @@ export async function getTask(taskId: string) {
             column: {
                 select: {
                     title: true,
+                    boardId: true,
                 },
             },
             activities: {
