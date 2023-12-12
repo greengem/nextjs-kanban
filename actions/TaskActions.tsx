@@ -7,21 +7,32 @@ import { TaskCreationData, TaskEditData, TaskDeletionData } from '@/types/types'
 
 // Create Task
 export async function handleCreateTask(data: TaskCreationData) {
-    const session = await auth();
-    const userId = session?.user?.id;
-    const parse = CreateTaskSchema.safeParse(data);
-
-    if (!parse.success) {
-        return { success: false, message: 'Failed to create task' };
-    }
+    console.log("handleCreateTask - start");
 
     try {
+        const session = await auth();
+        console.log("Session obtained:", session);
+
+        const userId = session?.user?.id;
+        console.log("User ID:", userId);
+
+        const parse = CreateTaskSchema.safeParse(data);
+        console.log("Data parse result:", parse);
+
+        if (!parse.success) {
+            console.error("Data parsing failed");
+            return { success: false, message: 'Failed to create task' };
+        }
+
         const maxOrderTask = await prisma.task.findFirst({
             where: { columnId: parse.data.columnId },
             orderBy: { order: 'desc' },
             select: { order: true },
         });
+        console.log("Max order task:", maxOrderTask);
+
         const newOrder = (maxOrderTask?.order || 0) + 1;
+        console.log("New order for task:", newOrder);
 
         // Store the result of task creation
         const createdTask = await prisma.task.create({
@@ -32,10 +43,11 @@ export async function handleCreateTask(data: TaskCreationData) {
                 order: newOrder,
             }
         });
+        console.log("Created task:", createdTask);
 
         // Add activity logging
         if (createdTask && userId) {
-            await prisma.activity.create({
+            const activity = await prisma.activity.create({
                 data: {
                     type: 'TASK_CREATED',
                     content: `added this card to`,
@@ -44,15 +56,21 @@ export async function handleCreateTask(data: TaskCreationData) {
                     boardId: parse.data.boardId
                 }
             });
+            console.log("Activity logged:", activity);
         }
 
         revalidatePath(`/board/${parse.data.boardId}`);
+        console.log("Path revalidated");
 
         return { success: true, message: `Added task` };
     } catch (e) {
+        console.error("Error in handleCreateTask:", e);
         return { success: false, message: `Failed to create task` };
+    } finally {
+        console.log("handleCreateTask - end");
     }
 }
+
 
 
 
