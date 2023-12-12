@@ -11,6 +11,7 @@ import TaskModalActions from './TaskModalActions';
 import TaskModalActivity from './TaskModalActivity';
 import { handleFetchTask } from '@/actions/FetchModalTask';
 import toast from 'react-hot-toast';
+import { IconLoader2 } from '@tabler/icons-react';
 
 interface TaskDetailModalProps {
   isOpen: boolean;
@@ -19,7 +20,6 @@ interface TaskDetailModalProps {
   boardId: string;
   session: Session | null;
 }
-
 
 export default function TaskModal({
   isOpen,
@@ -33,6 +33,8 @@ export default function TaskModal({
 
   const fetchTaskData = async () => {
     try {
+      //await new Promise(resolve => setTimeout(resolve, 2000)); //forced delay to test loading
+
       const response = await handleFetchTask(taskId);
       if (response.success) {
         // Check if response.task is defined before setting it
@@ -97,7 +99,9 @@ export default function TaskModal({
         </ModalFooter>
         </>
               ) : (
-                <p>No task selected</p>
+                <div className='h-64 flex justify-center items-center'>
+                  <IconLoader2 className="animate-spin" />
+                </div>
               )}
       </ModalContent>
     </Modal>
