@@ -28,8 +28,6 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 }
 
 export async function getBoard(id: string): Promise<BoardDetails | null> {
-    const session = await auth();
-    
     const board = await prisma.board.findUnique({
         where: {
             id: id,
@@ -62,4 +60,48 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
     });
 
     return board;
+}
+
+
+
+export async function getTask(taskId: string) {
+    const task = await prisma.task.findUnique({
+        where: {
+            id: taskId
+        },
+        select: {
+            id: true,
+            title: true,
+            description: true,
+            dueDate: true,
+            createdAt: true,
+            updatedAt: true,
+            order: true,
+            columnId: true,
+            column: {
+                select: {
+                    title: true,
+                },
+            },
+            activities: {
+                orderBy: {
+                    createdAt: 'desc'
+                },
+                select: {
+                    id: true,
+                    type: true,
+                    content: true,
+                    createdAt: true,
+                    user: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                        }
+                    },
+                }
+            }
+        }
+    });
+    return task;
 }
