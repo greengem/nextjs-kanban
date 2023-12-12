@@ -135,16 +135,16 @@ model ChecklistItem {
 }
 
 model Activity {
-  id          String     @id @default(cuid())
+  id          String        @id @default(cuid())
   type        ActivityType
   content     String?
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime      @default(now())
   userId      String
-  user        User       @relation(fields: [userId], references: [id])
+  user        User          @relation(fields: [userId], references: [id])
   taskId      String?
-  task        Task?      @relation(fields: [taskId], references: [id])
+  task        Task?         @relation(fields: [taskId], references: [id], onDelete: Cascade)
   boardId     String?
-  board       Board?     @relation(fields: [boardId], references: [id])
+  board       Board?        @relation(fields: [boardId], references: [id], onDelete: Cascade)
 }
 
 enum ActivityType {
