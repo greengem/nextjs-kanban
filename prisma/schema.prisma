@@ -47,7 +47,8 @@ model User {
   sessions      Session[]
   boards        Board[]
   labels        Label[]
-  activities Activity[]
+  activities    Activity[]
+  favoriteBoards FavoriteBoard[]
 }
 
 model VerificationToken {
@@ -69,6 +70,7 @@ model Board {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   activities Activity[]
+  favoritedBy FavoriteBoard[]
 }
 
 model Column {
@@ -96,6 +98,14 @@ model Task {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
   activities Activity[]
+}
+
+model FavoriteBoard {
+  userId  String
+  boardId String
+  user    User    @relation(fields: [userId], references: [id])
+  board   Board   @relation(fields: [boardId], references: [id])
+  @@id([userId, boardId])
 }
 
 model Label {
