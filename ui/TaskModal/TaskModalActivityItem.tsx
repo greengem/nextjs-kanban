@@ -44,11 +44,12 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
         <li className="flex gap-2 items-start">
             <Avatar 
                 showFallback 
+                size='sm'
                 name={activity.user.name ?? 'Unknown'} 
                 src={activity.user.image ?? undefined} 
                 className="shrink-0 grow-0"
             />
-
+            <div className='bg-zinc-800 py-2 px-3 rounded-lg w-full'>
             {activity.type === 'COMMENT_ADDED' ? (
 
                 <div>
@@ -77,6 +78,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                     </div>
                 </div>
             )}
+            </div>
         </li>
     );
 }
