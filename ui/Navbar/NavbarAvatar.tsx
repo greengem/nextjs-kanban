@@ -4,7 +4,6 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { IconLogout, IconUser } from "@tabler/icons-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation'
 
 export default function NavbarAvatar({ 
@@ -16,7 +15,7 @@ export default function NavbarAvatar({
 
     const handleAction = async (action: 'profile' | 'signout') => {
         if (action === 'profile') {
-            toast.error('Profile coming soon');
+            router.push('/profile');
         } else if (action === 'signout') {
             signOut({ callbackUrl: '/' });
         }
