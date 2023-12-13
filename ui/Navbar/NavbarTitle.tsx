@@ -6,7 +6,7 @@ export default function NavbarTitle() {
     return (
         <div className="flex items-center my-2 gap-5">
 
-            <Link href='/dashboard/' className="flex gap-1 items-center font-semibold text-lg tracking-tight">
+            <Link href='/board/' className="flex gap-1 items-center font-semibold text-lg tracking-tight">
                 <IconLayoutKanban />Next.Kanban Alpha
             </Link>
 

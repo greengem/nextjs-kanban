@@ -24,3 +24,7 @@ html, body {
 div[data-overlay-container="true"] {
   height: 100%;
 }
+
+aside{
+  top: 52px;
+}

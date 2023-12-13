@@ -1,24 +1,14 @@
-import { IconLayoutKanban, IconHome, IconDashboard } from "@tabler/icons-react";
+import { IconLayoutKanban } from "@tabler/icons-react";
 import Link from "next/link";
 
 
 const SidebarLinks = [
     {
-        path: "/",
-        label: "Home",
-        Icon: IconHome,
-    },
-    {
-        path: "/dashboard",
-        label: "Dashboard",
-        Icon: IconDashboard,
-      },
-      {
         path: "/board",
         label: "Boards",
         Icon: IconLayoutKanban,
-      },
-  ];
+    }
+];
 
 export default function SidebarNav() {
     return (

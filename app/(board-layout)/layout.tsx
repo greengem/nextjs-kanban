@@ -9,7 +9,6 @@ export default function RootLayout({
 }) {
   return (
     <DashboardLayout>
-
       <main>
         {children}
         {modal}
