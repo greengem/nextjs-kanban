@@ -85,7 +85,7 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
 
                                 <ButtonGroup size="sm">
                                     <Button type="submit">Save</Button>
-                                    <Button color="danger" isIconOnly onClick={handleCloseForm}><IconX /></Button>
+                                    <Button color="danger" isIconOnly onClick={handleCloseForm}><IconX size={20} /></Button>
                                 </ButtonGroup>
                             </form>
                         )}
