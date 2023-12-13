@@ -101,3 +101,23 @@ export async function handleDeleteColumn(data: ColumnDeletionData) {
         return { success: false, message: 'Failed to delete column' };
     }
 }
+
+// DELETE TASKS WITHIN A COLUMN
+export async function handleDeleteColumnTasks({ columnId, boardId }: { columnId: string; boardId: string }) {
+    if (!columnId) {
+        return { success: false, message: 'Column ID is missing' };
+    }
+      
+    try {
+        // Delete all tasks associated with the columnId
+        await prisma.task.deleteMany({
+            where: { columnId: columnId },
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: `Tasks Deleted` };
+    } catch (e) {
+        return { success: false, message: 'Failed to Delete tasks in this column' };
+    }
+}

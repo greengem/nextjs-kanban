@@ -4,7 +4,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { IconEdit, IconMenu2, IconTrash, IconX } from "@tabler/icons-react";
 import toast from 'react-hot-toast';
-import { handleDeleteColumn, handleEditColumn } from "@/actions/ColumnActions";
+import { handleDeleteColumn, handleEditColumn, handleDeleteColumnTasks } from "@/actions/ColumnActions";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
 
@@ -16,18 +16,30 @@ export default function ColumnActions({
 	const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(columnTitle);
 
-  const handleAction = async (action: 'edit' | 'delete-column') => {
-    if (action === 'delete-column' && window.confirm('Are you sure you want to delete this column?')) {
-      const response = await handleDeleteColumn({ id: columnId, boardId });
-      if (response.success) {
-        toast.success(response.message);
-      } else {
-        toast.error(response.message);
-      }
-    } else if (action === 'edit') {
+  const handleAction = async (action: 'edit' | 'delete-column' | 'delete-tasks') => {
+    // Open edit view
+    if (action === 'edit') {
       setIsEditing(true);
+
+    // Delete column and tasks within
+    } else if (action === 'delete-column' && window.confirm('Are you sure you want to delete this column?')) {
+        const response = await handleDeleteColumn({ id: columnId, boardId });
+        if (response.success) {
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
+    
+    // Delete all the tasks within a column but keep the column
+    } else if (action === 'delete-tasks' && window.confirm('Are you sure you want to delete all the tasks in this column?')) {
+        const response = await handleDeleteColumnTasks({ columnId, boardId });
+        if (response.success) {
+          toast.success(response.message);
+        } else {
+          toast.error(response.message);
+        }
     }
-  };
+  }
 
   const handleSave = async () => {
     const editData = {
@@ -78,7 +90,7 @@ export default function ColumnActions({
                       <DropdownTrigger>
                           <Button variant="flat" isIconOnly size='sm'><IconMenu2 size={20} /></Button>
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete-column')}>
+                      <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete-column' | 'delete-tasks')}>
                           <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Name</DropdownItem>
                           <DropdownItem key="delete-tasks" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete all tasks in this column</DropdownItem>
                           <DropdownItem key="delete-column" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete Column</DropdownItem>
