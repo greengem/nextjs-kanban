@@ -7,7 +7,7 @@ import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
 import { TaskEditData } from '@/types/types';
 import { IconLoader2, IconX } from "@tabler/icons-react";
-import { Button } from '@nextui-org/button';
+import { Button, ButtonGroup } from '@nextui-org/button';
 
 export default function EditTaskNameForm({ 
   title, taskId, boardId 
@@ -53,12 +53,11 @@ export default function EditTaskNameForm({
             className="mb-2 w-full p-2 rounded bg-zinc-900 border-none focus:outline-none" 
           />
 
-          <div className="flex gap-1 mb-2">
+          <ButtonGroup size='sm'>
             <Button 
               type="submit" 
-              size='sm'
               disabled={isSubmitting}
-              className="px-4 py-1 text-white rounded-md text-sm flex justify-center items-center"
+              className="flex justify-center items-center"
             >
               {isSubmitting ? (
                 <>
@@ -67,8 +66,8 @@ export default function EditTaskNameForm({
                 </>
               ) : 'Save'}
             </Button>
-            <Button isIconOnly size='sm' onClick={toggleEdit} type="button" className="p-1"><IconX size={20} /></Button>
-          </div>
+            <Button isIconOnly color='danger' onClick={toggleEdit} type="button"><IconX size={20} /></Button>
+          </ButtonGroup>
         </div>
       )}
     </form>
