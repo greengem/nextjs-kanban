@@ -13,7 +13,7 @@ export default async function Boards() {
     <div className="p-5">
       <PageHeading title='Boards' />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        <CreateBoardForm />
+        
         {boards.map((board) => (
           <Link key={board.id} href={`/board/${board.id}`}>
             <Card>
@@ -30,6 +30,7 @@ export default async function Boards() {
             </Card>
           </Link>
         ))}
+        <CreateBoardForm />
       </div>
     </div>
   );
