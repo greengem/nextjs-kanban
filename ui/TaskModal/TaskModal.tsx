@@ -1,7 +1,7 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { Modal, ModalContent, ModalBody } from "@nextui-org/modal";
-import { useDisclosure } from "@nextui-org/react";
+import { useDisclosure } from "@nextui-org/use-disclosure";
 
 export default function TaskModal({ children } : { children: React.ReactNode }) {
   const { isOpen, onClose } = useDisclosure({ defaultOpen: true });
