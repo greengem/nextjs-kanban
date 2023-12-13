@@ -1,8 +1,8 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
 import { Button } from "@nextui-org/button";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem} from "@nextui-org/dropdown";
-import { IconMenu2 } from "@tabler/icons-react";
+import { IconEdit, IconMenu2, IconTrash } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 import { handleDeleteBoard } from "@/actions/BoardActions";
 export default function BoardActions({
@@ -27,13 +27,13 @@ export default function BoardActions({
     }
 
     return (
-        <Dropdown>
+        <Dropdown backdrop='blur'>
             <DropdownTrigger>
                 <Button size="sm" isIconOnly><IconMenu2 size={20} /></Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Board Actions" onAction={(key) => handleAction(key as 'edit' | 'delete')}>
-                <DropdownItem key="edit">Edit Board Title</DropdownItem>
-                <DropdownItem key="delete" className="text-danger" color="danger">
+                <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Board Title</DropdownItem>
+                <DropdownItem key="delete" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>
                     Delete Board
                 </DropdownItem>
             </DropdownMenu>
