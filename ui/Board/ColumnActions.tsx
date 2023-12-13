@@ -1,8 +1,8 @@
 'use client'
 
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
-import { Button } from "@nextui-org/button";
-import { IconMenu2 } from "@tabler/icons-react";
+import { Button, ButtonGroup } from "@nextui-org/button";
+import { IconEdit, IconMenu2, IconTrash, IconX } from "@tabler/icons-react";
 import toast from 'react-hot-toast';
 import { handleDeleteColumn, handleEditColumn } from "@/actions/ColumnActions";
 import { Input } from "@nextui-org/input";
@@ -65,20 +65,22 @@ export default function ColumnActions({
                       autoFocus
                   />
                   <div className="flex gap-2">
-                      <Button size="sm" color="primary" onClick={handleSave}>Save</Button>
-                      <Button size="sm" onClick={handleCancel}>Cancel</Button>
+                    <ButtonGroup size="sm">
+                      <Button onClick={handleSave}>Save</Button>
+                      <Button color="danger" onClick={handleCancel} isIconOnly><IconX size={20} /></Button>
+                    </ButtonGroup>
                   </div>
               </div>
           ) : (
               <>
                   <h3>{columnTitle}</h3>
-                  <Dropdown>
+                  <Dropdown backdrop='blur'>
                       <DropdownTrigger>
                           <Button variant="flat" isIconOnly size='sm'><IconMenu2 size={20} /></Button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete')}>
-                          <DropdownItem key="edit">Edit Name</DropdownItem>
-                          <DropdownItem key="delete" className="text-danger" color="danger">Delete Column</DropdownItem>
+                          <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Name</DropdownItem>
+                          <DropdownItem key="delete" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete Column</DropdownItem>
                       </DropdownMenu>
                   </Dropdown>
               </>
