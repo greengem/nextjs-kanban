@@ -26,7 +26,7 @@ export default function CreateBoardForm() {
   };
 
   return (
-    <Card className="w-64 shrink-0">
+    <Card>
       <CardBody className="
         text-center 
         h-28
