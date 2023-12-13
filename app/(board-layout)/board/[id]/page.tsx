@@ -18,10 +18,15 @@ export default async function BoardPage({ params }: BoardProps) {
 
   return (
     <>
-      <div className="flex justify-between">
-        <PageHeading title={board.title} />
+      <div className="
+        flex justify-between 
+        bg-zinc-800 opacity-80 
+        px-5 py-2 mb-5"
+      >
+        <div>{board.title}</div>
         <DeleteBoardForm boardId={board.id} />
       </div>
+
       <Board board={board} session={session} />
     </>
   );
