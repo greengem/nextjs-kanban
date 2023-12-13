@@ -37,8 +37,8 @@ export default function ColourPicker() {
     return (
         <>
         <div className="py-3 px-2">
-            <p className="text-center text-xs text-zinc-300 mb-3">Site Theme</p>
-            <ul className="grid grid-cols-5 gap-2">
+            <p className="text-center text-xs text-zinc-300 mb-2">Site Theme</p>
+            <ul className="grid grid-cols-5 gap-3">
                 {themes.map(theme => (
                     <li key={theme.name}>
                         <div 
