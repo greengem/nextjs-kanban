@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
@@ -7,7 +7,7 @@ import { handleEditTask } from "@/actions/TaskActions";
 import { EditTaskSchema } from '@/types/zodTypes';
 import { ExpandedTask, TaskEditData } from '@/types/types';
 import { Textarea } from "@nextui-org/input";
-import { Button } from '@nextui-org/button';
+import { Button, ButtonGroup } from '@nextui-org/button';
 import { IconTextPlus, IconLoader2, IconX } from '@tabler/icons-react';
 
 export default function TaskModalDescription({ 
@@ -37,13 +37,17 @@ export default function TaskModalDescription({
     };
 
     return (
-        <div className='flex gap-2 w-full'>
-            <IconTextPlus size={20} className='mt-1 w-5' />
+        <div className='flex gap-3 w-full'>
+            <IconTextPlus size={32} />
             <div className='flex-col w-full'>
             <h4 className='text-large font-semibold mb-2'>Description</h4>
             {!isEditingDescription ? (
                 <p onClick={toggleEditDescription} className="cursor-pointer">
-                    {selectedTask.description ? selectedTask.description : 'Add a description'}
+                    {selectedTask.description ? (
+                        selectedTask.description
+                    ) : (
+                        <span className="text-primary">Add a description</span>
+                    )}
                 </p>
             ) : (
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -56,32 +60,28 @@ export default function TaskModalDescription({
                         className='w-full mb-2 mt-1 border-none focus:outline-none' 
                         {...register('description')}
                     />
-                    <div className='flex gap-2'>
-                        <Button 
-                            type='submit' 
-                            size='sm' 
-                            color='primary'
-                            disabled={isSubmitting}
-                            className="px-4 py-1 text-white rounded-md text-sm flex justify-center items-center"
-                        >
-                            {isSubmitting ? (
-                                <>
-                                    <IconLoader2 size={16} className="animate-spin mr-2" />
-                                    Saving...
-                                </>
-                            ) : 'Save'}
-                        </Button>
-                        <Button 
-                            size='sm' 
-                            onClick={toggleEditDescription} 
-                            type="button" 
-                            className="p-1"
-                            isIconOnly
-                            color='danger'
-                        >
-                            <IconX size={20} />
-                        </Button>
-                    </div>
+                        <ButtonGroup size='sm'>
+                            <Button 
+                                type='submit' 
+                                disabled={isSubmitting}
+                                className="flex justify-center items-center"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <IconLoader2 size={16} className="animate-spin mr-2" />
+                                        Saving...
+                                    </>
+                                ) : 'Save'}
+                            </Button>
+                            <Button 
+                                onClick={toggleEditDescription} 
+                                type="button" 
+                                isIconOnly
+                                color='danger'
+                            >
+                                <IconX size={20} />
+                            </Button>
+                        </ButtonGroup>
                 </form>
             )}
             </div>
