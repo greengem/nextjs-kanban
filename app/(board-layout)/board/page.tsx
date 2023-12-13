@@ -12,17 +12,19 @@ export default async function Boards() {
   return (
     <div className="p-5">
       <PageHeading title='Boards' />
-      <div className="flex gap-5 overflow-x-scroll no-scrollbar">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         <CreateBoardForm />
         {boards.map((board) => (
           <Link key={board.id} href={`/board/${board.id}`}>
-            <Card className="w-64 shrink-0">
+            <Card>
               <CardBody className="
                 h-28 
                 flex flex-col justify-end relative
                 hover:bg-zinc-800
               ">
-                <span className="absolute text-xs top-2 right-2 bg-zinc-800 w-10 h-6 rounded-lg flex items-center justify-center text-primary gap-1"><IconList size={16} />3</span>
+                <span className="absolute text-xs top-2 right-2 bg-zinc-800 w-10 h-6 rounded-lg flex items-center justify-center text-primary gap-1">
+                  <IconList size={16} /><span>{board.tasksCount}</span>
+                </span>
                 {board.title}
               </CardBody>
             </Card>
