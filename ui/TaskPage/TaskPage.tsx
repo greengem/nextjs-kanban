@@ -23,7 +23,7 @@ export default async function TaskPage({
 
   return (
     <Suspense fallback={<p>Loading feed...</p>}>
-      <div className='flex gap-2 bg-primary p-5'>
+      <div className='flex gap-3 p-5 border-b-1 border-zinc-800'>
         <TaskModalTitle selectedTask={task} boardId={task?.column.boardId} />
       </div>
 
@@ -40,7 +40,7 @@ export default async function TaskPage({
         </div>
 
         <div className='col-span-1 space-y-2'>
-          <TaskModalAddToCard />
+          {/*<TaskModalAddToCard />*/}
           <TaskModalActions selectedTask={task} boardId={task.column.boardId} />
         </div>
 
