@@ -9,8 +9,8 @@ export default function RootLayout({
 }) {
   return (
     <DashboardLayout>
-      <SubNavbar />
-      <main className='p-3 md:p-5'>
+
+      <main>
         {children}
         {modal}
       </main>
