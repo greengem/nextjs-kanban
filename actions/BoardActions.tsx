@@ -37,20 +37,17 @@ export async function handleCreateBoard(data: BoardCreationData) {
 }
 
 // Delete Board
-export async function handleDeleteBoard(data: BoardDeletionData) {
+export async function handleDeleteBoard(boardId: string) {
 
-    const parse = DeleteBoardSchema.safeParse(data);
 
-    if (!parse.success) {
-      return { success: false, message: 'Failed to delete board due to validation error' };
-    }
+  if (!boardId) {
+    return { success: false, message: 'Board ID is missing' };
+}
     
     try {
 
         await prisma.board.delete({
-            where: {
-                id: parse.data.id,
-            }
+          where: { id: boardId },
         });
 
         revalidatePath(`/board/`);
