@@ -10,7 +10,7 @@ export default async function Boards() {
   const boards: BoardSummary[] = await getBoardsSummary();
 
   return (
-    <>
+    <div className="p-5">
       <PageHeading title='Boards' />
       <div className="flex gap-5 overflow-x-scroll no-scrollbar">
         <CreateBoardForm />
@@ -29,6 +29,6 @@ export default async function Boards() {
           </Link>
         ))}
       </div>
-    </>
+    </div>
   );
 }
