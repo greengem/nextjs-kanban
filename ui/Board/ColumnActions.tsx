@@ -16,11 +16,11 @@ export default function ColumnActions({
 	const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(columnTitle);
 
-  const handleAction = async (action: 'edit' | 'delete') => {
-    if (action === 'delete' && window.confirm('Are you sure you want to delete this column?')) {
+  const handleAction = async (action: 'edit' | 'delete-column') => {
+    if (action === 'delete-column' && window.confirm('Are you sure you want to delete this column?')) {
       const response = await handleDeleteColumn({ id: columnId, boardId });
       if (response.success) {
-        toast.success('Column Deleted');
+        toast.success(response.message);
       } else {
         toast.error(response.message);
       }
@@ -39,7 +39,7 @@ export default function ColumnActions({
     const response = await handleEditColumn(editData);
     
     if (response.success) {
-      toast.success('Column Updated');
+      toast.success(response.message);
     } else {
       toast.error(response.message);
     }
@@ -78,9 +78,10 @@ export default function ColumnActions({
                       <DropdownTrigger>
                           <Button variant="flat" isIconOnly size='sm'><IconMenu2 size={20} /></Button>
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete')}>
+                      <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete-column')}>
                           <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Name</DropdownItem>
-                          <DropdownItem key="delete" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete Column</DropdownItem>
+                          <DropdownItem key="delete-tasks" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete all tasks in this column</DropdownItem>
+                          <DropdownItem key="delete-column" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete Column</DropdownItem>
                       </DropdownMenu>
                   </Dropdown>
               </>

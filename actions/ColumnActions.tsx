@@ -31,7 +31,7 @@ export async function handleCreateColumn(data: ColumnCreationData) {
 
         revalidatePath(`/board/${parse.data.boardId}`);
 
-        return { success: true, message: 'Created column' };
+        return { success: true, message: 'New Column Created' };
     } catch (e) {
         return { success: false, message: `Failed to create column` };
     }
@@ -60,7 +60,7 @@ export async function handleEditColumn(data: any) {
         
         revalidatePath(`/board/${parse.data.boardId}`);
 
-        return { success: true, message: `Edited column sucessfully!` };
+        return { success: true, message: `Column Updated` };
     } catch (e) {
         return { success: false, message: `Failed to edit column` };
     }
@@ -96,7 +96,7 @@ export async function handleDeleteColumn(data: ColumnDeletionData) {
 
         revalidatePath(`/board/${parse.data.boardId}`);
 
-        return { success: true, message: `Deleted column` };
+        return { success: true, message: `Column Removed` };
     } catch (e) {
         return { success: false, message: 'Failed to delete column' };
     }
