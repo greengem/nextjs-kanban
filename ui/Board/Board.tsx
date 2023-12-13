@@ -101,87 +101,87 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
   }, [initialBoard]);
   
   return (
-    <>
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
-        {(provided) => (
-          <div
-            className="flex no-scrollbar overflow-x-scroll"
-            ref={provided.innerRef}
-            {...provided.droppableProps}
-          >
-            {board.columns.map((column, columnIndex) => (
-              <Draggable key={column.id} draggableId={column.id} index={columnIndex}>
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
-                    className='shrink-0 w-64 md:w-72 lg:w-80 mr-5'
-                  >
-                    <Card>
-                      <CardHeader 
-                        className='tracking-tight' 
-                        showGrab
-                        dragHandleProps={provided.dragHandleProps ?? undefined}
-                      >
-                        <div className='flex justify-between items-center gap-2'>
-                          <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
-                        </div>
-                      </CardHeader>
-  
-                      <Droppable droppableId={column.id} type="TASK">
-                        {(provided) => (
-                          <CardBody>
-                            <div ref={provided.innerRef} {...provided.droppableProps}>
-                              {column.tasks.length === 0 ? (
-                                <div className="
-                                  bg-zinc-800 text-zinc-400
-                                  text-center text-sm
-                                  py-3
-                                  rounded-lg
-                                  border-dashed border-3 border-zinc-700
-                                ">
-                                  Drop here
-                                </div>
-                              ) : (
-                                column.tasks.map((task, taskIndex) => (
-                                  <Draggable key={task.id} draggableId={task.id} index={taskIndex}>
-                                    {(provided) => (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        className="mb-2"
-                                      >
-                                        <TaskItem
-                                          task={task}
-                                          dragHandleProps={provided.dragHandleProps}
-                                        />
-                                      </div>
-                                    )}
-                                  </Draggable>
-                                ))
-                              )}
-                              {provided.placeholder}
-                            </div>
-                          </CardBody>
+    <div className='mx-4'>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
+          {(provided) => (
+            <div
+              className="flex no-scrollbar overflow-x-scroll"
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {board.columns.map((column, columnIndex) => (
+                <Draggable key={column.id} draggableId={column.id} index={columnIndex}>
+                  {(provided) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      className='shrink-0 w-64 md:w-72 lg:w-80 mx-2'
+                    >
+                      <Card>
+                        <CardHeader 
+                          className='tracking-tight' 
+                          showGrab
+                          dragHandleProps={provided.dragHandleProps ?? undefined}
+                        >
+                          <div className='flex justify-between items-center gap-2'>
+                            <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
+                          </div>
+                        </CardHeader>
+    
+                        <Droppable droppableId={column.id} type="TASK">
+                          {(provided) => (
+                            <CardBody>
+                              <div ref={provided.innerRef} {...provided.droppableProps}>
+                                {column.tasks.length === 0 ? (
+                                  <div className="
+                                    bg-zinc-800 text-zinc-400
+                                    text-center text-sm
+                                    py-3
+                                    rounded-lg
+                                    border-dashed border-3 border-zinc-700
+                                  ">
+                                    Drop here
+                                  </div>
+                                ) : (
+                                  column.tasks.map((task, taskIndex) => (
+                                    <Draggable key={task.id} draggableId={task.id} index={taskIndex}>
+                                      {(provided) => (
+                                        <div
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          className="mb-2"
+                                        >
+                                          <TaskItem
+                                            task={task}
+                                            dragHandleProps={provided.dragHandleProps}
+                                          />
+                                        </div>
+                                      )}
+                                    </Draggable>
+                                  ))
+                                )}
+                                {provided.placeholder}
+                              </div>
+                            </CardBody>
 
-                        )}
-                      </Droppable>
-  
-                      <CardFooter className='pt-2'>
-                        <CreateTaskFormSimple boardId={board.id} columnId={column.id} />
-                      </CardFooter>
-                    </Card>
-                  </div>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-            <CreateColumnForm boardId={board.id} />
-          </div>
-        )}
-      </Droppable>
-    </DragDropContext>
-</>
+                          )}
+                        </Droppable>
+    
+                        <CardFooter className='pt-2'>
+                          <CreateTaskFormSimple boardId={board.id} columnId={column.id} />
+                        </CardFooter>
+                      </Card>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+              <CreateColumnForm boardId={board.id} />
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+    </div>
   );
 }
