@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "@nextui-org/button";
 import { IconLayoutKanban } from "@tabler/icons-react";
 export default function Home() {
   return (
@@ -10,9 +9,9 @@ export default function Home() {
         </h1>
         <h1 className="text-7xl tracking-tighter font-semibold"><span className="text-primary">K</span>anban</h1>
         <p className="mb-5 text-zinc-500 tracking-tight">Unleash Your Team's Productivity</p>
-        <Button variant="ghost" color="primary" size="lg" as={Link} href="/board" isIconOnly>
+        <Link href="/board" className="hover:bg-primary p-3 rounded-lg border-1 border-primary">
           🚀
-        </Button>
+        </Link>
       </div>
     </div>
   );
