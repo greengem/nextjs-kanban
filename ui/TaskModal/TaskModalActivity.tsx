@@ -1,14 +1,15 @@
 'use client'
 import { Session } from "next-auth";
+import { useState } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import TaskModalActivityItem from "./TaskModalActivityItem"
 import { Avatar } from "@nextui-org/avatar"
 import { Textarea } from "@nextui-org/input"
-import { Button } from "@nextui-org/button"
+import { Button, ButtonGroup } from "@nextui-org/button"
 import { ActivityWithUser } from "@/types/types"
-import { IconActivity } from "@tabler/icons-react"
+import { IconActivity, IconX } from "@tabler/icons-react"
 import { handleCreateActivity } from "@/actions/ActivityActions";
 import { CreateActivitySchema } from "@/types/zodTypes";
 import { ActivityCreationData } from "@/types/types";
@@ -27,10 +28,10 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
         defaultValues: { boardId, taskId }
     });
 
+    const [showForm, setShowForm] = useState(false); // State to toggle form visibility
+
     const onSubmit: SubmitHandler<ActivityCreationData> = async (data) => {
-
         const response = await handleCreateActivity(data);
-
         if (response.success) {
             toast.success('Activity Created');
             reset();
@@ -39,36 +40,56 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
         }
     };
 
+    const handleToggleForm = () => {
+        setShowForm(!showForm);
+    };
+
+    const handleCloseForm = () => {
+        setShowForm(false);
+        reset();
+    };
+
     return (
         <>
-            <div className='flex gap-2 w-full'>
-                <IconActivity size={20} className='mt-1 w-5' />
-                <h4 className='text-large font-semibold'>Activity</h4>
-            </div>
+            <div>
+                <div className='flex gap-3 w-full mb-2'>
+                    <IconActivity size={32} />
+                    <h4 className='text-large font-semibold'>Activity</h4>
+                </div>
 
-            <div className="flex gap-3 mb-3">
-                <Avatar 
-                    showFallback 
-                    name={session?.user?.name ?? 'Unknown'} 
-                    src={session?.user?.image ?? undefined}
-                    className="shrink-0"
-                />
-                <div className="w-full" >
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <Textarea
-                            className="mb-2"
-                            placeholder="Enter a description..."
-                            {...register('content')}
-                        />
+                <div className="flex gap-3 items-start">
+                    <Avatar 
+                        showFallback 
+                        size="sm"
+                        name={session?.user?.name ?? 'Unknown'} 
+                        src={session?.user?.image ?? undefined}
+                        className="shrink-0"
+                    />
 
-                        <input type="hidden" {...register('boardId')} />
-                        <input type="hidden" {...register('taskId')} />
+                    <div className="w-full">
+                        {!showForm && (
+                            <p onClick={handleToggleForm} className="cursor-pointer text-primary">Add a comment</p>
+                        )}
 
-                        <div className="flex gap-2">
-                        <Button size="sm" type="submit">Submit</Button>
+                        {showForm && (
+                            <form onSubmit={handleSubmit(onSubmit)}>
+                                <Textarea
+                                    className="mb-2"
+                                    placeholder="Enter a description..."
+                                    autoFocus
+                                    {...register('content')}
+                                />
 
-                        </div>
-                    </form>
+                                <input type="hidden" {...register('boardId')} />
+                                <input type="hidden" {...register('taskId')} />
+
+                                <ButtonGroup size="sm">
+                                    <Button type="submit">Save</Button>
+                                    <Button color="danger" isIconOnly onClick={handleCloseForm}><IconX /></Button>
+                                </ButtonGroup>
+                            </form>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -83,5 +104,5 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
                 ))}
             </ul>
         </>
-    )
+    );
 }
