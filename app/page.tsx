@@ -9,7 +9,7 @@ export default function Home() {
         </h1>
         <h1 className="text-7xl tracking-tighter font-semibold"><span className="text-primary">K</span>anban</h1>
         <p className="mb-5 text-zinc-500 tracking-tight">Unleash Your Team's Productivity</p>
-        <Link href="/board" className="hover:bg-primary p-3 rounded-lg border-1 border-primary">
+        <Link href="/board" className="hover:bg-primary p-3 rounded-xl border-2 border-primary">
           🚀
         </Link>
       </div>
