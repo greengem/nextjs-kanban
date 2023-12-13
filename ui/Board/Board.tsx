@@ -101,12 +101,11 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
   }, [initialBoard]);
   
   return (
-    <div className='mx-4'>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
           {(provided) => (
             <div
-              className="flex no-scrollbar overflow-x-scroll"
+              className="flex no-scrollbar overflow-x-scroll "
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
@@ -182,6 +181,5 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
           )}
         </Droppable>
       </DragDropContext>
-    </div>
   );
 }
