@@ -1,7 +1,6 @@
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { BoardSummary, BoardDetails } from '@/types/types';
-import { Task } from '@prisma/client';
 
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
     const session = await auth();
@@ -13,19 +12,32 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 
     const boards = await prisma.board.findMany({
         where: {
-            userId: session?.user?.id
+            userId: userId
         },
         select: {
             id: true,
             title: true,
+            columns: {
+                select: {
+                    tasks: {
+                        select: {
+                            id: true,
+                        }
+                    }
+                }
+            }
         },
         orderBy: {
             createdAt: 'asc',
         }
     });
 
-    return boards;
+    return boards.map(board => ({
+        ...board,
+        tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0)
+    }));
 }
+
 
 export async function getBoard(id: string): Promise<BoardDetails | null> {
     const board = await prisma.board.findUnique({
@@ -58,6 +70,13 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
             },
         },
     });
+
+    if (board) {
+        return {
+            ...board,
+            tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0)
+        };
+    }
 
     return board;
 }

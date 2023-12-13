@@ -1,6 +1,8 @@
 import { Board, Column, Task, Activity, User } from "@prisma/client";
 
-export type BoardSummary = Pick<Board, 'id' | 'title'>;
+export type BoardSummary = Pick<Board, 'id' | 'title'> & {
+    tasksCount: number; // Add this line
+};
 
 export type BoardDetails = BoardSummary & {
     columns: ColumnWithTasks[];
