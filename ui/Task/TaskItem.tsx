@@ -12,11 +12,11 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
     <div className='flex select-none rounded-md bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
 
-      <div className='pl-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
-        <IconGripVertical className='text-primary' size={22} />
+      <div className='pl-1 pr-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
+        <IconGripVertical className='text-primary' size={24} />
       </div>
 
-      <Link className='flex-grow px-3 py-2' href={`/task/${task.id}`}>
+      <Link className='flex-grow pr-3 py-2' href={`/task/${task.id}`}>
         <div className='text-sm cursor-pointer'>
             {task.title}
         </div>
