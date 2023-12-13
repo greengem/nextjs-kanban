@@ -31,7 +31,7 @@ export default function CreateColumnForm({
 
   return (
     <div className="shrink-0 w-64">
-      <Card className='mr-4'>
+      <Card>
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
 
