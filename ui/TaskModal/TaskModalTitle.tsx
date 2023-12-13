@@ -10,7 +10,7 @@ export default function TaskModalTitle( {
 }) {
     return (
        <>
-        <IconCards size={20} className='mt-1 w-5' />
+        <IconCards size={32} className='mt-1' />
             <div className='flex-col w-full pr-5'>
                 <EditTaskNameForm taskId={selectedTask.id} title={selectedTask.title} boardId={boardId} />
                 <div className='text-xs text-zinc-100 font-normal'>
