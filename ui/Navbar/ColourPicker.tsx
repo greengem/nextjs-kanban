@@ -36,16 +36,19 @@ export default function ColourPicker() {
 
     return (
         <>
-        <ul className="gap-2 justify-center flex overflow-x-scroll no-scrollbar py-2 px-5">
-            {themes.map(theme => (
-                <li key={theme.name}>
-                    <div 
-                        onClick={() => setTheme(theme.name)} 
-                        className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
-                    />
-                </li>
-            ))}
-        </ul>
+        <div className="py-3 px-2">
+            <p className="text-center text-xs text-zinc-300 mb-3">Site Theme</p>
+            <ul className="grid grid-cols-5 gap-2">
+                {themes.map(theme => (
+                    <li key={theme.name}>
+                        <div 
+                            onClick={() => setTheme(theme.name)} 
+                            className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
+                        />
+                    </li>
+                ))}
+            </ul>
+        </div>
         </>
     )
 }
