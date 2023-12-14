@@ -4,11 +4,10 @@ import { Modal, ModalContent, ModalBody } from "@nextui-org/modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 
 export default function TaskModal({ children } : { children: React.ReactNode }) {
-  const { isOpen, onClose } = useDisclosure({ defaultOpen: true });
+  const { isOpen } = useDisclosure({ defaultOpen: true });
   const router = useRouter();
 
   const handleClose = () => {
-    onClose();
     router.back();
   };
 
