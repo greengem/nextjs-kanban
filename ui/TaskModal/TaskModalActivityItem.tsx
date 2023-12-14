@@ -52,7 +52,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
     };
 
     return (
-        <li className="flex gap-2 items-start">
+        <li className="flex gap-3 items-start">
             <Avatar 
                 showFallback 
                 size='sm'
@@ -60,16 +60,14 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                 src={activity.user.image ?? undefined} 
                 className="shrink-0 grow-0"
             />
-            <div className='bg-zinc-800 py-2 px-3 rounded-lg w-full'>
+            <div>
 
             {activity.type === 'COMMENT_ADDED' ? (
 
-                <div>
-                    <div className="text-sm">
-                        <span className="font-semibold">{activity.user.name} </span> 
-                        <span className="text-xs text-zinc-500">{formattedDate}</span>
-                    </div>
-                    <div>
+                <div className='bg-zinc-800 px-3 py-1 rounded-xl'>
+                    <span className="font-semibold">{activity.user.name} </span> 
+                    <span className="text-zinc-500 text-xs">{formattedDate}</span>
+                    <div className='text-sm'>
                         {activity.content}
                     </div>
                     <div className="flex gap-2">
@@ -81,8 +79,8 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                 
             ) : (
 
-                <div>
-                    <div className="text-sm">
+                <div className='bg-zinc-800 px-3 py-1 rounded-xl'>
+                    <div>
                         <span className="font-semibold">{activity.user.name} </span> 
                         {getActivityMessage(activity)}
                     </div>
