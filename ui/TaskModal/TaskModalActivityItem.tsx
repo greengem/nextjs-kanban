@@ -15,6 +15,17 @@ interface TaskModalActivityItemProps {
 export default function TaskModalActivityItem({ activity, columnTitle, boardId }: TaskModalActivityItemProps) {
     const formattedDate = format(new Date(activity.createdAt), 'MM/dd/yyyy, HH:mm:ss');
 
+    const getActivityMessage = (activity: ActivityWithUser) => {
+        switch (activity.type) {
+            case 'TASK_MOVED':
+                return ` moved this card from ${activity.oldColumn?.title} to ${activity.newColumn?.title}`;
+            case 'TASK_CREATED':
+                return ` added this card to ${activity.originalColumn?.title}`;
+            default:
+                return activity.content;
+        }
+    };
+
     const handleEdit = () => {
         console.log("Edit comment");
         // Implement edit functionality
@@ -50,6 +61,7 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                 className="shrink-0 grow-0"
             />
             <div className='bg-zinc-800 py-2 px-3 rounded-lg w-full'>
+
             {activity.type === 'COMMENT_ADDED' ? (
 
                 <div>
@@ -66,18 +78,21 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                         <button onClick={handleDelete}><IconTrash className="text-red-500" size={16} /></button>
                     </div>
                 </div>
+                
             ) : (
 
                 <div>
                     <div className="text-sm">
                         <span className="font-semibold">{activity.user.name} </span> 
-                        {activity.content} {columnTitle || ''}
+                        {getActivityMessage(activity)}
                     </div>
                     <div className="text-xs text-zinc-500">
                         {formattedDate}
                     </div>
                 </div>
+
             )}
+
             </div>
         </li>
     );
