@@ -82,6 +82,10 @@ model Column {
   order      Int
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
+
+  activitiesAsOldColumn Activity[] @relation("OldColumn")
+  activitiesAsNewColumn Activity[] @relation("NewColumn")
+  activitiesAsOriginalColumn Activity[] @relation("OriginalColumn")
 }
 
 model Task {
@@ -145,21 +149,29 @@ model ChecklistItem {
 }
 
 model Activity {
-  id          String        @id @default(cuid())
-  type        ActivityType
-  content     String?
-  createdAt   DateTime      @default(now())
-  userId      String
-  user        User          @relation(fields: [userId], references: [id])
-  taskId      String?
-  task        Task?         @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  boardId     String?
-  board       Board?        @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  id             String        @id @default(cuid())
+  type           ActivityType
+  content        String?
+  createdAt      DateTime      @default(now())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+  taskId         String?
+  task           Task?         @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  boardId        String?
+  board          Board?        @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  oldColumnId    String?
+  oldColumn      Column? @relation("OldColumn", fields: [oldColumnId], references: [id])
+  newColumnId    String?
+  newColumn      Column? @relation("NewColumn", fields: [newColumnId], references: [id])
+  originalColumnId String?
+  originalColumn Column? @relation("OriginalColumn", fields: [originalColumnId], references: [id])
+  
 }
 
 enum ActivityType {
   TASK_CREATED
   TASK_UPDATED
+  TASK_MOVED
   TASK_DELETED
   COMMENT_ADDED
   BOARD_UPDATED
