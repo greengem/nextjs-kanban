@@ -153,3 +153,19 @@ export async function getTask(taskId: string) {
     return task;
 }
 
+// Fetch labels
+export async function getLabelsForBoard(boardId: string) {
+    const labels = await prisma.label.findMany({
+        where: {
+            boardId: boardId,
+        },
+        select: {
+            id: true,
+            name: true,
+            color: true,
+            isDefault: true,
+        }
+    });
+
+    return labels;
+}
