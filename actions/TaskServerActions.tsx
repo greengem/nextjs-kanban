@@ -121,3 +121,34 @@ export async function handleDeleteTask(data: TaskDeletionData) {
         return { success: false, message: 'Failed to delete task' };
     }
 }
+
+export async function handleDeleteActivity(data: { boardId: string; taskId: string; columnId: string; }) {
+
+    if (!data.boardId || !data.taskId || !data.columnId) {
+        return { success: false, message: 'Board ID, Column ID or Activity ID is missing' };
+    }
+
+    try {
+        const deletedTask = await prisma.task.delete({
+            where: { id: data.taskId },
+            select: { order: true }
+        });
+
+        if (deletedTask) {
+            await prisma.task.updateMany({
+                where: {
+                    columnId: data.columnId,
+                    order: { gt: deletedTask.order }
+                },
+                data: {
+                    order: { decrement: 1 }
+                }
+            });
+        }
+        
+        revalidatePath(`/board/${data.boardId}`);
+        return { success: true, message: 'Deleted task' };
+    } catch (e) {
+        return { success: false, message: 'Failed to delete task' };
+    }
+}
