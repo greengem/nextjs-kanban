@@ -4,7 +4,6 @@ import { BoardSummary, BoardDetails } from '@/types/types';
 
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
     const session = await auth();
-
     const userId = session?.user?.id;
     if (!userId) {
         return [];
@@ -20,12 +19,18 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
             columns: {
                 select: {
                     tasks: {
-                        select: {
-                            id: true,
-                        }
+                        select: { id: true },
                     }
                 }
-            }
+            },
+            favoritedBy: {
+                where: {
+                    userId: userId,
+                },
+                select: {
+                    userId: true,
+                },
+            },
         },
         orderBy: {
             createdAt: 'asc',
@@ -34,19 +39,30 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 
     return boards.map(board => ({
         ...board,
-        tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0)
+        tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0),
+        isFavorited: board.favoritedBy.length > 0
     }));
 }
 
 
-export async function getBoard(id: string): Promise<BoardDetails | null> {
+
+export async function getBoard(id: string, userId: string): Promise<BoardDetails | null> {
     const board = await prisma.board.findUnique({
+        
         where: {
             id: id,
         },
         select: {
             id: true,
             title: true,
+            favoritedBy: {
+                where: {
+                    userId: userId,
+                },
+                select: {
+                    userId: true,
+                },
+            },
             columns: {
                 orderBy: {
                     order: 'asc'
@@ -74,12 +90,14 @@ export async function getBoard(id: string): Promise<BoardDetails | null> {
     if (board) {
         return {
             ...board,
+            isFavorited: board.favoritedBy.length > 0,
             tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0)
         };
     }
 
-    return board;
+    return null;
 }
+
 
 
 
@@ -112,6 +130,15 @@ export async function getTask(taskId: string) {
                     type: true,
                     content: true,
                     createdAt: true,
+                    oldColumn: {
+                        select: { title: true },
+                    },
+                    newColumn: {
+                        select: { title: true },
+                    },
+                    originalColumn: {
+                        select: { title: true },
+                    },
                     user: {
                         select: {
                             id: true,
@@ -125,3 +152,4 @@ export async function getTask(taskId: string) {
     });
     return task;
 }
+
