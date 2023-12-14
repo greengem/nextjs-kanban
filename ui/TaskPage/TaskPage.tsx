@@ -1,12 +1,10 @@
 import { auth } from "@/auth";
-import { Suspense } from 'react'
 import { getTask } from "@/lib/FetchData";
 import { ExpandedTask } from "@/types/types";
 
 import TaskModalTitle from "@/ui/TaskModal/TaskModalTitle";
 import TaskModalDescription from "@/ui/TaskModal/TaskModalDescription";
 import TaskModalActivity from "@/ui/TaskModal/TaskModalActivity";
-import TaskModalAddToCard from "@/ui/TaskModal/TaskModalAddToCard";
 import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
 export default async function TaskPage({ 
     taskId 
@@ -22,7 +20,7 @@ export default async function TaskPage({
   const session = await auth();
 
   return (
-    <Suspense fallback={<p>Loading feed...</p>}>
+    <>
       <div className='flex gap-3 p-5 border-b-1 border-zinc-800'>
         <TaskModalTitle selectedTask={task} boardId={task?.column.boardId} />
       </div>
@@ -45,6 +43,6 @@ export default async function TaskPage({
         </div>
 
       </div>
-    </Suspense>
+    </>
   );
 }
