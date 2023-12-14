@@ -38,10 +38,10 @@ export async function handleCreateTask(data: TaskCreationData) {
             const activity = await prisma.activity.create({
                 data: {
                     type: 'TASK_CREATED',
-                    content: `added this card to`,
                     userId: userId,
                     taskId: createdTask.id,
-                    boardId: parse.data.boardId
+                    boardId: parse.data.boardId,
+                    originalColumnId: parse.data.columnId
                 }
             });
         }
