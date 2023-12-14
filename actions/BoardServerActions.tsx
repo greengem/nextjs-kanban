@@ -6,6 +6,8 @@ import { CreateBoardSchema, DeleteBoardSchema } from '@/types/zodTypes';
 import { BoardCreationData, BoardDeletionData } from "@/types/types";
 
 // Create Board
+const DEFAULT_LABEL_COLORS = ['green', 'yellow', 'orange', 'red', 'purple', 'blue'];
+
 export async function handleCreateBoard(data: BoardCreationData) {
   const session = await auth();
 
@@ -22,19 +24,41 @@ export async function handleCreateBoard(data: BoardCreationData) {
   try {
     const createdBoard = await prisma.board.create({
       data: {
-        userId: session?.user?.id,
+        userId: session.user.id,
         title: parse.data.title,
         description: parse.data.description,
       }
     });
 
+    // Create default labels for the new board
+    await createDefaultLabelsForBoard(createdBoard.id, session.user.id);
+
     revalidatePath('/board/');
 
-    return { success: true, message: `Board Created`, boardId: createdBoard.id };
+    return { success: true, message: 'Board Created', boardId: createdBoard.id };
   } catch (e) {
-    return { success: false, message: `Failed to create board` };
+    return { success: false, message: 'Failed to create board' };
   }
 }
+
+// Function to create default labels for a board
+async function createDefaultLabelsForBoard(boardId: string, userId: string) {
+  const labelCreations = DEFAULT_LABEL_COLORS.map(color => {
+    return prisma.label.create({
+      data: {
+        color: color,
+        name: '', // Empty name for default labels
+        boardId: boardId,
+        isDefault: true,
+        userId: userId,
+      }
+    });
+  });
+
+  await Promise.all(labelCreations);
+}
+
+
 
 // Delete Board
 export async function handleDeleteBoard(boardId: string) {
