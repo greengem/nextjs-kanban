@@ -2,8 +2,9 @@ import { auth } from "@/auth";
 import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
 import Board from "@/ui/Board/Board";
-import { IconStar } from "@tabler/icons-react";
+
 import BoardActions from "@/ui/Board/BoardActions";
+import BoardFavourite from "./_ui/BoardFavourite";
 
 interface BoardProps {
   params: { id: string };
@@ -11,7 +12,13 @@ interface BoardProps {
 
 export default async function BoardPage({ params }: BoardProps) {
   const session = await auth();
-  const board: BoardDetails | null = await getBoard(params.id);
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return null;
+  }
+
+  const board: BoardDetails | null = await getBoard(params.id, userId);
 
   if (!board) {
     return <div>Board not found</div>;
@@ -27,9 +34,7 @@ export default async function BoardPage({ params }: BoardProps) {
 
         <div className="flex gap-5 items-center">
           <div>{board.title}</div>
-          <button>
-            <IconStar size={18} />
-          </button>
+          <BoardFavourite board={board} />
           <div>Filters</div>
         </div>
 
