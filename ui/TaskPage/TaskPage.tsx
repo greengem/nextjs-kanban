@@ -1,10 +1,10 @@
 import { auth } from "@/auth";
 import { getTask } from "@/lib/FetchData";
 import { ExpandedTask } from "@/types/types";
-
 import TaskModalTitle from "@/ui/TaskModal/TaskModalTitle";
 import TaskModalDescription from "@/ui/TaskModal/TaskModalDescription";
 import TaskModalActivity from "@/ui/TaskModal/TaskModalActivity";
+import TaskModalAddToCard from "../TaskModal/TaskModalAddToCard";
 import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
 export default async function TaskPage({ 
     taskId 
@@ -38,7 +38,7 @@ export default async function TaskPage({
         </div>
 
         <div className='col-span-1 space-y-2'>
-          {/*<TaskModalAddToCard />*/}
+          <TaskModalAddToCard task={task} />
           <TaskModalActions selectedTask={task} boardId={task.column.boardId} />
         </div>
 
