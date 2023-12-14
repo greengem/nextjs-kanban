@@ -1,7 +1,8 @@
 import { Board, Column, Task, Activity, User } from "@prisma/client";
 
 export type BoardSummary = Pick<Board, 'id' | 'title'> & {
-    tasksCount: number; // Add this line
+    tasksCount: number; // Number of tasks in the board
+    isFavorited: boolean;
 };
 
 export type BoardDetails = BoardSummary & {
@@ -20,10 +21,11 @@ export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' |
 };
 
 export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'createdAt'> & {
-    user: Pick<User, 'id' | 'name' | 'image'>
+    user: Pick<User, 'id' | 'name' | 'image'>,
+    oldColumn: Pick<Column, 'title'> | null,
+    newColumn: Pick<Column, 'title'> | null,
+    originalColumn: Pick<Column, 'title'> | null
 };
-
-
 
 // Form validation
 export type BoardCreationData = Pick<Board, 'title' | 'description'>;
