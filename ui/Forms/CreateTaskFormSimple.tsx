@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { handleCreateTask } from "@/actions/TaskActions";
+import { handleCreateTask } from "@/actions/TaskServerActions";
 import { CreateTaskSchema } from '@/types/zodTypes';
 import { TaskCreationData } from '@/types/types';
 import { IconLoader2, IconPlus, IconX } from "@tabler/icons-react";

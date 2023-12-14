@@ -4,7 +4,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-o
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { IconEdit, IconMenu2, IconTrash, IconX } from "@tabler/icons-react";
 import toast from 'react-hot-toast';
-import { handleDeleteColumn, handleEditColumn, handleDeleteColumnTasks } from "@/actions/ColumnActions";
+import { handleDeleteColumn, handleEditColumn, handleDeleteColumnTasks } from "@/actions/ColumnServerActions";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
 

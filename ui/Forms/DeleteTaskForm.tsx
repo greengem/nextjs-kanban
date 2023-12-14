@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { handleDeleteTask } from "@/actions/TaskActions";
+import { handleDeleteTask } from "@/actions/TaskServerActions";
 import { DeleteTaskSchema } from '@/types/zodTypes';
 import { TaskDeletionData } from '@/types/types';
 import { IconLoader2, IconTrash } from "@tabler/icons-react";

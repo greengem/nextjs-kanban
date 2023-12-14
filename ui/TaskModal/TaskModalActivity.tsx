@@ -10,7 +10,7 @@ import { Textarea } from "@nextui-org/input"
 import { Button, ButtonGroup } from "@nextui-org/button"
 import { ActivityWithUser } from "@/types/types"
 import { IconActivity, IconX } from "@tabler/icons-react"
-import { handleCreateActivity } from "@/actions/ActivityActions";
+import { handleCreateActivity } from "@/actions/ActivityServerActions";
 import { CreateActivitySchema } from "@/types/zodTypes";
 import { ActivityCreationData } from "@/types/types";
 

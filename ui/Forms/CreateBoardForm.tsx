@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import { handleCreateBoard } from "@/actions/BoardActions";
+import { handleCreateBoard } from "@/actions/BoardServerActions";
 import { CreateBoardSchema } from '@/types/zodTypes';
 import { Card, CardBody } from '@/ui/Card/Card';
 import { BoardCreationData } from '@/types/types';
