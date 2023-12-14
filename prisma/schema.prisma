@@ -116,10 +116,11 @@ model Label {
   id      String  @id @default(cuid())
   name    String
   color   String
+  isDefault Boolean @default(false)
   userId  String
   user    User    @relation(fields: [userId], references: [id])
   boardId String
-  board   Board   @relation(fields: [boardId], references: [id])
+  board   Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks   LabelOnTask[]
 }
 
