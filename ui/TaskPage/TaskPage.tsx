@@ -25,6 +25,21 @@ export default async function TaskPage({
         <TaskModalTitle selectedTask={task} boardId={task?.column.boardId} />
       </div>
 
+      <div>
+          <h4 className="font-semibold mb-2">Labels:</h4>
+          <div className="flex gap-2">
+              {task.labels.map(({ label }) => (
+                  <span 
+                      key={label.id}
+                      style={{ backgroundColor: label.color }}
+                      className="px-2 py-1 rounded text-white"
+                  >
+                      {label.name || 'No Name'}
+                  </span>
+              ))}
+          </div>
+      </div>
+
       <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-5'>
         <div className='col-span-3 space-y-5'>
           <TaskModalDescription selectedTask={task} boardId={task.column.boardId} />
