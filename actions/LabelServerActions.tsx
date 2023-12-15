@@ -31,3 +31,32 @@ export async function handleSaveLabel({ labelId, taskId, boardId }: { labelId: s
         return { success: false, message: 'Failed to associate label with task' };
     }
 }
+
+
+export async function handleRemoveLabel({ labelId, taskId, boardId }: { labelId: string; taskId: string, boardId: string }) {
+    if (!labelId) {
+        return { success: false, message: 'Label ID is missing' };
+    }
+    if (!taskId) {
+        return { success: false, message: 'Task ID is missing' };
+    }
+    if (!boardId) {
+        return { success: false, message: 'Board ID is missing' };
+    }
+
+    try {
+        await prisma.labelOnTask.delete({
+            where: {
+                labelId_taskId: { labelId, taskId }, // Unique composite key
+            },
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Label removed from task' };
+    } catch (e) {
+
+        console.error('Error removing label from task:', e);
+        return { success: false, message: 'Failed to remove label from task' };
+    }
+}
