@@ -1,7 +1,7 @@
-import { Board, Column, Task, Activity, User } from "@prisma/client";
+import { Board, Column, Task, Activity, User, Label as PrismaLabel } from "@prisma/client";
 
 export type BoardSummary = Pick<Board, 'id' | 'title'> & {
-    tasksCount: number; // Number of tasks in the board
+    tasksCount: number;
     isFavorited: boolean;
 };
 
@@ -13,11 +13,14 @@ export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order'> & {
     tasks: TaskSummary[];
 };
 
-export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'columnId'>;
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'columnId'> & {
+    labels: Label[];
+};
 
 export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
     activities: ActivityWithUser[];
     column: Pick<Column, 'title' | 'boardId'>;
+    labels: Label[];
 };
 
 export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'createdAt'> & {
@@ -27,6 +30,10 @@ export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'creat
     originalColumn: Pick<Column, 'title'> | null
 };
 
+// Custom type for Label that includes isSelected
+export type Label = PrismaLabel & {
+    isSelected: boolean;
+};
 // Form validation
 export type BoardCreationData = Pick<Board, 'title' | 'description'>;
 
