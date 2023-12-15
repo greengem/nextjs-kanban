@@ -98,9 +98,6 @@ export async function getBoard(id: string, userId: string): Promise<BoardDetails
     return null;
 }
 
-
-
-
 export async function getTask(taskId: string) {
     const task = await prisma.task.findUnique({
         where: {
@@ -120,6 +117,17 @@ export async function getTask(taskId: string) {
                     title: true,
                     boardId: true,
                 },
+            },
+            labels: {
+                select: {
+                    label: {
+                        select: {
+                            id: true,
+                            name: true,
+                            color: true
+                        }
+                    }
+                }
             },
             activities: {
                 orderBy: {
@@ -152,6 +160,7 @@ export async function getTask(taskId: string) {
     });
     return task;
 }
+
 
 // Fetch labels
 export async function getLabelsForBoard(boardId: string) {
