@@ -15,7 +15,11 @@ export default async function TaskModalAddToCard({
             <ul className='text-sm space-y-2'>
                 {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconUser size={14} /> Members</li>*/}
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'>
-                    <TaskModalLabelAddToCard labels={labels} />
+                    <TaskModalLabelAddToCard 
+                        labels={labels} 
+                        taskId={task.id}
+                        boardId={task.column.boardId}
+                    />
                 </li>
                 {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconCheckbox size={14} /> Checklist</li>*/}
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconCalendar size={14} /> Dates</li>
