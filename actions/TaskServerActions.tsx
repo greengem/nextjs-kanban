@@ -152,3 +152,47 @@ export async function handleDeleteActivity(data: { boardId: string; taskId: stri
         return { success: false, message: 'Failed to delete task' };
     }
 }
+
+// Add a due date. NOTE: we expect a string since server actions need to be serialised
+export async function handleAddDueDate(data: { taskId: string; dueDate: string; boardId: string; }) {
+    if (!data.boardId || !data.taskId || !data.dueDate) {
+        return { success: false, message: 'Board ID, Task ID, or Due Date is missing' };
+    }
+
+    try {
+        // Convert the dueDate string to a Date object
+        const dueDateObject = new Date(data.dueDate);
+
+        await prisma.task.update({
+            where: { id: data.taskId },
+            data: { dueDate: dueDateObject },
+        });
+
+        revalidatePath(`/board/${data.boardId}`);
+        return { success: true, message: 'Due Date Updated' };
+    } catch (e) {
+        console.error(e);
+        return { success: false, message: 'Failed to Update Due Date' };
+    }
+}
+
+
+// Remove a due date.
+export async function handleRemoveDueDate(data: { taskId: string; boardId: string; }) {
+    if (!data.boardId || !data.taskId) {
+        return { success: false, message: 'Board ID, Task ID, or Due Date is missing' };
+    }
+
+    try {
+        await prisma.task.update({
+            where: { id: data.taskId },
+            data: { dueDate: null },
+        });
+
+        revalidatePath(`/board/${data.boardId}`);
+        return { success: true, message: 'Due Date Updated' };
+    } catch (e) {
+        console.error(e);
+        return { success: false, message: 'Failed to Update Due Date' };
+    }
+}

@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Input, Checkbox, CheckboxGroup } from "@nextui-org/react";
 import { IconTag } from '@tabler/icons-react';
-import { Label } from '@/types/types';
 import { handleRemoveLabel, handleSaveLabel } from '@/actions/LabelServerActions';
 
 type ColorName = 'green' | 'yellow' | 'red' | 'orange' | 'purple' | 'blue';
@@ -21,7 +20,7 @@ function getTailwindColorClass(colorName: ColorName): string {
     return colorMapping[colorName] || "bg-gray-500";
 }
 
-export default function TaskModalLabelAddToCard({ 
+export default function AddToCardLabels({ 
     labels, taskId, boardId
 }: { 
     labels: Label[], taskId: string, boardId: string;
