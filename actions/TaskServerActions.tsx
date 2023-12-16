@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache'
 import { CreateTaskSchema, EditTaskSchema, DeleteTaskSchema } from '@/types/zodTypes';
 import { TaskCreationData, TaskEditData, TaskDeletionData } from '@/types/types';
 
+
 // Create Task
 export async function handleCreateTask(data: TaskCreationData) {
     try {
@@ -54,8 +55,6 @@ export async function handleCreateTask(data: TaskCreationData) {
     } finally {
     }
 }
-
-
 
 
 // EDIT TASK
@@ -125,17 +124,36 @@ export async function handleDeleteTask(data: TaskDeletionData) {
 
 // Add a due date. NOTE: we expect a string since server actions need to be serialised
 export async function handleAddDueDate(data: { taskId: string; dueDate: string; boardId: string; }) {
-    if (!data.boardId || !data.taskId || !data.dueDate) {
-        return { success: false, message: 'Board ID, Task ID, or Due Date is missing' };
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!data.boardId || !data.taskId || !data.dueDate || !userId) {
+        return { success: false, message: 'Board ID, Task ID, Due Date, or User ID is missing' };
     }
 
     try {
-        // Convert the dueDate string to a Date object
         const dueDateObject = new Date(data.dueDate);
+
+        const existingTask = await prisma.task.findUnique({
+            where: { id: data.taskId },
+            select: { dueDate: true }
+        });
 
         await prisma.task.update({
             where: { id: data.taskId },
             data: { dueDate: dueDateObject },
+        });
+
+        // Determine the activity type
+        const activityType = existingTask && existingTask.dueDate ? 'DUE_DATE_UPDATED' : 'DUE_DATE_ADDED';
+
+        // Create an activity record
+        await prisma.activity.create({
+            data: {
+                type: activityType,
+                taskId: data.taskId,
+                userId: userId,
+            }
         });
 
         revalidatePath(`/board/${data.boardId}`);
@@ -147,10 +165,14 @@ export async function handleAddDueDate(data: { taskId: string; dueDate: string; 
 }
 
 
+
 // Remove a due date.
 export async function handleRemoveDueDate(data: { taskId: string; boardId: string; }) {
-    if (!data.boardId || !data.taskId) {
-        return { success: false, message: 'Board ID, Task ID, or Due Date is missing' };
+    const session = await auth();
+    const userId = session?.user?.id;
+    
+    if (!data.boardId || !data.taskId || !userId) {
+        return { success: false, message: 'Board ID, Task ID, or User ID is missing' };
     }
 
     try {
@@ -159,10 +181,19 @@ export async function handleRemoveDueDate(data: { taskId: string; boardId: strin
             data: { dueDate: null },
         });
 
+        // Create an activity record for removing the due date
+        await prisma.activity.create({
+            data: {
+                type: 'DUE_DATE_REMOVED',
+                taskId: data.taskId,
+                userId: userId,
+            }
+        });
+
         revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: 'Due Date Updated' };
+        return { success: true, message: 'Due Date Removed' };
     } catch (e) {
         console.error(e);
-        return { success: false, message: 'Failed to Update Due Date' };
+        return { success: false, message: 'Failed to Remove Due Date' };
     }
 }
