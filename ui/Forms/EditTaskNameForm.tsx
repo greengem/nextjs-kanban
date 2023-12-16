@@ -45,7 +45,7 @@ export default function EditTaskNameForm({
           <span onClick={toggleEdit} className="cursor-pointer w-full">{title}</span>
         </div>
       ) : (
-        <div>
+        <div className='mb-3'>
           <input 
             autoFocus 
             type='text' 
