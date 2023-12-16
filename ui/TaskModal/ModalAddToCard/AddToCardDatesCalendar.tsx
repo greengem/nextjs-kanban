@@ -1,9 +1,9 @@
 'use client'
 
+import 'react-day-picker/dist/style.css';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
-import 'react-day-picker/dist/style.css';
 import { Button } from '@nextui-org/button';
 import { handleAddDueDate, handleRemoveDueDate } from '@/actions/TaskServerActions';
 import toast from 'react-hot-toast';
@@ -27,7 +27,6 @@ export default function AddToCardDatesCalendar({
     const sendDateRequest = async (date: Date) => {
         try {
             const formattedDate = format(date, 'yyyy-MM-dd');
-            console.log('Sending date:', formattedDate);
 
             const data = {
                 taskId: taskId,
@@ -36,7 +35,6 @@ export default function AddToCardDatesCalendar({
             }
 
             const response = await handleAddDueDate(data);
-            console.log(response);
 
             if (response.success) {
                 toast.success(response.message);
@@ -44,7 +42,6 @@ export default function AddToCardDatesCalendar({
                 throw new Error(response.message);
             }
         } catch (error) {
-            console.error(error);
             toast.error('Failed to Update Due Date');
         }
     }
@@ -58,7 +55,6 @@ export default function AddToCardDatesCalendar({
             };
 
             const response = await handleRemoveDueDate(data);
-            console.log(response);
 
             if (response.success) {
                 toast.success(response.message);
@@ -67,7 +63,6 @@ export default function AddToCardDatesCalendar({
                 throw new Error(response.message);
             }
         } catch (error) {
-            console.error(error);
             toast.error('Failed to Remove Due Date');
         }
     }
