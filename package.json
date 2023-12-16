@@ -23,6 +23,7 @@
     "next-themes": "^0.2.1",
     "prisma": "^5.6.0",
     "react": "^18",
+    "react-day-picker": "^8.9.1",
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
