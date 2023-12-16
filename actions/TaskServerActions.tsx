@@ -122,36 +122,6 @@ export async function handleDeleteTask(data: TaskDeletionData) {
     }
 }
 
-export async function handleDeleteActivity(data: { boardId: string; taskId: string; columnId: string; }) {
-
-    if (!data.boardId || !data.taskId || !data.columnId) {
-        return { success: false, message: 'Board ID, Column ID or Activity ID is missing' };
-    }
-
-    try {
-        const deletedTask = await prisma.task.delete({
-            where: { id: data.taskId },
-            select: { order: true }
-        });
-
-        if (deletedTask) {
-            await prisma.task.updateMany({
-                where: {
-                    columnId: data.columnId,
-                    order: { gt: deletedTask.order }
-                },
-                data: {
-                    order: { decrement: 1 }
-                }
-            });
-        }
-        
-        revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: 'Deleted task' };
-    } catch (e) {
-        return { success: false, message: 'Failed to delete task' };
-    }
-}
 
 // Add a due date. NOTE: we expect a string since server actions need to be serialised
 export async function handleAddDueDate(data: { taskId: string; dueDate: string; boardId: string; }) {
