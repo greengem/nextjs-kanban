@@ -93,11 +93,11 @@ model Task {
   title       String
   description String?
   dueDate     DateTime?
-  startDate   DateTime?      // New field for start date
+  startDate   DateTime?
   columnId    String
   column      Column         @relation(fields: [columnId], references: [id], onDelete: Cascade)
   labels      LabelOnTask[]
-  checklists  Checklist[]    // Relation to Checklist
+  checklists  Checklist[]
   order       Int
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
