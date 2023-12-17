@@ -108,6 +108,7 @@ export async function getTask(taskId: string) {
             title: true,
             description: true,
             dueDate: true,
+            startDate: true,
             createdAt: true,
             updatedAt: true,
             order: true,
