@@ -1,6 +1,7 @@
 'use client'
 
 import 'react-day-picker/dist/style.css';
+import './DayPicker.css';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
