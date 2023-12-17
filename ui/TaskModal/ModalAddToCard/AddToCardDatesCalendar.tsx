@@ -9,16 +9,18 @@ import { handleAddDate, handleRemoveDate } from '@/actions/TaskServerActions';
 import toast from 'react-hot-toast';
 
 export default function AddToCardDatesCalendar({ 
-    taskId, boardId, date, dateType
+    taskId, boardId, startDate, dueDate, dateType
 } : {
-    taskId: string; boardId: string; date: Date | null; dateType: 'startDate' | 'dueDate';
+    taskId: string; boardId: string; startDate: Date | null; dueDate: Date | null; dateType: 'startDate' | 'dueDate';
 }) {
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(date || undefined);
+    const initialDate = dateType === 'startDate' ? (startDate ?? undefined) : (dueDate ?? undefined);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
 
     const handleDateSelect = (newDate: Date | undefined) => {
         if (!newDate) return;
 
-        if (!date || date.toISOString() !== newDate.toISOString()) {
+        const currentDate = dateType === 'startDate' ? startDate : dueDate;
+        if (!currentDate || currentDate.toISOString() !== newDate.toISOString()) {
             setSelectedDate(newDate);
             sendDateRequest(newDate);
         }
@@ -79,6 +81,15 @@ export default function AddToCardDatesCalendar({
         </Button>
     );
 
+    let disabledDays;
+    if (dateType === 'dueDate' && startDate) {
+        disabledDays = { before: startDate };
+    } else if (dateType === 'startDate' && dueDate) {
+        disabledDays = { after: dueDate };
+    } else {
+        disabledDays = [];
+    }
+
     return (
         <DayPicker
             mode="single"
@@ -86,6 +97,7 @@ export default function AddToCardDatesCalendar({
             onSelect={handleDateSelect}
             footer={footer}
             showOutsideDays fixedWeeks
+            disabled={disabledDays}
         />
     );
 }
