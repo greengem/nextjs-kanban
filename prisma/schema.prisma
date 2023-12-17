@@ -89,19 +89,19 @@ model Column {
 }
 
 model Task {
-  id          String         @id @default(cuid())
+  id          String       @id @default(cuid())
   title       String
   description String?
   dueDate     DateTime?
   startDate   DateTime?
   columnId    String
-  column      Column         @relation(fields: [columnId], references: [id], onDelete: Cascade)
-  labels      LabelOnTask[]
+  column      Column       @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  labels      Label[]
   checklists  Checklist[]
   order       Int
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
-  activities Activity[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  activities  Activity[]
 }
 
 model FavoriteBoard {
@@ -113,26 +113,16 @@ model FavoriteBoard {
 }
 
 model Label {
-  id      String  @id @default(cuid())
-  name    String
-  color   String
+  id        String  @id @default(cuid())
+  title     String?
+  color     String
   isDefault Boolean @default(false)
-  userId  String
-  user    User    @relation(fields: [userId], references: [id])
-  boardId String
-  board   Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  tasks   LabelOnTask[]
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  boardId   String
+  board     Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  tasks     Task[]
 }
-
-model LabelOnTask {
-  labelId String
-  taskId  String
-  label   Label    @relation(fields: [labelId], references: [id])
-  task    Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-
-  @@id([labelId, taskId])
-}
-
 
 model Checklist {
   id        String           @id @default(cuid())
