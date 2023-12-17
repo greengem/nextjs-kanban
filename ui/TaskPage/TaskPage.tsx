@@ -6,7 +6,7 @@ import TaskModalDescription from "@/ui/TaskModal/TaskModalDescription";
 import TaskModalActivity from "@/ui/TaskModal/TaskModalActivity";
 import TaskModalAddToCard from "../TaskModal/TaskModalAddToCard";
 import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
-import { format } from 'date-fns';
+import { format, isSameMonth, isSameYear } from 'date-fns';
 
 export default async function TaskPage({ 
     taskId 
@@ -21,6 +21,22 @@ export default async function TaskPage({
   
   const session = await auth();
 
+  function formatDateDisplay(startDate: Date | null, dueDate: Date | null): string {
+    if (!startDate && !dueDate) return '';
+  
+    if (startDate && dueDate) {
+      if (isSameMonth(startDate, dueDate) && isSameYear(startDate, dueDate)) {
+        return `${format(startDate, 'dd')} - ${format(dueDate, 'dd MMM')}`;
+      }
+      return `${format(startDate, 'dd MMM')} - ${format(dueDate, 'dd MMM')}`;
+    } else if (startDate) {
+      return `Start Date: ${format(startDate, 'dd MMM')}`;
+    } else if (dueDate) {
+      return `Due: ${format(dueDate, 'dd MMM')}`;
+    }
+    return '';
+  }
+
   return (
     <>
       <div className='flex gap-3 p-5 border-b-1 border-zinc-800'>
@@ -29,8 +45,9 @@ export default async function TaskPage({
 
       <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-5'>
         <div className='col-span-3 space-y-5'>
-          <div>Start date: {task.startDate ? format(new Date(task.startDate), 'MMMM dd, yyyy') : 'No start date'}</div>
-          <div>Due date: {task.dueDate ? format(new Date(task.dueDate), 'MMMM dd, yyyy') : 'No due date'}</div>
+          <div>
+            Dates: {task.startDate || task.dueDate ? formatDateDisplay(task.startDate, task.dueDate) : 'No dates'}
+          </div>
           <TaskModalDescription selectedTask={task} boardId={task.column.boardId} />
           <TaskModalActivity task={task} session={session} />
         </div>
