@@ -12,8 +12,12 @@ interface TaskModalActivityItemProps {
     boardId: string;
 }
 
-export default function TaskModalActivityItem({ activity, columnTitle, boardId }: TaskModalActivityItemProps) {
+export default function TaskModalActivityItem({ activity, boardId }: TaskModalActivityItemProps) {
     const formattedDate = format(new Date(activity.createdAt), 'MM/dd/yyyy, HH:mm:ss');
+
+    const formatDate = (date: Date | null) => {
+        return date ? format(new Date(date), 'dd/MM/yyyy') : 'N/A';
+    };
 
     const getActivityMessage = (activity: ActivityWithUser) => {
         switch (activity.type) {
@@ -21,6 +25,18 @@ export default function TaskModalActivityItem({ activity, columnTitle, boardId }
                 return ` moved this card from ${activity.oldColumn?.title} to ${activity.newColumn?.title}`;
             case 'TASK_CREATED':
                 return ` added this card to ${activity.originalColumn?.title}`;
+            case 'START_DATE_ADDED':
+                return ` set the start date to ${formatDate(activity.startDate)}`;
+            case 'START_DATE_UPDATED':
+                return ` changed the start date to ${formatDate(activity.startDate)}`;
+            case 'START_DATE_REMOVED':
+                return ` removed the start date`;
+            case 'DUE_DATE_ADDED':
+                return ` set the due date to ${formatDate(activity.dueDate)}`;
+            case 'DUE_DATE_UPDATED':
+                return ` changed the due date to ${formatDate(activity.dueDate)}`;
+            case 'DUE_DATE_REMOVED':
+                return ` removed the due date`;
             default:
                 return activity.content;
         }
