@@ -128,10 +128,11 @@ model LabelOnTask {
   labelId String
   taskId  String
   label   Label    @relation(fields: [labelId], references: [id])
-  task    Task     @relation(fields: [taskId], references: [id])
+  task    Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@id([labelId, taskId])
 }
+
 
 model Checklist {
   id        String           @id @default(cuid())
