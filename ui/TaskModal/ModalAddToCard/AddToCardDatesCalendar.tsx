@@ -5,36 +5,36 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { Button } from '@nextui-org/button';
-import { handleAddDueDate, handleRemoveDueDate } from '@/actions/TaskServerActions';
+import { handleAddDate, handleRemoveDate } from '@/actions/TaskServerActions';
 import toast from 'react-hot-toast';
 
 export default function AddToCardDatesCalendar({ 
-    taskId, boardId, dueDate
+    taskId, boardId, date, dateType
 } : {
-    taskId: string; boardId: string; dueDate: Date | null;
+    taskId: string; boardId: string; date: Date | null; dateType: 'startDate' | 'dueDate';
 }) {
-    const [selectedDueDate, setSelectedDueDate] = useState<Date | undefined>(dueDate || undefined);
+    const [selectedDate, setSelectedDate] = useState<Date | undefined>(date || undefined);
 
-    const handleDateSelect = (date: Date | undefined) => {
-        if (!date) return;
+    const handleDateSelect = (newDate: Date | undefined) => {
+        if (!newDate) return;
 
-        if (!dueDate || dueDate.toISOString() !== date.toISOString()) {
-            setSelectedDueDate(date);
-            sendDateRequest(date);
+        if (!date || date.toISOString() !== newDate.toISOString()) {
+            setSelectedDate(newDate);
+            sendDateRequest(newDate);
         }
     }
 
-    const sendDateRequest = async (date: Date) => {
+    const sendDateRequest = async (newDate: Date) => {
         try {
-            const formattedDate = format(date, 'yyyy-MM-dd');
-
+            const formattedDate = format(newDate, 'yyyy-MM-dd');
             const data = {
                 taskId: taskId,
-                dueDate: formattedDate,
-                boardId: boardId
+                date: formattedDate,
+                boardId: boardId,
+                dateType: dateType
             }
 
-            const response = await handleAddDueDate(data);
+            const response = await handleAddDate(data);
 
             if (response.success) {
                 toast.success(response.message);
@@ -42,38 +42,38 @@ export default function AddToCardDatesCalendar({
                 throw new Error(response.message);
             }
         } catch (error) {
-            toast.error('Failed to Update Due Date');
+            toast.error(`Failed to Update ${dateType === 'dueDate' ? 'Due Date' : 'Start Date'}`);
         }
     }
 
-
-    const removeDueDate = async () => {
+    const removeDate = async () => {
         try {
             const data = {
                 taskId: taskId,
-                boardId: boardId
+                boardId: boardId,
+                dateType: dateType
             };
-
-            const response = await handleRemoveDueDate(data);
-
+    
+            const response = await handleRemoveDate(data);
+    
             if (response.success) {
                 toast.success(response.message);
-                setSelectedDueDate(undefined);
+                setSelectedDate(undefined);
             } else {
                 throw new Error(response.message);
             }
         } catch (error) {
-            toast.error('Failed to Remove Due Date');
+            toast.error(`Failed to Remove ${dateType === 'dueDate' ? 'Due Date' : 'Start Date'}`);
         }
     }
 
-    const footerDueDate = (
+    const footer = (
         <Button 
             size='sm' 
             variant='ghost' 
             color='danger' 
-            onClick={removeDueDate}
-            isDisabled={!selectedDueDate}
+            onClick={removeDate}
+            isDisabled={!selectedDate}
         >
             Remove
         </Button>
@@ -82,9 +82,9 @@ export default function AddToCardDatesCalendar({
     return (
         <DayPicker
             mode="single"
-            selected={selectedDueDate}
+            selected={selectedDate}
             onSelect={handleDateSelect}
-            footer={footerDueDate}
+            footer={footer}
             showOutsideDays fixedWeeks
         />
     );
