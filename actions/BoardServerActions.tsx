@@ -5,7 +5,7 @@ import { revalidatePath } from 'next/cache';
 import { CreateBoardSchema, DeleteBoardSchema } from '@/types/zodTypes';
 import { BoardCreationData, BoardDeletionData } from "@/types/types";
 
-// Create Board
+// Define default label colors
 const DEFAULT_LABEL_COLORS = ['green', 'yellow', 'orange', 'red', 'purple', 'blue'];
 
 export async function handleCreateBoard(data: BoardCreationData) {
@@ -47,7 +47,7 @@ async function createDefaultLabelsForBoard(boardId: string, userId: string) {
     return prisma.label.create({
       data: {
         color: color,
-        name: '', // Empty name for default labels
+        title: null, // Set title to null for default labels
         boardId: boardId,
         isDefault: true,
         userId: userId,
@@ -57,6 +57,7 @@ async function createDefaultLabelsForBoard(boardId: string, userId: string) {
 
   await Promise.all(labelCreations);
 }
+
 
 
 
