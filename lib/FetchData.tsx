@@ -139,6 +139,8 @@ export async function getTask(taskId: string) {
                     type: true,
                     content: true,
                     createdAt: true,
+                    startDate: true,
+                    dueDate: true,
                     oldColumn: {
                         select: { title: true },
                     },
