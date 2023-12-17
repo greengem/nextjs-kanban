@@ -23,7 +23,9 @@ export default async function TaskModalAddToCard({
                     />
                 </li>
                 {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconCheckbox size={14} /> Checklist</li>*/}
-                <AddToCardDates taskId={task.id} boardId={task.column.boardId} dueDate={task.dueDate} />
+                <AddToCardDates taskId={task.id} boardId={task.column.boardId} date={task.dueDate} dateType="dueDate" />
+                <AddToCardDates taskId={task.id} boardId={task.column.boardId} date={task.startDate} dateType="startDate" />
+
                 {/*
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconPaperclip size={14} /> Attachement</li>
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconPaint size={14} /> Cover</li>
