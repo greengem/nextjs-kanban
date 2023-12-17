@@ -155,6 +155,8 @@ model Activity {
   type           ActivityType
   content        String?
   createdAt      DateTime      @default(now())
+  startDate      DateTime?     // Added field for start date
+  dueDate        DateTime?     // Added field for due date
   userId         String
   user           User          @relation(fields: [userId], references: [id])
   taskId         String?
@@ -162,13 +164,13 @@ model Activity {
   boardId        String?
   board          Board?        @relation(fields: [boardId], references: [id], onDelete: Cascade)
   oldColumnId    String?
-  oldColumn      Column? @relation("OldColumn", fields: [oldColumnId], references: [id])
+  oldColumn      Column?       @relation("OldColumn", fields: [oldColumnId], references: [id])
   newColumnId    String?
-  newColumn      Column? @relation("NewColumn", fields: [newColumnId], references: [id])
+  newColumn      Column?       @relation("NewColumn", fields: [newColumnId], references: [id])
   originalColumnId String?
-  originalColumn Column? @relation("OriginalColumn", fields: [originalColumnId], references: [id])
-  
+  originalColumn Column?       @relation("OriginalColumn", fields: [originalColumnId], references: [id])
 }
+
 
 enum ActivityType {
   TASK_CREATED
