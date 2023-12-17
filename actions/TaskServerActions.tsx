@@ -122,32 +122,33 @@ export async function handleDeleteTask(data: TaskDeletionData) {
 }
 
 
-// Add a due date. NOTE: we expect a string since server actions need to be serialised
-export async function handleAddDueDate(data: { taskId: string; dueDate: string; boardId: string; }) {
+
+// Add/update a date. NOTE: we expect a string since server actions need to be serialised
+export async function handleAddDate(data: { taskId: string; date: string; boardId: string; dateType: 'startDate' | 'dueDate' }) {
     const session = await auth();
     const userId = session?.user?.id;
 
-    if (!data.boardId || !data.taskId || !data.dueDate || !userId) {
-        return { success: false, message: 'Board ID, Task ID, Due Date, or User ID is missing' };
+    if (!data.boardId || !data.taskId || !data.date || !userId) {
+        return { success: false, message: `Board ID, Task ID, ${data.dateType}, or User ID is missing` };
     }
 
     try {
-        const dueDateObject = new Date(data.dueDate);
+        const dateObject = new Date(data.date);
 
         const existingTask = await prisma.task.findUnique({
             where: { id: data.taskId },
-            select: { dueDate: true }
+            select: { [data.dateType]: true }
         });
 
         await prisma.task.update({
             where: { id: data.taskId },
-            data: { dueDate: dueDateObject },
+            data: { [data.dateType]: dateObject },
         });
 
-        // Determine the activity type
-        const activityType = existingTask && existingTask.dueDate ? 'DUE_DATE_UPDATED' : 'DUE_DATE_ADDED';
+        const activityType = existingTask && existingTask[data.dateType] 
+                            ? (data.dateType === 'dueDate' ? 'DUE_DATE_UPDATED' : 'START_DATE_UPDATED')
+                            : (data.dateType === 'dueDate' ? 'DUE_DATE_ADDED' : 'START_DATE_ADDED');
 
-        // Create an activity record
         await prisma.activity.create({
             data: {
                 type: activityType,
@@ -157,43 +158,44 @@ export async function handleAddDueDate(data: { taskId: string; dueDate: string; 
         });
 
         revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: 'Due Date Updated' };
+        return { success: true, message: `${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)} Updated` };
     } catch (e) {
-        console.error(e);
-        return { success: false, message: 'Failed to Update Due Date' };
+        return { success: false, message: `Failed to Update ${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)}` };
     }
 }
 
 
 
-// Remove a due date.
-export async function handleRemoveDueDate(data: { taskId: string; boardId: string; }) {
+
+
+// Remove a date.
+export async function handleRemoveDate(data: { taskId: string; boardId: string; dateType: 'startDate' | 'dueDate' }) {
     const session = await auth();
     const userId = session?.user?.id;
-    
+
     if (!data.boardId || !data.taskId || !userId) {
-        return { success: false, message: 'Board ID, Task ID, or User ID is missing' };
+        return { success: false, message: `Board ID, Task ID, or User ID is missing` };
     }
 
     try {
         await prisma.task.update({
             where: { id: data.taskId },
-            data: { dueDate: null },
+            data: { [data.dateType]: null },
         });
 
-        // Create an activity record for removing the due date
+        const activityType = data.dateType === 'dueDate' ? 'DUE_DATE_REMOVED' : 'START_DATE_REMOVED';
+
         await prisma.activity.create({
             data: {
-                type: 'DUE_DATE_REMOVED',
+                type: activityType,
                 taskId: data.taskId,
                 userId: userId,
             }
         });
 
         revalidatePath(`/board/${data.boardId}`);
-        return { success: true, message: 'Due Date Removed' };
+        return { success: true, message: `${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)} Removed` };
     } catch (e) {
-        console.error(e);
-        return { success: false, message: 'Failed to Remove Due Date' };
+        return { success: false, message: `Failed to Remove ${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)}` };
     }
 }
