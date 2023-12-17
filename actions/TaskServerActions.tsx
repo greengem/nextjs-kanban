@@ -122,7 +122,6 @@ export async function handleDeleteTask(data: TaskDeletionData) {
 }
 
 
-
 // Add/update a date. NOTE: we expect a string since server actions need to be serialised
 export async function handleAddDate(data: { taskId: string; date: string; boardId: string; dateType: 'startDate' | 'dueDate' }) {
     const session = await auth();
@@ -154,6 +153,7 @@ export async function handleAddDate(data: { taskId: string; date: string; boardI
                 type: activityType,
                 taskId: data.taskId,
                 userId: userId,
+                [data.dateType]: dateObject
             }
         });
 
@@ -163,9 +163,6 @@ export async function handleAddDate(data: { taskId: string; date: string; boardI
         return { success: false, message: `Failed to Update ${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)}` };
     }
 }
-
-
-
 
 
 // Remove a date.
@@ -189,7 +186,7 @@ export async function handleRemoveDate(data: { taskId: string; boardId: string; 
             data: {
                 type: activityType,
                 taskId: data.taskId,
-                userId: userId,
+                userId: userId
             }
         });
 
@@ -199,3 +196,4 @@ export async function handleRemoveDate(data: { taskId: string; boardId: string; 
         return { success: false, message: `Failed to Remove ${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)}` };
     }
 }
+
