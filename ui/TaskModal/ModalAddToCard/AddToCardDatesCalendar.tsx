@@ -9,10 +9,15 @@ import { handleAddDate, handleRemoveDate } from '@/actions/TaskServerActions';
 import toast from 'react-hot-toast';
 
 export default function AddToCardDatesCalendar({ 
-    taskId, boardId, startDate, dueDate, dateType
+    task, dateType
 } : {
-    taskId: string; boardId: string; startDate: Date | null; dueDate: Date | null; dateType: 'startDate' | 'dueDate';
+    task: any; dateType: 'startDate' | 'dueDate';
 }) {
+    const startDate = task.startDate;
+    const dueDate = task.dueDate;
+    const taskId = task.id;
+    const boardId = task.column.boardId;
+
     const initialDate = dateType === 'startDate' ? (startDate ?? undefined) : (dueDate ?? undefined);
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
 

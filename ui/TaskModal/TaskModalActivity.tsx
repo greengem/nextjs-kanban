@@ -8,27 +8,28 @@ import TaskModalActivityItem from "./TaskModalActivityItem"
 import { Avatar } from "@nextui-org/avatar"
 import { Textarea } from "@nextui-org/input"
 import { Button, ButtonGroup } from "@nextui-org/button"
-import { ActivityWithUser } from "@/types/types"
 import { IconActivity, IconX } from "@tabler/icons-react"
 import { handleCreateActivity } from "@/actions/ActivityServerActions";
 import { CreateActivitySchema } from "@/types/zodTypes";
 import { ActivityCreationData } from "@/types/types";
 
 interface TaskModalActivityProps {
-    activities: ActivityWithUser[];
-    columnTitle: string;
-    boardId: string;
-    taskId: string;
+    task: any;
     session: Session | null;
 }
 
-export default function TaskModalActivity({ activities, columnTitle, session, taskId, boardId }: TaskModalActivityProps) {
+export default function TaskModalActivity({ task, session }: TaskModalActivityProps) {
+    const taskId = task.id;
+    const boardId = task.column.boardId;
+    const columnTitle = task.column.columnTitle;
+    const activities = task.activities;
+
     const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<ActivityCreationData>({
         resolver: zodResolver(CreateActivitySchema),
         defaultValues: { boardId, taskId }
     });
 
-    const [showForm, setShowForm] = useState(false); // State to toggle form visibility
+    const [showForm, setShowForm] = useState(false);
 
     const onSubmit: SubmitHandler<ActivityCreationData> = async (data) => {
         const response = await handleCreateActivity(data);
@@ -94,7 +95,7 @@ export default function TaskModalActivity({ activities, columnTitle, session, ta
             </div>
 
             <ul className="space-y-3">
-                {activities && activities.map((activity) => (
+                {activities && activities.map((activity: any) => (
                     <TaskModalActivityItem 
                         key={activity.id}
                         activity={activity}

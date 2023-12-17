@@ -29,16 +29,10 @@ export default async function TaskPage({
 
       <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-5'>
         <div className='col-span-3 space-y-5'>
-        <div>Start date: {task.startDate ? format(new Date(task.startDate), 'MMMM dd, yyyy') : 'No start date'}</div>
-        <div>Due date: {task.dueDate ? format(new Date(task.dueDate), 'MMMM dd, yyyy') : 'No due date'}</div>
+          <div>Start date: {task.startDate ? format(new Date(task.startDate), 'MMMM dd, yyyy') : 'No start date'}</div>
+          <div>Due date: {task.dueDate ? format(new Date(task.dueDate), 'MMMM dd, yyyy') : 'No due date'}</div>
           <TaskModalDescription selectedTask={task} boardId={task.column.boardId} />
-          <TaskModalActivity
-            activities={task.activities} 
-            taskId={task.id}
-            boardId={task.column.boardId}
-            columnTitle={task.column.title}
-            session={session} 
-          />
+          <TaskModalActivity task={task} session={session} />
         </div>
 
         <div className='col-span-1 space-y-2'>
