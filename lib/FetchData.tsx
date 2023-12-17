@@ -2,6 +2,7 @@ import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { BoardSummary, BoardDetails } from '@/types/types';
 
+
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
     const session = await auth();
     const userId = session?.user?.id;
@@ -45,10 +46,8 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 }
 
 
-
 export async function getBoard(id: string, userId: string): Promise<BoardDetails | null> {
     const board = await prisma.board.findUnique({
-        
         where: {
             id: id,
         },
@@ -80,6 +79,13 @@ export async function getBoard(id: string, userId: string): Promise<BoardDetails
                             title: true,
                             order: true,
                             columnId: true,
+                            labels: {
+                                select: {
+                                    id: true,
+                                    title: true,
+                                    color: true
+                                }
+                            },
                         },
                     },
                 },
@@ -91,12 +97,18 @@ export async function getBoard(id: string, userId: string): Promise<BoardDetails
         return {
             ...board,
             isFavorited: board.favoritedBy.length > 0,
-            tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0)
+            tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0),
+            columns: board.columns.map(column => ({
+                ...column,
+                tasks: column.tasks
+            })),
         };
     }
 
     return null;
 }
+
+
 
 export async function getTask(taskId: string) {
     const task = await prisma.task.findUnique({
@@ -121,13 +133,9 @@ export async function getTask(taskId: string) {
             },
             labels: {
                 select: {
-                    label: {
-                        select: {
-                            id: true,
-                            name: true,
-                            color: true
-                        }
-                    }
+                    id: true,
+                    title: true,
+                    color: true
                 }
             },
             activities: {
@@ -161,6 +169,7 @@ export async function getTask(taskId: string) {
             }
         }
     });
+
     return task;
 }
 
@@ -173,7 +182,7 @@ export async function getLabelsForBoard(boardId: string) {
         },
         select: {
             id: true,
-            name: true,
+            title: true,
             color: true,
             isDefault: true,
         }
