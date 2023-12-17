@@ -11,12 +11,21 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
   return (
     <div className='flex select-none rounded-md bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
-
       <div className='pl-1 pr-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
         <IconGripVertical className='text-primary' size={24} />
       </div>
 
       <Link className='flex-grow pr-3 py-2' href={`/task/${task.id}`}>
+      
+      {task.labels && task.labels.length > 0 && (
+        <div className='grid grid-cols-5 gap-1 w-full mb-1'>
+          {task.labels.map(label => (
+            <span key={label.id} className={`bg-${label.color}-500 text-xs h-2 w-full rounded-full`} />
+          ))}
+        </div>
+      )}
+
+
         <div className='text-sm cursor-pointer'>
             {task.title}
         </div>
