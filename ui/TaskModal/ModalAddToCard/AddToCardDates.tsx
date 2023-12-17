@@ -4,9 +4,9 @@ import { IconCalendar } from '@tabler/icons-react';
 import AddToCardDatesCalendar from "./AddToCardDatesCalendar";
 
 export default function AddToCardDates({
-    taskId, boardId, date, dateType
+    taskId, boardId, startDate, dueDate, dateType
 } : {
-    taskId: string; boardId: string; date: Date | null; dateType: 'startDate' | 'dueDate';
+    taskId: string; boardId: string; startDate: Date | null; dueDate: Date | null; dateType: 'startDate' | 'dueDate';
 }) {
     return (
         <li className='bg-zinc-800 rounded-md'>
@@ -17,7 +17,7 @@ export default function AddToCardDates({
                     </button>
                 </PopoverTrigger>
                 <PopoverContent>
-                    <AddToCardDatesCalendar taskId={taskId} boardId={boardId} date={date} dateType={dateType} />
+                    <AddToCardDatesCalendar taskId={taskId} boardId={boardId} startDate={startDate} dueDate={dueDate} dateType={dateType} />
                 </PopoverContent>
             </Popover>
         </li>
