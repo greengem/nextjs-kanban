@@ -20,14 +20,12 @@ export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' |
     column: Pick<Column, 'title' | 'boardId'>;
 };
 
-export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'createdAt'> & {
+export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'createdAt' | 'startDate' | 'dueDate'> & {
     user: Pick<User, 'id' | 'name' | 'image'>,
     oldColumn: Pick<Column, 'title'> | null,
     newColumn: Pick<Column, 'title'> | null,
     originalColumn: Pick<Column, 'title'> | null
 };
-
-
 
 // Form validation
 export type BoardCreationData = Pick<Board, 'title' | 'description'>;
