@@ -1,4 +1,5 @@
-import { IconGripVertical } from '@tabler/icons-react';
+import { format } from 'date-fns';
+import { IconClock, IconGripVertical } from '@tabler/icons-react';
 import { TaskSummary, ExpandedTask } from '@/types/types';
 import Link from 'next/link';
 
@@ -8,6 +9,22 @@ interface TaskItemProps {
 }
 
 export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
+
+  const renderDateInfo = () => {
+    const startDate = task.startDate ? format(new Date(task.startDate), 'd MMM') : null;
+    const dueDate = task.dueDate ? format(new Date(task.dueDate), 'd MMM') : null;
+
+    if (startDate && dueDate) {
+      return `${startDate} - ${dueDate}`;
+    } else if (startDate) {
+      return `Started: ${startDate}`;
+    } else if (dueDate) {
+      return dueDate;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className='flex select-none rounded-md bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
@@ -16,19 +33,24 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
       </div>
 
       <Link className='flex-grow pr-3 py-2' href={`/task/${task.id}`}>
-      
-      {task.labels && task.labels.length > 0 && (
-        <div className='grid grid-cols-5 gap-1 w-full mb-1'>
-          {task.labels.map(label => (
-            <span key={label.id} className={`bg-${label.color}-500 text-xs h-2 w-full rounded-full`} />
-          ))}
-        </div>
-      )}
 
+        {task.labels && task.labels.length > 0 && (
+          <div className='grid grid-cols-5 gap-1 w-full mb-1'>
+            {task.labels.map(label => (
+              <span key={label.id} className={`bg-${label.color}-500 text-xs h-2 w-full rounded-full`} />
+            ))}
+          </div>
+        )}
 
         <div className='text-sm cursor-pointer'>
             {task.title}
         </div>
+
+        {renderDateInfo() && (
+          <div className='flex items-center gap-1 text-xs text-zinc-500'>
+            <IconClock size={14} /> {renderDateInfo()}
+          </div>
+        )}
       </Link>
 
     </div>

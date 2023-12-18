@@ -79,6 +79,8 @@ export async function getBoard(id: string, userId: string): Promise<BoardDetails
                             title: true,
                             order: true,
                             columnId: true,
+                            startDate: true,
+                            dueDate: true,
                             labels: {
                                 select: {
                                     id: true,

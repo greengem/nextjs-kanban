@@ -13,7 +13,7 @@ export type ColumnWithTasks = Pick<Column, 'id' | 'title' | 'order'> & {
     tasks: TaskSummary[];
 };
 
-export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'columnId'> & {
+export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'columnId' | 'dueDate' | 'startDate'> & {
     labels: LabelSummary[];
 };
 
