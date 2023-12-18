@@ -1,14 +1,10 @@
 //import { IconCalendar, IconCheckbox, IconPaint, IconPaperclip, IconTag, IconUser } from '@tabler/icons-react';
-import AddToCardLabels from './ModalAddToCard/AddToCardLabels';
+import AddToCardLabels from './AddToCardLabels';
 import { getLabelsForBoard } from "@/lib/FetchData";
-import AddToCardDates from './ModalAddToCard/AddToCardDates';
+import AddToCardDates from './AddToCardDates';
 import { ExpandedTask } from '@/types/types';
 
-export default async function TaskModalAddToCard({ 
-    task 
-} : {
-    task: ExpandedTask;
-}) {
+export default async function TaskModalAddToCard({ task } : { task: ExpandedTask }) {
     const labels = await getLabelsForBoard(task?.column.boardId);
 
     return (

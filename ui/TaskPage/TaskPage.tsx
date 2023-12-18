@@ -4,7 +4,7 @@ import { ExpandedTask } from "@/types/types";
 import TaskModalTitle from "@/ui/TaskModal/TaskModalTitle";
 import TaskModalDescription from "@/ui/TaskModal/TaskModalDescription";
 import TaskModalActivity from "@/ui/TaskModal/TaskModalActivity";
-import TaskModalAddToCard from "../TaskModal/TaskModalAddToCard";
+import TaskModalAddToCard from "@/ui/TaskModal/ModalAddToCard/TaskModalAddToCard";
 import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
 import { format, isSameMonth, isSameYear } from 'date-fns';
 
