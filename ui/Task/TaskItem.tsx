@@ -1,7 +1,8 @@
 import { format } from 'date-fns';
-import { IconClock, IconGripVertical } from '@tabler/icons-react';
+import { IconClock, IconFileDescription, IconGripVertical, IconTextCaption } from '@tabler/icons-react';
 import { TaskSummary, ExpandedTask } from '@/types/types';
 import Link from 'next/link';
+import {Tooltip} from "@nextui-org/tooltip";
 
 interface TaskItemProps {
   task: TaskSummary;
@@ -25,6 +26,10 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
     }
   };
 
+  const showInfo = () => {
+    return task.description || task.startDate || task.dueDate;
+  };
+
   return (
     <div className='flex select-none rounded-md bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
@@ -45,12 +50,25 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
         <div className='text-sm cursor-pointer'>
             {task.title}
         </div>
+        
+        {showInfo() && (
+          <div className='flex gap-3 items-center mt-1'>
 
-        {renderDateInfo() && (
-          <div className='flex items-center gap-1 text-xs text-zinc-500'>
-            <IconClock size={14} /> {renderDateInfo()}
+            {renderDateInfo() && (
+              <div className='flex items-center gap-1 text-xs text-zinc-500'>
+                <IconClock size={14} /> {renderDateInfo()}
+              </div>
+            )}
+
+            {task.description && (
+              <Tooltip showArrow={true} content="This task has a description" placement='bottom'>
+                <div className='text-zinc-500'><IconFileDescription size={14} /></div>
+              </Tooltip>
+            )}
+
           </div>
         )}
+
       </Link>
 
     </div>
