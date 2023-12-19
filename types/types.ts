@@ -1,4 +1,4 @@
-import { Board, Column, Task, Activity, User, Label } from "@prisma/client";
+import { Board, Column, Task, Activity, User, Label, Checklist, ChecklistItem } from "@prisma/client";
 
 export type BoardSummary = Pick<Board, 'id' | 'title'> & {
     tasksCount: number;
@@ -18,11 +18,19 @@ export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 
 };
 
 
+export type ChecklistItemSummary = Pick<ChecklistItem, 'id' | 'content' | 'isChecked'>;
+
+export type ChecklistSummary = Pick<Checklist, 'id' | 'title'> & {
+    items: ChecklistItemSummary[];
+};
+
 export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'startDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
     activities: ActivityWithUser[];
     column: Pick<Column, 'title' | 'boardId'>;
     labels: LabelSummary[];
+    checklists: ChecklistSummary[]; // Added checklists field
 };
+
 
 export type LabelSummary = Pick<Label, 'id' | 'title' | 'color'>;
 

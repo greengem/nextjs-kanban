@@ -112,7 +112,6 @@ export async function getBoard(id: string, userId: string): Promise<BoardDetails
 }
 
 
-
 export async function getTask(taskId: string) {
     const task = await prisma.task.findUnique({
         where: {
@@ -139,6 +138,19 @@ export async function getTask(taskId: string) {
                     id: true,
                     title: true,
                     color: true
+                }
+            },
+            checklists: {
+                select: {
+                    id: true,
+                    title: true,
+                    items: {
+                        select: {
+                            id: true,
+                            content: true,
+                            isChecked: true
+                        }
+                    }
                 }
             },
             activities: {
