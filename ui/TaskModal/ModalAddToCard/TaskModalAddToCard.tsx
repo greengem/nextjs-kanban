@@ -1,4 +1,3 @@
-import { IconCalendar, IconCheckbox, IconPaint, IconPaperclip, IconTag, IconUser } from '@tabler/icons-react';
 import AddToCardLabels from '@/ui/TaskModal/ModalAddToCard/Labels/AddToCardLabels';
 import { getLabelsForBoard } from "@/lib/FetchData";
 import AddToCardDates from './AddToCardDates';
@@ -14,7 +13,7 @@ export default async function TaskModalAddToCard({ task } : { task: ExpandedTask
             <ul className='text-sm space-y-2'>
                 {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconUser size={14} /> Members</li>*/}
                 <AddToCardLabels labels={labels} task={task} boardId={task.column.boardId} />
-                <AddChecklist />
+                <AddChecklist taskId={task.id} boardId={task.column.boardId} />
                 <AddToCardDates task={task} dateType="startDate" />
                 <AddToCardDates task={task} dateType="dueDate" />
                 {/*

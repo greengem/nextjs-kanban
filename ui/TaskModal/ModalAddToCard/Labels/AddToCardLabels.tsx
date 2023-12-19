@@ -69,9 +69,6 @@ export default function AddToCardLabels({ labels, task, boardId }: { labels: Lab
         setTempLabelColor('blue');
     };
     
-
-    
-
     const onColorClick = (color: string) => {
         setTempLabelColor(color);
     };
