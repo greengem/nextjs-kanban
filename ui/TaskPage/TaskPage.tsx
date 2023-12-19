@@ -7,6 +7,7 @@ import TaskModalActivity from "@/ui/TaskModal/TaskModalActivity";
 import TaskModalAddToCard from "@/ui/TaskModal/ModalAddToCard/TaskModalAddToCard";
 import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
 import { format, isSameMonth, isSameYear } from 'date-fns';
+import TaskModalChecklist from "../TaskModal/TaskModalChecklist";
 
 export default async function TaskPage({ taskId } : { taskId: string }) {
   const task: ExpandedTask | null = await getTask(taskId);
@@ -56,6 +57,7 @@ export default async function TaskPage({ taskId } : { taskId: string }) {
             Dates: {task.startDate || task.dueDate ? formatDateDisplay(task.startDate, task.dueDate) : 'No dates'}
           </div>
           <TaskModalDescription selectedTask={task} boardId={task.column.boardId} />
+          <TaskModalChecklist task={task} boardId={task.column.boardId} />
           <TaskModalActivity task={task} session={session} />
         </div>
 

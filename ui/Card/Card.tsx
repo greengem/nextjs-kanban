@@ -52,7 +52,6 @@ export function CardBody({
     children: ReactNode, className?: string 
 }) {
     return (
-        // Apply 'rounded-t-lg' if first child and 'rounded-b-lg' if last child
         <div className={`p-3 bg-zinc-900 first:rounded-t-lg last:rounded-b-lg ${className}`}>
             {children}
         </div>

@@ -10,7 +10,7 @@ export default function AddToCardDates({
 }) {
     return (
         <li className='bg-zinc-800 rounded-md'>
-            <Popover placement="bottom-start" triggerScaleOnOpen={false}>
+            <Popover placement="bottom-start" triggerScaleOnOpen={false} backdrop='blur'>
                 <PopoverTrigger>
                     <button className='flex items-center gap-2 px-2 py-2 w-full'>
                         <IconCalendar size={14} /> {dateType === 'dueDate' ? 'Due Date' : 'Start Date'}
