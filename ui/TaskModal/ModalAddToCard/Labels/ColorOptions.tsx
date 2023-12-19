@@ -1,0 +1,20 @@
+export const colorOptions = [
+    { key: 'red', name: 'Red' },
+    { key: 'amber', name: 'Amber' },
+    { key: 'orange', name: 'Orange' },
+    { key: 'yellow', name: 'Yellow' },
+    { key: 'lime', name: 'Lime' },
+    { key: 'green', name: 'Green' },
+    { key: 'emerald', name: 'Emerald' },
+    { key: 'teal', name: 'Teal' },
+    { key: 'cyan', name: 'Cyan' },
+    { key: 'sky', name: 'Sky' },
+    { key: 'blue', name: 'Blue' },
+    { key: 'indigo', name: 'Indigo' },
+    { key: 'violet', name: 'Violet' },
+    { key: 'purple', name: 'Purple' },
+    { key: 'fuchsia', name: 'Fuchsia' },
+    { key: 'pink', name: 'Pink' },
+    { key: 'rose', name: 'Rose' },
+
+];
