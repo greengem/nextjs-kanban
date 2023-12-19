@@ -14,8 +14,8 @@ export default async function fetchUnsplashImage() {
         }
 
         const data = await res.json();
-        //return data.urls.regular;
-        return FALLBACK_IMAGE_URL;
+        return data.urls.regular;
+        //return FALLBACK_IMAGE_URL;
 
     } catch (error) {
         console.error('Error fetching Unsplash image:', error);
