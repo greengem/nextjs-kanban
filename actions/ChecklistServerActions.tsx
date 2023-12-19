@@ -2,6 +2,30 @@
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache';
 
+export async function handleCreateChecklist({ title, taskId, boardId }: { title: string, taskId: string, boardId: string }) {
+    if (!taskId) {
+        return { success: false, message: 'Task ID is missing' };
+    }
+    if (!title) {
+        return { success: false, message: 'Title is missing' };
+    }
+
+    try {
+        const newItem = await prisma.checklist.create({
+            data: {
+                title: title,
+                taskId: taskId,
+            },
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Created checklist' };
+    } catch (e) {
+        return { success: false, message: 'Failed to create checklist' };
+    }
+}
+
 export async function handleCreateChecklistItem({ content, checklistId, boardId }: { content: string, checklistId: string, boardId: string }) {
     if (!checklistId) {
         return { success: false, message: 'Checklist ID is missing' };
