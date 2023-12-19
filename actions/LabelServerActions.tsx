@@ -50,3 +50,46 @@ export async function handleRemoveLabel({ labelId, taskId, boardId }: { labelId:
         return { success: false, message: 'Failed to remove label from task' };
     }
 }
+
+
+
+
+export async function handleUpdateLabel({ labelId, color, title, boardId }: { labelId: string, color: string, title: string, boardId: string }) {
+    if (!labelId || !color) {
+        return { success: false, message: 'Label ID or Task ID is missing' };
+    }
+
+    try {
+        await prisma.label.update({
+            where: { id: labelId },
+            data: {
+                title: title,
+                color: color
+            },
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Label updated' };
+    } catch (e) {
+        return { success: false, message: 'Failed to update label' };
+    }
+}
+
+export async function handleDeleteLabel({ labelId, boardId }: { labelId: string, boardId: string }) {
+    if (!labelId) {
+        return { success: false, message: 'Label ID or Task ID is missing' };
+    }
+
+    try {
+        await prisma.label.delete({
+            where: { id: labelId },
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Label removed' };
+    } catch (e) {
+        return { success: false, message: 'Failed to remove label' };
+    }
+}
