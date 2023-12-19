@@ -15,7 +15,7 @@ export default function NavbarWrapper({
 }) {
     return (
         <>
-        <nav className="flex gap-2 px-5 py-1 bg-zinc-900 items-center justify-between opacity-80 border-b-1 border-zinc-950">
+        <nav className="flex gap-2 px-5 py-1 bg-zinc-900 items-center justify-between border-b-1 border-zinc-950">
             <NavbarTitle />
             <div className="flex gap-5 items-center justify-between">
                 <Popover placement="left-start" backdrop='blur'>
