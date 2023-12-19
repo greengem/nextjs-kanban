@@ -1,5 +1,5 @@
 //import { IconCalendar, IconCheckbox, IconPaint, IconPaperclip, IconTag, IconUser } from '@tabler/icons-react';
-import AddToCardLabels from './AddToCardLabels';
+import AddToCardLabels from '@/ui/TaskModal/ModalAddToCard/Labels/AddToCardLabels';
 import { getLabelsForBoard } from "@/lib/FetchData";
 import AddToCardDates from './AddToCardDates';
 import { ExpandedTask } from '@/types/types';
