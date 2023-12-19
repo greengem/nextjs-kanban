@@ -1,4 +1,5 @@
 'use server';
+import { auth } from "@/auth";
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache';
 
@@ -75,6 +76,52 @@ export async function handleUpdateLabel({ labelId, color, title, boardId }: { la
         return { success: false, message: 'Failed to update label' };
     }
 }
+
+
+export async function handleCreateLabel({ color, title, boardId, taskId }: { color: string, title: string, boardId: string, taskId: string }) {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        return { success: false, message: 'User not authenticated' };
+    }
+
+    if (!color) {
+        return { success: false, message: 'Color is missing' };
+    }
+
+    try {
+        const createdLabel = await prisma.label.create({
+            data: {
+                userId: userId,
+                title: title,
+                color: color,
+                boardId: boardId
+            },
+        });
+
+        if (taskId) {
+            await prisma.task.update({
+                where: { id: taskId },
+                data: {
+                    labels: {
+                        connect: { id: createdLabel.id },
+                    },
+                },
+            });
+        }
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Label created and added to task', newLabelId: createdLabel.id };
+    } catch (e) {
+        console.error('Error creating label:', e);
+        return { success: false, message: 'Failed to create label' };
+    }
+}
+
+
+
 
 export async function handleDeleteLabel({ labelId, boardId }: { labelId: string, boardId: string }) {
     if (!labelId) {
