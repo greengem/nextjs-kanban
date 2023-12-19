@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body 
-        className={`${inter.className} text-white bg-no-repeat bg-cover bg-center min-h-screen`} 
+        className={`${inter.className} text-white bg-no-repeat bg-cover bg-center min-h-screen antialiased`} 
         style={{ backgroundImage: `url(${imageUrl})` }}
       >
         <Toaster />
