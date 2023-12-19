@@ -5,7 +5,7 @@ import { handleCreateChecklistItem, handleDeleteChecklistItem } from "@/actions/
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { Input } from "@nextui-org/input";
 import { IconCheckbox, IconTrash } from "@tabler/icons-react";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import { ExpandedTask } from "@/types/types";
 
 interface TaskModalChecklistProps {
@@ -71,7 +71,7 @@ export default function TaskModalChecklist({
     return (
         <div>
             {task.checklists.map(checklist => (
-                <div key={checklist.id}>
+                <div key={checklist.id} className="mb-5">
                     <div className="flex gap-3 items-center mb-3">
                         <IconCheckbox size={32} />
                         <h4 className='text-large font-semibold'>Checklist: {checklist.title}</h4>

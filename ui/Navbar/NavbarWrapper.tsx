@@ -5,7 +5,7 @@ import NavbarTitle from "./NavbarTitle";
 import ColourPicker from "./ColourPicker";
 import NavbarAvatar from "./NavbarAvatar";
 import { IconPaint } from "@tabler/icons-react";
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Session } from 'next-auth';
 
 export default function NavbarWrapper({
