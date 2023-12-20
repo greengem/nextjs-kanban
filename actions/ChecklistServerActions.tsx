@@ -2,6 +2,31 @@
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache';
 
+export async function handleDeleteChecklist({ checklistId, boardId }: { checklistId: string, boardId: string }) {
+    console.log(`Attempting to delete checklist with ID: ${checklistId} from board: ${boardId}`);
+
+    if (!checklistId) {
+        console.error('Checklist ID is missing');
+        return { success: false, message: 'Checklist ID is missing' };
+    }
+
+    try {
+        await prisma.checklist.delete({
+            where: {
+                id: checklistId
+            }
+        });
+
+        revalidatePath(`/board/${boardId}`);
+        console.log(`Successfully deleted checklist with ID: ${checklistId}`);
+        return { success: true, message: 'Deleted checklist' };
+    } catch (e) {
+        console.error(`Failed to delete checklist with ID: ${checklistId}`, e);
+        return { success: false, message: 'Failed to delete checklist', error: e };
+    }
+}
+
+
 export async function handleCreateChecklist({ title, taskId, boardId }: { title: string, taskId: string, boardId: string }) {
     if (!taskId) {
         return { success: false, message: 'Task ID is missing' };
@@ -11,7 +36,7 @@ export async function handleCreateChecklist({ title, taskId, boardId }: { title:
     }
 
     try {
-        const newItem = await prisma.checklist.create({
+        await prisma.checklist.create({
             data: {
                 title: title,
                 taskId: taskId,
@@ -35,7 +60,7 @@ export async function handleCreateChecklistItem({ content, checklistId, boardId 
     }
 
     try {
-        const newItem = await prisma.checklistItem.create({
+        await prisma.checklistItem.create({
             data: {
                 content: content,
                 isChecked: false,
@@ -58,7 +83,7 @@ export async function handleDeleteChecklistItem({ checklistItemId, boardId }: { 
     }
 
     try {
-        const deletedItem = await prisma.checklistItem.delete({
+        await prisma.checklistItem.delete({
             where: {
                 id: checklistItemId,
             },
