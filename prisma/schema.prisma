@@ -137,8 +137,9 @@ model ChecklistItem {
   content     String
   isChecked   Boolean    @default(false)
   checklistId String
-  checklist   Checklist  @relation(fields: [checklistId], references: [id])
+  checklist   Checklist  @relation(fields: [checklistId], references: [id], onDelete: Cascade)
 }
+
 
 model Activity {
   id             String        @id @default(cuid())
