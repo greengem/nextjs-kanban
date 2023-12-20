@@ -1,7 +1,7 @@
 'use client'
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { handleCreateChecklistItem, handleDeleteChecklistItem } from "@/actions/ChecklistServerActions";
+import { handleCreateChecklistItem, handleDeleteChecklistItem, handleDeleteChecklist } from "@/actions/ChecklistServerActions";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { Input } from "@nextui-org/input";
 import { IconCheckbox, IconTrash } from "@tabler/icons-react";
@@ -65,16 +65,36 @@ export default function TaskModalChecklist({
             }
         }
     };
-    
-    
+
+    const handleDeleteChecklistClick = async (checklistId: string): Promise<void> => {
+        if (window.confirm("Are you sure you want to delete this checklist?")) {
+            try {
+                const result = await handleDeleteChecklist({ checklistId, boardId });
+                if (result.success) {
+                    toast.success(result.message);
+                } else {
+                    toast.error(result.message);
+                }
+            } catch (error) {
+                console.error('Error deleting checklist:', error);
+                toast.error('Error occurred while deleting the checklist');
+            }
+        }
+    };
 
     return (
         <div>
             {task.checklists.map(checklist => (
                 <div key={checklist.id} className="mb-5">
-                    <div className="flex gap-3 items-center mb-3">
-                        <IconCheckbox size={32} />
-                        <h4 className='text-large font-semibold'>Checklist: {checklist.title}</h4>
+                    <div className="flex items-center mb-3 justify-between">
+                        <div className="flex gap-3">
+                            <IconCheckbox size={32} className="shrink-0 grow-0" />
+                            <h4 className='text-large font-semibold'>{checklist.title}</h4>
+                        </div>
+                        <div className="flex gap-2">
+                            <Button size="sm">Hide checked items</Button>
+                            <Button size="sm" onClick={() => handleDeleteChecklistClick(checklist.id)}>Delete</Button>
+                        </div>
                     </div>
                     <div>
                         <CheckboxGroup className="mb-3">
