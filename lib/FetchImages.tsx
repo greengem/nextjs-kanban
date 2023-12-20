@@ -1,4 +1,4 @@
-const topicSlug = 'the-holidays';
+const topicSlug = 'wallpapers';
 const url = `https://api.unsplash.com/photos/random?topics=${topicSlug}&w=1920&client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
 const FALLBACK_IMAGE_URL = '/fallback1.jpg';
 

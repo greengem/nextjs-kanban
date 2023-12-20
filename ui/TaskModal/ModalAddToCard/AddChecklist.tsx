@@ -14,6 +14,7 @@ export default function AddChecklist({
 }) {
     const [title, setTitle] = useState('');
     const [error, setError] = useState('');
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     const handleSubmit = async () => {
         if (!title) {
@@ -25,6 +26,7 @@ export default function AddChecklist({
             const response = await handleCreateChecklist({ title, taskId, boardId });
             if (response.success) {
                 toast.success(response.message);
+                closePopover();
             } else {
                 toast.error(response.message);
             }
@@ -33,9 +35,13 @@ export default function AddChecklist({
         }
     };
 
+    const closePopover = () => {
+        setIsPopoverOpen(false);
+    };
+
     return (
         <li className='flex items-center gap-2'>
-            <Popover placement="bottom-start" triggerScaleOnOpen={false} backdrop='blur'>
+            <Popover placement="bottom-start" triggerScaleOnOpen={false} backdrop='blur' isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <PopoverTrigger>
                     <button className="px-2 py-2 bg-zinc-800 rounded-md flex w-full items-center gap-2"><IconCheckbox size={14} /> Checklist</button>
                 </PopoverTrigger>
@@ -49,7 +55,7 @@ export default function AddChecklist({
                         />
                         <div className="flex gap-2">
                             <Button size="sm" color="primary" className="flex items-center" onClick={handleSubmit}><IconPlus size={16} />Create Checklist</Button>
-                            <Button size="sm"><IconX size={16} className="flex items-center" />Cancel</Button>
+                            <Button size="sm" onClick={closePopover}><IconX size={16} className="flex items-center" />Cancel</Button>
                         </div>
                         {error && <div className="text-red-500">{error}</div>}
                     </div>
