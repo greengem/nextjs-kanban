@@ -42,7 +42,7 @@ export default function EditTaskNameForm({
 
       {!isEditing ? (
         <div className="flex justify-between">
-          <span onClick={toggleEdit} className="cursor-pointer w-full">{title}</span>
+          <span onClick={toggleEdit} className="cursor-pointer w-full text-xl font-semibold">{title}</span>
         </div>
       ) : (
         <div className='mb-3'>
