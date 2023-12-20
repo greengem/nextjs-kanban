@@ -2,7 +2,6 @@ import { format } from 'date-fns';
 import { IconClock, IconFileDescription, IconGripVertical, IconTextCaption } from '@tabler/icons-react';
 import { TaskSummary, ExpandedTask } from '@/types/types';
 import Link from 'next/link';
-import {Tooltip} from "@nextui-org/tooltip";
 
 interface TaskItemProps {
   task: TaskSummary;
@@ -61,9 +60,7 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
             )}
 
             {task.description && (
-              <Tooltip showArrow={true} content="This task has a description" placement='bottom'>
-                <div className='text-zinc-500'><IconFileDescription size={14} /></div>
-              </Tooltip>
+              <div className='text-zinc-500'><IconFileDescription size={14} /></div>
             )}
 
           </div>
