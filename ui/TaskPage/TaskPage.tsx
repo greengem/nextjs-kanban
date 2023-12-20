@@ -36,26 +36,30 @@ export default async function TaskPage({ taskId } : { taskId: string }) {
 
   return (
     <>
-      <div className='flex gap-3 p-5 border-b-1 border-zinc-800 mb-5'>
+      <div className='flex gap-3 p-5 border-b-1 border-zinc-800'>
         <TaskModalTitle selectedTask={task} boardId={task?.column.boardId} />
       </div>
 
-      {task.labels && (
-        <div className="px-5">
-          <h4 className="uppercase text-xs text-zinc-500 font-semibold mb-1">Labels:</h4>
-          <div className='flex'>
-            {task.labels.map(label => (
-              <div key={label.id} className={`bg-${label.color}-500 h-6 w-10 rounded-md mr-2`}></div>
-            ))}
+      {
+        task.labels && task.labels.length > 0 && (
+          <div className="px-5">
+            <h4 className="uppercase text-xs text-zinc-500 font-semibold mb-1">Labels:</h4>
+            <div className='flex'>
+              {task.labels.map(label => (
+                <div key={label.id} className={`bg-${label.color}-500 h-6 w-10 rounded-md mr-2`}></div>
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
+
 
       <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-5'>
         <div className='col-span-3 space-y-5'>
-          <div>
-            Dates: {task.startDate || task.dueDate ? formatDateDisplay(task.startDate, task.dueDate) : 'No dates'}
-          </div>
+          {(task.startDate || task.dueDate) &&
+              <p>Dates: {formatDateDisplay(task.startDate, task.dueDate)}</p>
+          }
+
           <TaskModalDescription selectedTask={task} boardId={task.column.boardId} />
           <TaskModalChecklist task={task} boardId={task.column.boardId} />
           <TaskModalActivity task={task} session={session} />
