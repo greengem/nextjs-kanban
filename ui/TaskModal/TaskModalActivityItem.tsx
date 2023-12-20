@@ -95,7 +95,7 @@ export default function TaskModalActivityItem({ activity, boardId }: TaskModalAc
                 
             ) : (
 
-                <div className='bg-zinc-800 px-3 py-1 rounded-xl'>
+                <div className='bg-zinc-800 px-4 py-2 rounded-xl'>
                     <div>
                         <span className="font-semibold">{activity.user.name} </span> 
                         {getActivityMessage(activity)}
