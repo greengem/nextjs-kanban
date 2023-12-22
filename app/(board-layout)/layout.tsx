@@ -1,5 +1,4 @@
 import DashboardLayout from "@/ui/DashboardLayout"
-import SubNavbar from '@/ui/Navbar/SubNavbar'
 
 export default function RootLayout({
   children, modal
