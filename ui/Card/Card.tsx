@@ -4,7 +4,7 @@ import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
-        <div className={`shadow-xl rounded-lg bg-zinc-900/95 backdrop-blur-md text-white ${className}`}>
+        <div className={`shadow-xl rounded-lg bg-zinc-900 text-white ${className}`}>
             {children}
         </div>
     )

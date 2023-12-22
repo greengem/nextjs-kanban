@@ -7,7 +7,7 @@ interface BoardProps {
 export default async function Task({ params }: BoardProps) {
 
   return (
-    <div className="bg-zinc-950/90 backdrop-blur-sm">
+    <div className="bg-zinc-950">
       <TaskPage taskId={params.id} />
     </div>
   );
