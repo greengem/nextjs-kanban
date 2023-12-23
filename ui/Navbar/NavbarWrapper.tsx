@@ -7,6 +7,7 @@ import NavbarAvatar from "./NavbarAvatar";
 import { IconPaint } from "@tabler/icons-react";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Session } from 'next-auth';
+import { Button } from '@nextui-org/button';
 
 export default function NavbarWrapper({
     session
@@ -20,7 +21,9 @@ export default function NavbarWrapper({
             <div className="flex gap-5 items-center justify-between">
                 <Popover placement="left-start" backdrop='blur'>
                     <PopoverTrigger>
-                        <IconPaint size={26} className='cursor-pointer' />
+                        <Button isIconOnly size='sm'>
+                            <IconPaint size={20} className='cursor-pointer' />
+                        </Button>
                     </PopoverTrigger>
                     <PopoverContent>
                         <ColourPicker />
