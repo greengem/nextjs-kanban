@@ -4,7 +4,7 @@ import AddToCardLabels from "./Labels/AddToCardLabels";
 import AddToCardDates from "./Dates/AddToCardDates";
 import AddChecklist from "./Checklist/AddChecklist";
 
-export default async function TaskModalAddToCard({ task } : { task: ExpandedTask }) {
+export default async function TaskDetailAddToCard({ task } : { task: ExpandedTask }) {
     const labels = await getLabelsForBoard(task?.column.boardId);
 
     return (

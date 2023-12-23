@@ -1,5 +1,5 @@
 import TaskDetail from "@/ui/TaskDetail/TaskDetail";
-import TaskModal from "@/ui//TaskModal/TaskModal";
+import TaskModal from "@/ui/TaskModal";
 
 interface BoardProps {
   params: { id: string };

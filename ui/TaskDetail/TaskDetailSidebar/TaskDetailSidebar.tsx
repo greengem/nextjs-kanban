@@ -1,6 +1,6 @@
 import { ExpandedTask } from "@/types/types";
-import TaskModalAddToCard from "./TaskDetailAddToCard/TaskModalAddToCard";
-import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
+import TaskDetailAddToCard from "./TaskDetailAddToCard/TaskDetailAddToCard";
+import TaskDetailActions from "./TaskDetailActions/TaskDetailActions";
 
 export default function TaskDetailSidebar({ 
   task 
@@ -10,8 +10,8 @@ export default function TaskDetailSidebar({
 
   return (
     <div className='col-span-1 space-y-2'>
-        <TaskModalAddToCard task={task} />
-        <TaskModalActions selectedTask={task} boardId={task.column.boardId} />
+        <TaskDetailAddToCard task={task} />
+        <TaskDetailActions selectedTask={task} boardId={task.column.boardId} />
     </div>
   );
 }

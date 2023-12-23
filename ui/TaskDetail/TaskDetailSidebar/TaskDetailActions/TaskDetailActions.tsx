@@ -1,6 +1,6 @@
 import DeleteTaskForm from '@/ui/Forms/DeleteTaskForm';
 
-export default function TaskModalActions({
+export default function TaskDetailActions({
     selectedTask, boardId,
 } : {
     selectedTask: any, boardId: string,
