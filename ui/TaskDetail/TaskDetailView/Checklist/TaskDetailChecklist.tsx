@@ -8,14 +8,14 @@ import { IconCheckbox, IconTrash } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
 import { ExpandedTask } from "@/types/types";
 
-interface TaskModalChecklistProps {
+interface TaskDetailChecklistProps {
     task: ExpandedTask;
     boardId: string;
 }
 
-export default function TaskModalChecklist({
+export default function TaskDetailChecklist({
     task, boardId,
-}: TaskModalChecklistProps) {
+}: TaskDetailChecklistProps) {
     const [showInput, setShowInput] = useState<Record<string, boolean>>({});
     const [newItemContent, setNewItemContent] = useState<string>("");
 

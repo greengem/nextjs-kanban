@@ -10,7 +10,7 @@ import { Textarea } from "@nextui-org/input";
 import { Button, ButtonGroup } from '@nextui-org/button';
 import { IconTextPlus, IconLoader2, IconX } from '@tabler/icons-react';
 
-export default function TaskModalDescription({ 
+export default function TaskDetailDescription({ 
     selectedTask, boardId
 } : {
     selectedTask: ExpandedTask; boardId: string;

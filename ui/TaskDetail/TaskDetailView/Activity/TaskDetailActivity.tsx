@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
-import TaskModalActivityItem from "./TaskModalActivityItem"
+import TaskDetailActivityItem from "./TaskDetailActivityItem";
 import { Avatar } from "@nextui-org/avatar"
 import { Textarea } from "@nextui-org/input"
 import { Button, ButtonGroup } from "@nextui-org/button"
@@ -13,12 +13,12 @@ import { handleCreateActivity } from "@/actions/ActivityServerActions";
 import { CreateActivitySchema } from "@/types/zodTypes";
 import { ActivityCreationData } from "@/types/types";
 
-interface TaskModalActivityProps {
+interface TaskDetailActivityProps {
     task: any;
     session: Session | null;
 }
 
-export default function TaskModalActivity({ task, session }: TaskModalActivityProps) {
+export default function TaskDetailActivity({ task, session }: TaskDetailActivityProps) {
     const taskId = task.id;
     const boardId = task.column.boardId;
     const columnTitle = task.column.columnTitle;
@@ -96,7 +96,7 @@ export default function TaskModalActivity({ task, session }: TaskModalActivityPr
 
             <ul className="space-y-3">
                 {activities && activities.map((activity: any) => (
-                    <TaskModalActivityItem 
+                    <TaskDetailActivityItem 
                         key={activity.id}
                         activity={activity}
                         columnTitle={columnTitle}

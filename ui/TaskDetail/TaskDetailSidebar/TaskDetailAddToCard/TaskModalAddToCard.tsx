@@ -1,8 +1,8 @@
-import AddToCardLabels from '@/ui/TaskModal/ModalAddToCard/Labels/AddToCardLabels';
-import { getLabelsForBoard } from "@/lib/FetchData";
-import AddToCardDates from './AddToCardDates';
 import { ExpandedTask } from '@/types/types';
-import AddChecklist from './AddChecklist';
+import { getLabelsForBoard } from "@/lib/FetchData";
+import AddToCardLabels from "./Labels/AddToCardLabels";
+import AddToCardDates from "./Dates/AddToCardDates";
+import AddChecklist from "./Checklist/AddChecklist";
 
 export default async function TaskModalAddToCard({ task } : { task: ExpandedTask }) {
     const labels = await getLabelsForBoard(task?.column.boardId);

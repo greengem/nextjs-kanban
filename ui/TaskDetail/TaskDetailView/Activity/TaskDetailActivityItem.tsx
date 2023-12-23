@@ -6,13 +6,13 @@ import { Avatar } from "@nextui-org/avatar";
 import { IconEdit, IconMoodPlus, IconTrash } from "@tabler/icons-react";
 import { handleDeleteActivity } from '@/actions/ActivityServerActions';
 
-interface TaskModalActivityItemProps {
+interface TaskDetailActivityItemProps {
     activity: ActivityWithUser;
     columnTitle: string;
     boardId: string;
 }
 
-export default function TaskModalActivityItem({ activity, boardId }: TaskModalActivityItemProps) {
+export default function TaskDetailActivityItem({ activity, boardId }: TaskDetailActivityItemProps) {
     const formattedDate = format(new Date(activity.createdAt), 'MM/dd/yyyy, HH:mm:ss');
 
     const formatDate = (date: Date | null) => {
