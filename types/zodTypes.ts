@@ -6,6 +6,11 @@ export const CreateBoardSchema = z.object({
     description: z.string().optional(),
 });
 
+export const EditBoardSchema = z.object({
+    title: z.string().min(3, "Title must be at least 3 characters"),
+    id: z.string().min(1, "ID is required"),
+});
+
 export const DeleteBoardSchema = z.object({
     id: z.string().min(1, "ID is required"),
 });

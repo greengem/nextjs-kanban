@@ -5,6 +5,7 @@ import Board from "@/ui/Board/Board";
 
 import BoardActions from "@/ui/Board/BoardActions";
 import BoardFavourite from "./_ui/BoardFavourite";
+import BoardTitle from "./_ui/BoardTitle";
 
 interface BoardProps {
   params: { id: string };
@@ -33,7 +34,7 @@ export default async function BoardPage({ params }: BoardProps) {
       >
 
         <div className="flex gap-5 items-center">
-          <div>{board.title}</div>
+          <BoardTitle boardTitle={board.title} boardId={board.id} />
           <BoardFavourite board={board} />
           <div>Filters</div>
         </div>

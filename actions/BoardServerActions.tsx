@@ -2,8 +2,8 @@
 import { auth } from "@/auth";
 import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache';
-import { CreateBoardSchema, DeleteBoardSchema } from '@/types/zodTypes';
-import { BoardCreationData, BoardDeletionData } from "@/types/types";
+import { CreateBoardSchema, DeleteBoardSchema, EditBoardSchema } from '@/types/zodTypes';
+import { BoardCreationData, BoardDeletionData, BoardEditData } from "@/types/types";
 
 // Define default label colors
 const DEFAULT_LABEL_COLORS = ['green', 'yellow', 'orange', 'red', 'purple', 'blue'];
@@ -59,6 +59,32 @@ async function createDefaultLabelsForBoard(boardId: string, userId: string) {
 }
 
 
+// Edit Board
+export async function handleEditBoard(data: BoardEditData) {
+    
+  const parse = EditBoardSchema.safeParse(data);
+
+  if (!parse.success) {
+      return { success: false, message: 'Failed to edit task' };
+  }
+
+  try {
+      await prisma.board.update({
+          where: {
+              id: parse.data.id
+          },
+          data: {
+              title: parse.data.title,
+          }
+      });
+      
+      revalidatePath(`/board/${parse.data.id}`);
+
+      return { success: true, message: `Edited task sucessfully!` };
+  } catch (e) {
+      return { success: false, message: `Failed to edit task` };
+  }
+}
 
 
 // Delete Board
