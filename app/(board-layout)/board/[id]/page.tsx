@@ -4,8 +4,8 @@ import { BoardDetails } from "@/types/types";
 import Board from "@/ui/Board/Board";
 
 import BoardActions from "@/ui/Board/BoardActions";
-import BoardFavourite from "./_ui/BoardFavourite";
-import BoardTitle from "./_ui/BoardTitle";
+import BoardFavourite from "./ui/BoardFavourite";
+import BoardTitle from "./ui/BoardTitle";
 
 interface BoardProps {
   params: { id: string };
@@ -28,8 +28,8 @@ export default async function BoardPage({ params }: BoardProps) {
   return (
     <>
       <div className="
-        flex justify-between 
-        bg-zinc-800 opacity-80 
+        flex justify-between items-center
+        bg-zinc-700 opacity-80 
         px-5 py-2 mb-5"
       >
 

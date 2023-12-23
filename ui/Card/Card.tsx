@@ -52,7 +52,7 @@ export function CardBody({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`p-3 first:rounded-t-lg last:rounded-b-lg ${className}`}>
+        <div className={`p-3 first:rounded-t-lg max-h-64 overflow-y-scroll last:rounded-b-lg ${className}`}>
             {children}
         </div>
     );

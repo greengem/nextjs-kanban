@@ -1,4 +1,4 @@
-import TaskPage from "@/ui/TaskPage/TaskPage";
+import TaskDetail from "@/ui/TaskDetail/TaskDetail";
 import TaskModal from "@/ui//TaskModal/TaskModal";
 
 interface BoardProps {
@@ -7,5 +7,5 @@ interface BoardProps {
 
 export default async function Task({ params }: BoardProps) {
 
-  return <TaskModal><TaskPage taskId={params.id} /></TaskModal>;
+  return <TaskModal><TaskDetail taskId={params.id} /></TaskModal>;
 }

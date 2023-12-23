@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { IconClock, IconFileDescription, IconGripVertical, IconTextCaption } from '@tabler/icons-react';
+import { IconClock, IconFileDescription, IconGripVertical } from '@tabler/icons-react';
 import { TaskSummary, ExpandedTask } from '@/types/types';
 import Link from 'next/link';
 

@@ -9,7 +9,7 @@ import TaskModalActions from "@/ui/TaskModal/TaskModalActions";
 import { format, isSameMonth, isSameYear } from 'date-fns';
 import TaskModalChecklist from "../TaskModal/TaskModalChecklist";
 
-export default async function TaskPage({ taskId } : { taskId: string }) {
+export default async function TaskDetail({ taskId } : { taskId: string }) {
   const task: ExpandedTask | null = await getTask(taskId);
 
   if (!task) {
@@ -40,22 +40,21 @@ export default async function TaskPage({ taskId } : { taskId: string }) {
         <TaskModalTitle selectedTask={task} boardId={task?.column.boardId} />
       </div>
 
-      {
-        task.labels && task.labels.length > 0 && (
-          <div className="px-5">
-            <h4 className="uppercase text-xs text-zinc-500 font-semibold mb-1">Labels:</h4>
-            <div className='flex'>
-              {task.labels.map(label => (
-                <div key={label.id} className={`bg-${label.color}-500 h-6 w-10 rounded-md mr-2`}></div>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-
       <div className='grid grid-cols-1 md:grid-cols-4 gap-5 p-5'>
         <div className='col-span-3 space-y-5'>
+          {
+            task.labels && task.labels.length > 0 && (
+              <div className="px-5">
+                <h4 className="uppercase text-xs text-zinc-500 font-semibold mb-1">Labels:</h4>
+                <div className='flex'>
+                  {task.labels.map(label => (
+                    <div key={label.id} className={`bg-${label.color}-500 h-6 w-10 rounded-md mr-2`}></div>
+                  ))}
+                </div>
+              </div>
+            )
+          }
+
           {(task.startDate || task.dueDate) &&
               <p>Dates: {formatDateDisplay(task.startDate, task.dueDate)}</p>
           }

@@ -8,5 +8,8 @@ export default async function Navbar () {
         return null;
     }
 
-    return <NavbarWrapper session={session} />;
+    const userName = session.user?.name ?? '';
+    const userImage = session.user?.image ?? '';
+
+    return <NavbarWrapper userName={userName} userImage={userImage} />;
 }

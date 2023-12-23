@@ -55,13 +55,14 @@ export default function BoardTitle({
                 <h2 onClick={toggleEdit} className="cursor-pointer">{boardTitle}</h2>
             )}
             {isEditing && (
-                <form onSubmit={handleSubmit(onSubmit)} className="flex gap-2">
+                <form onSubmit={handleSubmit(onSubmit)} className="flex flex-wrap md:flex-nowrap gap-2">
                     <Input 
-                        autoFocus 
-                        size="sm" 
-                        labelPlacement="outside"
                         value={titleValue}
+                        size='sm'
+                        labelPlacement='outside'
                         onValueChange={handleTitleChange}
+                        autoFocus
+                        className='grow shrink'
                     />
                     <input type="hidden" {...register('id')} />
                     <Button type="submit" color="primary" size="sm" disabled={isSubmitting}>Save</Button>

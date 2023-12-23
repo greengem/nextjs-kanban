@@ -2,14 +2,13 @@
 import { Avatar } from "@nextui-org/avatar";
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
 import { IconLogout, IconUser } from "@tabler/icons-react";
-import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { useRouter } from 'next/navigation'
 
 export default function NavbarAvatar({ 
-    session
+    userName, userImage
 }: {
-    session: Session
+    userName: string, userImage: string
 }) {
     const router = useRouter()
 
@@ -27,11 +26,12 @@ export default function NavbarAvatar({
                 <Avatar 
                     showFallback 
                     isBordered 
+                    as="button"
                     color="primary" 
-                    name={session.user?.name ?? ''} 
-                    src={session.user?.image ?? ''} 
+                    name={userName}
+                    src={userImage}
                     size="sm" 
-                    className="cursor-pointer" 
+                    className="cursor-pointer transition-transform" 
                 />
             </DropdownTrigger>
             <DropdownMenu aria-label="User Actions" onAction={(key) => handleAction(key as 'profile' | 'signout')}>

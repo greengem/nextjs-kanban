@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import { BoardDetails } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
-import TaskItem from "@/ui/Task/TaskItem";
+import TaskItem from "@/ui/Board/Task/TaskItem";
 import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
 import ColumnActions from './ColumnActions';
 

@@ -1,4 +1,4 @@
-import TaskPage from "@/ui/TaskPage/TaskPage";
+import TaskDetail from "@/ui/TaskDetail/TaskDetail";
 
 interface BoardProps {
   params: { id: string };
@@ -8,7 +8,7 @@ export default async function Task({ params }: BoardProps) {
 
   return (
     <div className="bg-zinc-950">
-      <TaskPage taskId={params.id} />
+      <TaskDetail taskId={params.id} />
     </div>
   );
 }
