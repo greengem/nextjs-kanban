@@ -1,13 +1,14 @@
 'use client'
-import {useTheme} from "next-themes";
+import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
+import { IconPaint } from "@tabler/icons-react";
 
 export default function ColourPicker() {
     const [mounted, setMounted] = useState(false)
     const { theme: activeTheme, setTheme } = useTheme();
   
     const themes = [
-
         { name: 'red', colorClass: 'bg-red-500' },
         { name: 'orange', colorClass: 'bg-orange-500' },
         { name: 'amber', colorClass: 'bg-amber-500' },
@@ -25,7 +26,6 @@ export default function ColourPicker() {
         { name: 'fuchsia', colorClass: 'bg-fuchsia-500' },
         { name: 'pink', colorClass: 'bg-pink-500' },
         { name: 'rose', colorClass: 'bg-rose-500' },
-        
     ];
 
     useEffect(() => {
@@ -35,20 +35,30 @@ export default function ColourPicker() {
     if(!mounted) return null
 
     return (
-        <>
-        <div className="py-3 px-2">
-            <p className="text-center text-xs text-zinc-300 mb-2">Site Theme</p>
-            <ul className="grid grid-cols-5 gap-3">
-                {themes.map(theme => (
-                    <li key={theme.name}>
-                        <div 
-                            onClick={() => setTheme(theme.name)} 
-                            className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
-                        />
-                    </li>
-                ))}
-            </ul>
-        </div>
-        </>
+        <Popover placement="left-start">
+
+            <PopoverTrigger>
+                <button>
+                    <IconPaint size={24} />
+                </button>
+            </PopoverTrigger>
+
+            <PopoverContent>
+                <div className="py-3 px-2">
+                    <p className="text-center text-xs text-zinc-300 mb-2">Site Theme</p>
+                    <ul className="grid grid-cols-5 gap-3">
+                        {themes.map(theme => (
+                            <li key={theme.name}>
+                                <div 
+                                    onClick={() => setTheme(theme.name)} 
+                                    className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
+                                />
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </PopoverContent>
+
+        </Popover>
     )
 }
