@@ -1,11 +1,10 @@
 import { auth } from "@/auth";
 import { getBoard } from "@/lib/FetchData";
 import { BoardDetails } from "@/types/types";
-import Board from "@/ui/Board/Board";
+import Board from "./components/Board";
+import BoardNavbar from "./components/BoardNavbar";
 
-import BoardActions from "@/ui/Board/BoardActions";
-import BoardFavourite from "./ui/BoardFavourite";
-import BoardTitle from "./ui/BoardTitle";
+
 
 interface BoardProps {
   params: { id: string };
@@ -27,21 +26,7 @@ export default async function BoardPage({ params }: BoardProps) {
 
   return (
     <>
-      <div className="
-        flex justify-between items-center
-        bg-zinc-700 opacity-80 
-        px-5 py-2 mb-5"
-      >
-
-        <div className="flex gap-5 items-center">
-          <BoardTitle boardTitle={board.title} boardId={board.id} />
-          <BoardFavourite board={board} />
-          <div>Filters</div>
-        </div>
-
-        <BoardActions boardId={board.id} />
-      </div>
-
+      <BoardNavbar board={board} />
       <Board board={board} session={session} />
     </>
   );

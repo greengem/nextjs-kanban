@@ -14,13 +14,11 @@ export default function NavbarWrapper({
 }) {
     return (
         <>
-        <nav className="flex gap-2 px-5 bg-zinc-900 items-center justify-between border-b-1 border-zinc-950 h-1/4">
             <NavbarTitle />
             <div className="flex gap-5 items-center justify-between">
                 <ColourPicker />
                 <NavbarAvatar userName={userName} userImage={userImage} />
             </div>
-        </nav>
         </>
     );
 }

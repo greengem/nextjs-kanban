@@ -8,6 +8,7 @@ import toast from 'react-hot-toast';
 import { handleEditBoard } from '@/actions/BoardServerActions';
 import { BoardEditData } from '@/types/types';
 import { EditBoardSchema } from '@/types/zodTypes';
+import { IconX } from '@tabler/icons-react';
 
 export default function BoardTitle({
     boardId, boardTitle
@@ -66,7 +67,7 @@ export default function BoardTitle({
                     />
                     <input type="hidden" {...register('id')} />
                     <Button type="submit" color="primary" size="sm" disabled={isSubmitting}>Save</Button>
-                    <Button onClick={toggleEdit} size="sm">Cancel</Button>
+                    <Button onClick={toggleEdit} size="sm" isIconOnly className='bg-zinc-800'><IconX size={18} /></Button>
                 </form>
             )}
         </>

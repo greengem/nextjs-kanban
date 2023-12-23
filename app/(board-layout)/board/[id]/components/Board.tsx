@@ -5,8 +5,8 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import { BoardDetails } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
-import TaskItem from "@/ui/Board/Task/TaskItem";
-import CreateTaskFormSimple from '../Forms/CreateTaskFormSimple';
+import TaskItem from './TaskItem';
+import CreateTaskFormSimple from '@/ui/Forms/CreateTaskFormSimple';
 import ColumnActions from './ColumnActions';
 
 interface BoardProps {

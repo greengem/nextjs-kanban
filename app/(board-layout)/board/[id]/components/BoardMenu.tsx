@@ -5,7 +5,7 @@ import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem}
 import { IconEdit, IconMenu2, IconTrash } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 import { handleDeleteBoard } from "@/actions/BoardServerActions";
-export default function BoardActions({
+export default function BoardMenu({
     boardId
 } : {
     boardId: string
