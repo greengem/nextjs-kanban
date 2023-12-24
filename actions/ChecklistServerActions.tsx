@@ -3,10 +3,8 @@ import prisma from '@/db/prisma';
 import { revalidatePath } from 'next/cache';
 
 export async function handleDeleteChecklist({ checklistId, boardId }: { checklistId: string, boardId: string }) {
-    console.log(`Attempting to delete checklist with ID: ${checklistId} from board: ${boardId}`);
 
     if (!checklistId) {
-        console.error('Checklist ID is missing');
         return { success: false, message: 'Checklist ID is missing' };
     }
 
@@ -18,10 +16,8 @@ export async function handleDeleteChecklist({ checklistId, boardId }: { checklis
         });
 
         revalidatePath(`/board/${boardId}`);
-        console.log(`Successfully deleted checklist with ID: ${checklistId}`);
         return { success: true, message: 'Deleted checklist' };
     } catch (e) {
-        console.error(`Failed to delete checklist with ID: ${checklistId}`, e);
         return { success: false, message: 'Failed to delete checklist', error: e };
     }
 }
