@@ -35,6 +35,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
         const response = await handleCreateActivity(data);
         if (response.success) {
             toast.success('Activity Created');
+            handleCloseForm();
             reset();
         } else {
             toast.error(response.message);
@@ -85,7 +86,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
                                 <input type="hidden" {...register('taskId')} />
 
                                 <ButtonGroup size="sm">
-                                    <Button type="submit">Save</Button>
+                                    <Button type="submit"  isLoading={isSubmitting}>Save</Button>
                                     <Button color="danger" isIconOnly onClick={handleCloseForm}><IconX size={20} /></Button>
                                 </ButtonGroup>
                             </form>
