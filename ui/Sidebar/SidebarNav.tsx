@@ -1,25 +1,27 @@
-import { IconLayoutKanban } from "@tabler/icons-react";
 import Link from "next/link";
+import { getBoardsSummary } from "@/lib/FetchData";
+import { BoardSummary } from "@/types/types";
 
+export default async function SidebarNav() {
+    const boards: BoardSummary[] = await getBoardsSummary();
 
-const SidebarLinks = [
-    {
-        path: "/board",
-        label: "Boards",
-        Icon: IconLayoutKanban,
-    }
-];
-
-export default function SidebarNav() {
     return (
-        <ul className="px-5 pt-3 space-y-5 text-sm text-primary">
-            {SidebarLinks.map((link, index) => (
-                <li key={index}>
-                    <Link href={link.path} className="flex items-center space-x-3" aria-label={link.label}>
-                        <span>{link.Icon && <link.Icon />}</span>
-                    </Link>
-                </li>
-            ))}
-        </ul>
-    )
+        <div className="px-5 pt-5">
+            <h4 className="uppercase text-xs font-semibold text-zinc-500 mb-1">Boards</h4>
+            <ul className="space-y-1 text-sm">
+                {boards.map((board, index) => (
+                    <li key={index}>
+                        <Link 
+                            href={`/board/${board.id}`} 
+                            aria-label={board.title}
+                            className="
+                                text-white hover:text-primary    
+                            ">
+                            {board.title}
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
 }
