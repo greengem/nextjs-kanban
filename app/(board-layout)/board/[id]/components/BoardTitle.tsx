@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react';
 import { Input } from "@nextui-org/input"
-import { Button } from "@nextui-org/button"
+import { Button, ButtonGroup } from "@nextui-org/button"
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
@@ -53,7 +53,7 @@ export default function BoardTitle({
     return (
         <>
             {!isEditing && (
-                <h2 onClick={toggleEdit} className="cursor-pointer">{boardTitle}</h2>
+                <h2 onClick={toggleEdit} className="cursor-pointer whitespace-nowrap overflow-ellipsis block overflow-x-hidden max-w-64">{boardTitle}</h2>
             )}
             {isEditing && (
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-wrap md:flex-nowrap gap-2">
@@ -66,8 +66,10 @@ export default function BoardTitle({
                         className='grow shrink'
                     />
                     <input type="hidden" {...register('id')} />
-                    <Button type="submit" color="primary" size="sm" disabled={isSubmitting}>Save</Button>
-                    <Button onClick={toggleEdit} size="sm" isIconOnly className='bg-zinc-800'><IconX size={18} /></Button>
+                    <ButtonGroup>
+                        <Button type="submit" color="primary" size="sm" disabled={isSubmitting}>Save</Button>
+                        <Button onClick={toggleEdit} size="sm" isIconOnly className='bg-zinc-800'><IconX size={18} /></Button>
+                    </ButtonGroup>
                 </form>
             )}
         </>

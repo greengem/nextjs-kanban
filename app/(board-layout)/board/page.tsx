@@ -25,7 +25,7 @@ export default async function Boards() {
                 <span className="absolute text-xs top-3 right-3 flex items-center justify-center text-primary gap-1">
                   <IconList size={16} /><span>{board.tasksCount}</span>
                 </span>
-                {board.title}
+                <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">{board.title}</span>
               </CardBody>
             </Card>
           </Link>
