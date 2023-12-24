@@ -42,7 +42,7 @@ export default function EditTaskNameForm({
 
       {!isEditing ? (
         <div className="flex justify-between">
-          <span onClick={toggleEdit} className="cursor-pointer w-full text-xl font-semibold">{title}</span>
+          <span onClick={toggleEdit} className="cursor-pointer w-full text-3xl font-semibold">{title}</span>
         </div>
       ) : (
         <div className='mb-3'>
@@ -50,7 +50,7 @@ export default function EditTaskNameForm({
             autoFocus 
             type='text' 
             {...register('title')}
-            className="mb-2 w-full p-2 rounded bg-zinc-900 border-none focus:outline-none" 
+            className="mb-2 w-full p-2 rounded bg-zinc-900" 
           />
 
           <ButtonGroup size='sm'>

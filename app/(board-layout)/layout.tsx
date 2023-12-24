@@ -8,7 +8,7 @@ export default function RootLayout({
 }) {
   return (
     <DashboardLayout>
-      <main>
+      <main className="h-full">
         {children}
         {modal}
       </main>

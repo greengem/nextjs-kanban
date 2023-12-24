@@ -15,7 +15,7 @@ export default async function Navbar () {
         <nav className="
             flex gap-2 items-center justify-between
             px-5 py-1
-            bg-zinc-900 border-b-1 border-zinc-950"
+            bg-zinc-900"
         >
             <NavbarWrapper userName={userName} userImage={userImage} />
         </nav>
