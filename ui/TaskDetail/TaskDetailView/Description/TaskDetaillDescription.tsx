@@ -8,7 +8,7 @@ import { EditTaskSchema } from '@/types/zodTypes';
 import { ExpandedTask, TaskEditData } from '@/types/types';
 import { Textarea } from "@nextui-org/input";
 import { Button, ButtonGroup } from '@nextui-org/button';
-import { IconTextPlus, IconLoader2, IconX } from '@tabler/icons-react';
+import { IconTextPlus, IconLoader2, IconX, IconTrash } from '@tabler/icons-react';
 
 export default function TaskDetailDescription({ 
     selectedTask, boardId
@@ -56,32 +56,33 @@ export default function TaskDetailDescription({
                     <Textarea 
                         placeholder="Enter your description"
                         autoFocus
+                        label="Description"
                         defaultValue={selectedTask.description || ''}
                         className='w-full mb-2 mt-1 border-none focus:outline-none' 
                         {...register('description')}
                     />
-                        <ButtonGroup size='sm'>
-                            <Button 
-                                type='submit' 
-                                disabled={isSubmitting}
-                                className="flex justify-center items-center"
-                            >
-                                {isSubmitting ? (
-                                    <>
-                                        <IconLoader2 size={16} className="animate-spin mr-2" />
-                                        Saving...
-                                    </>
-                                ) : 'Save'}
-                            </Button>
-                            <Button 
-                                onClick={toggleEditDescription} 
-                                type="button" 
-                                isIconOnly
-                                color='danger'
-                            >
-                                <IconX size={20} />
-                            </Button>
-                        </ButtonGroup>
+                    <div className='flex gap-2'>
+                        <Button 
+                            type='submit' 
+                            disabled={isSubmitting}
+                            size='sm'
+                            className="flex justify-center items-center"
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <IconLoader2 size={16} className="animate-spin mr-2" />
+                                    Saving...
+                                </>
+                            ) : 'Save'}
+                        </Button>
+                        <Button 
+                            size='sm'
+                            onClick={toggleEditDescription} 
+                            type="button" 
+                        >
+                            Cancel
+                        </Button>
+                    </div>
                 </form>
             )}
             </div>
