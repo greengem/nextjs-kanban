@@ -3,7 +3,6 @@ const url = `https://api.unsplash.com/photos/random?topics=${topicSlug}&w=1920&c
 const FALLBACK_IMAGE_URL = '/fallback1.jpg';
 
 export default async function fetchUnsplashImage() {
-    /*
     try {
         const res = await fetch(url);
 
@@ -21,7 +20,7 @@ export default async function fetchUnsplashImage() {
     } catch (error) {
         console.error('Error fetching Unsplash image:', error);
         return FALLBACK_IMAGE_URL;
-    }*/
+    }
     return FALLBACK_IMAGE_URL;
 
 }
