@@ -5,7 +5,7 @@ import {ThemeProvider as NextThemesProvider} from "next-themes";
 
 export function Providers({children}: { children: React.ReactNode }) {
   return (
-    <NextUIProvider>
+    <NextUIProvider className='flex flex-col h-full'>
             <NextThemesProvider 
               attribute="class" 
               defaultTheme="purple"

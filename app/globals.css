@@ -21,10 +21,7 @@ html, body {
   padding: 0;
 }
 
-div[data-overlay-container="true"] {
-  height: 100vh;
-}
-
-aside{
-  top: 52px;
+.card-body{
+  max-height: 60vh;
+  overflow-y: scroll;
 }

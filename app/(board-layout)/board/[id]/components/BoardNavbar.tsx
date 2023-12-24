@@ -8,7 +8,7 @@ export default function BoardNavbar({
     board: any;
 }) {
     return (
-        <div className="flex justify-between items-center bg-zinc-700 opacity-80 px-5 py-2 mb-5">
+        <div className="flex justify-between items-center bg-zinc-700 opacity-90 px-5 py-2 mb-5">
 
             <div className="flex gap-5 items-center">
                 <BoardTitle boardTitle={board.title} boardId={board.id} />
