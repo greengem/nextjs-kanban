@@ -46,7 +46,16 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 }
 
 
-export async function getBoard(id: string, userId: string): Promise<BoardDetails | null> {
+export async function getBoard(id: string, userId: string, filterQuery?: string): Promise<BoardDetails | null> {
+    
+    const labelCondition = filterQuery ? {
+        labels: {
+            some: {
+                title: filterQuery,
+            },
+        },
+    } : {};
+
     const board = await prisma.board.findUnique({
         where: {
             id: id,
@@ -74,6 +83,7 @@ export async function getBoard(id: string, userId: string): Promise<BoardDetails
                         orderBy: {
                             order: 'asc'
                         },
+                        where: labelCondition,
                         select: {
                             id: true,
                             title: true,
