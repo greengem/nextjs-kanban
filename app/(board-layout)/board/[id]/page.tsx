@@ -7,17 +7,17 @@ import BoardNavbar from "./components/BoardNavbar";
 export default async function BoardPage({ 
   params, searchParams 
 } : {
-  params: { id: string }, searchParams: { q?: string }
+  params: { id: string }, searchParams: { label?: string }
 }) {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log('search param: ' + searchParams.q);
+  console.log('search param: ' + searchParams.label);
 
   if (!userId) {
     return null;
   }
 
-  const board: BoardDetails | null = await getBoard(params.id, userId, searchParams.q);
+  const board: BoardDetails | null = await getBoard(params.id, userId, searchParams.label);
 
   if (!board) {
     return <div>Board not found</div>;

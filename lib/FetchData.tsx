@@ -46,12 +46,11 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 }
 
 
-export async function getBoard(id: string, userId: string, filterQuery?: string): Promise<BoardDetails | null> {
-    
-    const labelCondition = filterQuery ? {
+export async function getBoard(id: string, userId: string, labelIdFilter?: string) {
+    const labelCondition = labelIdFilter ? {
         labels: {
             some: {
-                title: filterQuery,
+                id: labelIdFilter,
             },
         },
     } : {};
@@ -107,6 +106,16 @@ export async function getBoard(id: string, userId: string, filterQuery?: string)
     });
 
     if (board) {
+        const uniqueLabelsMap = new Map();
+        board.columns.forEach(column => {
+            column.tasks.forEach(task => {
+                task.labels.forEach(label => {
+                    uniqueLabelsMap.set(label.id, label);
+                });
+            });
+        });
+        const uniqueLabels = Array.from(uniqueLabelsMap.values());
+
         return {
             ...board,
             isFavorited: board.favoritedBy.length > 0,
@@ -115,6 +124,7 @@ export async function getBoard(id: string, userId: string, filterQuery?: string)
                 ...column,
                 tasks: column.tasks
             })),
+            uniqueLabels,
         };
     }
 
