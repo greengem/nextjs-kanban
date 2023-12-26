@@ -165,10 +165,14 @@ export async function getTask(taskId: string) {
                     id: true,
                     title: true,
                     items: {
+                        orderBy: {
+                            createdAt: 'asc'
+                        },
                         select: {
                             id: true,
                             content: true,
-                            isChecked: true
+                            isChecked: true,
+                            createdAt: true
                         }
                     }
                 }

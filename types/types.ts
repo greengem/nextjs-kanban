@@ -17,8 +17,7 @@ export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 
     labels: LabelSummary[];
 };
 
-
-export type ChecklistItemSummary = Pick<ChecklistItem, 'id' | 'content' | 'isChecked'>;
+export type ChecklistItemSummary = Pick<ChecklistItem, 'id' | 'content' | 'isChecked' | 'createdAt'>;
 
 export type ChecklistSummary = Pick<Checklist, 'id' | 'title'> & {
     items: ChecklistItemSummary[];
@@ -28,9 +27,8 @@ export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' |
     activities: ActivityWithUser[];
     column: Pick<Column, 'title' | 'boardId'>;
     labels: LabelSummary[];
-    checklists: ChecklistSummary[]; // Added checklists field
+    checklists: ChecklistSummary[];
 };
-
 
 export type LabelSummary = Pick<Label, 'id' | 'title' | 'color'>;
 
@@ -40,6 +38,7 @@ export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'creat
     newColumn: Pick<Column, 'title'> | null,
     originalColumn: Pick<Column, 'title'> | null
 };
+
 
 
 // Form validation
