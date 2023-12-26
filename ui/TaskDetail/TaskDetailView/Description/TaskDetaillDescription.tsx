@@ -9,6 +9,8 @@ import { ExpandedTask, TaskEditData } from '@/types/types';
 import { Textarea } from "@nextui-org/input";
 import { Button, ButtonGroup } from '@nextui-org/button';
 import { IconTextPlus, IconLoader2, IconX, IconTrash } from '@tabler/icons-react';
+import TaskDetailItemHeading from '../ui/TaskDetailItemHeading';
+import TaskDetailItemContent from '../ui/TaskDetailItemContent';
 
 export default function TaskDetailDescription({ 
     selectedTask, boardId
@@ -37,55 +39,54 @@ export default function TaskDetailDescription({
     };
 
     return (
-        <div className='flex gap-3 w-full'>
-            <IconTextPlus size={32} />
-            <div className='flex-col w-full'>
-            <h4 className='text-large font-semibold mb-2'>Description</h4>
-            {!isEditingDescription ? (
-                <p onClick={toggleEditDescription} className="cursor-pointer">
-                    {selectedTask.description ? (
-                        selectedTask.description
-                    ) : (
-                        <span className="text-primary">Add a description</span>
-                    )}
-                </p>
-            ) : (
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input type="hidden" {...register('id')} />
-                    <input type="hidden" {...register('boardId')} />
-                    <Textarea 
-                        placeholder="Enter your description"
-                        autoFocus
-                        label="Description"
-                        defaultValue={selectedTask.description || ''}
-                        className='w-full mb-2 mt-1 border-none focus:outline-none' 
-                        {...register('description')}
-                    />
-                    <div className='flex gap-2'>
-                        <Button 
-                            type='submit' 
-                            disabled={isSubmitting}
-                            size='sm'
-                            className="flex justify-center items-center"
-                        >
-                            {isSubmitting ? (
-                                <>
-                                    <IconLoader2 size={16} className="animate-spin mr-2" />
-                                    Saving...
-                                </>
-                            ) : 'Save'}
-                        </Button>
-                        <Button 
-                            size='sm'
-                            onClick={toggleEditDescription} 
-                            type="button" 
-                        >
-                            Cancel
-                        </Button>
-                    </div>
-                </form>
-            )}
-            </div>
-        </div>
+        <>
+            <TaskDetailItemHeading title='Description' icon={<IconTextPlus size={32} />} />
+            <TaskDetailItemContent indented>
+                {!isEditingDescription ? (
+                    <p onClick={toggleEditDescription} className="cursor-pointer">
+                        {selectedTask.description ? (
+                            selectedTask.description
+                        ) : (
+                            <span className="text-primary">Add a description</span>
+                        )}
+                    </p>
+                ) : (
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <input type="hidden" {...register('id')} />
+                        <input type="hidden" {...register('boardId')} />
+                        <Textarea 
+                            placeholder="Enter your description"
+                            autoFocus
+                            label="Description"
+                            defaultValue={selectedTask.description || ''}
+                            className='w-full mb-2 mt-1 border-none focus:outline-none' 
+                            {...register('description')}
+                        />
+                        <div className='flex gap-2'>
+                            <Button 
+                                type='submit' 
+                                disabled={isSubmitting}
+                                size='sm'
+                                className="flex justify-center items-center"
+                            >
+                                {isSubmitting ? (
+                                    <>
+                                        <IconLoader2 size={16} className="animate-spin mr-2" />
+                                        Saving...
+                                    </>
+                                ) : 'Save'}
+                            </Button>
+                            <Button 
+                                size='sm'
+                                onClick={toggleEditDescription} 
+                                type="button" 
+                            >
+                                Cancel
+                            </Button>
+                        </div>
+                    </form>
+                )}
+            </TaskDetailItemContent>
+        </>
     )
 }

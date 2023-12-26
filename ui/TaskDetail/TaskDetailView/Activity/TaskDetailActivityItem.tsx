@@ -68,14 +68,16 @@ export default function TaskDetailActivityItem({ activity, boardId }: TaskDetail
     };
 
     return (
-        <li className="flex gap-3 items-start">
-            <Avatar 
-                showFallback 
-                size='sm'
-                name={activity.user.name ?? 'Unknown'} 
-                src={activity.user.image ?? undefined} 
-                className="shrink-0 grow-0"
-            />
+        <li className="flex items-start">
+            <div className='w-[40px]'>
+                <Avatar 
+                    showFallback 
+                    size='sm'
+                    name={activity.user.name ?? 'Unknown'} 
+                    src={activity.user.image ?? undefined} 
+                    className="shrink-0 grow-0"
+                />
+            </div>
             <div>
 
             {activity.type === 'COMMENT_ADDED' ? (

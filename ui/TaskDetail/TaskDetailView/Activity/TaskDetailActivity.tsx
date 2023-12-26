@@ -6,12 +6,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import TaskDetailActivityItem from "./TaskDetailActivityItem";
 import { Avatar } from "@nextui-org/avatar"
-import { Textarea } from "@nextui-org/input"
+import { Input } from "@nextui-org/input"
 import { Button, ButtonGroup } from "@nextui-org/button"
 import { IconActivity, IconX } from "@tabler/icons-react"
 import { handleCreateActivity } from "@/actions/ActivityServerActions";
 import { CreateActivitySchema } from "@/types/zodTypes";
 import { ActivityCreationData } from "@/types/types";
+import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
+import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 
 interface TaskDetailActivityProps {
     task: any;
@@ -53,32 +55,31 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
 
     return (
         <>
-            <div>
-                <div className='flex gap-3 w-full mb-2'>
-                    <IconActivity size={32} />
-                    <h4 className='text-large font-semibold'>Activity</h4>
-                </div>
+            <TaskDetailItemHeading title="Activity" icon={<IconActivity size={32} />} />
 
-                <div className="flex gap-3 items-start">
-                    <Avatar 
-                        showFallback 
-                        size="sm"
-                        name={session?.user?.name ?? 'Unknown'} 
-                        src={session?.user?.image ?? undefined}
-                        className="shrink-0"
-                    />
-
+            <TaskDetailItemContent>
+                <div className="flex items-start mb-5">
+                    <div className="w-[40px]">
+                        <Avatar 
+                            showFallback 
+                            size="sm"
+                            name={session?.user?.name ?? 'Unknown'} 
+                            src={session?.user?.image ?? undefined}
+                            className="shrink-0"
+                        />
+                    </div>
                     <div className="w-full">
-                        {!showForm && (
-                            <p onClick={handleToggleForm} className="cursor-pointer text-primary">Add a comment</p>
-                        )}
-
-                        {showForm && (
-                            <form onSubmit={handleSubmit(onSubmit)}>
-                                <Textarea
+                        {!showForm ? (
+                            <div className="flex items-center h-[32px]">
+                                <p onClick={handleToggleForm} className="cursor-pointer text-primary">Add a comment</p>
+                            </div>
+                        ) : (
+                            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+                                <Input
                                     className="mb-2"
                                     placeholder="Enter a description..."
                                     autoFocus
+                                    labelPlacement="outside"
                                     {...register('content')}
                                 />
 
@@ -86,25 +87,26 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
                                 <input type="hidden" {...register('taskId')} />
 
                                 <ButtonGroup size="sm">
-                                    <Button type="submit"  isLoading={isSubmitting}>Save</Button>
+                                    <Button type="submit" isLoading={isSubmitting}>Save</Button>
                                     <Button color="danger" isIconOnly onClick={handleCloseForm}><IconX size={20} /></Button>
                                 </ButtonGroup>
                             </form>
                         )}
                     </div>
                 </div>
-            </div>
 
-            <ul className="space-y-3">
-                {activities && activities.map((activity: any) => (
-                    <TaskDetailActivityItem 
-                        key={activity.id}
-                        activity={activity}
-                        columnTitle={columnTitle}
-                        boardId={boardId}
-                    />
-                ))}
-            </ul>
+                <ul className="space-y-3">
+                    {activities && activities.map((activity: any) => (
+                        <TaskDetailActivityItem 
+                            key={activity.id}
+                            activity={activity}
+                            columnTitle={columnTitle}
+                            boardId={boardId}
+                        />
+                    ))}
+                </ul>
+            </TaskDetailItemContent>
+
         </>
     );
 }

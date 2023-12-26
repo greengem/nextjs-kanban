@@ -12,6 +12,8 @@ import { Input } from "@nextui-org/input";
 import { IconCheckbox, IconTrash } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
 import { ExpandedTask } from "@/types/types";
+import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
+import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 
 interface TaskDetailChecklistProps {
     task: ExpandedTask;
@@ -111,64 +113,67 @@ export default function TaskDetailChecklist({
     
 
     return (
-        <div>
+        <>
             {task.checklists.map(checklist => (
-                <div key={checklist.id} className="mb-5">
-                    <div className="flex items-center mb-3 justify-between">
-                        <div className="flex gap-3">
-                            <IconCheckbox size={32} className="shrink-0 grow-0" />
-                            <h4 className='text-large font-semibold'>{checklist.title}</h4>
-                        </div>
-                        <div className="flex gap-2">
-                            <Button size="sm">Hide checked items</Button>
-                            <Button size="sm" onClick={() => handleDeleteChecklistClick(checklist.id)}>Delete</Button>
-                        </div>
-                    </div>
-                    <CheckboxGroup 
-                        className="mb-3"
-                        value={checkedValues}
-                        onValueChange={handleCheckboxChange}
-                    >
-                        {checklist.items.map(item => (
-                            <div className="flex justify-between gap-5 hover:bg-zinc-800 py-1 px-2 rounded-md" key={item.id}>
-                                <Checkbox 
-                                    value={item.id}
-                                    className="w-full max-w-full"
-                                    onChange={() => handleToggleChecked(item.id, !checkedValues.includes(item.id))}
-                                >
-                                    {item.content}
-                                </Checkbox>
-                                <button 
-                                    className="shrink-0 grow-0"
-                                    onClick={() => handleDeleteItem(item.id)}
-                                >
-                                    <IconTrash className="text-zinc-500 hover:text-danger" size={18} />
-                                </button>
-                            </div>
-                        ))}
-                    </CheckboxGroup>
-                    {!showInput[checklist.id] && (
-                        <Button size="sm" onClick={() => toggleInput(checklist.id)}>Add an item</Button>
-                    )}
-                    {showInput[checklist.id] && (
-                        <div>
-                            <Input 
-                                labelPlacement="outside" 
-                                placeholder="Add an item" 
-                                size="sm" 
-                                className="w-full mb-2" 
-                                autoFocus 
-                                value={newItemContent}
-                                onChange={(e) => setNewItemContent(e.target.value)}
-                            />
+                <div key={checklist.id}>
+                    <TaskDetailItemHeading 
+                        title={checklist.title} 
+                        icon={<IconCheckbox size={32} />} 
+                        endContent={
                             <div className="flex gap-2">
-                                <Button size="sm" color="primary" onClick={() => handleAddItem(checklist.id)}>Add</Button>
-                                <Button size="sm" onClick={() => toggleInput(checklist.id)}>Cancel</Button>
+                                <Button size="sm">Hide checked items</Button>
+                                <Button size="sm" onClick={() => handleDeleteChecklistClick(checklist.id)}>Delete</Button>
                             </div>
-                        </div>
-                    )}
+                        }
+                    />
+
+                    <TaskDetailItemContent indented>
+                        <CheckboxGroup 
+                            className="mb-3"
+                            value={checkedValues}
+                            onValueChange={handleCheckboxChange}
+                        >
+                            {checklist.items.map(item => (
+                                <div className="flex justify-between gap-5 hover:bg-zinc-800 py-1 px-2 rounded-md" key={item.id}>
+                                    <Checkbox 
+                                        value={item.id}
+                                        className="w-full max-w-full"
+                                        onChange={() => handleToggleChecked(item.id, !checkedValues.includes(item.id))}
+                                    >
+                                        {item.content}
+                                    </Checkbox>
+                                    <button 
+                                        className="shrink-0 grow-0"
+                                        onClick={() => handleDeleteItem(item.id)}
+                                    >
+                                        <IconTrash className="text-zinc-500 hover:text-danger" size={18} />
+                                    </button>
+                                </div>
+                            ))}
+                        </CheckboxGroup>
+                        {!showInput[checklist.id] && (
+                            <Button size="sm" onClick={() => toggleInput(checklist.id)}>Add an item</Button>
+                        )}
+                        {showInput[checklist.id] && (
+                            <div>
+                                <Input 
+                                    labelPlacement="outside" 
+                                    placeholder="Add an item" 
+                                    size="sm" 
+                                    className="w-full mb-2" 
+                                    autoFocus 
+                                    value={newItemContent}
+                                    onChange={(e) => setNewItemContent(e.target.value)}
+                                />
+                                <div className="flex gap-2">
+                                    <Button size="sm" color="primary" onClick={() => handleAddItem(checklist.id)}>Add</Button>
+                                    <Button size="sm" onClick={() => toggleInput(checklist.id)}>Cancel</Button>
+                                </div>
+                            </div>
+                        )}
+                    </TaskDetailItemContent>
                 </div>
             ))}
-        </div>
+        </>
     );
 }
