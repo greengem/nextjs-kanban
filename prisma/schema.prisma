@@ -138,6 +138,7 @@ model ChecklistItem {
   isChecked   Boolean    @default(false)
   checklistId String
   checklist   Checklist  @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+  createdAt   DateTime   @default(now())
 }
 
 
