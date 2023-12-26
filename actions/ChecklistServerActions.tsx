@@ -92,3 +92,25 @@ export async function handleDeleteChecklistItem({ checklistItemId, boardId }: { 
         return { success: false, message: 'Failed to delete item from checklist' };
     }
 }
+
+
+export async function handleToggleCheckedItem({ checklistItemId, isChecked, boardId }: { checklistItemId: string, isChecked: boolean, boardId: string }) {
+    if (!checklistItemId) {
+        return { success: false, message: 'Checklist item ID is missing' };
+    }
+
+    try {
+        await prisma.checklistItem.update({
+            where: { id: checklistItemId },
+            data: { isChecked },
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Checklist item toggled' };
+    } catch (e) {
+        console.error('Error toggling checklist item:', e);
+        return { success: false, message: 'Failed to toggle checklist item' };
+    }
+}
+
