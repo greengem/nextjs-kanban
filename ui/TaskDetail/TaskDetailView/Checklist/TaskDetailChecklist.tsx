@@ -1,7 +1,12 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { handleCreateChecklistItem, handleDeleteChecklistItem, handleDeleteChecklist } from "@/actions/ChecklistServerActions";
+import { 
+    handleCreateChecklistItem, 
+    handleDeleteChecklistItem, 
+    handleDeleteChecklist,
+    handleToggleCheckedItem 
+} from "@/actions/ChecklistServerActions";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { Input } from "@nextui-org/input";
 import { IconCheckbox, IconTrash } from "@tabler/icons-react";
@@ -18,19 +23,25 @@ export default function TaskDetailChecklist({
 }: TaskDetailChecklistProps) {
     const [showInput, setShowInput] = useState<Record<string, boolean>>({});
     const [newItemContent, setNewItemContent] = useState<string>("");
+    const [checkedValues, setCheckedValues] = useState<string[]>([]);
 
+    useEffect(() => {
+        const initialCheckedIds = task.checklists.flatMap(checklist =>
+            checklist.items.filter(item => item.isChecked).map(item => item.id)
+        );
+        setCheckedValues(initialCheckedIds);
+    }, [task]);
+
+    const handleCheckboxChange = (newCheckedValues: string[]) => {
+        setCheckedValues(newCheckedValues);
+    };
+    
     const toggleInput = (checklistId: string): void => {
         setShowInput(prev => ({ ...prev, [checklistId]: !prev[checklistId] }));
         setNewItemContent("");
     };
 
     const handleAddItem = async (checklistId: string): Promise<void> => {
-        console.log("Adding new item with data:", {
-            content: newItemContent,
-            checklistId: checklistId,
-            boardId: boardId
-        });
-
         try {
             const result = await handleCreateChecklistItem({
                 content: newItemContent,
@@ -82,6 +93,23 @@ export default function TaskDetailChecklist({
         }
     };
 
+    const handleToggleChecked = async (checklistItemId: string, isChecked: boolean) => {
+        try {
+            await handleToggleCheckedItem({
+                checklistItemId,
+                isChecked,
+                boardId
+            });
+    
+            setCheckedValues(prev => isChecked 
+                ? [...prev, checklistItemId] 
+                : prev.filter(id => id !== checklistItemId));
+        } catch (error) {
+            console.error('Error toggling checklist item:', error);
+        }
+    };
+    
+
     return (
         <div>
             {task.checklists.map(checklist => (
@@ -96,43 +124,49 @@ export default function TaskDetailChecklist({
                             <Button size="sm" onClick={() => handleDeleteChecklistClick(checklist.id)}>Delete</Button>
                         </div>
                     </div>
-                    <div>
-                        <CheckboxGroup className="mb-3">
-                            {checklist.items.map(item => (
-                                <div className="flex justify-between gap-5 hover:bg-zinc-800 py-1 px-2 rounded-md" key={item.id}>
-                                    <Checkbox value={item.id} checked={item.isChecked} className="w-full max-w-full">
-                                        {item.content}
-                                    </Checkbox>
-                                    <button 
-                                        className="shrink-0 grow-0"
-                                        onClick={() => handleDeleteItem(item.id)}
-                                    >
-                                        <IconTrash className="text-zinc-500 hover:text-danger" size={18} />
-                                    </button>
-                                </div>
-                            ))}
-                        </CheckboxGroup>
-                        {!showInput[checklist.id] && (
-                            <Button size="sm" onClick={() => toggleInput(checklist.id)}>Add an item</Button>
-                        )}
-                        {showInput[checklist.id] && (
-                            <div>
-                                <Input 
-                                    labelPlacement="outside" 
-                                    placeholder="Add an item" 
-                                    size="sm" 
-                                    className="w-full mb-2" 
-                                    autoFocus 
-                                    value={newItemContent}
-                                    onChange={(e) => setNewItemContent(e.target.value)}
-                                />
-                                <div className="flex gap-2">
-                                    <Button size="sm" color="primary" onClick={() => handleAddItem(checklist.id)}>Add</Button>
-                                    <Button size="sm" onClick={() => toggleInput(checklist.id)}>Cancel</Button>
-                                </div>
+                    <CheckboxGroup 
+                        className="mb-3"
+                        value={checkedValues}
+                        onValueChange={handleCheckboxChange}
+                    >
+                        {checklist.items.map(item => (
+                            <div className="flex justify-between gap-5 hover:bg-zinc-800 py-1 px-2 rounded-md" key={item.id}>
+                                <Checkbox 
+                                    value={item.id}
+                                    className="w-full max-w-full"
+                                    onChange={() => handleToggleChecked(item.id, !checkedValues.includes(item.id))}
+                                >
+                                    {item.content}
+                                </Checkbox>
+                                <button 
+                                    className="shrink-0 grow-0"
+                                    onClick={() => handleDeleteItem(item.id)}
+                                >
+                                    <IconTrash className="text-zinc-500 hover:text-danger" size={18} />
+                                </button>
                             </div>
-                        )}
-                    </div>
+                        ))}
+                    </CheckboxGroup>
+                    {!showInput[checklist.id] && (
+                        <Button size="sm" onClick={() => toggleInput(checklist.id)}>Add an item</Button>
+                    )}
+                    {showInput[checklist.id] && (
+                        <div>
+                            <Input 
+                                labelPlacement="outside" 
+                                placeholder="Add an item" 
+                                size="sm" 
+                                className="w-full mb-2" 
+                                autoFocus 
+                                value={newItemContent}
+                                onChange={(e) => setNewItemContent(e.target.value)}
+                            />
+                            <div className="flex gap-2">
+                                <Button size="sm" color="primary" onClick={() => handleAddItem(checklist.id)}>Add</Button>
+                                <Button size="sm" onClick={() => toggleInput(checklist.id)}>Cancel</Button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>
