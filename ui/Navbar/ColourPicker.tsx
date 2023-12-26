@@ -2,7 +2,7 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
-import { IconPaint } from "@tabler/icons-react";
+import { IconWand } from "@tabler/icons-react";
 
 export default function ColourPicker() {
     const [mounted, setMounted] = useState(false)
@@ -39,7 +39,7 @@ export default function ColourPicker() {
 
             <PopoverTrigger>
                 <button>
-                    <IconPaint size={24} />
+                    <IconWand size={24} />
                 </button>
             </PopoverTrigger>
 
