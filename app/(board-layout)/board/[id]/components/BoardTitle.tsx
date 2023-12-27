@@ -66,10 +66,8 @@ export default function BoardTitle({
                         className='grow shrink'
                     />
                     <input type="hidden" {...register('id')} />
-                    <ButtonGroup>
-                        <Button type="submit" color="primary" size="sm" disabled={isSubmitting}>Save</Button>
-                        <Button onClick={toggleEdit} size="sm" isIconOnly className='bg-zinc-800'><IconX size={18} /></Button>
-                    </ButtonGroup>
+                    <Button type="submit" color="primary" size="sm" disabled={isSubmitting}>Save</Button>
+                    <Button onClick={toggleEdit} size="sm" isIconOnly><IconX size={18} /></Button>
                 </form>
             )}
         </>

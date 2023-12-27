@@ -21,8 +21,6 @@ export default function BoardMenu({
             } else {
                 toast.error(response.message);
             }
-        } else if (action === 'edit') {
-            toast.error('edit coming soon')
         }
     }
 
@@ -32,7 +30,6 @@ export default function BoardMenu({
                 <Button size="sm" isIconOnly><IconMenu2 size={20} /></Button>
             </DropdownTrigger>
             <DropdownMenu aria-label="Board Actions" onAction={(key) => handleAction(key as 'edit' | 'delete')}>
-                <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Board Title</DropdownItem>
                 <DropdownItem key="delete" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>
                     Delete Board
                 </DropdownItem>
