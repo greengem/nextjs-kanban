@@ -23,12 +23,14 @@ export default async function BoardPage({
     return <div>Board not found</div>;
   }
 
+  const backgroundStyle = board.backgroundUrl 
+    ? { backgroundImage: `url(${board.backgroundUrl})` }
+    : {};
+
   return (
     <div 
-      className="h-full bg-cover bg-center"
-      style={{
-        backgroundImage: `url(${board.backgroundUrl})`,
-      }}
+      className={`h-full bg-cover bg-center bg-gradient-to-tl from-zinc-900 to-primary`}
+      style={backgroundStyle}
     >
       <BoardNavbar board={board} />
       <Board board={board} session={session} />
