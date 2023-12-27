@@ -85,7 +85,7 @@ export default function ColumnActions({
               </div>
           ) : (
               <>
-                  <h3 className="text-black">{columnTitle}</h3>
+                  <h3 className="font-semibold">{columnTitle}</h3>
                   <Dropdown backdrop='blur'>
                       <DropdownTrigger>
                           <Button variant="flat" isIconOnly size='sm'><IconMenu2 size={20} /></Button>
