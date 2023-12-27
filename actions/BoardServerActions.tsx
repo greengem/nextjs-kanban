@@ -108,3 +108,29 @@ export async function handleDeleteBoard(boardId: string) {
         return { success: false, message: 'Failed to delete board' }
     }
 }
+
+
+// Edit Background Image
+export async function handleEditBoardImage(url: string, boardId: string) {
+  if (!url) {
+      return { success: false, message: 'No url provided' };
+  }
+
+  try {
+      await prisma.board.update({
+          where: {
+              id: boardId,
+          },
+          data: {
+              backgroundUrl: url,
+          },
+      });
+      
+      revalidatePath(`/board/${boardId}`);
+
+      return { success: true, message: `Board image saved` };
+  } catch (e) {
+      console.error('Error updating board image:', e);
+      return { success: false, message: `Failed to save board image` };
+  }
+}
