@@ -47,12 +47,8 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
             backdrop="blur" 
         >
             <PopoverTrigger>
-                <Button 
-                    color="primary" 
-                    size="sm" 
-                    startContent={<IconBackground size={16} />}
-                >
-                    Background
+                <Button color="primary" size="sm" isIconOnly>
+                    <IconBackground size={16} />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className='overflow-y-scroll'>

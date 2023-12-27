@@ -44,12 +44,8 @@ export default function BoardFilter({
             onOpenChange={setPopoverOpen}
         >
             <PopoverTrigger>
-                <Button 
-                    size="sm" 
-                    color="primary" 
-                    startContent={<IconFilter size={16} />}
-                >
-                    Filters
+                <Button  color="primary" size="sm" isIconOnly>
+                    <IconFilter size={16} />
                 </Button>
             </PopoverTrigger>
 
