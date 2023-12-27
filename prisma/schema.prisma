@@ -63,6 +63,7 @@ model Board {
   id          String    @id @default(cuid())
   title       String
   description String?
+  backgroundUrl String?
   userId      String
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   columns     Column[]
