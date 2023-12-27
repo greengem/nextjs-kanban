@@ -1,20 +1,29 @@
 'use client'
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
+import { useUIContext } from '@/contexts/UIContext';
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import Image from "next/image";
 import toast from 'react-hot-toast';
 import { fetchUnsplashImages } from '@/actions/FetchUnsplashImages';
 import { handleEditBoardImage } from '@/actions/BoardServerActions';
-import { IconBackground } from '@tabler/icons-react';
 
 interface FormData {
     searchTerm: string;
 }
 
 export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
+    const { uiState, toggleBackgroundImageSelector } = useUIContext();
+    
+    if (!uiState.isBackgroundImageSelectorOpen) {
+        return null;
+    }
+
+    const handleClose = () => {
+        toggleBackgroundImageSelector();
+    };
+
     const { register, handleSubmit } = useForm<FormData>();
     const [images, setImages] = useState<string[]>([]);
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
@@ -40,48 +49,36 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
     };
 
     return (
-        <Popover 
-            isOpen={isPopoverOpen} 
-            onOpenChange={setIsPopoverOpen}
-            showArrow 
-            backdrop="blur" 
-        >
-            <PopoverTrigger>
-                <Button color="primary" size="sm" isIconOnly>
-                    <IconBackground size={16} />
-                </Button>
-            </PopoverTrigger>
-            <PopoverContent className='overflow-y-scroll'>
-                <form onSubmit={handleSubmit(onSubmit)} className="px-1 py-2 max-w-lg space-y-3 max-h-64">
-                    <div className='flex gap-x-2'>
-                        <Input
-                            {...register('searchTerm')}
-                            labelPlacement='outside'
-                            placeholder="Search unsplash"
-                            size='sm'
-                        />
-                        <Button type="submit" color="primary" size='sm'>Search</Button>
-                    </div>
+        <div className="bg-zinc-200 shadow-inner">
+            <form onSubmit={handleSubmit(onSubmit)} className="px-5 py-3">
+                <div className='flex gap-x-2'>
+                    <Input
+                        {...register('searchTerm')}
+                        labelPlacement='outside'
+                        placeholder="Search Unsplash..."
+                    />
+                    <Button type="submit" color="primary">Search</Button>
+                    <Button type="button" onClick={handleClose}>Close</Button>
+                </div>
 
-                    {
-                        images.length > 0 && (
-                            <div className="grid grid-cols-2 gap-3 mt-3">
-                                {images.map((image, index) => (
-                                    <div key={index} onClick={() => handleImageClick(image)} className='cursor-pointer'>
-                                        <Image 
-                                            src={image}
-                                            alt="Unsplash Image"
-                                            width={240}
-                                            height={120}
-                                            className='shadow-md rounded-lg'
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        )
-                    }
-                </form>
-            </PopoverContent>
-        </Popover>
+                {
+                    images.length > 0 && (
+                        <div className="flex gap-3 overflow-x-scroll mt-3">
+                            {images.map((image, index) => (
+                                <Image 
+                                    key={index} 
+                                    src={image}
+                                    onClick={() => handleImageClick(image)} 
+                                    alt="Unsplash Image"
+                                    height={100}
+                                    width={128}
+                                    className='h-24 w-32 object-cover rounded-lg shadow-md grow-0 shrink-0 cursor-pointer'
+                                />
+                            ))}
+                        </div>
+                    )
+                }
+            </form>
+        </div>
     );
 }
