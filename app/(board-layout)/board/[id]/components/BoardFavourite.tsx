@@ -13,7 +13,7 @@ export default function BoardFavourite({
     };
 
     return (
-        <button onClick={handleToggleFavorite}>
+        <button onClick={handleToggleFavorite} className="mx-3">
             {board.isFavorited ? <IconStarFilled className="text-primary" size={18} /> : <IconStar size={18} />}
         </button>
     )

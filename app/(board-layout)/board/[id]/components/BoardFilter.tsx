@@ -5,6 +5,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Button } from "@nextui-org/button";
 import { Select, SelectItem } from "@nextui-org/select";
 import { LabelSummary } from "@/types/types";
+import { IconFilter } from "@tabler/icons-react";
 
 const LabelColorIndicator = ({ color } : { color: string }) => (
     <div className={`h-4 w-4 rounded-full bg-${color}-500`} />
@@ -43,7 +44,13 @@ export default function BoardFilter({
             onOpenChange={setPopoverOpen}
         >
             <PopoverTrigger>
-                <Button size="sm" color="primary" onClick={() => setPopoverOpen(true)}>Filters</Button>
+                <Button 
+                    size="sm" 
+                    color="primary" 
+                    startContent={<IconFilter size={16} />}
+                >
+                    Filters
+                </Button>
             </PopoverTrigger>
 
             <PopoverContent>
