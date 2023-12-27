@@ -11,7 +11,7 @@ export default async function BoardPage({
 }) {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log('search param: ' + searchParams.label);
+  //console.log('search param: ' + searchParams.label);
 
   if (!userId) {
     return null;
@@ -24,9 +24,14 @@ export default async function BoardPage({
   }
 
   return (
-    <>
+    <div 
+      className="h-full bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${board.backgroundUrl})`,
+      }}
+    >
       <BoardNavbar board={board} />
       <Board board={board} session={session} />
-    </>
+    </div>
   );
 }
