@@ -2,7 +2,6 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from 'react-hot-toast'
-import FetchImages from '@/lib/FetchImages'
 
 export function generateViewport() {
   return {
@@ -16,19 +15,15 @@ export function generateViewport() {
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const imageUrl = await FetchImages();
 
   return (
     <html lang="en">
-      <body 
-        className={`${inter.className} text-white bg-no-repeat bg-cover bg-center h-screen antialiased`} 
-        style={{ backgroundImage: `url(${imageUrl})` }}
-      >
+      <body className={`${inter.className} text-white h-screen antialiased`}>
         <Toaster />
         <Providers>
           {children}
