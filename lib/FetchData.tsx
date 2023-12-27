@@ -1,6 +1,6 @@
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
-import { BoardSummary, BoardDetails } from '@/types/types';
+import { BoardSummary } from '@/types/types';
 
 
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
@@ -17,6 +17,7 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
         select: {
             id: true,
             title: true,
+            backgroundUrl: true,
             columns: {
                 select: {
                     tasks: {
@@ -62,6 +63,7 @@ export async function getBoard(id: string, userId: string, labelIdFilter?: strin
         select: {
             id: true,
             title: true,
+            backgroundUrl: true,
             favoritedBy: {
                 where: {
                     userId: userId,

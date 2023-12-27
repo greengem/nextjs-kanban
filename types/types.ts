@@ -1,6 +1,6 @@
 import { Board, Column, Task, Activity, User, Label, Checklist, ChecklistItem } from "@prisma/client";
 
-export type BoardSummary = Pick<Board, 'id' | 'title'> & {
+export type BoardSummary = Pick<Board, 'id' | 'title' | 'backgroundUrl'> & {
     tasksCount: number;
     isFavorited: boolean;
 };
