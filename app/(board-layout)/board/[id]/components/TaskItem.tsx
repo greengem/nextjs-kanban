@@ -30,7 +30,7 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
   };
 
   return (
-    <div className='flex select-none rounded-md bg-zinc-800 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
+    <div className='flex select-none rounded-md text-black bg-zinc-100 shadow-md ring-0 hover:ring-2 hover:ring-primary'>
 
       <div className='pl-1 pr-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
         <IconGripVertical className='text-primary' size={24} />
