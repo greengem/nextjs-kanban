@@ -197,3 +197,19 @@ export async function handleRemoveDate(data: { taskId: string; boardId: string; 
     }
 }
 
+
+// DELETE TASK DESCRIPTION
+export async function handleDeleteTaskDescription(taskId: string, boardId: string) {
+    try {
+        await prisma.task.update({
+            where: { id: taskId },
+            data: { description: null }
+        });
+
+        revalidatePath(`/board/${boardId}`);
+
+        return { success: true, message: 'Description deleted successfully' };
+    } catch (e) {
+        return { success: false, message: 'Failed to delete description' };
+    }
+}

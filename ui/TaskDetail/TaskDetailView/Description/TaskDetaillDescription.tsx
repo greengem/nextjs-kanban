@@ -11,6 +11,7 @@ import { Button, ButtonGroup } from '@nextui-org/button';
 import { IconTextPlus, IconLoader2, IconX, IconTrash } from '@tabler/icons-react';
 import TaskDetailItemHeading from '../ui/TaskDetailItemHeading';
 import TaskDetailItemContent from '../ui/TaskDetailItemContent';
+import { handleDeleteTaskDescription } from '@/actions/TaskServerActions';
 
 export default function TaskDetailDescription({ 
     selectedTask, boardId
@@ -38,6 +39,18 @@ export default function TaskDetailDescription({
         }
     };
 
+    const handleDeleteDescription = async () => {
+        const response = await handleDeleteTaskDescription(selectedTask.id, boardId);
+    
+        if (response.success) {
+            toast.success(response.message);
+            setIsEditingDescription(false);
+            reset({ ...selectedTask, description: null });
+        } else {
+            toast.error(response.message);
+        }
+    };
+    
     return (
         <>
             <TaskDetailItemHeading title='Description' icon={<IconTextPlus size={32} />} />
@@ -83,6 +96,16 @@ export default function TaskDetailDescription({
                             >
                                 Cancel
                             </Button>
+                            {selectedTask.description && (
+                                <Button 
+                                    size='sm'
+                                    onClick={handleDeleteDescription} 
+                                    type="button" 
+                                    color='danger'
+                                >
+                                    Delete
+                                </Button>
+                            )}
                         </div>
                     </form>
                 )}
