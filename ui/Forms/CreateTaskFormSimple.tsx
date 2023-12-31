@@ -53,7 +53,7 @@ export default function CreateTaskForm({
               id="taskTitle" 
               placeholder='Task'
               {...register('title')}
-              className="w-full px-3 py-2 rounded text-sm bg-zinc-800 text-white border-none outline-none" 
+              className="w-full px-3 py-2 rounded text-sm bg-zinc-300 border-none outline-none" 
               required 
             />
           </div>
@@ -65,15 +65,21 @@ export default function CreateTaskForm({
             <button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md text-xs flex justify-center items-center"
+              className="px-4 py-2 bg-zinc-300 rounded-md text-xs flex justify-center items-center gap-1"
             >
               {isSubmitting ? (
                 <>
-                  <IconLoader2 size={16} className="animate-spin mr-2" />
-                  Creating...
+                  <IconLoader2 size={14} className="animate-spin mr-2" />
+                  <span>Creating...</span>
                 </>
-              ) : 'Create Task'}
+              ) : (
+                <>
+                  <IconPlus size={14} />
+                  <span>Create Task</span>
+                </>
+              )}
             </button>
+
             <CloseButton onClick={toggleEdit} />
           </div>
         </form>
