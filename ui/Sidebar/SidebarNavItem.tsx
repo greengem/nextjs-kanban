@@ -1,6 +1,7 @@
 'use client'
 import { usePathname } from 'next/navigation'
 import Link from "next/link";
+import { IconFile } from '@tabler/icons-react';
 
 export default function SidebarNavItem({
     boardId, boardTitle
@@ -16,10 +17,11 @@ export default function SidebarNavItem({
                 href={`/board/${boardId}`} 
                 aria-label={boardTitle}
                 className={`
-                    ${isCurrentPage ? 'text-primary' : 'text-white hover:text-primary'} 
-                    whitespace-nowrap overflow-ellipsis block overflow-x-hidden
+                    ${isCurrentPage ? 'text-primary' : 'hover:text-primary'} 
+                    whitespace-nowrap overflow-ellipsis overflow-x-hidden flex items-center gap-1
                 `}>
-                {boardTitle}
+                    <IconFile size={16} className='shrink-0' />
+                    {boardTitle}
             </Link>
         </li>
     );
