@@ -49,7 +49,7 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
     };
 
     return (
-        <div className="bg-zinc-700 shadow-inner">
+        <div className="bg-zinc-200 shadow-inner">
             <form onSubmit={handleSubmit(onSubmit)} className="px-5 py-3">
                 <div className='flex gap-x-2'>
                     <Input
@@ -63,7 +63,7 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
 
                 {
                     images.length > 0 && (
-                        <div className="flex gap-3 overflow-x-scroll mt-3">
+                        <div className="flex gap-3 overflow-x-scroll no-scrollbar mt-3">
                             {images.map((image, index) => (
                                 <Image 
                                     key={index} 

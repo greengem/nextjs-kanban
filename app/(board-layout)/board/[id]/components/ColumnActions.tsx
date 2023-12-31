@@ -88,7 +88,7 @@ export default function ColumnActions({
                   <h3 className="font-semibold">{columnTitle}</h3>
                   <Dropdown backdrop='blur'>
                       <DropdownTrigger>
-                          <Button variant="flat" isIconOnly size='sm'><IconMenu2 size={20} /></Button>
+                          <button className="bg-zinc-200 p-1 rounded-md"><IconMenu2 size={18} /></button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete-column' | 'delete-tasks')}>
                           <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Name</DropdownItem>

@@ -4,7 +4,7 @@ import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
-        <div className={`shadow-xl rounded-lg bg-zinc-700 text-white ${className}`}>
+        <div className={`shadow-xl rounded-lg bg-white/90 ${className}`}>
             {children}
         </div>
     )
@@ -18,7 +18,7 @@ export function CardHeaderGrab({
     return (
         <div 
             {...dragHandleProps}
-            className='py-1 text-primary bg-zinc-800 cursor-grab flex justify-center items-center rounded-t-lg'
+            className='py-1 text-primary bg-zinc-200 cursor-grab flex justify-center items-center rounded-t-lg'
         >
             <IconGripHorizontal size={30} />
         </div>
@@ -39,7 +39,7 @@ export function CardHeader({
     return (
         <div className={`${showGrab ? '' : 'rounded-t-lg'} ${className}`}>
             {showGrab && <CardHeaderGrab dragHandleProps={dragHandleProps} />}
-            <div className={`px-3 pt-3 ${showGrab ? '' : 'rounded-t-lg'}`}>
+            <div className={`px-2 pt-3 ${showGrab ? '' : 'rounded-t-lg'}`}>
                 {children}
             </div>
         </div>
@@ -52,7 +52,7 @@ export function CardBody({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`p-3 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg ${className}`}>
+        <div className={`p-2 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg ${className}`}>
             {children}
         </div>
     );

@@ -16,7 +16,7 @@ export default async function BoardNavbar({
 
     return (
         <div className="mb-5">
-            <div className="flex justify-between items-center bg-zinc-800 opacity-90 px-5 py-2">
+            <div className="flex justify-between items-center bg-white/90 px-5 py-2">
                 <div className="flex gap-2 items-center">
                     <BoardTitle boardTitle={board.title} boardId={board.id} />
                     <BoardFavourite board={board} />
