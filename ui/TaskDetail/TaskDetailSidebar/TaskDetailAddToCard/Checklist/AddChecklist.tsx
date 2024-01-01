@@ -43,7 +43,7 @@ export default function AddChecklist({
         <li className='flex items-center gap-2'>
             <Popover placement="bottom-start" triggerScaleOnOpen={false} backdrop='blur' isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <PopoverTrigger>
-                    <button className="px-2 py-2 bg-zinc-800 rounded-md flex w-full items-center gap-2"><IconCheckbox size={14} /> Checklist</button>
+                    <button className="px-2 py-2 bg-zinc-200 rounded-md flex w-full items-center gap-2"><IconCheckbox size={14} /> Checklist</button>
                 </PopoverTrigger>
                 <PopoverContent className='w-64'>
                     <form onSubmit={handleSubmit(onSubmit)} className="px-1 py-2 w-full space-y-3">
