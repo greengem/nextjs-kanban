@@ -47,11 +47,13 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 }
 
 
-export async function getBoard(id: string, userId: string, labelIdFilter?: string) {
-    const labelCondition = labelIdFilter ? {
+export async function getBoard(id: string, userId: string, labelIdFilters?: string[]) {
+    const labelCondition = labelIdFilters && labelIdFilters.length > 0 ? {
         labels: {
             some: {
-                id: labelIdFilter,
+                id: {
+                    in: labelIdFilters,
+                },
             },
         },
     } : {};
@@ -132,6 +134,7 @@ export async function getBoard(id: string, userId: string, labelIdFilter?: strin
 
     return null;
 }
+
 
 
 export async function getTask(taskId: string) {
