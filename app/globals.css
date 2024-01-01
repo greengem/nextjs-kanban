@@ -20,8 +20,3 @@ html, body {
   margin: 0;
   padding: 0;
 }
-
-.card-body{
-  max-height: 60vh;
-  overflow-y: scroll;
-}
