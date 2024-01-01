@@ -16,7 +16,7 @@ export default async function Boards() {
         {boards.map((board) => (
           <Link key={board.id} href={`/board/${board.id}`}>
             <Card>
-              <CardBody className="h-28 flex flex-col justify-end relative hover:bg-zinc-800">
+              <CardBody className="h-28 flex flex-col justify-end relative hover:bg-zinc-200">
                 {board.isFavorited && (
                   <span className="absolute text-xs top-3 left-3 text-primary">
                     <IconStarFilled size={16} />
