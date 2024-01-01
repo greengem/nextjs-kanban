@@ -32,7 +32,7 @@ export default function BoardFilter({
 
     const handleSelectionChange = (values: string[]) => {
         setSelectedLabels(values);
-        setPopoverOpen(false);
+        //setPopoverOpen(false);
 
         const params = new URLSearchParams(searchParams);
         if (values.length > 0) {
