@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Button } from "@nextui-org/button";
@@ -21,6 +21,14 @@ export default function BoardFilter({
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
+
+    useEffect(() => {
+        const labelQuery = searchParams.get('labels');
+        if (labelQuery) {
+            const labelIds = labelQuery.split(',');
+            setSelectedLabels(labelIds);
+        }
+    }, [searchParams]);
 
     const handleSelectionChange = (values: string[]) => {
         setSelectedLabels(values);
