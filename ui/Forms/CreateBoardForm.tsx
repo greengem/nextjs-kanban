@@ -34,7 +34,7 @@ export default function CreateBoardForm() {
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-between h-full'>
 
           <div>
-            <label htmlFor="title" className="sr-only hidden">Board Title</label>
+            <label htmlFor="title" className="hidden">Board Title</label>
             <input 
               type="text" 
               id="title" 
