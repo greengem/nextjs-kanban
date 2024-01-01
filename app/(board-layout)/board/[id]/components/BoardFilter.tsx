@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Button } from "@nextui-org/button";
-import { Select, SelectItem } from "@nextui-org/select";
+import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { LabelSummary } from "@/types/types";
 import { IconFilter } from "@tabler/icons-react";
 
@@ -16,21 +16,21 @@ export default function BoardFilter({
 } : {
     labels: LabelSummary[]
 }) {
-    const [selectedLabel, setSelectedLabel] = useState('');
+    const [selectedLabels, setSelectedLabels] = useState<string[]>([]);
     const [popoverOpen, setPopoverOpen] = useState(false);
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
 
-    const handleSelectionChange = (value: string) => {
-        setSelectedLabel(value);
+    const handleSelectionChange = (values: string[]) => {
+        setSelectedLabels(values);
         setPopoverOpen(false);
 
         const params = new URLSearchParams(searchParams);
-        if (value) {
-            params.set('label', value);
+        if (values.length > 0) {
+            params.set('labels', values.join(','));
         } else {
-            params.delete('label');
+            params.delete('labels');
         }
         replace(`${pathname}?${params.toString()}`);
     };
@@ -44,30 +44,30 @@ export default function BoardFilter({
             onOpenChange={setPopoverOpen}
         >
             <PopoverTrigger>
-                <Button  color="primary" size="sm" isIconOnly>
+                <Button color="primary" size="sm" isIconOnly>
                     <IconFilter size={16} />
                 </Button>
             </PopoverTrigger>
 
             <PopoverContent>
                 <div className="px-1 py-3 w-64 space-y-2">
-                    <Select
-                        label="Label"
-                        placeholder="Select a label"
-                        size="sm"
-                        value={selectedLabel}
-                        onChange={(e) => handleSelectionChange(e.target.value)}
+                    <CheckboxGroup
+                        label="Filter by label"
+                        color="primary"
+                        value={selectedLabels}
+                        onValueChange={handleSelectionChange}
                     >
                         {labels.map(label => (
-                            <SelectItem 
+                            <Checkbox 
                                 key={label.id} 
                                 value={label.id}
-                                startContent={<LabelColorIndicator color={label.color} />}
+                                className="flex justify-between"
                             >
                                 {label.title}
-                            </SelectItem>
+                                <LabelColorIndicator color={label.color} />
+                            </Checkbox>
                         ))}
-                    </Select>
+                    </CheckboxGroup>
                 </div>
             </PopoverContent>
         </Popover>
