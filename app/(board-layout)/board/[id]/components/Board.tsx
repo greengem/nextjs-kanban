@@ -105,7 +105,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
         <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
           {(provided) => (
             <div
-              className="flex no-scrollbar overflow-x-scroll px-2"
+              className="flex overflow-x-scroll px-2 "
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
