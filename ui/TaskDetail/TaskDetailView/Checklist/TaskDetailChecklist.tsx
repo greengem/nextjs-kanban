@@ -14,6 +14,8 @@ import { Button } from "@nextui-org/button";
 import { ExpandedTask } from "@/types/types";
 import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
+import {Progress} from "@nextui-org/progress";
+import { ChecklistSummary, ChecklistItemSummary } from "@/types/types";
 
 interface TaskDetailChecklistProps {
     task: ExpandedTask;
@@ -33,6 +35,12 @@ export default function TaskDetailChecklist({
         );
         setCheckedValues(initialCheckedIds);
     }, [task]);
+
+    const calculateProgress = (checklist: ChecklistSummary) => {
+        const totalItems = checklist.items.length;
+        const checkedItems = checklist.items.filter(item => checkedValues.includes(item.id)).length;
+        return (checkedItems / totalItems) * 100;
+    };
 
     const handleCheckboxChange = (newCheckedValues: string[]) => {
         setCheckedValues(newCheckedValues);
@@ -128,13 +136,18 @@ export default function TaskDetailChecklist({
                     />
 
                     <TaskDetailItemContent indented>
+                        <Progress 
+                            aria-label="Completion progress" 
+                            value={calculateProgress(checklist)} 
+                            className="w-full mb-2"
+                        />
                         <CheckboxGroup 
                             className="mb-3"
                             value={checkedValues}
                             onValueChange={handleCheckboxChange}
                         >
                             {checklist.items.map(item => (
-                                <div className="flex justify-between gap-5 hover:bg-zinc-800 py-1 px-2 rounded-md" key={item.id}>
+                                <div className="flex justify-between gap-5 hover:bg-zinc-300 py-1 px-2 rounded-md" key={item.id}>
                                     <Checkbox 
                                         value={item.id}
                                         className="w-full max-w-full"
