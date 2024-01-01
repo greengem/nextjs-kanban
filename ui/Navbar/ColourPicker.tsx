@@ -2,11 +2,16 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
-import { IconWand } from "@tabler/icons-react";
+import { IconArrowLeft, IconWand, IconX } from "@tabler/icons-react";
 
 export default function ColourPicker() {
     const [mounted, setMounted] = useState(false)
     const { theme: activeTheme, setTheme } = useTheme();
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const closePopover = () => {
+        setIsPopoverOpen(false);
+    };
   
     const themes = [
         { name: 'red', colorClass: 'bg-red-500' },
@@ -35,7 +40,7 @@ export default function ColourPicker() {
     if(!mounted) return null
 
     return (
-        <Popover placement="left-start">
+        <Popover isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen} placement="left-start">
 
             <PopoverTrigger>
                 <button>
@@ -45,13 +50,19 @@ export default function ColourPicker() {
 
             <PopoverContent>
                 <div className="py-3 px-2">
-                    <p className="text-center text-xs text-zinc-300 mb-2">Site Theme</p>
+                    <div className='flex justify-between items-center mb-3'>
+                    <div className='opacity-0'>
+                        <IconArrowLeft size={20} />
+                    </div>
+                    <h4 className="text-center font-semibold">Colour Theme</h4>
+                    <button onClick={closePopover}><IconX size={20} /></button>
+                </div>
                     <ul className="grid grid-cols-5 gap-3">
                         {themes.map(theme => (
                             <li key={theme.name}>
                                 <div 
                                     onClick={() => setTheme(theme.name)} 
-                                    className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-zinc-900 ring-primary' : ''}`}
+                                    className={`rounded-full h-5 w-5 cursor-pointer ${theme.colorClass} ${activeTheme === theme.name ? 'ring-2 ring-offset-2 ring-offset-white ring-primary' : ''}`}
                                 />
                             </li>
                         ))}
