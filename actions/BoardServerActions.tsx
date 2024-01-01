@@ -134,3 +134,28 @@ export async function handleEditBoardImage(url: string, boardId: string) {
       return { success: false, message: `Failed to save board image` };
   }
 }
+
+
+// Set Background Image to Null
+export async function handleRemoveBoardImage(boardId: string) {
+  if (!boardId) {
+    return { success: false, message: 'No board ID provided' };
+  }
+
+  try {
+    await prisma.board.update({
+      where: {
+        id: boardId,
+      },
+      data: {
+        backgroundUrl: null,
+      },
+    });
+    
+    revalidatePath(`/board/${boardId}`);
+
+    return { success: true, message: 'Board image removed' };
+  } catch (e) {
+    return { success: false, message: 'Failed to remove board image' };
+  }
+}
