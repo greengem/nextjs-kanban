@@ -5,7 +5,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import { Button } from "@nextui-org/button";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { LabelSummary } from "@/types/types";
-import { IconFilter } from "@tabler/icons-react";
+import { IconFilter, IconFilterFilled, IconFilterOff } from "@tabler/icons-react";
 
 const LabelColorIndicator = ({ color } : { color: string }) => (
     <div className={`h-4 w-4 rounded-full bg-${color}-500`} />
@@ -32,7 +32,6 @@ export default function BoardFilter({
 
     const handleSelectionChange = (values: string[]) => {
         setSelectedLabels(values);
-        //setPopoverOpen(false);
 
         const params = new URLSearchParams(searchParams);
         if (values.length > 0) {
@@ -42,6 +41,8 @@ export default function BoardFilter({
         }
         replace(`${pathname}?${params.toString()}`);
     };
+
+    const isFilterActive = selectedLabels.length > 0;
 
     return (
         <Popover 
@@ -53,7 +54,11 @@ export default function BoardFilter({
         >
             <PopoverTrigger>
                 <Button color="primary" size="sm" isIconOnly>
-                    <IconFilter size={16} />
+                    {isFilterActive ? (
+                        <IconFilterFilled size={16} />
+                    ) : (
+                        <IconFilter size={16} />
+                    )}
                 </Button>
             </PopoverTrigger>
 
