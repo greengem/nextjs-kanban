@@ -46,7 +46,7 @@ export default function CreateTaskForm({
       {isEditing ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-2">
-            <label htmlFor="taskTitle" className="block mb-2 font-medium sr-only">Task Title</label>
+            <label htmlFor="taskTitle" className="mb-2 font-medium hidden">Task Title</label>
             <input 
               autoFocus 
               type="text" 
