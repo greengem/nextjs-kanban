@@ -15,7 +15,10 @@ interface FormData {
 
 export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
     const { uiState, toggleBackgroundImageSelector } = useUIContext();
-    
+    const { register, handleSubmit } = useForm<FormData>();
+    const [images, setImages] = useState<string[]>([]);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
     if (!uiState.isBackgroundImageSelectorOpen) {
         return null;
     }
@@ -23,10 +26,6 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
     const handleClose = () => {
         toggleBackgroundImageSelector();
     };
-
-    const { register, handleSubmit } = useForm<FormData>();
-    const [images, setImages] = useState<string[]>([]);
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     const onSubmit = async (data: FormData) => {
         const results = await fetchUnsplashImages(data.searchTerm);
@@ -65,15 +64,16 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
                     images.length > 0 && (
                         <div className="flex gap-3 overflow-x-scroll no-scrollbar mt-3">
                             {images.map((image, index) => (
+                                <div key={index} className='relative h-24 w-32'>
                                 <Image 
-                                    key={index} 
                                     src={image}
                                     onClick={() => handleImageClick(image)} 
                                     alt="Unsplash Image"
-                                    height={100}
-                                    width={128}
-                                    className='h-24 w-32 object-cover rounded-lg shadow-md grow-0 shrink-0 cursor-pointer'
+                                    fill={true}
+                                    sizes="128px"
+                                    className='object-cover rounded-lg shadow-md grow-0 shrink-0 cursor-pointer'
                                 />
+                                </div>
                             ))}
                         </div>
                     )
