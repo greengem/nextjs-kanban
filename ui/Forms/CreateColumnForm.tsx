@@ -7,6 +7,8 @@ import { CreateColumnSchema } from '@/types/zodTypes';
 import { ColumnCreationData } from '@/types/types';
 import { Card, CardBody } from '@/ui/Card/Card';
 import { IconLoader2 } from '@tabler/icons-react';
+import { Input } from '@nextui-org/input';
+import { Button } from '@nextui-org/button';
 
 export default function CreateColumnForm({ 
   boardId 
@@ -31,18 +33,20 @@ export default function CreateColumnForm({
 
   return (
     <div className="shrink-0 w-64 ml-2">
-      <Card>
+      <Card className='bg-white'>
         <CardBody>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
 
             <div>
               <label htmlFor="columnTitle" className="sr-only hidden">Column Title</label>
-              <input 
+              <Input 
                 type="text" 
                 id="columnTitle" 
                 {...register('title')}
-                className="w-full p-3 border rounded text-sm bg-zinc-800 text-white border-none outline-none" 
-                placeholder="New Column"
+                className="w-full" 
+                size='sm'
+                placeholder="Column name..."
+                label='New Column'
                 required
                 minLength={3}
               />
@@ -53,18 +57,18 @@ export default function CreateColumnForm({
               {...register('boardId')}
             />
 
-            <button 
+            <Button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md text-sm w-full flex justify-center items-center"
+              className='w-full'
             >
             {isSubmitting ? (
               <>
                 <IconLoader2 size={16} className="animate-spin mr-2" />
                 Creating...
               </>
-            ) : 'Add another list'}
-            </button>
+            ) : 'Create Column'}
+            </Button>
           </form>
         </CardBody>
       </Card>
