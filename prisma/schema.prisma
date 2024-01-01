@@ -129,7 +129,7 @@ model Checklist {
   id        String           @id @default(cuid())
   title     String
   taskId    String
-  task      Task             @relation(fields: [taskId], references: [id])
+  task      Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
   items     ChecklistItem[]
 }
 
@@ -141,7 +141,6 @@ model ChecklistItem {
   checklist   Checklist  @relation(fields: [checklistId], references: [id], onDelete: Cascade)
   createdAt   DateTime   @default(now())
 }
-
 
 model Activity {
   id             String        @id @default(cuid())
