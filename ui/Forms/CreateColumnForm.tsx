@@ -38,7 +38,7 @@ export default function CreateColumnForm({
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
 
             <div>
-              <label htmlFor="columnTitle" className="sr-only hidden">Column Title</label>
+              <label htmlFor="columnTitle" className="hidden">Column Title</label>
               <Input 
                 type="text" 
                 id="columnTitle" 
