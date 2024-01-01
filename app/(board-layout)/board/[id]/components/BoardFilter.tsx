@@ -62,6 +62,7 @@ export default function BoardFilter({
                     <CheckboxGroup
                         label="Filter by label"
                         color="primary"
+                        size="sm"
                         value={selectedLabels}
                         onValueChange={handleSelectionChange}
                     >
@@ -69,10 +70,15 @@ export default function BoardFilter({
                             <Checkbox 
                                 key={label.id} 
                                 value={label.id}
-                                className="flex justify-between"
+                                classNames={{
+                                    base: `max-w-full w-full`,
+                                    label: "w-full flex items-center",
+                                }}
                             >
+                                <div className="flex w-full items-center justify-between">
                                 {label.title}
                                 <LabelColorIndicator color={label.color} />
+                                </div>
                             </Checkbox>
                         ))}
                     </CheckboxGroup>
