@@ -29,7 +29,7 @@ export default async function BoardPage({
 
   return (
     <div 
-      className={`h-full bg-cover bg-center bg-gradient-to-tl from-zinc-900 to-primary`}
+      className={`h-full bg-cover bg-center bg-gradient-to-tl from-zinc-100 to-primary`}
       style={backgroundStyle}
     >
       <BoardNavbar board={board} />
