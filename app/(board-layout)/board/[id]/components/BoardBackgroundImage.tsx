@@ -7,7 +7,8 @@ import { Input } from "@nextui-org/input";
 import Image from "next/image";
 import toast from 'react-hot-toast';
 import { fetchUnsplashImages } from '@/actions/FetchUnsplashImages';
-import { handleEditBoardImage } from '@/actions/BoardServerActions';
+import { handleEditBoardImage, handleRemoveBoardImage } from '@/actions/BoardServerActions';
+import { IconTrash, IconX } from '@tabler/icons-react';
 
 interface FormData {
     searchTerm: string;
@@ -17,7 +18,6 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
     const { uiState, toggleBackgroundImageSelector } = useUIContext();
     const { register, handleSubmit } = useForm<FormData>();
     const [images, setImages] = useState<string[]>([]);
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     if (!uiState.isBackgroundImageSelectorOpen) {
         return null;
@@ -25,6 +25,21 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
 
     const handleClose = () => {
         toggleBackgroundImageSelector();
+    };
+
+    const handleDeleteBackground = async () => {
+        if (window.confirm("Are you sure you want to remove the background image?")) {
+            try {
+                const response = await handleRemoveBoardImage(boardId);
+                if (response.success) {
+                    toast.success(response.message);
+                } else {
+                    toast.error(response.message);
+                }
+            } catch (error) {
+                toast.error('Error removing board background image:');
+            }
+        }
     };
 
     const onSubmit = async (data: FormData) => {
@@ -37,13 +52,11 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
             const response = await handleEditBoardImage(imageUrl, boardId);
             if (response.success) {
                 toast.success(response.message);
-                setIsPopoverOpen(false);
             } else {
                 toast.error(response.message);
             }
         } catch (error) {
             toast.error('Error updating board background image:');
-            console.error('Error updating board background image:', error);
         }
     };
 
@@ -57,7 +70,8 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
                         placeholder="Search Unsplash..."
                     />
                     <Button type="submit" color="primary">Search</Button>
-                    <Button type="button" onClick={handleClose}>Close</Button>
+                    <Button isIconOnly type="button" onClick={handleClose}><IconX size={16} /></Button>
+                    <Button isIconOnly type="button" onClick={handleDeleteBackground} className='hover:bg-red-500'><IconTrash size={16} /></Button>
                 </div>
 
                 {
