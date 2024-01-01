@@ -71,7 +71,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
                     <div className="w-full">
                         {!showForm ? (
                             <div className="flex items-center h-[32px]">
-                                <p onClick={handleToggleForm} className="cursor-pointer text-primary">Add a comment</p>
+                                <p onClick={handleToggleForm} className="cursor-pointer text-primary pl-4">Add a comment</p>
                             </div>
                         ) : (
                             <form onSubmit={handleSubmit(onSubmit)} className="w-full">

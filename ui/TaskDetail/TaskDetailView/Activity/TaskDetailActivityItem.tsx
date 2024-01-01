@@ -82,7 +82,7 @@ export default function TaskDetailActivityItem({ activity, boardId }: TaskDetail
 
             {activity.type === 'COMMENT_ADDED' ? (
 
-                <div className='bg-zinc-800 px-3 py-1 rounded-xl'>
+                <div className='bg-zinc-200 px-3 py-1 rounded-xl'>
                     <span className="font-semibold">{activity.user.name} </span> 
                     <span className="text-zinc-500 text-xs">{formattedDate}</span>
                     <div className='text-sm'>
@@ -97,7 +97,7 @@ export default function TaskDetailActivityItem({ activity, boardId }: TaskDetail
                 
             ) : (
 
-                <div className='bg-zinc-800 px-4 py-2 rounded-xl'>
+                <div className='bg-zinc-200 px-4 py-2 rounded-xl'>
                     <div>
                         <span className="font-semibold">{activity.user.name} </span> 
                         {getActivityMessage(activity)}

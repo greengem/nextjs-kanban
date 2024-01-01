@@ -129,7 +129,6 @@ export default function TaskDetailChecklist({
                         icon={<IconCheckbox size={32} />} 
                         endContent={
                             <div className="flex gap-2">
-                                <Button size="sm">Hide checked items</Button>
                                 <Button size="sm" onClick={() => handleDeleteChecklistClick(checklist.id)}>Delete</Button>
                             </div>
                         }

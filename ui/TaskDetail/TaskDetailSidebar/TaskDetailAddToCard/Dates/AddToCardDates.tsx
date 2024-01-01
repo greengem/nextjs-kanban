@@ -9,7 +9,7 @@ export default function AddToCardDates({
     task: any; dateType: 'startDate' | 'dueDate';
 }) {
     return (
-        <li className='bg-zinc-800 rounded-md'>
+        <li className='bg-zinc-200 rounded-md'>
             <Popover placement="bottom-start" triggerScaleOnOpen={false} backdrop='blur'>
                 <PopoverTrigger>
                     <button className='flex items-center gap-2 px-2 py-2 w-full'>
