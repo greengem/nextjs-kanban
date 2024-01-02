@@ -168,7 +168,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
                           )}
                         </Droppable>
     
-                        <CardFooter className='pt-2'>
+                        <CardFooter>
                           <CreateTaskFormSimple boardId={board.id} columnId={column.id} />
                         </CardFooter>
                       </Card>
