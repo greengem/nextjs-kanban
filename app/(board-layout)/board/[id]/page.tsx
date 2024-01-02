@@ -30,12 +30,12 @@ export default async function BoardPage({
     : {};
 
   return (
-    <div 
-      className={`flex flex-col h-full bg-cover bg-center bg-gradient-to-tl from-zinc-100 to-primary`}
+    <main 
+      className={`flex flex-col grow min-w-0 bg-cover bg-center bg-gradient-to-tl from-zinc-100 to-primary`}
       style={backgroundStyle}
     >
       <BoardNavbar board={board} />
       <Board board={board} session={session} />
-    </div>
+    </main>
   );
 }

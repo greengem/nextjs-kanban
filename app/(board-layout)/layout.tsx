@@ -7,9 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <DashboardLayout>
-      <main className="h-full">
-        {children}
-      </main>
+      {children}
     </DashboardLayout>
   )
 }

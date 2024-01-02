@@ -1,12 +1,11 @@
 'use client'
-import { SidebarProvider } from '@/contexts/SidebarContext'
 import {NextUIProvider} from '@nextui-org/react'
 import {ThemeProvider as NextThemesProvider} from "next-themes";
 import { UIProvider } from '@/contexts/UIContext';
 
 export function Providers({children}: { children: React.ReactNode }) {
   return (
-    <NextUIProvider className='flex flex-col h-full'>
+    <NextUIProvider className='flex flex-col grow'>
             <NextThemesProvider 
               attribute="class" 
               defaultTheme="purple"

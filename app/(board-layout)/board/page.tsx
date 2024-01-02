@@ -10,7 +10,7 @@ export default async function Boards() {
   const boards: BoardSummary[] = await getBoardsSummary();
 
   return (
-    <div className="p-5 bg-gradient-to-tl from-zinc-100 to-primary h-full">
+    <main className="flex flex-col grow min-w-0 p-5 bg-gradient-to-tl from-zinc-100 to-primary">
       <PageHeading title='Boards' />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
         {boards.map((board) => (
@@ -32,6 +32,6 @@ export default async function Boards() {
         ))}
         <CreateBoardForm />
       </div>
-    </div>
+    </main>
   );
 }
