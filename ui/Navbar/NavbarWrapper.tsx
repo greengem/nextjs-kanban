@@ -1,6 +1,3 @@
-'use client'
-
-import React from 'react';
 import NavbarTitle from "./NavbarTitle";
 import ColourPicker from "./ColourPicker";
 import NavbarAvatar from "./NavbarAvatar";
