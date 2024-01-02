@@ -89,7 +89,7 @@ export default function CreateTaskForm({
         </form>
       ) : (
         <button onClick={toggleEdit} className="text-sm flex items-center gap-2 w-full">
-          <IconPlus size={16} />Add a card
+          <IconPlus size={16} />Add a task
         </button>
       )}
     </div>
