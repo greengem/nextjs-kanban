@@ -49,7 +49,7 @@ export default function DeleteTaskForm({
           </>
         ) : (
           <>
-            <IconTrash size={14} /> Delete
+            <IconTrash size={14} /> Delete Task
           </>
         )}
       </button>
