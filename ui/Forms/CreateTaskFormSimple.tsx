@@ -7,6 +7,8 @@ import { handleCreateTask } from "@/actions/TaskServerActions";
 import { CreateTaskSchema } from '@/types/zodTypes';
 import { TaskCreationData } from '@/types/types';
 import { IconLoader2, IconPlus, IconX } from "@tabler/icons-react";
+import { Input } from '@nextui-org/input';
+import { Button } from '@nextui-org/button';
 
 function CloseButton({ onClick }: { onClick: () => void }) {
   return (
@@ -47,14 +49,15 @@ export default function CreateTaskForm({
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-2">
             <label htmlFor="taskTitle" className="mb-2 font-medium hidden">Task Title</label>
-            <input 
+            <Input 
               autoFocus 
               type="text" 
               id="taskTitle" 
-              placeholder='Task'
+              placeholder='Enter a name for your task...'
               {...register('title')}
-              className="w-full px-3 py-2 rounded text-sm bg-zinc-300 border-none outline-none" 
-              required 
+              isRequired
+              size='sm'
+              label='Task Title'
             />
           </div>
 
@@ -62,10 +65,9 @@ export default function CreateTaskForm({
           <input type="hidden" {...register('columnId')} />
 
           <div className="flex justify-between items-center">
-            <button 
+            <Button 
               type="submit" 
               disabled={isSubmitting}
-              className="px-4 py-2 bg-zinc-300 rounded-md text-xs flex justify-center items-center gap-1"
             >
               {isSubmitting ? (
                 <>
@@ -78,7 +80,7 @@ export default function CreateTaskForm({
                   <span>Create Task</span>
                 </>
               )}
-            </button>
+            </Button>
 
             <CloseButton onClick={toggleEdit} />
           </div>
