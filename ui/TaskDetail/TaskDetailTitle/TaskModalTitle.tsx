@@ -17,9 +17,9 @@ export default function TaskDetailTitle( {
 
             <EditTaskNameForm taskId={selectedTask.id} title={selectedTask.title} boardId={boardId} />
             
-            <div className='text-xs font-normal'>
+            <div className='text-sm font-normal'>
+                <p>Created on {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')} | Updated on {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>
                 <p>In column <span className='text-primary'>{selectedTask.column.title}</span></p>
-                <p className='text-zinc-500'>Created on {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')} | Updated on {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>
             </div>
 
         </div>
