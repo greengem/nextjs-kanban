@@ -23,7 +23,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.className} h-screen antialiased`}>
+      <body className={`${GeistSans.className} h-dvh antialiased`}>
         <Toaster />
         <Providers>
           {children}
