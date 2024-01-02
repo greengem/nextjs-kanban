@@ -48,11 +48,10 @@ export default function CreateTaskForm({
       {isEditing ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-2">
-            <label htmlFor="taskTitle" className="mb-2 font-medium hidden">Task Title</label>
             <Input 
               autoFocus 
               type="text" 
-              id="taskTitle" 
+              id={`taskTitle_${boardId}_${columnId}`}
               placeholder='Enter a name for your task...'
               {...register('title')}
               isRequired
@@ -61,8 +60,8 @@ export default function CreateTaskForm({
             />
           </div>
 
-          <input type="hidden" {...register('boardId')} />
-          <input type="hidden" {...register('columnId')} />
+          <input type="hidden" id={`boardId_${boardId}`} {...register('boardId')} />
+          <input type="hidden" id={`columnId_${columnId}`} {...register('columnId')} />
 
           <div className="flex justify-between items-center">
             <Button 
