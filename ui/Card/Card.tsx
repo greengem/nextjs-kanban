@@ -4,7 +4,7 @@ import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
-        <div className={`shadow-md rounded-lg bg-white ${className}`}>
+        <div className={`shadow-md ${className}`}>
             {children}
         </div>
     )
@@ -39,7 +39,7 @@ export function CardHeader({
     return (
         <div className={`${showGrab ? '' : 'rounded-t-lg'} ${className}`}>
             {showGrab && <CardHeaderGrab dragHandleProps={dragHandleProps} />}
-            <div className={`px-2 pt-3 ${showGrab ? '' : 'rounded-t-lg'}`}>
+            <div className={`bg-white px-2 pt-3 ${showGrab ? '' : 'rounded-t-lg'}`}>
                 {children}
             </div>
         </div>
@@ -52,7 +52,7 @@ export function CardBody({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`p-2 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg ${className}`}>
+        <div className={`p-2 bg-white first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg ${className}`}>
             {children}
         </div>
     );
@@ -64,7 +64,7 @@ export function CardFooter({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`px-3 pb-3 rounded-b-lg ${className}`}>
+        <div className={`bg-white px-3 pb-3 rounded-b-lg ${className}`}>
             {children}
         </div>
     )
