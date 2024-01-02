@@ -9,7 +9,7 @@ export default function TaskDetailTitle( {
     selectedTask: ExpandedTask; boardId: string;
 }) {
     return (
-    <div className='flex gap-3 p-5 border-b-1 border-zinc-800'>
+    <div className='flex gap-3 p-5'>
 
         <IconCards size={32} />
 
@@ -17,8 +17,8 @@ export default function TaskDetailTitle( {
 
             <EditTaskNameForm taskId={selectedTask.id} title={selectedTask.title} boardId={boardId} />
             
-            <div className='text-xs text-zinc-100 font-normal'>
-                <p>In list <span className='text-primary'>{selectedTask.column.title}</span></p>
+            <div className='text-xs font-normal'>
+                <p>In column <span className='text-primary'>{selectedTask.column.title}</span></p>
                 <p className='text-zinc-500'>Created on {format(new Date(selectedTask.createdAt), 'MMMM d, yyyy')} | Updated on {format(new Date(selectedTask.updatedAt), 'MMMM d, yyyy')}</p>
             </div>
 
