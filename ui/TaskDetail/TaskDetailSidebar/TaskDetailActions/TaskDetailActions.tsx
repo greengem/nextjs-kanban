@@ -9,7 +9,7 @@ export default function TaskDetailActions({
         <>
           <h4 className='text-sm text-zinc-500'>Actions</h4>
           <ul className='text-sm space-y-2'>
-            <li className='bg-zinc-200 px-2 py-1 rounded-md'>
+            <li className='px-2 py-2 rounded-md bg-danger text-white'>
               <DeleteTaskForm 
                 taskId={selectedTask.id} 
                 boardId={boardId} 
