@@ -1,3 +1,5 @@
+import { auth } from "@/auth";
+import { redirect } from 'next/navigation'
 import { getBoardsSummary } from "@/lib/FetchData";
 import { BoardSummary } from "@/types/types";
 import CreateBoardForm from "@/ui/Forms/CreateBoardForm";
@@ -7,6 +9,12 @@ import PageHeading from "@/ui/PageHeading";
 import { IconList, IconStarFilled  } from "@tabler/icons-react";
 
 export default async function Boards() {
+  const session = await auth();
+
+  if (!session) {
+    redirect('/api/auth/signin');
+  }
+
   const boards: BoardSummary[] = await getBoardsSummary();
 
   return (
