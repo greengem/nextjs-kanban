@@ -13,7 +13,7 @@ export default function BoardMenu({
     const router = useRouter()
 
     const handleAction = async (action: 'edit' | 'delete') => {
-        if (action === 'delete' && window.confirm('Are you sure you want to delete this column?')) {
+        if (action === 'delete' && window.confirm('Are you sure you want to delete this board?')) {
             const response = await handleDeleteBoard(boardId);
             if (response.success) {
                 router.push('/board/');
