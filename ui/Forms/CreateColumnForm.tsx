@@ -35,10 +35,8 @@ export default function CreateColumnForm({
     <div className="shrink-0 w-64 ml-2">
       <Card className='bg-white'>
         <CardBody>
-          <form onSubmit={handleSubmit(onSubmit)} className='space-y-3'>
+          <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
 
-            <div>
-              <label htmlFor="columnTitle" className="hidden">Column Title</label>
               <Input 
                 type="text" 
                 id="columnTitle" 
@@ -47,10 +45,9 @@ export default function CreateColumnForm({
                 size='sm'
                 placeholder="Column name..."
                 label='New Column'
-                required
+                isRequired
                 minLength={3}
               />
-            </div>
 
             <input 
               type="hidden" 
@@ -61,6 +58,7 @@ export default function CreateColumnForm({
               type="submit" 
               disabled={isSubmitting}
               className='w-full'
+              color='primary'
             >
             {isSubmitting ? (
               <>
