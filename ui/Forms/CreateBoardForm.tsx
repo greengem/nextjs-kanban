@@ -8,6 +8,8 @@ import { CreateBoardSchema } from '@/types/zodTypes';
 import { Card, CardBody } from '@/ui/Card/Card';
 import { BoardCreationData } from '@/types/types';
 import { IconLoader2 } from '@tabler/icons-react';
+import { Button } from '@nextui-org/button';
+import { Input } from '@nextui-org/input';
 
 export default function CreateBoardForm() {
   const router = useRouter()
@@ -27,30 +29,24 @@ export default function CreateBoardForm() {
 
   return (
     <Card>
-      <CardBody className="
-        text-center 
-        h-28
-      ">
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-between h-full'>
+      <CardBody className="text-center">
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
+          <Input 
+            type="text" 
+            id="title" 
+            {...register('title')}
+            label="Board Title"
+            placeholder='Name of your board...'
+            size='sm'
+            isRequired
+            isClearable
+            minLength={3}
+          />
 
-          <div>
-            <label htmlFor="title" className="hidden">Board Title</label>
-            <input 
-              type="text" 
-              id="title" 
-              {...register('title')}
-              placeholder='Board Title...'
-              className="w-full p-3 border rounded bg-zinc-800 text-white border-none focus:outline-none text-sm" 
-              autoFocus 
-              required
-              minLength={3}
-            />
-          </div>
-
-          <button 
+          <Button 
             type="submit" 
+            color='primary'
             disabled={isSubmitting}
-            className="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white rounded-md text-sm w-full flex justify-center items-center"
           >
             {isSubmitting ? (
               <>
@@ -58,7 +54,7 @@ export default function CreateBoardForm() {
                 Creating...
               </>
             ) : 'Create New Board'}
-          </button>
+          </Button>
 
 
         </form>
