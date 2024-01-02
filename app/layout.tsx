@@ -1,4 +1,6 @@
-import { Inter } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans';
+import { GeistMono } from 'geist/font/mono';
+
 import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from 'react-hot-toast'
@@ -13,8 +15,6 @@ export function generateViewport() {
   };
 }
 
-const inter = Inter({ subsets: ['latin'] })
-
 export default function RootLayout({
   children,
 }: {
@@ -23,7 +23,7 @@ export default function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} h-screen antialiased`}>
+      <body className={`${GeistSans.className} h-screen antialiased`}>
         <Toaster />
         <Providers>
           {children}
