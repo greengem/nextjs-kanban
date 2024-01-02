@@ -12,9 +12,9 @@ import { Button } from '@nextui-org/button';
 
 function CloseButton({ onClick }: { onClick: () => void }) {
   return (
-    <button type="button" aria-label="Close form" onClick={onClick}>
-      <IconX size={20} />
-    </button>
+    <Button type="button" size='sm' isIconOnly aria-label="Close form" onClick={onClick}>
+      <IconX size={16} />
+    </Button>
   );
 }
 
@@ -63,10 +63,13 @@ export default function CreateTaskForm({
           <input type="hidden" id={`boardId_${boardId}`} {...register('boardId')} />
           <input type="hidden" id={`columnId_${columnId}`} {...register('columnId')} />
 
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-2">
             <Button 
               type="submit" 
               disabled={isSubmitting}
+              size='sm'
+              color='primary'
+              className='grow'
             >
               {isSubmitting ? (
                 <>
