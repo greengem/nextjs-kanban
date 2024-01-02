@@ -6,7 +6,7 @@ import TaskDetailView from "./TaskDetailView/TaskDetailView";
 import Link from "next/link";
 import { IconArrowLeft } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
-import { Card } from "../Card/Card";
+import { Card, CardBody } from "../Card/Card";
 
 export default async function TaskDetail({ taskId }: { taskId: string }) {
   const task: ExpandedTask | null = await getTask(taskId);
@@ -43,15 +43,16 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
         </div>
 
       <Card className="mx-5">
+        <CardBody>
 
 
-      <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
+        <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 p-5">
-        <TaskDetailView task={task} />
-        <TaskDetailSidebar task={task} />
-      </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-4 p-5">
+          <TaskDetailView task={task} />
+          <TaskDetailSidebar task={task} />
+        </div>
+        </CardBody>
       </Card>
     </div>
     
