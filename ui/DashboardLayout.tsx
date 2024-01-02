@@ -1,4 +1,4 @@
-import Sidebar from '@/ui/Sidebar/Sidebar'
+import AppSidebar from '@/ui/Sidebar/Sidebar'
 import Navbar from '@/ui/Navbar/Navbar'
 
 export default function DashboardLayout({ children }: { children: React.ReactNode}) {
@@ -6,7 +6,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <>
     <Navbar />
       <div className='flex grow'>
-        <Sidebar />
+        <AppSidebar />
         {children}
       </div>
     </>

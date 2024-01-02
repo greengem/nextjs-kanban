@@ -1,10 +1,10 @@
-import SidebarNav from "./SidebarNav";
 
-export default function Sidebar() {
+import { getBoardsSummary } from "@/lib/FetchData";
+import { BoardSummary } from "@/types/types";
+import SidebarWrapper from "./SidebarWrapper";
 
-  return (
-    <aside className='bg-white opacity-90 w-0 lg:w-64 shrink-0 overflow-hidden'>
-      <SidebarNav />
-    </aside>
-  );
+export default async function SidebarNav() {
+    const boards: BoardSummary[] = await getBoardsSummary();
+
+    return (<SidebarWrapper boards={boards} />);
 }
