@@ -134,7 +134,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
                               <div ref={provided.innerRef} {...provided.droppableProps}>
                                 {column.tasks.length === 0 ? (
                                   <div className="
-                                    bg-zinc-200 text-zinc-900
+                                    bg-zinc-200
                                     font-semibold
                                     text-center text-xs
                                     py-4
