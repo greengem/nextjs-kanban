@@ -25,7 +25,9 @@ export type ChecklistSummary = Pick<Checklist, 'id' | 'title'> & {
 
 export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'startDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
     activities: ActivityWithUser[];
-    column: Pick<Column, 'title' | 'boardId'>;
+    column: Pick<Column, 'title' | 'boardId'> & {
+        board: Pick<Board, 'backgroundUrl'>;
+    };
     labels: LabelSummary[];
     checklists: ChecklistSummary[];
 };
@@ -38,7 +40,6 @@ export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'creat
     newColumn: Pick<Column, 'title'> | null,
     originalColumn: Pick<Column, 'title'> | null
 };
-
 
 
 // Form validation
