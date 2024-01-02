@@ -156,6 +156,11 @@ export async function getTask(taskId: string) {
                 select: {
                     title: true,
                     boardId: true,
+                    board: {
+                        select: {
+                            backgroundUrl: true,
+                        }
+                    }
                 },
             },
             labels: {
