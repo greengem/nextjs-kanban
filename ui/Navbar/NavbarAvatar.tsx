@@ -27,11 +27,10 @@ export default function NavbarAvatar({
                     showFallback 
                     isBordered 
                     as="button"
-                    color="primary" 
                     name={userName}
                     src={userImage}
                     size="sm" 
-                    className="cursor-pointer transition-transform" 
+                    className="cursor-pointer transition-transform dark" 
                 />
             </DropdownTrigger>
             <DropdownMenu aria-label="User Actions" onAction={(key) => handleAction(key as 'profile' | 'signout')}>
