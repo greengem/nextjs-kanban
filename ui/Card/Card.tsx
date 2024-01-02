@@ -64,7 +64,7 @@ export function CardFooter({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`p-3 rounded-b-lg ${className}`}>
+        <div className={`px-3 pb-3 rounded-b-lg ${className}`}>
             {children}
         </div>
     )
