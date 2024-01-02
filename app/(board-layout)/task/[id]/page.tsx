@@ -8,7 +8,7 @@ export default async function Task({ params }: BoardProps) {
 
   return (
     <>
-      <div className="bg-zinc-100 backdrop-blur-sm h-full py-5">
+      <div className="flex flex-col grow bg-zinc-100 backdrop-blur-sm py-5">
         <TaskDetail taskId={params.id} />
       </div>
     </>
