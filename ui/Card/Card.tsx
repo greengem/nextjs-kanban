@@ -52,7 +52,7 @@ export function CardBody({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`p-2 bg-white first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg ${className}`}>
+        <div className={`${className} p-2 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg `}>
             {children}
         </div>
     );
