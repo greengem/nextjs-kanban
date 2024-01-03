@@ -1,10 +1,12 @@
-import {Avatar, AvatarGroup, AvatarIcon} from "@nextui-org/avatar";
+import { auth } from "@/auth";
+import {Avatar} from "@nextui-org/avatar";
 
-export default function ProfileHeader({
-    userName, userImage
-} : {
-    userName: string, userImage: string;
-}) {
+export default async function ProfileHeader() {
+    const session = await auth();
+
+    const userName = session?.user?.name ? session.user.name : 'Default Name';
+    const userImage = session?.user?.image ? session.user.image : 'default-image-url.jpg';
+    
     return (
         <div className="flex items-center gap-5 mb-10">
             <Avatar 
@@ -16,7 +18,7 @@ export default function ProfileHeader({
             />
             <div>
                 <h1 className="text-3xl font-semibold tracking-tight">{userName}</h1>
-                <p className="text-zinc-500">Some information about the user</p>
+                <p className="text-zinc-500">{session?.user?.email}</p>
             </div>
         </div>
     )
