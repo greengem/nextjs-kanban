@@ -1,32 +1,34 @@
-import { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 interface SidebarContextType {
-    toggled: boolean;
-    toggleSidebar: () => void;
+    isOpen: boolean;
+    toggleDrawer: () => void;
 }
 
-const defaultValue: SidebarContextType = {
-    toggled: false,
-    toggleSidebar: () => {},
-};
+const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
-const SidebarContext = createContext<SidebarContextType>(defaultValue);
+interface SidebarProviderProps {
+    children: ReactNode;
+}
 
-export const useSidebar = () => useContext(SidebarContext);
+export const SidebarProvider = ({ children }: SidebarProviderProps) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-export const SidebarProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [toggled, setToggled] = useState(false);
-
-    const toggleSidebar = () => {
-        setToggled(!toggled);
+    const toggleDrawer = () => {
+        setIsOpen(!isOpen);
     };
 
-    useEffect(() => {
-    }, [toggled]);
-
     return (
-        <SidebarContext.Provider value={{ toggled, toggleSidebar }}>
+        <SidebarContext.Provider value={{ isOpen, toggleDrawer }}>
             {children}
         </SidebarContext.Provider>
     );
+};
+
+export const useSidebar = () => {
+    const context = useContext(SidebarContext);
+    if (context === undefined) {
+        throw new Error('useSidebar must be used within a SidebarProvider');
+    }
+    return context;
 };
