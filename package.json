@@ -29,6 +29,7 @@
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
+    "react-modern-drawer": "^1.2.2",
     "sharp": "^0.33.0",
     "zod": "^3.22.4"
   },
