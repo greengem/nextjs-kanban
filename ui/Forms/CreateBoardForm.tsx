@@ -29,7 +29,7 @@ export default function CreateBoardForm() {
 
   return (
     <Card>
-      <CardBody className="text-center">
+      <CardBody className="text-center bg-white">
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
           <Input 
             type="text" 
