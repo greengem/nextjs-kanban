@@ -274,3 +274,30 @@ export async function getUserActivity() {
 
     return activities;
 }
+
+
+// Get favorite boards
+export async function getFavoriteBoards() {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        return [];
+    }
+
+    const favoriteBoards = await prisma.favoriteBoard.findMany({
+        where: {
+            userId: userId,
+        },
+        select: {
+            board: {
+                select: {
+                    id: true,
+                    title: true,
+                },
+            },
+        },
+    });
+
+    return favoriteBoards.map(favorite => favorite.board);
+}
