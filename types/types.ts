@@ -39,6 +39,7 @@ export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'creat
     oldColumn: Pick<Column, 'title'> | null,
     newColumn: Pick<Column, 'title'> | null,
     originalColumn: Pick<Column, 'title'> | null
+    task: Pick<Task, 'title'> | null
 };
 
 
