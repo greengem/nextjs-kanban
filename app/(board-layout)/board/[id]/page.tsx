@@ -11,7 +11,7 @@ export default async function BoardPage({
 }) {
   const session = await auth();
   const userId = session?.user?.id;
-  console.log('search param: ' + searchParams.labels);
+  //console.log('search param: ' + searchParams.labels);
 
   if (!userId) {
     return null;
