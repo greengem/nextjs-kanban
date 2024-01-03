@@ -48,7 +48,6 @@ export default function SidebarWrapper({
                         <MenuItem 
                             key={board.id}
                             active={isActive(`/board/${board.id}`)}
-                            rootStyles={isActive(`/board/${board.id}`) ? activeStyles : {}}
                             component={<Link href={`/board/${board.id}`} />}
                             suffix={<BoardItemSuffix tasksCount={board.tasksCount} />}
                         >
