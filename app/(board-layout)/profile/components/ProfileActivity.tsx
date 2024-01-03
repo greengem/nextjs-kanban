@@ -46,7 +46,7 @@ export default async function ProfileActivity() {
     return (
         <>
             <h2 className="text-large font-semibold mb-3">Recent Activity</h2>
-            <ul>
+            <ul className="mb-10">
                 {activities.map((activity, index) => (
                     <li key={index} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
                         {getActivityMessage(activity)}
