@@ -3,10 +3,10 @@ import { IconMenu2 } from "@tabler/icons-react";
 import { useSidebar } from "@/contexts/SidebarContext";
 
 export default function NavbarSidebarToggle() {
-    const { toggleSidebar } = useSidebar();
+    const { toggleDrawer } = useSidebar();
 
     return (
-        <button className="mr-3 block lg:hidden" onClick={toggleSidebar}>
+        <button onClick={toggleDrawer} className="mr-3">
             <IconMenu2 size={24} />
         </button>
     );
