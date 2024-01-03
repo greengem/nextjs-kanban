@@ -239,3 +239,31 @@ export async function getLabelsForBoard(boardId: string) {
 
     return labels;
 }
+
+
+//Fetch Activity
+export async function getUserActivity() {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        return [];
+    }
+
+    const activities = await prisma.activity.findMany({
+        where: {
+            userId: userId,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+        take: 5,
+        include: {
+            user: true,
+            task: true,
+            board: true,
+        },
+    });
+
+    return activities;
+}
