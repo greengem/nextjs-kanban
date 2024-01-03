@@ -10,7 +10,6 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@ascendtis/react-pro-sidebar": "^1.1.0-alpha.2",
     "@auth/prisma-adapter": "^1.0.9",
     "@hello-pangea/dnd": "^16.5.0",
     "@hookform/resolvers": "^3.3.2",
