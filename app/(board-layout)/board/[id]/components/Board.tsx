@@ -130,7 +130,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
     
                         <Droppable droppableId={column.id} type="TASK">
                           {(provided) => (
-                            <CardBody>
+                            <CardBody className='bg-white'>
                               <div ref={provided.innerRef} {...provided.droppableProps}>
                                 {column.tasks.length === 0 ? (
                                   <div className="
