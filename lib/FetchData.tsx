@@ -207,6 +207,11 @@ export async function getTask(taskId: string) {
                     originalColumn: {
                         select: { title: true },
                     },
+                    task: {
+                        select: {
+                          title: true,
+                        },
+                      },
                     user: {
                         select: {
                             id: true,
