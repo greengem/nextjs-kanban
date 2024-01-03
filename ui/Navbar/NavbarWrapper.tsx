@@ -1,8 +1,7 @@
 import NavbarTitle from "./NavbarTitle";
 import ColourPicker from "./ColourPicker";
 import NavbarAvatar from "./NavbarAvatar";
-import { IconPaint } from "@tabler/icons-react";
-import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
+import NavbarSidebarToggle from "./NavbarSidebarToggle";
 
 export default function NavbarWrapper({
     userName, userImage
@@ -11,7 +10,11 @@ export default function NavbarWrapper({
 }) {
     return (
         <>
-            <NavbarTitle />
+            <div className="flex items-center">
+                <NavbarSidebarToggle />
+                <NavbarTitle />
+            </div>
+            
             <div className="flex gap-5 items-center justify-between">
                 <ColourPicker />
                 <NavbarAvatar userName={userName} userImage={userImage} />
