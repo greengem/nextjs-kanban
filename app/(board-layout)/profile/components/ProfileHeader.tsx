@@ -18,7 +18,7 @@ export default async function ProfileHeader() {
             />
             <div>
                 <h1 className="text-3xl font-semibold tracking-tight">{userName}</h1>
-                <p className="text-zinc-500">{session?.user?.email}</p>
+                <p className="text-zinc-800 text-sm">{session?.user?.email}</p>
             </div>
         </div>
     )
