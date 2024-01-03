@@ -306,3 +306,43 @@ export async function getFavoriteBoards() {
 
     return favoriteBoards.map(favorite => favorite.board);
 }
+
+
+export async function getBoardCount() {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error("User not authenticated");
+    }
+
+    const totalBoards = await prisma.board.count({
+        where: {
+            userId: userId,
+        },
+    });
+
+    return totalBoards;
+}
+
+
+export async function getTaskCount() {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error("User not authenticated");
+    }
+
+    const totalTasks = await prisma.task.count({
+        where: {
+            column: {
+                board: {
+                    userId: userId,
+                },
+            },
+        },
+    });
+
+    return totalTasks;
+}
