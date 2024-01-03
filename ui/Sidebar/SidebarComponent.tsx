@@ -23,7 +23,7 @@ export function SubMenu({ children, icon = null, title, defaultOpen = false }: {
             <div className="flex items-center justify-between px-5 h-12 cursor-pointer border-b-1 border-zinc-300 hover:bg-primary hover:text-white" onClick={() => setIsOpen(!isOpen)}>
                 <div className="flex items-center">
                     <div className='w-8'>{icon && <span>{icon}</span>}</div>
-                    <span>{title}</span>
+                    <span className='text-sm'>{title}</span>
                 </div>
                 <button className="shrink-0">
                     <IconChevronDown size={18} />
@@ -44,7 +44,7 @@ export function MenuItem({ path, icon = null, title }: { path: string, icon?: Re
     return (
         <li className="menu-item border-b-1 border-zinc-300">
             <Link href={path} className="flex h-12 items-center px-5 hover:bg-primary hover:text-white" onClick={handleClick}>
-                <div className='w-8'>{icon && <span>{icon}</span>}</div> {title}
+                <div className='w-8'>{icon && <span>{icon}</span>}</div><span className='text-sm'>{title}</span>
             </Link>
         </li>
     );
