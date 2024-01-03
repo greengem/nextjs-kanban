@@ -1,43 +1,17 @@
-import { auth } from "@/auth";
-import { redirect } from 'next/navigation'
-import { getBoardsSummary } from "@/lib/FetchData";
-import { BoardSummary } from "@/types/types";
 import CreateBoardForm from "@/ui/Forms/CreateBoardForm";
-import Link from "next/link";
-import { Card, CardBody } from '@/ui/Card/Card';
 import PageHeading from "@/ui/PageHeading";
-import { IconList, IconStarFilled  } from "@tabler/icons-react";
+import FetchBoards from "./components/FetchBoards";
+import { Suspense } from "react";
 
-export default async function Boards() {
-  const session = await auth();
-
-  if (!session) {
-    redirect('/api/auth/signin');
-  }
-
-  const boards: BoardSummary[] = await getBoardsSummary();
+export default function Boards() {
 
   return (
     <main className="flex flex-col grow min-w-0 p-5 bg-gradient-to-tl from-zinc-100 to-primary">
       <PageHeading title='Boards' />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
-        {boards.map((board) => (
-          <Link key={board.id} href={`/board/${board.id}`}>
-            <Card>
-              <CardBody className="h-28 flex flex-col justify-end relative hover:bg-zinc-200">
-                {board.isFavorited && (
-                  <span className="absolute text-xs top-3 left-3 text-primary">
-                    <IconStarFilled size={16} />
-                  </span>
-                )}
-                <span className="absolute text-xs top-3 right-3 flex items-center justify-center text-primary gap-1">
-                  <IconList size={16} /><span>{board.tasksCount}</span>
-                </span>
-                <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">{board.title}</span>
-              </CardBody>
-            </Card>
-          </Link>
-        ))}
+        <Suspense fallback={<p>Loading Boards</p>}>
+          <FetchBoards />
+        </Suspense>
         <CreateBoardForm />
       </div>
     </main>
