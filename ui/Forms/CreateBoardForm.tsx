@@ -28,37 +28,39 @@ export default function CreateBoardForm() {
   };
 
   return (
-    <Card>
-      <CardBody className="text-center bg-white">
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
-          <Input 
-            type="text" 
-            id="title" 
-            {...register('title')}
-            label="Board Title"
-            placeholder='Name of your board...'
-            size='sm'
-            isRequired
-            isClearable
-            minLength={3}
-          />
+    <div>
+      <Card>
+        <CardBody className="text-center bg-white">
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
+            <Input 
+              type="text" 
+              id="title" 
+              {...register('title')}
+              label="Board Title"
+              placeholder='Name of your board...'
+              size='sm'
+              isRequired
+              isClearable
+              minLength={3}
+            />
 
-          <Button 
-            type="submit" 
-            color='primary'
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <IconLoader2 size={16} className="animate-spin mr-2" />
-                Creating...
-              </>
-            ) : 'Create New Board'}
-          </Button>
+            <Button 
+              type="submit" 
+              color='primary'
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <IconLoader2 size={16} className="animate-spin mr-2" />
+                  Creating...
+                </>
+              ) : 'Create New Board'}
+            </Button>
 
 
-        </form>
-      </CardBody>
-    </Card>
+          </form>
+        </CardBody>
+      </Card>
+    </div>
   );
 }
