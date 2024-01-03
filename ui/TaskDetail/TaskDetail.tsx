@@ -43,7 +43,7 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
         </div>
 
       <Card className="mx-5">
-        <CardBody>
+        <CardBody className="bg-white">
 
 
         <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
