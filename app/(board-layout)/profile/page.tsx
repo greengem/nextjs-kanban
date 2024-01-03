@@ -11,7 +11,7 @@ export default async function ProfilePage() {
 
 
     return (
-        <main className="grow p-5 bg-gradient-to-tl from-zinc-100 to-primary">
+        <main className="grow p-5">
             <Suspense fallback={<div>Loading User Data...</div>}>
                 <ProfileHeader />
             </Suspense>
