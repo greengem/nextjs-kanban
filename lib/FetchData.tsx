@@ -241,7 +241,7 @@ export async function getLabelsForBoard(boardId: string) {
 }
 
 
-//Fetch Activity
+// Fetch Activity
 export async function getUserActivity() {
     const session = await auth();
     const userId = session?.user?.id;
@@ -260,8 +260,15 @@ export async function getUserActivity() {
         take: 5,
         include: {
             user: true,
-            task: true,
+            task: {
+                select: {
+                    title: true,
+                },
+            },
             board: true,
+            oldColumn: true,
+            newColumn: true,
+            originalColumn: true,
         },
     });
 
