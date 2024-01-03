@@ -11,7 +11,7 @@ export default async function ProfileBoards() {
                 {favBoards.map((board) => (
                     <Link key={board.id} href={`/board/${board.id}`}>
                         <Card>
-                            <CardBody className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300">
+                            <CardBody className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary">
                                 <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">{board.title}</span>
                             </CardBody>
                         </Card>
