@@ -7,7 +7,7 @@ export default function SidebarMenu({ boards } : { boards: BoardSummary[]}) {
     return (
         <Sidebar>
             <Menu>
-                <SubMenu title="Boards" icon={<IconLayoutKanban size={18} />}>
+                <SubMenu title="Boards" defaultOpen icon={<IconLayoutKanban size={18} />}>
                     <MenuItem path="/board" title="All Boards" />
                     {boards.map((board) => (
                         <MenuItem key={board.id} path={`/board/${board.id}`} title={board.title} />

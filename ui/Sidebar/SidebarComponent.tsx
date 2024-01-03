@@ -15,8 +15,8 @@ export function Menu({ children }: { children: React.ReactNode }) {
     );
 }
 
-export function SubMenu({ children, icon = null, title }: { children: React.ReactNode, icon?: React.ReactNode, title: string }) {
-    const [isOpen, setIsOpen] = useState(false);
+export function SubMenu({ children, icon = null, title, defaultOpen = false }: { children: React.ReactNode, icon?: React.ReactNode, title: string, defaultOpen?: boolean }) {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
 
     return (
         <li className="sub-menu">
