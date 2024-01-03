@@ -47,16 +47,24 @@ export function CardHeader({
 }
 
 export function CardBody({ 
-    children, className = '' 
-} : { 
-    children: ReactNode, className?: string 
+    children, 
+    className = '', 
+    style = {}
+}: { 
+    children: ReactNode, 
+    className?: string,
+    style?: React.CSSProperties
 }) {
     return (
-        <div className={`${className} p-2 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg `}>
+        <div 
+            className={`${className} p-2 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg`}
+            style={style}
+        >
             {children}
         </div>
     );
 }
+
 
 export function CardFooter({ 
     children, className = '' 
