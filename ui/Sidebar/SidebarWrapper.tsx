@@ -12,6 +12,12 @@ export default function SidebarWrapper({
 }) {
     const { toggled, toggleSidebar } = useSidebar();
 
+    const BoardItemSuffix = ({ tasksCount }: { tasksCount: number }) => (
+        <div className="bg-primary text-xs rounded-full h-6 w-6 flex items-center justify-center text-white">
+            {tasksCount}
+        </div>
+    );
+
     return (
         <Sidebar 
             onBackdropClick={() => toggleSidebar()}
@@ -25,13 +31,10 @@ export default function SidebarWrapper({
                     defaultOpen
                 >
                     {boards.map((board) => (
-                        <MenuItem key={board.id}
-                            suffix={
-                                <div className="bg-primary text-xs rounded-full h-6 w-6 flex items-center justify-center text-white">
-                                    {board.tasksCount}
-                                </div>
-                            }
+                        <MenuItem 
+                            key={board.id}
                             component={<Link href={`/board/${board.id}`} />}
+                            suffix={<BoardItemSuffix tasksCount={board.tasksCount} />}
                         >
                                 {board.title}
                         </MenuItem>
