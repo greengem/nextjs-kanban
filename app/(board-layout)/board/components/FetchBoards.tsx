@@ -13,15 +13,15 @@ export default async function FetchBoards() {
                 <Link key={board.id} href={`/board/${board.id}`}>
                     <Card>
                         <CardBody 
-                            className="h-20 flex flex-col justify-end relative bg-white bg-cover bg-center"
+                            className="h-28 flex flex-col justify-end relative bg-white bg-cover bg-center"
                             style={{ backgroundImage: board.backgroundUrl ? `url(${board.backgroundUrl})` : undefined, backgroundSize: 'cover' }}
                         >
                             {board.isFavorited && (
-                                <span className="absolute text-xs top-3 left-3 text-primary">
+                                <span className="absolute text-xs top-2 left-2 text-primary bg-white p-1 rounded-md">
                                     <IconStarFilled size={16} />
                                 </span>
                             )}
-                            <span className="absolute text-xs top-3 right-3 flex items-center justify-center text-primary gap-1">
+                            <span className="absolute text-xs top-2 right-2 flex items-center justify-center text-primary gap-1 bg-white p-1 rounded-md">
                                 <IconList size={16} /><span>{board.tasksCount}</span>
                             </span>
                             
