@@ -1,6 +1,5 @@
 'use client'
 import { useSidebar } from "@/contexts/SidebarContext";
-import Drawer from 'react-modern-drawer'
 import { BoardSummary } from "@/types/types";
 import SidebarMenu from "./SidebarMenu";
 import 'react-modern-drawer/dist/index.css'
