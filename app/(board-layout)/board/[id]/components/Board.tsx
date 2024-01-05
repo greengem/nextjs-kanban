@@ -123,7 +123,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
                           showGrab
                           dragHandleProps={provided.dragHandleProps ?? undefined}
                         >
-                          <div className='flex justify-between items-center gap-2'>
+                          <div className='flex justify-between items-center gap-2 pl-1'>
                             <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
                           </div>
                         </CardHeader>
