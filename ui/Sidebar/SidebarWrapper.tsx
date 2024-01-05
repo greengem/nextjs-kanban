@@ -9,8 +9,6 @@ export default function SidebarWrapper({ boards } : { boards: BoardSummary[]}) {
     const { isOpen, toggleDrawer } = useSidebar();
 
     return (
-        <Drawer open={isOpen} onClose={toggleDrawer} direction='left'>
-            <SidebarMenu boards={boards} />
-        </Drawer>
+        <SidebarMenu boards={boards} />
     )
 }
