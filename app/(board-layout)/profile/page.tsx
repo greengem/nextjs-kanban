@@ -5,13 +5,10 @@ import ProfileActivity from "./components/ProfileActivity";
 import ProfileBoards from "./components/ProfileBoards";
 import ProfileActions from "./components/ProfileActions";
 
-export default async function ProfilePage() {
-    
-
-
+export default function ProfilePage() {
 
     return (
-        <main className="grow p-5">
+        <main className="grow p-5 bg-zinc-200">
             <Suspense fallback={<div>Loading User Data...</div>}>
                 <ProfileHeader />
             </Suspense>
