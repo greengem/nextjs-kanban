@@ -48,6 +48,8 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
 
 
 export async function getBoard(id: string, userId: string, labelIdFilters?: string[]) {
+    //await new Promise((resolve) => setTimeout(resolve, 10000)); //forced delay to test loading states
+
     const labelCondition = labelIdFilters && labelIdFilters.length > 0 ? {
         labels: {
             some: {
@@ -283,6 +285,7 @@ export async function getUserActivity() {
 
 // Get favorite boards
 export async function getFavoriteBoards() {
+    await new Promise((resolve) => setTimeout(resolve, 10000)); //forced delay to test loading states
     const session = await auth();
     const userId = session?.user?.id;
 
@@ -327,6 +330,7 @@ export async function getBoardCount() {
 
 
 export async function getTaskCount() {
+    //await new Promise((resolve) => setTimeout(resolve, 10000)); //forced delay to test loading states
     const session = await auth();
     const userId = session?.user?.id;
 
