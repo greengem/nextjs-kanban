@@ -44,7 +44,7 @@ export function MenuItem({ path, icon = null, title }: { path: string, icon?: Re
     return (
         <li className="menu-item border-b-1 border-zinc-300">
             <Link href={path} className="flex h-12 items-center px-5 hover:bg-primary hover:text-white" onClick={handleClick}>
-                <div className='w-8'>{icon && <span>{icon}</span>}</div><span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
+                <div className='w-8 shrink-0'>{icon && <span>{icon}</span>}</div><span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
             </Link>
         </li>
     );
