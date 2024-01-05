@@ -1,6 +1,5 @@
 import { BoardSummary } from "@/types/types";
 import { IconCalendar, IconChevronDown, IconLayoutKanban, IconTextCaption, IconUser } from "@tabler/icons-react";
-import Link from "next/link";
 import { Sidebar, Menu, SubMenu, MenuItem } from "./SidebarComponent";
 
 export default function SidebarMenu({ boards } : { boards: BoardSummary[]}) {
