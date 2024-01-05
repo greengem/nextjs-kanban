@@ -5,7 +5,18 @@ import { IconChevronDown } from "@tabler/icons-react";
 
 export function Sidebar({ children }: { children: React.ReactNode }) {
     return (
-        <div className="sidebar w-64 shrink-0 grow-0">{children}</div>
+        <div className="
+            sidebar 
+            w-64 
+            fixed left-0 top-[3.8rem] bottom-0 
+            lg:relative lg:top-0
+            shrink-0 grow-0
+            bg-white
+            z-50
+            hidden lg:block
+        ">
+            {children}
+        </div>
     );
 }
 

@@ -6,7 +6,7 @@ export default function NavbarSidebarToggle() {
     const { toggleDrawer } = useSidebar();
 
     return (
-        <button onClick={toggleDrawer} className="mr-3">
+        <button onClick={toggleDrawer} className="mr-3 block lg:hidden">
             <IconMenu2 size={24} />
         </button>
     );
