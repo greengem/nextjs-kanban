@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader } from "@/ui/Card/Card";
-import { IconCheck, IconLayoutKanban, IconTimeDuration45 } from "@tabler/icons-react";
+import { IconCalendarDue, IconCheck, IconChecklist, IconExclamationCircle, IconLayoutKanban, IconTimeDuration45 } from "@tabler/icons-react";
 import TotalBoardCount from "./TotalBoardCount";
 import TotalTaskCount from "./TotalTaskCount";
 
@@ -17,7 +17,7 @@ export default function ProfileCards() {
 
             <Card className="w-full">
                 <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconLayoutKanban /></div>
+                    <div className="flex justify-center"><IconChecklist /></div>
                     <div className="font-semibold text-xl"><TotalTaskCount /></div>
                     <div>Tasks</div>
                 </CardBody>
@@ -25,16 +25,16 @@ export default function ProfileCards() {
 
             <Card className="w-full">
                 <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconLayoutKanban /></div>
-                    <div className="font-semibold text-xl"><TotalBoardCount /></div>
+                    <div className="flex justify-center"><IconCalendarDue /></div>
+                    <div className="font-semibold text-xl">Coming Soon</div>
                     <div>Upcoming Deadlines</div>
                 </CardBody>
             </Card>
 
             <Card className="w-full">
                 <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconLayoutKanban /></div>
-                    <div className="font-semibold text-xl"><TotalBoardCount /></div>
+                    <div className="flex justify-center"><IconExclamationCircle /></div>
+                    <div className="font-semibold text-xl">Coming Soon</div>
                     <div>Overdue Tasks</div>
                 </CardBody>
             </Card>
