@@ -78,7 +78,7 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
                     images.length > 0 && (
                         <div className="flex gap-3 overflow-x-scroll no-scrollbar mt-3">
                             {images.map((image, index) => (
-                                <div key={index} className='relative h-24 w-32'>
+                                <div key={index} className='relative h-24 w-32 shrink-0 grow-0'>
                                 <Image 
                                     src={image}
                                     onClick={() => handleImageClick(image)} 
