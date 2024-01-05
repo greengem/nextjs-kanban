@@ -31,7 +31,7 @@ export default async function BoardPage({
 
   return (
     <main 
-      className={`flex flex-col grow min-w-0 bg-cover bg-center bg-gradient-to-tl from-zinc-100 to-primary`}
+      className={`flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-200`}
       style={backgroundStyle}
     >
       <BoardNavbar board={board} />
