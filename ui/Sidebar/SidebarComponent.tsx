@@ -8,8 +8,8 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
     const { isOpen } = useSidebar();
 
     const sidebarClasses = isOpen 
-        ? "sidebar w-64 fixed left-0 top-[3.8rem] bottom-0 lg:relative lg:top-0 shrink-0 grow-0 bg-white z-50 lg:block border-r-1 border-primary"
-        : "sidebar w-64 fixed left-0 top-[3.8rem] bottom-0 lg:relative lg:top-0 shrink-0 grow-0 bg-white z-50 hidden lg:block border-r-1 border-primary";
+        ? "sidebar w-64 fixed left-0 top-0 bottom-0 lg:relative lg:top-0 shrink-0 grow-0 bg-white z-50 lg:block border-r-1 border-primary z-50"
+        : "sidebar w-64 fixed left-0 top-0 bottom-0 lg:relative lg:top-0 shrink-0 grow-0 bg-white z-50 hidden lg:block border-r-1 border-primary z-50";
 
     return (
         <div className={sidebarClasses}>
