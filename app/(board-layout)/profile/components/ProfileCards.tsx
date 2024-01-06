@@ -7,7 +7,7 @@ import { IconCalendarDue, IconChecklist, IconExclamationCircle, IconLayoutKanban
 
 export default function ProfileCards() {
     return (
-        <div className="grid grid-cols-4 gap-5 mb-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
             <div className="text-center space-y-2 bg-white p-5  border-2 border-primary shadow-xl rounded-xl">
                 <div className="flex justify-center"><IconLayoutKanban /></div>
                 <div className="font-semibold text-xl flex flex-col items-center">
