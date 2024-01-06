@@ -13,7 +13,7 @@ export default async function FetchBoards() {
                 <Link key={board.id} href={`/board/${board.id}`}>
                     <Card>
                         <CardBody 
-                            className="h-28 flex flex-col justify-end relative bg-white bg-cover bg-center"
+                            className="h-28 flex flex-col justify-end relative bg-gradient-to-t from-white to-primary bg-cover bg-center"
                             style={{ backgroundImage: board.backgroundUrl ? `url(${board.backgroundUrl})` : undefined, backgroundSize: 'cover' }}
                         >
                             {board.isFavorited && (
