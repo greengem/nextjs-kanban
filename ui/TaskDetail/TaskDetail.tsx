@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import prisma from '@/db/prisma';
 import TaskDetailTitle from "./TaskDetailTitle/TaskModalTitle";
 import TaskDetailSidebar from "./TaskDetailSidebar/TaskDetailSidebar";
@@ -8,6 +9,27 @@ import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "../Card/Card";
 
 export default async function TaskDetail({ taskId }: { taskId: string }) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  const boardMembership = await prisma.boardMember.findFirst({
+    where: {
+      userId: userId,
+      board: {
+        columns: {
+          some: {
+            tasks: {
+              some: { id: taskId }
+            }
+          }
+        }
+      }
+    }
+  });
+  
+  if (!boardMembership) {
+    return <div>Access denied: User is not authorized to view this task</div>;
+  }
 
   const task = await prisma.task.findUnique({
     where: {
@@ -126,14 +148,11 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
 
       <Card className="mx-5">
         <CardBody className="bg-white">
-
-
-        <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
-
-        <div className="grid grid-cols-1 md:grid-cols-4 p-5">
-          <TaskDetailView task={task} />
-          <TaskDetailSidebar task={task} />
-        </div>
+          <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
+          <div className="grid grid-cols-1 md:grid-cols-4 p-5">
+            <TaskDetailView task={task} />
+            <TaskDetailSidebar task={task} />
+          </div>
         </CardBody>
       </Card>
     </div>
