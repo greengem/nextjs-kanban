@@ -15,11 +15,15 @@ export default async function OverdueTaskCount() {
         where: {
             column: {
                 board: {
-                    userId: userId,
+                    members: {
+                        some: {
+                            userId: userId,
+                        },
+                    },
                 },
             },
             dueDate: {
-                lt: today
+                lt: today, // Tasks that are overdue
             }
         }
     });

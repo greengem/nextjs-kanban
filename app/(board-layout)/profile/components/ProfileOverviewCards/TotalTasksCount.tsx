@@ -11,13 +11,16 @@ export default async function TotalTasksCount() {
 
     const totalTasks = await prisma.task.count({
         where: {
+            createdByUserId: userId,
             column: {
                 board: {
-                    userId: userId,
-                },
+                    members: {
+                        some: { userId: userId }
+                    }
+                }
             },
         },
-    });
+    });    
 
     return totalTasks;
 }

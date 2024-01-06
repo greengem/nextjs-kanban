@@ -17,7 +17,11 @@ export default async function UpcomingDeadlinesCount() {
         where: {
             column: {
                 board: {
-                    userId: userId,
+                    members: {
+                        some: {
+                            userId: userId,
+                        },
+                    },
                 },
             },
             dueDate: {
@@ -26,6 +30,7 @@ export default async function UpcomingDeadlinesCount() {
             }
         }
     });
-
+    
     return count;
+    
 }

@@ -50,6 +50,13 @@ export default async function ProfileActivity() {
     const activities = await prisma.activity.findMany({
         where: {
             userId: userId,
+            board: {
+                members: {
+                    some: {
+                        userId: userId
+                    }
+                }
+            }
         },
         orderBy: {
             createdAt: 'desc',

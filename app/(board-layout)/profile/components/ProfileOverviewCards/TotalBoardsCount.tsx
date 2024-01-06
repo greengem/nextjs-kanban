@@ -9,11 +9,11 @@ export default async function TotalBoardsCount() {
         throw new Error("User not authenticated");
     }
 
-    const totalBoards = await prisma.board.count({
+    const totalBoards = await prisma.boardMember.count({
         where: {
             userId: userId,
         },
-    });
+    });    
 
     return totalBoards;
 }
