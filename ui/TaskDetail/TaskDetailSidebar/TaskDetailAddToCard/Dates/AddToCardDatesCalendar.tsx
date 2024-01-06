@@ -1,13 +1,13 @@
 'use client'
-
-import 'react-day-picker/dist/style.css';
-import './DayPicker.css';
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import { Button } from '@nextui-org/button';
 import { handleAddDate, handleRemoveDate } from '@/actions/TaskServerActions';
 import toast from 'react-hot-toast';
+
+import 'react-day-picker/dist/style.css';
+import './DayPicker.css';
 
 export default function AddToCardDatesCalendar({ 
     task, dateType
