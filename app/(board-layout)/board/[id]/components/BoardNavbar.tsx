@@ -6,6 +6,7 @@ import { getLabelsForBoard } from "@/lib/FetchData";
 import { LabelSummary, BoardSummary } from "@/types/types";
 import BoardBackgroundImage from "./BoardBackgroundImage";
 import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
+import BoardUsers from "./BoardUsers";
 
 export default async function BoardNavbar({
     board
@@ -23,7 +24,10 @@ export default async function BoardNavbar({
                     <BoardFilter labels={labels} />
                     <BoardBackgroundImageButton />
                 </div>
-                <BoardMenu boardId={board.id} />
+                <div className="flex gap-2 items-center">
+                    <BoardUsers />
+                    <BoardMenu boardId={board.id} />
+                </div>
             </div>
             <BoardBackgroundImage boardId={board.id} />
         </div>
