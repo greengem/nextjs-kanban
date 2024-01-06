@@ -1,45 +1,53 @@
-import { Card, CardBody, CardHeader } from "@/ui/Card/Card";
-import { IconCalendarDue, IconCheck, IconChecklist, IconExclamationCircle, IconLayoutKanban, IconTimeDuration45 } from "@tabler/icons-react";
-import TotalBoardCount from "./TotalBoardCount";
-import TotalTaskCount from "./TotalTaskCount";
+import { Suspense } from "react";
+import TotalBoardsCount from "./ProfileOverviewCards/TotalBoardsCount";
+import TotalTasksCount from "./ProfileOverviewCards/TotalTasksCount";
+import UpcomingDeadlinesCount from "./ProfileOverviewCards/UpcomingDeadlinesCount";
+import OverdueTaskCount from "./ProfileOverviewCards/OverdueTaskCount";
+import { IconCalendarDue, IconChecklist, IconExclamationCircle, IconLayoutKanban, IconLoader2 } from "@tabler/icons-react";
 
 export default function ProfileCards() {
     return (
         <div className="grid grid-cols-4 gap-5 mb-10">
-            
-            <Card className="w-full">
-                <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconLayoutKanban /></div>
-                    <div className="font-semibold text-xl"><TotalBoardCount /></div>
-                    <div>Boards</div>
-                </CardBody>
-            </Card>
+            <div className="text-center space-y-2 bg-white p-5  border-2 border-primary shadow-xl rounded-xl">
+                <div className="flex justify-center"><IconLayoutKanban /></div>
+                <div className="font-semibold text-xl flex flex-col items-center">
+                    <Suspense fallback={<IconLoader2 size={28} className="animate-spin" />}>
+                        <TotalBoardsCount />
+                    </Suspense>
+                </div>
+                <div>Boards</div>
+            </div>
 
-            <Card className="w-full">
-                <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconChecklist /></div>
-                    <div className="font-semibold text-xl"><TotalTaskCount /></div>
-                    <div>Tasks</div>
-                </CardBody>
-            </Card>
+            <div className="text-center space-y-2 bg-white p-5  border-2 border-primary shadow-xl rounded-xl">
+                <div className="flex justify-center"><IconChecklist /></div>
+                <div className="font-semibold text-xl flex flex-col items-center">
+                    <Suspense fallback={<IconLoader2 size={28} className="animate-spin" />}>
+                        <TotalTasksCount />
+                    </Suspense>
+                </div>
+                <div>Tasks</div>
+            </div>
 
-            <Card className="w-full">
-                <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconCalendarDue /></div>
-                    <div className="font-semibold text-xl">Coming Soon</div>
-                    <div>Upcoming Deadlines</div>
-                </CardBody>
-            </Card>
+            <div className="text-center space-y-2 bg-white p-5  border-2 border-primary shadow-xl rounded-xl">
+                <div className="flex justify-center"><IconCalendarDue /></div>
+                <div className="font-semibold text-xl flex flex-col items-center">
+                    <Suspense fallback={<IconLoader2 size={28} className="animate-spin" />}>
+                        <UpcomingDeadlinesCount />
+                    </Suspense>
+                </div>
+                <div>Upcoming Deadlines</div>
+            </div>
 
-            <Card className="w-full">
-                <CardBody className="text-center space-y-2 bg-white p-5  border-2 border-primary">
-                    <div className="flex justify-center"><IconExclamationCircle /></div>
-                    <div className="font-semibold text-xl">Coming Soon</div>
-                    <div>Overdue Tasks</div>
-                </CardBody>
-            </Card>
+            <div className="text-center space-y-2 bg-white p-5  border-2 border-primary shadow-xl rounded-xl">
+                <div className="flex justify-center"><IconExclamationCircle /></div>
+                <div className="font-semibold text-xl flex flex-col items-center">
+                    <Suspense fallback={<IconLoader2 size={28} className="animate-spin" />}>
+                        <OverdueTaskCount />
+                    </Suspense>
+                </div>
+                <div>Overdue Tasks</div>
+            </div>
 
         </div>
     );
-
 }
