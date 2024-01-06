@@ -45,10 +45,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  boards        Board[]
   labels        Label[]
   activities    Activity[]
   favoriteBoards FavoriteBoard[]
+  memberBoards  BoardMember[]
 }
 
 model VerificationToken {
@@ -60,18 +60,29 @@ model VerificationToken {
 }
 
 model Board {
-  id          String    @id @default(cuid())
-  title       String
-  description String?
+  id            String         @id @default(cuid())
+  title         String
+  description   String?
   backgroundUrl String?
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  columns     Column[]
-  labels  Label[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  activities Activity[]
-  favoritedBy FavoriteBoard[]
+  columns       Column[]
+  labels        Label[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  activities    Activity[]
+  favoritedBy   FavoriteBoard[]
+  members       BoardMember[]
+}
+
+
+model BoardMember {
+  userId    String
+  boardId   String
+  role      String       // e.g., 'member', 'admin'
+  user      User         @relation(fields: [userId], references: [id])
+  board     Board        @relation(fields: [boardId], references: [id])
+  createdAt DateTime     @default(now())
+
+  @@id([userId, boardId])
 }
 
 model Column {
