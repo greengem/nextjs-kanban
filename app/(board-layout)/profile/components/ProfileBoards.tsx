@@ -1,23 +1,40 @@
-import { getFavoriteBoards } from "@/lib/FetchData"
-import { Card, CardBody } from "@/ui/Card/Card";
+import { auth } from "@/auth";
+import prisma from '@/db/prisma';
 import Link from "next/link";
 
 export default async function ProfileBoards() {
-    const favBoards = await getFavoriteBoards();
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error("User not authenticated");
+    }
+
+    const favoriteBoards = await prisma.favoriteBoard.findMany({
+        where: {
+            userId: userId,
+        },
+        select: {
+            board: {
+                select: {
+                    id: true,
+                    title: true,
+                },
+            },
+        },
+    });
+
+    const boards = favoriteBoards.map(fav => fav.board);
+
     return (
         <>
-            <h2 className="text-large font-semibold mb-3">Favorite Boards</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-10">
-                {favBoards.map((board) => (
-                    <Link key={board.id} href={`/board/${board.id}`}>
-                        <Card>
-                            <CardBody className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary">
-                                <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">{board.title}</span>
-                            </CardBody>
-                        </Card>
-                    </Link>
-                ))}
-            </div>
+            {boards.map((board) => (
+                <Link key={board.id} href={`/board/${board.id}`}>
+                    <div className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary rounded-xl p-2">
+                        <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">{board.title}</span>
+                    </div>
+                </Link>
+            ))}
         </>
     )
 }
