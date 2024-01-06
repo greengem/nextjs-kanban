@@ -1,5 +1,4 @@
-import { getTask } from "@/lib/FetchData";
-import { ExpandedTask } from "@/types/types";
+import prisma from '@/db/prisma';
 import TaskDetailTitle from "./TaskDetailTitle/TaskModalTitle";
 import TaskDetailSidebar from "./TaskDetailSidebar/TaskDetailSidebar";
 import TaskDetailView from "./TaskDetailView/TaskDetailView";
@@ -9,16 +8,99 @@ import { Button } from "@nextui-org/button";
 import { Card, CardBody } from "../Card/Card";
 
 export default async function TaskDetail({ taskId }: { taskId: string }) {
-  const task: ExpandedTask | null = await getTask(taskId);
+
+  const task = await prisma.task.findUnique({
+    where: {
+        id: taskId
+    },
+    select: {
+        id: true,
+        title: true,
+        description: true,
+        dueDate: true,
+        startDate: true,
+        createdAt: true,
+        updatedAt: true,
+        order: true,
+        columnId: true,
+        column: {
+            select: {
+                title: true,
+                boardId: true,
+                board: {
+                    select: {
+                        backgroundUrl: true,
+                    }
+                }
+            },
+        },
+        labels: {
+            select: {
+                id: true,
+                title: true,
+                color: true
+            }
+        },
+        checklists: {
+            select: {
+                id: true,
+                title: true,
+                items: {
+                    orderBy: {
+                        createdAt: 'asc'
+                    },
+                    select: {
+                        id: true,
+                        content: true,
+                        isChecked: true,
+                        createdAt: true
+                    }
+                }
+            }
+        },
+        activities: {
+            orderBy: {
+                createdAt: 'desc'
+            },
+            select: {
+                id: true,
+                type: true,
+                content: true,
+                createdAt: true,
+                startDate: true,
+                dueDate: true,
+                oldColumn: {
+                    select: { title: true },
+                },
+                newColumn: {
+                    select: { title: true },
+                },
+                originalColumn: {
+                    select: { title: true },
+                },
+                task: {
+                    select: {
+                      title: true,
+                    },
+                  },
+                user: {
+                    select: {
+                        id: true,
+                        name: true,
+                        image: true,
+                    }
+                },
+            }
+        }
+    }
+  });
 
   if (!task) {
     return <div>Task not found or loading error</div>;
   }
 
-  // Define a variable to store the background style
   let backgroundStyle = {};
 
-  // Check if the task's column has a backgroundUrl
   if (task.column && task.column.board && task.column.board.backgroundUrl) {
     backgroundStyle = {
       backgroundImage: `url(${task.column.board.backgroundUrl})`,
