@@ -25,7 +25,7 @@ export default function ProfilePage() {
             <h2 className="text-large font-semibold mb-3">Favorite Boards</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5 mb-10">
                 <Suspense fallback={
-                    <div className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary rounded-xl p-2">
+                    <div className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary shadow-xl rounded-xl p-2">
                         <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">Loading boards...</span>
                     </div>
                 }>
