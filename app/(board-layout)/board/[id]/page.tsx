@@ -22,6 +22,17 @@ export default async function BoardPage({
   const labelCondition: { labels?: { some: { id: { in: string[] } } } } = labelIds.length > 0
     ? { labels: { some: { id: { in: labelIds } } } }
     : {};
+  
+  const isMember = await prisma.boardMember.findFirst({
+    where: {
+      boardId: params.id,
+      userId: userId,
+    }
+  });
+
+  if (!isMember) {
+    return <div>Access denied: User is not a member of this board</div>;
+  }
 
   const board = await prisma.board.findUnique({
     where: { id: params.id },
