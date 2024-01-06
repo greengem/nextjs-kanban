@@ -30,7 +30,7 @@ export default async function ProfileBoards() {
         <>
             {boards.map((board) => (
                 <Link key={board.id} href={`/board/${board.id}`}>
-                    <div className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary rounded-xl p-2">
+                    <div className="h-28 flex flex-col justify-end relative bg-white hover:bg-zinc-300 border-2 border-primary shadow-xl rounded-xl p-2">
                         <span className="whitespace-nowrap overflow-ellipsis block overflow-x-hidden">{board.title}</span>
                     </div>
                 </Link>
