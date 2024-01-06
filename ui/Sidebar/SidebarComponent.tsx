@@ -14,6 +14,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
             bg-white
             z-50
             hidden lg:block
+            border-r-1 border-primary
         ">
             {children}
         </div>
