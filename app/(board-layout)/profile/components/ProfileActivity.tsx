@@ -1,4 +1,5 @@
-import { getUserActivity } from "@/lib/FetchData";
+import { auth } from "@/auth";
+import prisma from '@/db/prisma';
 import { format } from 'date-fns';
 import { ActivityWithUser } from "@/types/types";
 
@@ -33,26 +34,48 @@ const getActivityMessage = (activity: ActivityWithUser) => {
     }
 };
 
-
-
-
 const formatDate = (date: Date | null) => {
     return date ? format(new Date(date), 'dd/MM/yyyy') : 'N/A';
 };
 
-export default async function ProfileActivity() {
-    const activities = await getUserActivity();
+
+export default async function ProfileActivity() {    
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+        throw new Error("User not authenticated");
+    }
+
+    const activities = await prisma.activity.findMany({
+        where: {
+            userId: userId,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+        take: 5,
+        include: {
+            user: true,
+            task: {
+                select: {
+                    title: true,
+                },
+            },
+            board: true,
+            oldColumn: true,
+            newColumn: true,
+            originalColumn: true,
+        },
+    });
 
     return (
         <>
-            <h2 className="text-large font-semibold mb-3">Recent Activity</h2>
-            <ul className="mb-10">
-                {activities.map((activity, index) => (
-                    <li key={index} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
-                        {getActivityMessage(activity)}
-                    </li>
-                ))}
-            </ul>
+            {activities.map((activity, index) => (
+                <li key={index} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
+                    {getActivityMessage(activity)}
+                </li>
+            ))}
         </>
     );
 }
