@@ -4,7 +4,7 @@ import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 
 export function Card({ children, className = '' }: { children: ReactNode, className?: string }) {
     return (
-        <div className={`shadow-md opacity-90 ${className}`}>
+        <div className={`shadow-xl ${className}`}>
             {children}
         </div>
     )
@@ -18,7 +18,7 @@ export function CardHeaderGrab({
     return (
         <div 
             {...dragHandleProps}
-            className='py-1 text-primary bg-black cursor-grab flex justify-center items-center rounded-t-lg'
+            className='py-1 text-primary bg-black cursor-grab flex justify-center items-center rounded-t-xl'
         >
             <IconGripHorizontal size={30} />
         </div>
@@ -37,9 +37,9 @@ export function CardHeader({
     dragHandleProps?: DraggableProvidedDragHandleProps
 }) {
     return (
-        <div className={`${showGrab ? '' : 'rounded-t-lg'} ${className}`}>
+        <div className={`${showGrab ? '' : 'rounded-t-xl'} ${className}`}>
             {showGrab && <CardHeaderGrab dragHandleProps={dragHandleProps} />}
-            <div className={`bg-white px-2 pt-3 ${showGrab ? '' : 'rounded-t-lg'}`}>
+            <div className={`bg-white px-2 pt-3 ${showGrab ? '' : 'rounded-t-xl'}`}>
                 {children}
             </div>
         </div>
@@ -57,7 +57,7 @@ export function CardBody({
 }) {
     return (
         <div 
-            className={`${className} p-2 first:rounded-t-lg no-scrollbar card-body last:rounded-b-lg`}
+            className={`${className} p-2 first:rounded-t-xl no-scrollbar card-body last:rounded-b-xl`}
             style={style}
         >
             {children}
@@ -72,7 +72,7 @@ export function CardFooter({
     children: ReactNode, className?: string 
 }) {
     return (
-        <div className={`bg-white px-3 pb-3 rounded-b-lg ${className}`}>
+        <div className={`bg-white px-3 pb-3 rounded-b-xl ${className}`}>
             {children}
         </div>
     )
