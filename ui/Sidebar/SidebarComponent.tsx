@@ -1,21 +1,18 @@
+'use client'
 import { useState } from 'react';
 import { useSidebar } from "@/contexts/SidebarContext";
 import Link from "next/link";
 import { IconChevronDown } from "@tabler/icons-react";
 
 export function Sidebar({ children }: { children: React.ReactNode }) {
+    const { isOpen } = useSidebar();
+
+    const sidebarClasses = isOpen 
+        ? "sidebar w-64 fixed left-0 top-[3.8rem] bottom-0 lg:relative lg:top-0 shrink-0 grow-0 bg-white z-50 lg:block border-r-1 border-primary"
+        : "sidebar w-64 fixed left-0 top-[3.8rem] bottom-0 lg:relative lg:top-0 shrink-0 grow-0 bg-white z-50 hidden lg:block border-r-1 border-primary";
+
     return (
-        <div className="
-            sidebar 
-            w-64 
-            fixed left-0 top-[3.8rem] bottom-0 
-            lg:relative lg:top-0
-            shrink-0 grow-0
-            bg-white
-            z-50
-            hidden lg:block
-            border-r-1 border-primary
-        ">
+        <div className={sidebarClasses}>
             {children}
         </div>
     );
