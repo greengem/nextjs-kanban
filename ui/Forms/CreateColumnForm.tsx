@@ -6,7 +6,7 @@ import { handleCreateColumn } from "@/actions/ColumnServerActions";
 import { CreateColumnSchema } from '@/types/zodTypes';
 import { ColumnCreationData } from '@/types/types';
 import { Card, CardBody } from '@/ui/Card/Card';
-import { IconLoader2 } from '@tabler/icons-react';
+import { IconLoader2, IconPlus } from '@tabler/icons-react';
 import { Input } from '@nextui-org/input';
 import { Button } from '@nextui-org/button';
 
@@ -33,8 +33,7 @@ export default function CreateColumnForm({
 
   return (
     <div className="shrink-0 w-64 ml-2">
-      <Card>
-        <CardBody className='bg-white'>
+        <div className='bg-white p-2 rounded-xl shadow-xl'>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
 
               <Input 
@@ -57,19 +56,23 @@ export default function CreateColumnForm({
             <Button 
               type="submit" 
               disabled={isSubmitting}
-              className='w-full'
+              className='w-full gap-1'
               color='primary'
             >
             {isSubmitting ? (
               <>
-                <IconLoader2 size={16} className="animate-spin mr-2" />
+                <IconLoader2 size={16} className="animate-spin" />
                 Creating...
               </>
-            ) : 'Create Column'}
+            ) : (
+              <>
+                <IconPlus size={16} />
+                Create Column
+              </>
+            )}
             </Button>
           </form>
-        </CardBody>
-      </Card>
-    </div>
+        </div>
+      </div>
   )
 }
