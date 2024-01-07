@@ -97,3 +97,23 @@ export async function handleRejectInvitation({ token }: { token: string }) {
     return { success: false, message: 'Failed to reject invitation.' };
   }
 }
+
+
+export async function handleRemoveUserFromBoard({ boardId, userId }: { boardId: string; userId: string }) {
+  try {
+    // Use composite key (userId and boardId) to delete the user from the board
+    await prisma.boardMember.delete({
+      where: {
+        userId_boardId: {
+          userId: userId,
+          boardId: boardId,
+        },
+      },
+    });
+
+    return { success: true, message: 'User removed from board successfully.' };
+  } catch (error) {
+    console.error('Failed to remove user from board:', error);
+    return { success: false, message: 'Failed to remove user from board.' };
+  }
+}
