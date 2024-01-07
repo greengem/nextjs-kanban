@@ -1,3 +1,4 @@
+import prisma from '@/db/prisma';
 import BoardMenu from "../components/BoardMenu";
 import BoardFavourite from "../components/BoardFavourite";
 import BoardTitle from "../components/BoardTitle";
@@ -16,6 +17,11 @@ export default async function BoardNavbar({
 }) {
     const labels: LabelSummary[] = await getLabelsForBoard(board.id);
 
+    const boardMembers = await prisma.boardMember.findMany({
+        where: { boardId: board.id },
+        include: { user: true }
+    });
+
     return (
         <div className="mb-5">
             <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2">
@@ -26,8 +32,8 @@ export default async function BoardNavbar({
                     <BoardBackgroundImageButton />
                 </div>
                 <div className="flex gap-2 items-center">
-                    <BoardUsers boardId={board.id} />
-                    <BoardAddUsers boardId={board.id} />
+                    <BoardUsers boardId={board.id} boardMembers={boardMembers} />
+                    <BoardAddUsers boardId={board.id} boardMembers={boardMembers} />
                     <BoardMenu boardId={board.id} />
                 </div>
             </div>
