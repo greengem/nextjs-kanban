@@ -115,8 +115,8 @@ model Task {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   activities  Activity[]
-  createdByUserId String?
-  createdBy       User?     @relation(fields: [createdByUserId], references: [id])
+  createdByUserId String
+  createdBy       User     @relation(fields: [createdByUserId], references: [id])
 }
 
 model FavoriteBoard {
