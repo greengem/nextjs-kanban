@@ -1,4 +1,8 @@
-import { Board, Column, Task, Activity, User, Label, Checklist, ChecklistItem } from "@prisma/client";
+import { Board, Column, Task, Activity, User, Label, Checklist, ChecklistItem, BoardMember } from "@prisma/client";
+
+export type BoardMemberSummary = Pick<BoardMember, 'role'> & {
+    user: Pick<User, 'id' | 'name' | 'image'>;
+};
 
 export type BoardSummary = Pick<Board, 'id' | 'title' | 'backgroundUrl'> & {
     tasksCount: number;
