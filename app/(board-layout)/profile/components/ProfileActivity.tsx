@@ -76,6 +76,10 @@ export default async function ProfileActivity() {
         },
     });
 
+    if (activities.length === 0) {
+        return <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">No activities found</li>;
+    }
+
     return (
         <>
             {activities.map((activity, index) => (
