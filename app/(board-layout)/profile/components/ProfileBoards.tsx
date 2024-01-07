@@ -26,6 +26,10 @@ export default async function ProfileBoards() {
 
     const boards = favoriteBoards.map(fav => fav.board);
 
+    if (boards.length === 0) {
+        return <p>No favorite boards found.</p>;
+    }
+
     return (
         <>
             {boards.map((board) => (
