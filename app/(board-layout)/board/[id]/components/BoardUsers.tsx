@@ -1,11 +1,12 @@
-import prisma from '@/db/prisma';
 import { Avatar, AvatarGroup } from "@nextui-org/avatar";
+import { BoardMemberSummary } from "@/types/types";
 
-export default async function BoardUsers({ boardId } : { boardId: string }) {
-    const boardMembers = await prisma.boardMember.findMany({
-        where: { boardId: boardId },
-        include: { user: true }
-    });
+interface BoardUsersProps {
+    boardId: string;
+    boardMembers: BoardMemberSummary[];
+}
+
+export default function BoardUsers({ boardId, boardMembers }: BoardUsersProps) {
 
     const owner = boardMembers.find(member => member.role === 'owner')?.user;
     const members = boardMembers.filter(member => member.role === 'member').map(member => member.user);
