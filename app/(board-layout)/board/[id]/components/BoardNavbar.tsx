@@ -27,7 +27,7 @@ export default async function BoardNavbar({
                 </div>
                 <div className="flex gap-2 items-center">
                     <BoardUsers boardId={board.id} />
-                    <BoardAddUsers />
+                    <BoardAddUsers boardId={board.id} />
                     <BoardMenu boardId={board.id} />
                 </div>
             </div>
