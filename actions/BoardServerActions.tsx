@@ -98,25 +98,27 @@ export async function handleEditBoard(data: BoardEditData) {
 
 // Delete Board
 export async function handleDeleteBoard(boardId: string) {
-
-
   if (!boardId) {
     return { success: false, message: 'Board ID is missing' };
+  }
+
+  try {
+    await prisma.boardMember.deleteMany({
+      where: { boardId: boardId },
+    });
+
+    await prisma.board.delete({
+      where: { id: boardId },
+    });
+
+    revalidatePath(`/board/`);
+
+    return { success: true, message: `Deleted board` };
+  } catch (e) {
+    return { success: false, message: 'Failed to delete board'};
+  }
 }
-    
-    try {
 
-        await prisma.board.delete({
-          where: { id: boardId },
-        });
-
-        revalidatePath(`/board/`);
-
-        return { success: true, message: `Deleted board` }
-    } catch (e) {
-        return { success: false, message: 'Failed to delete board' }
-    }
-}
 
 
 // Edit Background Image
