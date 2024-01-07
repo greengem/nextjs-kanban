@@ -22,12 +22,21 @@ export async function handleCreateBoard(data: BoardCreationData) {
   }
 
   try {
+    // Create the board
     const createdBoard = await prisma.board.create({
       data: {
-        userId: session.user.id,
         title: parse.data.title,
         description: parse.data.description,
       }
+    });
+
+    // Add the user as a member (or owner) of the board
+    await prisma.boardMember.create({
+      data: {
+        boardId: createdBoard.id,
+        userId: session.user.id,
+        role: 'owner',
+      },
     });
 
     // Create default labels for the new board
