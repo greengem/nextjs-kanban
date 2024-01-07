@@ -11,6 +11,11 @@ export async function handleCreateTask(data: TaskCreationData) {
     try {
         const session = await auth();
         const userId = session?.user?.id;
+
+        if (!userId) {
+            return { success: false, message: 'User is not authenticated' };
+        }
+
         const parse = CreateTaskSchema.safeParse(data);
 
         if (!parse.success) {
@@ -31,12 +36,13 @@ export async function handleCreateTask(data: TaskCreationData) {
                 description: parse.data.description,
                 columnId: parse.data.columnId,
                 order: newOrder,
+                createdByUserId: userId,
             }
         });
 
         // Add activity logging
-        if (createdTask && userId) {
-            const activity = await prisma.activity.create({
+        if (createdTask) {
+            await prisma.activity.create({
                 data: {
                     type: 'TASK_CREATED',
                     userId: userId,
@@ -52,9 +58,9 @@ export async function handleCreateTask(data: TaskCreationData) {
         return { success: true, message: `Added task` };
     } catch (e) {
         return { success: false, message: `Failed to create task` };
-    } finally {
     }
 }
+
 
 
 // EDIT TASK
@@ -145,8 +151,8 @@ export async function handleAddDate(data: { taskId: string; date: string; boardI
         });
 
         const activityType = existingTask && existingTask[data.dateType] 
-                            ? (data.dateType === 'dueDate' ? 'DUE_DATE_UPDATED' : 'START_DATE_UPDATED')
-                            : (data.dateType === 'dueDate' ? 'DUE_DATE_ADDED' : 'START_DATE_ADDED');
+            ? (data.dateType === 'dueDate' ? 'DUE_DATE_UPDATED' : 'START_DATE_UPDATED')
+            : (data.dateType === 'dueDate' ? 'DUE_DATE_ADDED' : 'START_DATE_ADDED');
 
         await prisma.activity.create({
             data: {
