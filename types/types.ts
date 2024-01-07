@@ -44,7 +44,7 @@ export type ActivityWithUser = Pick<Activity, 'id' | 'type' | 'content' | 'creat
 
 
 // Form validation
-export type BoardCreationData = Pick<Board, 'title' | 'description'>;
+export type BoardCreationData = Pick<Board, 'title'>;
 
 export type BoardEditData = Pick<Board, 'title' | 'id'>;
 
