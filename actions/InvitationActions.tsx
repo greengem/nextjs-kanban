@@ -1,3 +1,4 @@
+'use server'
 import prisma from '@/db/prisma';
 import crypto from 'crypto';
 import { Resend } from 'resend';
