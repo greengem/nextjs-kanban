@@ -7,6 +7,7 @@ import { LabelSummary, BoardSummary } from "@/types/types";
 import BoardBackgroundImage from "./BoardBackgroundImage";
 import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
 import BoardUsers from "./BoardUsers";
+import BoardAddUsers from "./BoardAddUsers";
 
 export default async function BoardNavbar({
     board
@@ -26,6 +27,7 @@ export default async function BoardNavbar({
                 </div>
                 <div className="flex gap-2 items-center">
                     <BoardUsers boardId={board.id} />
+                    <BoardAddUsers />
                     <BoardMenu boardId={board.id} />
                 </div>
             </div>
