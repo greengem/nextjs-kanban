@@ -26,11 +26,9 @@ export async function handleCreateBoard(data: BoardCreationData) {
     const createdBoard = await prisma.board.create({
       data: {
         title: parse.data.title,
-        description: parse.data.description,
       }
     });
 
-    // Add the user as a member (or owner) of the board
     await prisma.boardMember.create({
       data: {
         boardId: createdBoard.id,
