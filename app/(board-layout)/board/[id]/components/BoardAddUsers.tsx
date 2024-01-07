@@ -7,24 +7,25 @@ import { IconPlus } from "@tabler/icons-react";
 import { handleSendBoardInvitation } from "@/actions/InvitationActions";
 import toast from 'react-hot-toast';
 
-export default function BoardAddUsers({ boardId } : {boardId: string}) {
+export default function BoardAddUsers({ boardId } : { boardId: string }) {
     const [email, setEmail] = useState('');
+    const [invitationLink, setInvitationLink] = useState('');
 
-    const handleInvite = async (e: any) => {
+    const handleInvite = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!email) return;
-
+    
         try {
             const response = await handleSendBoardInvitation({ boardId, userEmail: email });
-            if (response.success) {
-                toast.success(response.message);
-                setEmail('');
+            if (response.success && response.invitationLink) {
+                setInvitationLink(response.invitationLink);
+                toast.success('Invitation link created');
             } else {
-                toast.error(response.message);
+                toast.error(response.message || 'Unknown error');
             }
         } catch (error) {
-            console.error('Error sending invitation:', error);
-            toast.error('An error occurred while sending the invitation.');
+            console.error('Error creating invitation:', error);
+            toast.error('An error occurred while creating the invitation.');
         }
     };
 
@@ -49,6 +50,12 @@ export default function BoardAddUsers({ boardId } : {boardId: string}) {
                         />
                         <Button size="sm" color="primary" type="submit">Send invite</Button>
                     </form>
+                    {invitationLink && (
+                        <div>
+                            <p>Copy this invitation link:</p>
+                            <Input readOnly value={invitationLink} />
+                        </div>
+                    )}
                 </div>
             </PopoverContent>
         </Popover>
