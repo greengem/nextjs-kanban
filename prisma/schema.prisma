@@ -71,6 +71,21 @@ model Board {
   activities    Activity[]
   favoritedBy   FavoriteBoard[]
   members       BoardMember[]
+  invitations Invitation[]
+}
+
+model Invitation {
+  id         String   @id @default(cuid())
+  boardId    String
+  email      String
+  token      String   @unique
+  status     String   // Possible values: 'pending', 'accepted', 'rejected'
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  board      Board    @relation(fields: [boardId], references: [id])
+
+  @@unique([boardId, email])
 }
 
 
