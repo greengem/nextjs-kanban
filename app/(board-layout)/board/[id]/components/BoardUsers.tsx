@@ -1,7 +1,6 @@
 import prisma from '@/db/prisma';
 import BoardUsersList from './BoardUsersList';
 import BoardAddUsers from './AddUsers/BoardAddUsers';
-import { BoardMemberSummary } from "@/types/types";
 
 export default async function BoardUsers({ boardId }: { boardId: string }) {
     const boardMembers = await prisma.boardMember.findMany({
