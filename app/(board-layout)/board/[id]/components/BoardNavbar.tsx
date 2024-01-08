@@ -1,4 +1,4 @@
-
+import { Suspense } from "react";
 import BoardMenu from "../components/BoardMenu";
 import BoardFavourite from "../components/BoardFavourite";
 import BoardTitle from "../components/BoardTitle";
@@ -8,6 +8,7 @@ import { LabelSummary, BoardSummary } from "@/types/types";
 import BoardBackgroundImage from "./BoardBackgroundImage";
 import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
 import BoardUsers from "./BoardUsers";
+import { IconLoader2 } from "@tabler/icons-react";
 
 export default async function BoardNavbar({
     board
@@ -26,7 +27,9 @@ export default async function BoardNavbar({
                     <BoardBackgroundImageButton />
                 </div>
                 <div className="flex gap-2 items-center">
-                    <BoardUsers boardId={board.id} />
+                    <Suspense fallback={<IconLoader2 className="animate-spin" size={16} />}>
+                        <BoardUsers boardId={board.id} />
+                    </Suspense>
                     <BoardMenu boardId={board.id} />
                 </div>
             </div>
