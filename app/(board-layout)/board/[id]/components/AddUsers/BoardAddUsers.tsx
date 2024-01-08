@@ -15,9 +15,10 @@ interface BoardAddUsersProps {
     owner: UserSummary | null;
     members: UserSummary[];
     isOwner: boolean;
+    loggedInUserId: string;
 }
 
-export default function BoardAddUsers({ boardId, owner, members, isOwner }: BoardAddUsersProps) {
+export default function BoardAddUsers({ boardId, owner, members, isOwner, loggedInUserId }: BoardAddUsersProps) {
     const [invitationLink, setInvitationLink] = useState('');
 
     const handleInvitationLinkChange = (newLink: string) => {
@@ -35,7 +36,7 @@ export default function BoardAddUsers({ boardId, owner, members, isOwner }: Boar
                 <div className="px-1 py-2 min-w-64">
                     <h3 className='text-large font-semibold text-center mb-2'>Manage Users</h3>
                     <h4 className='font-semibold mb-1'>Current Users</h4>
-                    <BoardAddUsersList owner={owner} members={members} boardId={boardId} isOwner={isOwner} />
+                    <BoardAddUsersList owner={owner} members={members} boardId={boardId} isOwner={isOwner} loggedInUserId={loggedInUserId} />
                     <h4 className='font-semibold mb-1'>Add Users</h4>
                     <BoardAddUsersForm boardId={boardId} onInvitationLinkChange={handleInvitationLinkChange} isOwner={isOwner} />
                     {invitationLink && (

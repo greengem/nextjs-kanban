@@ -12,9 +12,10 @@ interface BoardAddUsersListProps {
     members: UserSummary[];
     boardId: string;
     isOwner: boolean;
+    loggedInUserId: string;
 }
 
-export default function BoardAddUsersList({ owner, members, boardId, isOwner }: BoardAddUsersListProps) {
+export default function BoardAddUsersList({ owner, members, boardId, isOwner, loggedInUserId }: BoardAddUsersListProps) {
 
     const handleRemoveUser = async (userId: string) => {
         if (!confirm("Are you sure you want to remove this user?")) return;
@@ -50,7 +51,7 @@ export default function BoardAddUsersList({ owner, members, boardId, isOwner }: 
                         <p>{member.name || ''}</p>
                         <p className='text-xs'>Member</p>
                     </div>
-                    {isOwner && (
+                    {(isOwner || member.id === loggedInUserId) && (
                         <Button size='sm' isIconOnly onClick={() => handleRemoveUser(member.id)}>
                             <IconMinus size={16} />
                         </Button>

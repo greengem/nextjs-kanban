@@ -23,7 +23,7 @@ export default async function BoardUsers({ boardId }: { boardId: string }) {
     return (
         <>
             <BoardUsersList owner={owner} members={members} />
-            <BoardAddUsers boardId={boardId} owner={owner} members={members} isOwner={isOwner} />
+            <BoardAddUsers boardId={boardId} owner={owner} members={members} isOwner={isOwner} loggedInUserId={userId} />
         </>
     );
 }
