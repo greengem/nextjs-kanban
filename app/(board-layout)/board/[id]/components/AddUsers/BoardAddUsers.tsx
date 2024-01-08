@@ -14,9 +14,10 @@ interface BoardAddUsersProps {
     boardId: string;
     owner: UserSummary | null;
     members: UserSummary[];
+    isOwner: boolean;
 }
 
-export default function BoardAddUsers({ boardId, owner, members }: BoardAddUsersProps) {
+export default function BoardAddUsers({ boardId, owner, members, isOwner }: BoardAddUsersProps) {
     const [invitationLink, setInvitationLink] = useState('');
 
     const handleInvitationLinkChange = (newLink: string) => {
@@ -24,7 +25,7 @@ export default function BoardAddUsers({ boardId, owner, members }: BoardAddUsers
     };
 
     return (
-        <Popover placement="bottom" backdrop="blur">
+        <Popover placement="bottom">
             <PopoverTrigger>
                 <Button size="sm" isIconOnly>
                     <IconUser size={16} />
@@ -32,9 +33,11 @@ export default function BoardAddUsers({ boardId, owner, members }: BoardAddUsers
             </PopoverTrigger>
             <PopoverContent>
                 <div className="px-1 py-2 min-w-64">
-                    <h3 className='text-large font-semibold text-center mb-2'>Board Users</h3>
-                    <BoardAddUsersList owner={owner} members={members} boardId={boardId} />
-                    <BoardAddUsersForm boardId={boardId} onInvitationLinkChange={handleInvitationLinkChange} />
+                    <h3 className='text-large font-semibold text-center mb-2'>Manage Users</h3>
+                    <h4 className='font-semibold mb-1'>Current Users</h4>
+                    <BoardAddUsersList owner={owner} members={members} boardId={boardId} isOwner={isOwner} />
+                    <h4 className='font-semibold mb-1'>Add Users</h4>
+                    <BoardAddUsersForm boardId={boardId} onInvitationLinkChange={handleInvitationLinkChange} isOwner={isOwner} />
                     {invitationLink && (
                         <BoardAddUsersLink invitationLink={invitationLink} />
                     )}
