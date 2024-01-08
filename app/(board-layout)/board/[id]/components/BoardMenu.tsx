@@ -1,8 +1,8 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import { Button } from "@nextui-org/button";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownSection, DropdownItem} from "@nextui-org/dropdown";
-import { IconEdit, IconMenu2, IconTrash } from "@tabler/icons-react";
+import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem} from "@nextui-org/dropdown";
+import { IconMenu2, IconTrash } from "@tabler/icons-react";
 import toast from "react-hot-toast";
 import { handleDeleteBoard } from "@/actions/BoardServerActions";
 export default function BoardMenu({
