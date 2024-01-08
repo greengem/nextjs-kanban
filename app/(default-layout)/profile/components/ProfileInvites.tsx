@@ -1,11 +1,15 @@
 import { auth } from "@/auth";
 import prisma from '@/db/prisma';
-import { Button } from "@nextui-org/button";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { IconX } from "@tabler/icons-react";
+import { ProfileInviteActions } from "./ProfileInviteActions";
 
 export default async function ProfileInvites() {
     const session = await auth();
     const userId = session?.user?.id;
+
+    if (!userId) {
+      return <div>User is not authenticated or user ID is not available.</div>;
+    }
 
     const user = await prisma.user.findUnique({
         where: { id: userId },
@@ -37,12 +41,13 @@ export default async function ProfileInvites() {
           email: user.email
         },
         include: {
-          board: true
+          board: true,
+          inviter: true 
         }
       });
 
       return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div className="grid grid-cols-1">
             <div>
                 <h4 className="font-semibold">Sent Invitations</h4>
                 {sentInvitations.length > 0 ? (
@@ -50,7 +55,7 @@ export default async function ProfileInvites() {
                         {sentInvitations.map(invite => (
                             <li key={invite.id} className="flex gap-1 items-center border-b-1 last:border-b-0 border-zinc-300 py-1">
                                 <button><IconX className="text-danger" size={16} /></button>
-                                <p>Sent to: {invite.email} for Board: {invite.board.title}</p>
+                                <p>Sent to <strong className="font-semibold">{invite.email}</strong> for Board <strong className="font-semibold">{invite.board.title}</strong></p>
                             </li>
                         ))}
                     </ul>
@@ -58,19 +63,13 @@ export default async function ProfileInvites() {
                     <p>No sent invitations.</p>
                 )}
             </div>
-            
+
             <div>
                 <h4 className="font-semibold">Received Invitations</h4>
                 {receivedInvitations.length > 0 ? (
                     <ul>
                         {receivedInvitations.map(invite => (
-                            <li key={invite.id} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
-                                <p>From Board: {invite.board.title}</p>
-                                <div className="flex gap-2">
-                                    <Button size="sm"><IconCheck className="text-success" size={16} />Accept</Button>
-                                    <Button size="sm"><IconX className="text-danger" size={16} />Reject</Button>
-                                </div>
-                            </li>
+                          <ProfileInviteActions key={invite.id} invite={invite} userId={userId} />
                         ))}
                     </ul>
                 ) : (
