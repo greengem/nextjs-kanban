@@ -1,6 +1,7 @@
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import InvitationButtons from './components/InvitationButtons';
+import Link from 'next/link';
 
 export default async function AcceptInvitation({ searchParams }: { searchParams: { token?: string } }) {
     const session = await auth();
@@ -11,7 +12,7 @@ export default async function AcceptInvitation({ searchParams }: { searchParams:
     }
 
     if (!session || !session.user || !session.user.email) {
-        return <p>User not authenticated or email not available.</p>;
+        return <p><Link className='text-primary' href='/api/auth/signin'>Login or create an account</Link> to view this invitation.</p>;
     }
 
     try {

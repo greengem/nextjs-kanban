@@ -1,42 +1,17 @@
-'use client'
-import { Avatar } from "@nextui-org/avatar";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/dropdown";
-import { IconLogout, IconUser } from "@tabler/icons-react";
-import { signOut } from "next-auth/react";
-import { useRouter } from 'next/navigation'
+import { auth } from "@/auth";
+import NavbarAvatarClient from "./NavbarAvatar.client";
 
-export default function NavbarAvatar({ 
-    userName, userImage
-}: {
-    userName: string, userImage: string
-}) {
-    const router = useRouter()
+export default async function NavbarAvatar() {
+    const session = await auth();
 
-    const handleAction = async (action: 'profile' | 'signout') => {
-        if (action === 'profile') {
-            router.push('/profile');
-        } else if (action === 'signout') {
-            signOut({ callbackUrl: '/' });
-        }
+    if (!session) {
+        return null;
     }
 
+    const userName = session.user?.name ?? '';
+    const userImage = session.user?.image ?? '';
+
     return (
-        <Dropdown backdrop="blur">
-            <DropdownTrigger>
-                <Avatar 
-                    showFallback 
-                    isBordered 
-                    as="button"
-                    name={userName}
-                    src={userImage}
-                    size="sm" 
-                    className="cursor-pointer transition-transform dark" 
-                />
-            </DropdownTrigger>
-            <DropdownMenu aria-label="User Actions" onAction={(key) => handleAction(key as 'profile' | 'signout')}>
-                <DropdownItem key="profile" startContent={<IconUser size={18} />}>Profile</DropdownItem>
-                <DropdownItem key="signout" startContent={<IconLogout size={18} />}>Sign out</DropdownItem>
-            </DropdownMenu>
-        </Dropdown>
+        <NavbarAvatarClient userName={userName} userImage={userImage} />
     );
 }
