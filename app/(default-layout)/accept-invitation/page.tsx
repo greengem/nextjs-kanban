@@ -19,7 +19,6 @@ export default async function AcceptInvitation({ searchParams }: { searchParams:
         const foundInvitation = await prisma.invitation.findFirst({
             where: {
                 token: token,
-                status: 'pending',
                 email: session.user.email,
             },
             include: {
