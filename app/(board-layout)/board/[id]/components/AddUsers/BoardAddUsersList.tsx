@@ -5,14 +5,15 @@ import { BoardMemberSummary } from "@/types/types";
 import { handleRemoveUserFromBoard } from "@/actions/InvitationActions";
 import toast from 'react-hot-toast';
 
-interface BoardUserListProps {
-    boardMembers: BoardMemberSummary[];
+type UserSummary = BoardMemberSummary['user'];
+
+interface BoardAddUsersListProps {
+    owner: UserSummary | null;
+    members: UserSummary[];
     boardId: string;
 }
 
-export default function BoardAddUsersList({ boardMembers, boardId } : BoardUserListProps) {
-    const owner = boardMembers.find(member => member.role === 'owner')?.user;
-    const members = boardMembers.filter(member => member.role === 'member').map(member => member.user);
+export default function BoardAddUsersList({ owner, members, boardId }: BoardAddUsersListProps) {
 
     const handleRemoveUser = async (userId: string) => {
         if (!confirm("Are you sure you want to remove this user?")) return;
