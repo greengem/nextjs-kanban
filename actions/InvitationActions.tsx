@@ -1,6 +1,7 @@
 'use server';
 import prisma from '@/db/prisma';
 import crypto from 'crypto';
+import { revalidatePath } from 'next/cache';
 
 export async function handleSendBoardInvitation({ boardId, userEmail }: { boardId: string; userEmail: string }) {
   try {
@@ -101,7 +102,6 @@ export async function handleRejectInvitation({ token }: { token: string }) {
 
 export async function handleRemoveUserFromBoard({ boardId, userId }: { boardId: string; userId: string }) {
   try {
-    // Use composite key (userId and boardId) to delete the user from the board
     await prisma.boardMember.delete({
       where: {
         userId_boardId: {
@@ -110,6 +110,8 @@ export async function handleRemoveUserFromBoard({ boardId, userId }: { boardId: 
         },
       },
     });
+
+    revalidatePath(`/board/${boardId}`);
 
     return { success: true, message: 'User removed from board successfully.' };
   } catch (error) {
