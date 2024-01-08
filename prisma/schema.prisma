@@ -94,7 +94,7 @@ model BoardMember {
   boardId   String
   role      String       // e.g., 'member', 'admin'
   user      User         @relation(fields: [userId], references: [id])
-  board     Board        @relation(fields: [boardId], references: [id])
+  board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   createdAt DateTime     @default(now())
 
   @@id([userId, boardId])
