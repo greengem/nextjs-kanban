@@ -2,9 +2,8 @@ import { Suspense } from "react";
 import BoardMenu from "../components/BoardMenu";
 import BoardFavourite from "../components/BoardFavourite";
 import BoardTitle from "../components/BoardTitle";
-import BoardFilter from "./BoardFilter";
-import { getLabelsForBoard } from "@/lib/FetchData";
-import { LabelSummary, BoardSummary } from "@/types/types";
+import BoardFilterFetch from "./BoardFilter";
+import { BoardSummary } from "@/types/types";
 import BoardBackgroundImage from "./BoardBackgroundImage";
 import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
 import BoardUsers from "./BoardUsers";
@@ -15,7 +14,7 @@ export default async function BoardNavbar({
 } : {
     board: BoardSummary;
 }) {
-    const labels: LabelSummary[] = await getLabelsForBoard(board.id);
+    
 
     return (
         <div className="mb-5">
@@ -23,7 +22,9 @@ export default async function BoardNavbar({
                 <div className="flex gap-2 items-center">
                     <BoardTitle boardTitle={board.title} boardId={board.id} />
                     <BoardFavourite board={board} />
-                    <BoardFilter labels={labels} />
+                    <Suspense fallback={<IconLoader2 className="animate-spin" size={16} />}>
+                        <BoardFilterFetch boardId={board.id} />
+                    </Suspense>
                     <BoardBackgroundImageButton />
                 </div>
                 <div className="flex gap-2 items-center">
