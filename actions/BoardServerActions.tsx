@@ -96,26 +96,51 @@ export async function handleEditBoard(data: BoardEditData) {
 
 // Delete Board
 export async function handleDeleteBoard(boardId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: 'User is not authenticated' };
+  }
+
   if (!boardId) {
     return { success: false, message: 'Board ID is missing' };
   }
 
   try {
-    await prisma.boardMember.deleteMany({
-      where: { boardId: boardId },
-    });
+    await prisma.$transaction(async (prisma) => {
+      const owner = await prisma.boardMember.findFirst({
+        where: {
+          boardId: boardId,
+          userId: userId,
+          role: 'owner',
+        },
+      });
 
-    await prisma.board.delete({
-      where: { id: boardId },
+      if (!owner) {
+        throw new Error('Only board owners can delete the board');
+      }
+
+      await prisma.boardMember.deleteMany({
+        where: { boardId: boardId },
+      });
+
+      await prisma.board.delete({
+        where: { id: boardId },
+      });
     });
 
     revalidatePath(`/board/`);
 
-    return { success: true, message: `Deleted board` };
+    return { success: true, message: 'Deleted board' };
   } catch (e) {
-    return { success: false, message: 'Failed to delete board'};
+    const error = e as Error;
+    return { success: false, message: error.message || 'Failed to delete board' };
   }
 }
+
+
+
 
 
 
