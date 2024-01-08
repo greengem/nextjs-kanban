@@ -3,14 +3,13 @@ import { useRouter } from 'next/navigation';
 import { handleAcceptInvitation, handleRejectInvitation } from '@/actions/InvitationActions';
 import { Button } from '@nextui-org/button';
 import toast from 'react-hot-toast';
-import { redirect } from "next/navigation";
 
 export default function InvitationButtons({ token, userId, boardId } : { token: string; userId: string, boardId: string }) {
     const router = useRouter();
 
     const handleAccept = async () => {
         try {
-            const response = await handleAcceptInvitation({ token, userId: userId });
+            const response = await handleAcceptInvitation({ token, userId });
             if (response.success) {   
                 toast.success(response.message);
                 router.push(`/board/${boardId}`);
