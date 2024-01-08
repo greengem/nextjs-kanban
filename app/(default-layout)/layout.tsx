@@ -7,9 +7,9 @@ export default function RootLayout({
 }) {
   return (
     <DashboardLayout>
-      <div className="p-2 md:p-5">
+      <main className="p-3 md:p-5 grow bg-zinc-200">
         {children}
-      </div>
+      </main>
     </DashboardLayout>
   )
 }
