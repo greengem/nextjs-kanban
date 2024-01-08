@@ -12,16 +12,17 @@ export default async function CustomSignInPage() {
         redirect("/dashboard");
       } else {
         return (
-            <div className="flex justify-center items-center h-screen">
-                <Card className="max-w-lg w-96 shadow-xl bg-gray-200 border-3 border-primary" shadow="none">
+            <div className="flex justify-center items-center h-full">
+                <Card className="max-w-96 shadow-xl bg-white border-3 border-primary" shadow="none">
                     <CardHeader className="px-5 py-3 flex items-center">
-                      <IconLayoutKanban size={52} className="text-primary" />
-                      <h3 className="text-5xl tracking-tighter text-center w-full font-bold">Next Kanban</h3>  
+                      <IconLayoutKanban className="text-primary w-8 h-8 md:w-14 md:h-14" />
+                      <h3 className="text-3xl md:text-5xl tracking-tighter text-center w-full font-bold">Next Kanban</h3>  
                     </CardHeader>
                     <CardBody className="space-y-4 p-5 pt-0">
                         <p className="uppercase text-xs text-center text-primary">- OAuth- </p>
                         <SignInGithub />
                         <SignInGoogle />
+                        {/*
                         <Divider />
                         <p className="uppercase text-xs text-center text-primary">- Email- </p>
                         <form className="flex flex-col space-y-2">
@@ -31,6 +32,7 @@ export default async function CustomSignInPage() {
                                 <IconMail />Sign In With Email
                             </Button>
                         </form>
+                        */}
                     </CardBody>
                 </Card>
             </div>

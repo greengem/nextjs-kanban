@@ -10,7 +10,7 @@ const SignInGoogle = () => {
       type="button"
       variant="ghost"
     >
-      <IconBrandGoogle />Sign In With Google
+      <IconBrandGoogle size={20} />Sign In With Google
     </Button>
   );
 };
