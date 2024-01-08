@@ -4,11 +4,12 @@ import ProfileCards from "./components/ProfileCards";
 import ProfileActivity from "./components/ProfileActivity";
 import ProfileBoards from "./components/ProfileBoards";
 import ProfileActions from "./components/ProfileActions";
+import ProfileInvites from "./components/ProfileInvites";
 
 export default function ProfilePage() {
 
     return (
-        <main className="grow p-5 bg-zinc-200">
+        <>
             <Suspense fallback={<div>Loading User Data...</div>}>
                 <ProfileHeader />
             </Suspense>
@@ -33,8 +34,13 @@ export default function ProfilePage() {
                 </Suspense>
             </div>
 
-            
+            <h2 className="text-large font-semibold mb-3">Invites</h2>
+            <ul className="mb-10">
+                <Suspense fallback={<li className="border-b-1 last:border-b-0 border-zinc-300 py-1">Loading invites...</li>}>
+                    <ProfileInvites />
+                </Suspense>
+            </ul>
             <ProfileActions />
-        </main>
+        </>
     );
 }
