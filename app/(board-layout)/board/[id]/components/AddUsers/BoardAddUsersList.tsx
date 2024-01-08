@@ -11,9 +11,10 @@ interface BoardAddUsersListProps {
     owner: UserSummary | null;
     members: UserSummary[];
     boardId: string;
+    isOwner: boolean;
 }
 
-export default function BoardAddUsersList({ owner, members, boardId }: BoardAddUsersListProps) {
+export default function BoardAddUsersList({ owner, members, boardId, isOwner }: BoardAddUsersListProps) {
 
     const handleRemoveUser = async (userId: string) => {
         if (!confirm("Are you sure you want to remove this user?")) return;
@@ -34,7 +35,7 @@ export default function BoardAddUsersList({ owner, members, boardId }: BoardAddU
     return (
         <ul className='mb-5'>
             {owner && (
-                <li className='flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-1'>
+                <li className='flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-2'>
                     <Avatar className='shrink-0 grow-0' showFallback name={owner.name || ''}  src={owner.image || undefined}  />
                     <div className='grow'>
                         <p>{owner.name || ''}</p>
@@ -43,13 +44,17 @@ export default function BoardAddUsersList({ owner, members, boardId }: BoardAddU
                 </li>
             )}
             {members.map(member => (
-                <li key={member.id}  className='flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-1'>
+                <li key={member.id}  className='flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-2'>
                     <Avatar className='shrink-0 grow-0' showFallback name={member.name || ''}  src={member.image || undefined}  />
                     <div className='grow'>
                         <p>{member.name || ''}</p>
                         <p className='text-xs'>Member</p>
                     </div>
-                    <Button size='sm' isIconOnly onClick={() => handleRemoveUser(member.id)}><IconMinus size={16} /></Button>
+                    {isOwner && (
+                        <Button size='sm' isIconOnly onClick={() => handleRemoveUser(member.id)}>
+                            <IconMinus size={16} />
+                        </Button>
+                    )}
                 </li>
             ))}
         </ul>
