@@ -1,0 +1,66 @@
+'use client'
+import { Button } from "@nextui-org/button";
+import { IconCheck, IconX } from "@tabler/icons-react";
+import { handleRejectInvitation, handleAcceptInvitation } from "@/actions/InvitationActions";
+import toast from "react-hot-toast";
+import { useRouter } from 'next/navigation';
+
+interface Invitation {
+    id: string;
+    token: string;
+    board: {
+        title: string;
+        id: string;
+    };
+    inviter: {
+        name: string | null;
+        email: string | null;
+    };
+}
+
+  export function ProfileInviteActions({ invite, userId }: { invite: Invitation, userId: string }) {
+    const router = useRouter();
+
+    console.log(invite)
+
+    const handleAccept = async (token: string) => {
+        try {
+            const result = await handleAcceptInvitation({ token, userId });
+            if (result.success) {
+                toast.success(result.message);
+                router.push(`/board/${invite.board.id}`);
+            } else {
+                toast.error(result.message);
+            }
+        } catch (error) {
+            console.error('Failed to accept invitation:', error);
+        }
+    };
+  
+    const handleReject = async (token: string) => {
+        try {
+            const result = await handleRejectInvitation({ token });
+            if (result.success) {
+                toast.success(result.message);
+            } else {
+                toast.error(result.message);
+            }
+        } catch (error) {
+            console.error('Failed to reject invitation:', error);
+        }
+    };
+
+    return (
+        <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">
+            <p>Invited to Board <strong className="font-semibold">{invite.board.title}</strong> by <strong className="font-semibold">{invite.inviter.name ?? 'Unknown'}</strong> ({invite.inviter.email ?? 'No Email'})</p>
+            <div className="flex gap-2">
+                <Button size="sm" onClick={() => handleAccept(invite.token)}>
+                    <IconCheck className="text-success" size={16} />Accept
+                </Button>
+                <Button size="sm" onClick={() => handleReject(invite.token)}>
+                    <IconX className="text-danger" size={16} />Reject
+                </Button>
+            </div>
+        </li>
+    )
+}
