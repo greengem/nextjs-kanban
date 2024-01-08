@@ -50,6 +50,7 @@ model User {
   favoriteBoards FavoriteBoard[]
   memberBoards  BoardMember[]
   createdTasks    Task[]
+  sentInvitations Invitation[] @relation("UserToInvitation")
 }
 
 model VerificationToken {
@@ -79,20 +80,22 @@ model Invitation {
   boardId    String
   email      String
   token      String   @unique
-  status     String   // Possible values: 'pending', 'accepted', 'rejected'
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
   board      Board    @relation(fields: [boardId], references: [id])
+  inviterId  String
+  inviter    User     @relation(name: "UserToInvitation", fields: [inviterId], references: [id])
 
   @@unique([boardId, email])
 }
 
 
+
 model BoardMember {
   userId    String
   boardId   String
-  role      String       // e.g., 'member', 'admin'
+  role      String
   user      User         @relation(fields: [userId], references: [id])
   board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   createdAt DateTime     @default(now())
@@ -175,8 +178,8 @@ model Activity {
   type           ActivityType
   content        String?
   createdAt      DateTime      @default(now())
-  startDate      DateTime?     // Added field for start date
-  dueDate        DateTime?     // Added field for due date
+  startDate      DateTime?
+  dueDate        DateTime?
   userId         String
   user           User          @relation(fields: [userId], references: [id])
   taskId         String?
