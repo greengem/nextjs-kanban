@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { IconLayoutKanban, IconSparkles } from "@tabler/icons-react";
+import { IconBrandGithub, IconLayoutKanban, IconSparkles } from "@tabler/icons-react";
+import { Button } from "@nextui-org/react";
 export default function Home() {
   return (
     <main className="h-dvh">
@@ -24,8 +25,8 @@ export default function Home() {
       </div>
 
       <div className="flex items-center justify-center gap-2 text-center">
-        <Link href='/board' className="bg-primary w-32 py-2 rounded-md text-white font-semibold shadow-md">Get started</Link>
-        <Link href='/board' className="bg-zinc-200 w-32 py-2 rounded-md font-semibold shadow-md">Github</Link>
+        <Button as={Link} color="primary" href="/board">🚀 Get Started</Button>
+        <Button as={Link} href='https://github.com/greengem/nextjs-kanban'><IconBrandGithub size={16} />Github</Button>
       </div>
 
     </main>
