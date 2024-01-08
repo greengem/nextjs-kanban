@@ -32,12 +32,12 @@ export default async function AcceptInvitation({ searchParams }: { searchParams:
         }
 
         return (
-            <main className="grow p-5">
+            <>
                 <h1 className='text-3xl font-semibold'>Accept Invite Page</h1>
                 <p>Token result: {token}</p>
                 <p>Invited to join board: {foundInvitation.board.title}</p>
                 <InvitationButtons token={token} userId={session.user.id} boardId={foundInvitation.board.id} />
-            </main>
+            </>
         );
     } catch (error) {
         return <p>An error occurred while verifying the token.</p>;
