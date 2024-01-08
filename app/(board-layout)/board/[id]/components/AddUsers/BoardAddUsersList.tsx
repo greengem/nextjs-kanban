@@ -1,3 +1,5 @@
+'use client'
+import { useRouter } from 'next/navigation';
 import { Button } from "@nextui-org/button"
 import { Avatar } from "@nextui-org/avatar";
 import { IconMinus } from "@tabler/icons-react";
@@ -16,6 +18,7 @@ interface BoardAddUsersListProps {
 }
 
 export default function BoardAddUsersList({ owner, members, boardId, isOwner, loggedInUserId }: BoardAddUsersListProps) {
+    const router = useRouter();
 
     const handleRemoveUser = async (userId: string) => {
         if (!confirm("Are you sure you want to remove this user?")) return;
@@ -23,6 +26,7 @@ export default function BoardAddUsersList({ owner, members, boardId, isOwner, lo
         try {
             const response = await handleRemoveUserFromBoard({ boardId, userId });
             if (response.success) {
+                router.push('/board/');
                 toast.success('User removed successfully');
             } else {
                 toast.error(response.message || 'Unknown error');
