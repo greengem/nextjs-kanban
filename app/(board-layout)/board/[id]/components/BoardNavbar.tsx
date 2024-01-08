@@ -9,13 +9,7 @@ import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
 import BoardUsers from "./BoardUsers";
 import { IconLoader2 } from "@tabler/icons-react";
 
-export default async function BoardNavbar({
-    board
-} : {
-    board: BoardSummary;
-}) {
-    
-
+export default async function BoardNavbar({ board } : { board: BoardSummary }) {
     return (
         <div className="mb-5">
             <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2">
