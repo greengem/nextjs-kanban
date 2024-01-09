@@ -18,7 +18,16 @@ interface Invitation {
     };
 }
 
-  export function ProfileInviteActions({ invite, userId }: { invite: Invitation, userId: string }) {
+interface SentInvitation {
+    id: string;
+    token: string;
+    board: {
+        title: string;
+        id: string;
+    };
+}
+
+  export function ProfileInviteReceivedActions({ invite, userId }: { invite: Invitation, userId: string }) {
     const router = useRouter();
 
     console.log(invite)
@@ -38,15 +47,17 @@ interface Invitation {
     };
   
     const handleReject = async (token: string) => {
-        try {
-            const result = await handleRejectInvitation({ token });
-            if (result.success) {
-                toast.success(result.message);
-            } else {
-                toast.error(result.message);
+        if (window.confirm("Are you sure you want to reject this invitation?")) {
+            try {
+                const result = await handleRejectInvitation({ token });
+                if (result.success) {
+                    toast.success(result.message);
+                } else {
+                    toast.error(result.message);
+                }
+            } catch (error) {
+                console.error('Failed to reject invitation:', error);
             }
-        } catch (error) {
-            console.error('Failed to reject invitation:', error);
         }
     };
 
@@ -62,5 +73,31 @@ interface Invitation {
                 </Button>
             </div>
         </li>
+    )
+}
+
+
+export function ProfileInviteSentActions({ invite }: { invite: SentInvitation }) {
+    const handleCancelInvitation = async (token: string) => {
+        // Directly use window.confirm to decide whether to proceed
+        if (window.confirm("Are you sure you want to cancel this invitation?")) {
+            try {
+                const result = await handleRejectInvitation({ token });
+                if (result.success) {
+                    toast.success(result.message);
+                } else {
+                    toast.error(result.message);
+                }
+            } catch (error) {
+                console.error('Failed to cancel invitation:', error);
+                toast.error('Failed to cancel invitation.');
+            }
+        }
+    };
+
+    return (
+        <button onClick={() => handleCancelInvitation(invite.token)}>
+            <IconX className="text-danger" size={16} />
+        </button>
     )
 }

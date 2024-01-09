@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import prisma from '@/db/prisma';
-import { IconX } from "@tabler/icons-react";
-import { ProfileInviteActions } from "./ProfileInviteActions";
+
+import { ProfileInviteReceivedActions, ProfileInviteSentActions } from "./ProfileInviteActions";
 
 export default async function ProfileInvites() {
     const session = await auth();
@@ -54,7 +54,7 @@ export default async function ProfileInvites() {
                     <ul className="mb-2">
                         {sentInvitations.map(invite => (
                             <li key={invite.id} className="flex gap-1 items-center border-b-1 last:border-b-0 border-zinc-300 py-1">
-                                <button><IconX className="text-danger" size={16} /></button>
+                                <ProfileInviteSentActions invite={invite} />
                                 <p>Sent to <strong className="font-semibold">{invite.email}</strong> for Board <strong className="font-semibold">{invite.board.title}</strong></p>
                             </li>
                         ))}
@@ -69,7 +69,7 @@ export default async function ProfileInvites() {
                 {receivedInvitations.length > 0 ? (
                     <ul>
                         {receivedInvitations.map(invite => (
-                          <ProfileInviteActions key={invite.id} invite={invite} userId={userId} />
+                          <ProfileInviteReceivedActions key={invite.id} invite={invite} userId={userId} />
                         ))}
                     </ul>
                 ) : (
