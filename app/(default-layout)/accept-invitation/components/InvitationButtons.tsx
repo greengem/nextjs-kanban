@@ -37,9 +37,9 @@ export default function InvitationButtons({ token, userId, boardId } : { token: 
     };
 
     return (
-        <>
-            <Button onClick={handleAccept}>Accept</Button>
+        <div className='flex justify-center items-center gap-2 my-5'>
+            <Button color='primary' onClick={handleAccept}>Accept</Button>
             <Button onClick={handleReject}>Reject</Button>
-        </>
+        </div>
     );
 }
