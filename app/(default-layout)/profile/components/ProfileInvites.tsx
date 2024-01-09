@@ -55,7 +55,7 @@ export default async function ProfileInvites() {
                         {sentInvitations.map(invite => (
                             <li key={invite.id} className="flex gap-1 items-center border-b-1 last:border-b-0 border-zinc-300 py-1">
                                 <ProfileInviteSentActions invite={invite} />
-                                <p>Sent to <strong className="font-semibold">{invite.email}</strong> for Board <strong className="font-semibold">{invite.board.title}</strong></p>
+                                <p>Sent to <strong>{invite.email}</strong> for Board <strong>{invite.board.title}</strong></p>
                             </li>
                         ))}
                     </ul>
