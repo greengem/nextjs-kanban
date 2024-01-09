@@ -27,6 +27,7 @@ export default function InvitationButtons({ token, userId, boardId } : { token: 
             const response = await handleRejectInvitation({ token });
             if (response.success) {
                 toast.success(response.message);
+                router.push(`/board`);
             } else {
                 toast.error(response.message);
             }
