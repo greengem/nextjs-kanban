@@ -4,6 +4,7 @@ import { IconCheck, IconX } from "@tabler/icons-react";
 import { handleRejectInvitation, handleAcceptInvitation } from "@/actions/InvitationActions";
 import toast from "react-hot-toast";
 import { useRouter } from 'next/navigation';
+import Link from "next/link";
 
 interface Invitation {
     id: string;
@@ -63,7 +64,7 @@ interface SentInvitation {
 
     return (
         <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">
-            <p>Invited to Board <strong className="font-semibold">{invite.board.title}</strong> by <strong className="font-semibold">{invite.inviter.name ?? 'Unknown'}</strong> ({invite.inviter.email ?? 'No Email'})</p>
+            <p>Invited to Board <strong className="font-semibold">{invite.board.title}</strong> by <strong className="font-semibold">{invite.inviter.name ?? 'Unknown'}</strong> ({invite.inviter.email ?? 'No Email'}) - <Link className="text-primary" href={`/accept-invitation/?token=${invite.token}`}>View</Link></p>
             <div className="flex gap-2">
                 <Button size="sm" onClick={() => handleAccept(invite.token)}>
                     <IconCheck className="text-success" size={16} />Accept
