@@ -58,7 +58,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
             <TaskDetailItemHeading title="Activity" icon={<IconActivity size={32} />} />
 
             <TaskDetailItemContent>
-                <div className="flex items-start mb-5">
+                <div className="flex items-start mb-5 mt-4">
                     <div className="w-[40px]">
                         <Avatar 
                             showFallback 
