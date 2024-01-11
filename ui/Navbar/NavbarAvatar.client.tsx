@@ -21,7 +21,7 @@ export default function NavbarAvatarClient({
     }
 
     return (
-        <Dropdown backdrop="blur">
+        <Dropdown>
             <DropdownTrigger>
                 <Avatar 
                     showFallback 
