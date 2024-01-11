@@ -41,7 +41,7 @@ export default function AddChecklist({
 
     return (
         <li className='flex items-center gap-2'>
-            <Popover placement="bottom-start" triggerScaleOnOpen={false} backdrop='blur' isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
+            <Popover placement="bottom-start" triggerScaleOnOpen={false} isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
                 <PopoverTrigger>
                     <button className="px-2 py-2 bg-zinc-200 hover:bg-zinc-300 rounded-md flex w-full items-center gap-2"><IconCheckbox size={14} /> Checklist</button>
                 </PopoverTrigger>
