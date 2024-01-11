@@ -12,7 +12,7 @@ export default function TaskModal({ children } : { children: React.ReactNode }) 
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} size="4xl" scrollBehavior='outside' backdrop='blur'>
+    <Modal isOpen={isOpen} onClose={handleClose} size="4xl" scrollBehavior='outside'>
       <ModalContent>
         <ModalBody className='p-0 gap-0'>
           {children}
