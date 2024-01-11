@@ -54,7 +54,7 @@ export default function ColourPicker() {
                     <div className='opacity-0'>
                         <IconArrowLeft size={20} />
                     </div>
-                    <h4 className="text-center font-semibold">Colour Theme</h4>
+                    <h4 className="text-center font-semibold">Accent Colour</h4>
                     <button onClick={closePopover}><IconX size={20} /></button>
                 </div>
                     <ul className="grid grid-cols-5 gap-3">
