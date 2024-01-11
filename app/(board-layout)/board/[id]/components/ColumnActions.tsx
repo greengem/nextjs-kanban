@@ -86,7 +86,7 @@ export default function ColumnActions({
           ) : (
               <>
                   <h3 className="text-large">{columnTitle}</h3>
-                  <Dropdown backdrop='blur'>
+                  <Dropdown>
                       <DropdownTrigger>
                           <button className="bg-zinc-200 p-1 rounded-md"><IconMenu2 size={18} /></button>
                       </DropdownTrigger>
