@@ -85,7 +85,7 @@ model Invitation {
 
   board      Board    @relation(fields: [boardId], references: [id])
   inviterId  String
-  inviter    User     @relation(name: "UserToInvitation", fields: [inviterId], references: [id])
+  inviter    User @relation(name: "UserToInvitation", fields: [inviterId], references: [id], onDelete: Cascade)
 
   @@unique([boardId, email])
 }
@@ -96,7 +96,7 @@ model BoardMember {
   userId    String
   boardId   String
   role      String
-  user      User         @relation(fields: [userId], references: [id])
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
   board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   createdAt DateTime     @default(now())
 
@@ -133,13 +133,13 @@ model Task {
   updatedAt   DateTime     @updatedAt
   activities  Activity[]
   createdByUserId String
-  createdBy       User     @relation(fields: [createdByUserId], references: [id])
+  createdBy       User @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
 }
 
 model FavoriteBoard {
   userId  String
   boardId String
-  user    User    @relation(fields: [userId], references: [id])
+  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
   board   Board   @relation(fields: [boardId], references: [id])
   @@id([userId, boardId])
 }
@@ -150,7 +150,7 @@ model Label {
   color     String
   isDefault Boolean @default(false)
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   boardId   String
   board     Board   @relation(fields: [boardId], references: [id], onDelete: Cascade)
   tasks     Task[]
@@ -181,7 +181,7 @@ model Activity {
   startDate      DateTime?
   dueDate        DateTime?
   userId         String
-  user           User          @relation(fields: [userId], references: [id])
+  user           User @relation(fields: [userId], references: [id], onDelete: Cascade)
   taskId         String?
   task           Task?         @relation(fields: [taskId], references: [id], onDelete: Cascade)
   boardId        String?
