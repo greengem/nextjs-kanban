@@ -25,7 +25,7 @@ export default function BoardMenu({
     }
 
     return (
-        <Dropdown backdrop='blur'>
+        <Dropdown>
             <DropdownTrigger>
                 <Button size="sm" isIconOnly><IconMenu2 size={20} /></Button>
             </DropdownTrigger>
