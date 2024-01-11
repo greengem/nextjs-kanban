@@ -48,7 +48,6 @@ export default function BoardFilter({
         <Popover 
             placement="bottom" 
             showArrow 
-            backdrop="blur" 
             isOpen={popoverOpen}
             onOpenChange={setPopoverOpen}
         >
