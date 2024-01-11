@@ -33,14 +33,17 @@ export default function BoardAddUsers({ boardId, owner, members, isOwner, logged
                 </Button>
             </PopoverTrigger>
             <PopoverContent>
-                <div className="px-1 py-2 min-w-64">
+                <div className="px-1 py-2 w-64">
                     <h3 className='text-large font-semibold text-center mb-2'>Manage Users</h3>
                     <h4 className='font-semibold mb-1'>Current Users</h4>
                     <BoardAddUsersList owner={owner} members={members} boardId={boardId} isOwner={isOwner} loggedInUserId={loggedInUserId} />
                     <h4 className='font-semibold mb-1'>Add Users</h4>
                     <BoardAddUsersForm boardId={boardId} onInvitationLinkChange={handleInvitationLinkChange} isOwner={isOwner} />
                     {invitationLink && (
-                        <BoardAddUsersLink invitationLink={invitationLink} />
+                        <>
+                            <BoardAddUsersLink invitationLink={invitationLink} />
+                            <p className='mt-1 text-xs text-red-500'>Note: emails are not currently sending, please share this link with the recipient.</p>
+                        </>
                     )}
                 </div>
             </PopoverContent>
