@@ -42,6 +42,8 @@ export async function handleSendBoardInvitation({ boardId, userEmail }: { boardI
     const baseUrl = process.env.NEXTAUTH_URL;
     const invitationLink = `${baseUrl}/accept-invitation?token=${token}`;
 
+    revalidatePath(`/profile/`);
+
     return { success: true, message: 'Invitation created', invitationLink };
   } catch (error) {
     console.error('Failed to create invitation:', error);
@@ -78,6 +80,8 @@ export async function handleAcceptInvitation({ token, userId }: { token: string;
 
     // Delete the invitation record
     await prisma.invitation.delete({ where: { id: invitation.id } });
+
+    revalidatePath(`/profile/`);
 
     return { success: true, message: 'Invitation accepted successfully.' };
   } catch (error) {
