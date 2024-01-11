@@ -131,10 +131,10 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
 
   return (
     <div
-      className={`flex flex-col grow backdrop-blur-sm py-5 bg-cover bg-center bg-gradient-to-tl from-zinc-100 to-primary`}
+      className={`flex flex-col grow`}
       style={backgroundStyle}
     >
-      <div className="flex-none ml-5 mb-5">
+      <div className="flex-none mb-3 md:mb-5">
               <Button
                 as={Link}
                 className="inline-flex"
@@ -146,10 +146,10 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
         </Button>
         </div>
 
-      <Card className="mx-5">
+      <Card>
         <CardBody className="bg-white">
           <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
-          <div className="grid grid-cols-1 md:grid-cols-4 p-5">
+          <div className="grid grid-cols-1 md:grid-cols-4 p-3 md:p-5 gap-x-5">
             <TaskDetailView task={task} />
             <TaskDetailSidebar task={task} />
           </div>
