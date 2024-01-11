@@ -45,3 +45,26 @@ export async function handleFavoriteBoard(boardId: string) {
         return { success: false, message: 'An error occurred', status: 500 };
     }
 }
+
+
+export async function handleDeleteAccount() {
+    try {
+        const session = await auth();
+        const userId = session?.user?.id;
+
+        if (!userId) {
+            return { success: false, message: 'Authentication required', status: 401 };
+        }
+
+        await prisma.$transaction(async (prisma) => {
+            await prisma.user.delete({
+                where: { id: userId },
+            });
+        });
+
+        return { success: true, message: 'Account and all data successfully deleted', status: 200 };
+    } catch (error) {
+        console.error('Failed to delete user:', error);
+        return { success: false, message: 'Error deleting account. Please try again later', status: 500 };
+    }
+}
