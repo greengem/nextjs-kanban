@@ -18,7 +18,7 @@ export function CardHeaderGrab({
     return (
         <div 
             {...dragHandleProps}
-            className='py-1 text-primary bg-zinc-100 cursor-grab flex justify-center items-center rounded-t-xl'
+            className='py-1 text-primary bg-white cursor-grab flex justify-center items-center rounded-t-xl'
         >
             <IconGripHorizontal size={30} />
         </div>
