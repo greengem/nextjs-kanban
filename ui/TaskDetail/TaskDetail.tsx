@@ -131,7 +131,7 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
 
   return (
     <div
-      className={`flex flex-col grow`}
+      className={`p-3 md:p-5 flex flex-col grow`}
       style={backgroundStyle}
     >
       <div className="flex-none mb-3 md:mb-5">

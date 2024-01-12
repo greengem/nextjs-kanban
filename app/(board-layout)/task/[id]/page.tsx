@@ -5,5 +5,9 @@ interface BoardProps {
 }
 
 export default async function Task({ params }: BoardProps) {
-  return (<TaskDetail taskId={params.id} />);
+  return (
+    <main className="flex flex-col grow bg-zinc-200">
+      <TaskDetail taskId={params.id} />
+    </main>
+    );
 }
