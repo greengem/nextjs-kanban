@@ -9,6 +9,11 @@ interface TaskDetailDatesProps {
 }
 
 export default function TaskDetailDates({ startDate, dueDate }: TaskDetailDatesProps) {
+
+    if (!startDate && !dueDate) {
+        return null;
+    }
+
     function formatDateDisplay(startDate: Date | null, dueDate: Date | null): string {
         if (!startDate && !dueDate) return '';
     
