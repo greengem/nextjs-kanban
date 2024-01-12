@@ -20,7 +20,7 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
 
 export function Menu({ children }: { children: React.ReactNode }) {
     return (
-        <ul className="menu">{children}</ul>
+        <ul className="menu h-full relative">{children}</ul>
     );
 }
 
@@ -43,17 +43,28 @@ export function SubMenu({ children, icon = null, title, defaultOpen = false }: {
     );
 }
 
-export function MenuItem({ path, icon = null, title }: { path: string, icon?: React.ReactNode, title: string }) {
+interface MenuItemProps {
+    path: string;
+    icon?: React.ReactNode;
+    title: string;
+    className?: string;
+}
+
+export function MenuItem({ path, icon, title, className = "" }: MenuItemProps) {
     const { toggleDrawer } = useSidebar();
 
     const handleClick = () => {
         toggleDrawer();
     };
 
+    // Combine the provided className with the default classes
+    const combinedClassName = `flex h-12 items-center px-5 hover:bg-primary hover:text-white ${className}`;
+
     return (
-        <li className="menu-item border-b-1 border-zinc-00">
-            <Link href={path} className="flex h-12 items-center px-5 hover:bg-primary hover:text-white" onClick={handleClick}>
-                <div className='w-8 shrink-0'>{icon && <span>{icon}</span>}</div><span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
+        <li className="menu-item border-b-1 border-zinc-200">
+            <Link href={path} className={combinedClassName} onClick={handleClick}>
+                <div className='w-8 shrink-0'>{icon && <span>{icon}</span>}</div>
+                <span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
             </Link>
         </li>
     );
