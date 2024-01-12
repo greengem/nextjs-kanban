@@ -13,16 +13,13 @@ export default function ColumnActions({
 } : {
     columnId: string; boardId: string; columnTitle: string;
 }) {
-	const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(columnTitle);
 
-  const handleAction = async (action: 'edit' | 'delete-column' | 'delete-tasks') => {
-    // Open edit view
-    if (action === 'edit') {
-      setIsEditing(true);
+  const handleAction = async (action: 'delete-column' | 'delete-tasks') => {
 
     // Delete column and tasks within
-    } else if (action === 'delete-column' && window.confirm('Are you sure you want to delete this column?')) {
+    if (action === 'delete-column' && window.confirm('Are you sure you want to delete this column?')) {
         const response = await handleDeleteColumn({ id: columnId, boardId });
         if (response.success) {
           toast.success(response.message);
@@ -43,55 +40,54 @@ export default function ColumnActions({
 
   const handleSave = async () => {
     const editData = {
-      columnId: columnId,
-      title: editedTitle,
-      boardId: boardId
+        columnId: columnId,
+        title: editedTitle,
+        boardId: boardId
     };
 
     const response = await handleEditColumn(editData);
     
     if (response.success) {
-      toast.success(response.message);
+        toast.success(response.message);
+        setIsEditing(false);
     } else {
-      toast.error(response.message);
+        toast.error(response.message);
     }
-    
-    setIsEditing(false);
-  };
-  
+};
 
+  
   const handleCancel = () => {
-    setEditedTitle(columnTitle);
     setIsEditing(false);
-  };
+    setEditedTitle(columnTitle);
+};
 
   return(
   <>
-          {isEditing ? (
-              <div className="flex-col w-full">
-                  <Input 
-                      labelPlacement="outside"
-                      value={editedTitle}
-                      onChange={(e) => setEditedTitle(e.target.value)}
-                      className="pl-0 mb-2"
-                      autoFocus
-                  />
-                  <div className="flex gap-2">
-                    <ButtonGroup size="sm">
-                      <Button onClick={handleSave}>Save</Button>
-                      <Button color="danger" onClick={handleCancel} isIconOnly><IconX size={20} /></Button>
-                    </ButtonGroup>
-                  </div>
-              </div>
-          ) : (
+            {isEditing ? (
+                <div className="flex-col w-full">
+                    <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
+                        <Input 
+                            label="Column Title"
+                            placeholder="Enter a column name"
+                            value={editedTitle}
+                            onChange={(e) => setEditedTitle(e.target.value)}
+                            className="pl-0 mb-2"
+                            autoFocus
+                        />
+                        <div className="flex gap-2">
+                            <Button size="sm" color="primary" type="submit">Save</Button>
+                            <Button size="sm" onClick={handleCancel} isIconOnly><IconX size={20} /></Button>
+                        </div>
+                    </form>
+                </div>
+            ) : (
               <>
-                  <h3 className="text-large">{columnTitle}</h3>
+                  <h3 className="text-large" onClick={() => setIsEditing(true)}>{columnTitle}</h3>
                   <Dropdown>
                       <DropdownTrigger>
                           <button className="bg-zinc-200 p-1 rounded-md"><IconMenu2 size={18} /></button>
                       </DropdownTrigger>
-                      <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'edit' | 'delete-column' | 'delete-tasks')}>
-                          <DropdownItem key="edit" startContent={<IconEdit size={18} />}>Edit Name</DropdownItem>
+                      <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'delete-column' | 'delete-tasks')}>
                           <DropdownItem key="delete-tasks" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete all tasks in this column</DropdownItem>
                           <DropdownItem key="delete-column" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete Column</DropdownItem>
                       </DropdownMenu>
