@@ -126,12 +126,10 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
     <div className='p-3 md:p-5 flex flex-col grow relative'>
       {task.column.board.backgroundUrl && (
         <Image 
-          className='z-0'
+          className='object-cover object-center z-0'
           src={task.column.board.backgroundUrl} 
           alt='Board Wallpaper' 
-          layout='fill'
-          objectFit='cover'
-          objectPosition='center'
+          fill
         />
       )}
 
