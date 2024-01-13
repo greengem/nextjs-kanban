@@ -24,9 +24,10 @@ export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 
 export type ChecklistItemSummary = Pick<ChecklistItem, 'id' | 'content' | 'isChecked' | 'createdAt'>;
 
 export type ChecklistSummary = Pick<Checklist, 'id'> & {
-    title?: string;
+    title: string | null;
     items: ChecklistItemSummary[];
 };
+
 
 export type ExpandedTask = Pick<Task, 'id' | 'order' | 'title' | 'description' | 'dueDate' | 'startDate' | 'createdAt' | 'updatedAt' | 'columnId'> & {
     activities: ActivityWithUser[];
