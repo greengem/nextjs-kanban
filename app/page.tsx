@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { IconBrandGithub, IconLayoutKanban, IconSparkles } from "@tabler/icons-react";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 export default function Home() {
   return (
     <main className="h-dvh">
