@@ -12,7 +12,7 @@ export default async function FetchBoards() {
             {boards.map((board) => (
                 <Link key={board.id} href={`/board/${board.id}`}>
                     <div className="h-32 flex flex-col justify-end relative rounded-xl shadow-lg bg-white hover:bg-zinc-100 relative overflow-hidden">
-                        <div className="absolute top-0 bottom-0 left-0 right-0 bg-white/50 z-10"></div>
+                        <div className="absolute top-0 bottom-0 left-0 right-0 bg-white/40 backdrop-blur-md z-10"></div>
                         {board.backgroundUrl && (
                             <Image 
                                 className='object-cover object-center z-0'
@@ -24,7 +24,7 @@ export default async function FetchBoards() {
 
                         {board.isFavorited && (
                             <span className="absolute text-xs top-2 left-2 text-primary bg-white p-1 rounded-md z-20">
-                                <IconStarFilled size={16} />
+                                <IconStarFilled size={14} />
                             </span>
                         )}
 
