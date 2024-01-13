@@ -8,7 +8,6 @@ import TaskDetailLabels from "./Labels/TaskDetailLabels";
 
 export default async function TaskDetailView({ task } : { task: ExpandedTask }) {
     const session = await auth();
-    console.log(task.labels);
 
     return (
         <div className='col-span-3'>

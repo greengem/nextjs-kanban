@@ -31,8 +31,6 @@ interface SentInvitation {
   export function ProfileInviteReceivedActions({ invite, userId }: { invite: Invitation, userId: string }) {
     const router = useRouter();
 
-    console.log(invite)
-
     const handleAccept = async (token: string) => {
         try {
             const result = await handleAcceptInvitation({ token, userId });
