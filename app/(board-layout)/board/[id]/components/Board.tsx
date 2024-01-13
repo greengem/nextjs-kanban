@@ -101,6 +101,7 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
   }, [initialBoard]);
   
   return (
+    <div className='z-10 flex flex-col grow'>
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
           {(provided) => (
@@ -181,5 +182,6 @@ export default function Board({ board: initialBoard, session }: BoardProps) {
           )}
         </Droppable>
       </DragDropContext>
+    </div>
   );
 }
