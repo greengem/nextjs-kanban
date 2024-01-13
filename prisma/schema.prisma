@@ -158,7 +158,7 @@ model Label {
 
 model Checklist {
   id        String           @id @default(cuid())
-  title     String
+  title     String?
   taskId    String
   task      Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
   items     ChecklistItem[]
