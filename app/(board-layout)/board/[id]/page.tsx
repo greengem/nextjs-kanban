@@ -100,14 +100,12 @@ export default async function BoardPage({
   return (
     <main className="flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-200 relative">
       {board.backgroundUrl && (
-        <Image 
-          className='z-0'
+          <Image 
+          className='object-cover object-center z-0'
           src={board.backgroundUrl} 
           alt='Board Wallpaper' 
-          layout='fill'
-          objectFit='cover'
-          objectPosition='center'
-        />
+          fill
+      />
       )}
       <BoardNavbar board={boardDetails} />
       <Board board={boardDetails} session={session} />
