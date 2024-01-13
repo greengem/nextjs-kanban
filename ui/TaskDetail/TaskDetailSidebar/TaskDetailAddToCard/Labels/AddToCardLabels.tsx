@@ -211,7 +211,7 @@ export default function AddToCardLabels({ labels, task, boardId }: { labels: Lab
     };
 
     return (
-        <li className='bg-zinc-200 hover:bg-zinc-300 rounded-md'>
+        <li className='bg-zinc-200 hover:bg-zinc-300 rounded-md ring-2 ring-primary'>
             <Popover isOpen={isPopoverOpen} onOpenChange={setIsPopoverOpen} placement="left-start" triggerScaleOnOpen={false}>
                 <PopoverTrigger>
                     <button className='flex items-center gap-2 px-2 py-2 w-full'><IconTag size={14} /> Labels</button>

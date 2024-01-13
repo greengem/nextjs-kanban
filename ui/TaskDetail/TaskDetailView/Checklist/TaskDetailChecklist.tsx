@@ -169,15 +169,14 @@ export default function TaskDetailChecklist({
                             <div>
                                 <Input 
                                     labelPlacement="outside" 
-                                    placeholder="Add an item" 
-                                    size="sm" 
+                                    placeholder="Add an item..." 
                                     className="w-full mb-2" 
                                     autoFocus 
                                     value={newItemContent}
                                     onChange={(e) => setNewItemContent(e.target.value)}
                                 />
                                 <div className="flex gap-2">
-                                    <Button size="sm" color="primary" onClick={() => handleAddItem(checklist.id)}>Add</Button>
+                                    <Button size="sm" color="primary" onClick={() => handleAddItem(checklist.id)}>Add Item</Button>
                                     <Button size="sm" onClick={() => toggleInput(checklist.id)}>Cancel</Button>
                                 </div>
                             </div>
