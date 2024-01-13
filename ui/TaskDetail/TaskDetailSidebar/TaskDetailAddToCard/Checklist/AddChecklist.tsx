@@ -17,12 +17,22 @@ export default function AddChecklist({
 } : {
     taskId: string, boardId: string;
 }) {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
+        defaultValues: {
+            title: ''
+        }
+    });
+
     const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
     const onSubmit: SubmitHandler<FormValues> = async (data) => {
         try {
-            const response = await handleCreateChecklist({ title: data.title, taskId, boardId });
+            const response = await handleCreateChecklist({ 
+                title: data.title || undefined,
+                taskId, 
+                boardId 
+            });
+
             if (response.success) {
                 toast.success('Checklist Created');
                 closePopover();
@@ -36,7 +46,7 @@ export default function AddChecklist({
 
     const closePopover = () => {
         setIsPopoverOpen(false);
-        reset(); // Reset the form fields
+        reset();
     };
 
     return (
@@ -48,12 +58,11 @@ export default function AddChecklist({
                 <PopoverContent className='w-64'>
                     <form onSubmit={handleSubmit(onSubmit)} className="px-1 py-2 w-full space-y-3">
                         <Input 
-                            labelPlacement="outside" 
-                            placeholder="Checklist title"
-                            {...register('title', { required: 'Please provide a title.' })}
-                            isInvalid={!!errors.title}
-                            errorMessage={errors.title?.message}
+                            label="Checklist title (Optional)"
+                            placeholder="Checklist"
+                            {...register('title')}
                         />
+
                         <div className="flex gap-2">
                             <Button size="sm" color="primary" className="flex items-center" type="submit"><IconPlus size={16} />Create Checklist</Button>
                             <Button size="sm" onClick={closePopover}><IconX size={16} className="flex items-center" />Cancel</Button>
