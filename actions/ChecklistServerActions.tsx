@@ -23,12 +23,9 @@ export async function handleDeleteChecklist({ checklistId, boardId }: { checklis
 }
 
 
-export async function handleCreateChecklist({ title, taskId, boardId }: { title: string, taskId: string, boardId: string }) {
+export async function handleCreateChecklist({ title, taskId, boardId }: { title?: string, taskId: string, boardId: string }) {
     if (!taskId) {
         return { success: false, message: 'Task ID is missing' };
-    }
-    if (!title) {
-        return { success: false, message: 'Title is missing' };
     }
 
     try {
@@ -43,9 +40,11 @@ export async function handleCreateChecklist({ title, taskId, boardId }: { title:
 
         return { success: true, message: 'Created checklist' };
     } catch (e) {
+        console.error(e);
         return { success: false, message: 'Failed to create checklist' };
     }
 }
+
 
 export async function handleCreateChecklistItem({ content, checklistId, boardId }: { content: string, checklistId: string, boardId: string }) {
     if (!checklistId) {
