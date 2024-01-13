@@ -1,10 +1,35 @@
 'use client'
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { useSidebar } from "@/contexts/SidebarContext";
 import Link from "next/link";
-import { IconChevronDown } from "@tabler/icons-react";
+import { IconChevronRight } from "@tabler/icons-react";
+import { motion } from 'framer-motion';
 
-export function Sidebar({ children }: { children: React.ReactNode }) {
+interface SidebarProps {
+    children: ReactNode;
+}
+
+interface MenuProps {
+    children: ReactNode;
+}
+
+interface SubMenuProps {
+    children: ReactNode;
+    icon?: ReactNode;
+    title: string;
+    defaultOpen?: boolean;
+}
+
+interface MenuItemProps {
+    path: string;
+    icon?: React.ReactNode;
+    title: string;
+    className?: string;
+}
+
+
+// Sidebar Parent
+export function Sidebar({ children }: SidebarProps) {
     const { isOpen } = useSidebar();
 
     const sidebarClasses = isOpen 
@@ -18,24 +43,41 @@ export function Sidebar({ children }: { children: React.ReactNode }) {
     );
 }
 
-export function Menu({ children }: { children: React.ReactNode }) {
+
+// Sidebar Menu, there can be multiple menus in a sidebar
+export function Menu({ children }: MenuProps) {
     return (
         <ul className="menu h-full relative">{children}</ul>
     );
 }
 
-export function SubMenu({ children, icon = null, title, defaultOpen = false }: { children: React.ReactNode, icon?: React.ReactNode, title: string, defaultOpen?: boolean }) {
+
+// Sidebar Submenu dropdown.
+export function SubMenu({ children, icon, title, defaultOpen = false }: SubMenuProps) {
     const [isOpen, setIsOpen] = useState(defaultOpen);
+
+    const toggleOpen = () => setIsOpen(!isOpen);
 
     return (
         <li className="sub-menu">
-            <div className="flex items-center justify-between px-5 h-12 cursor-pointer border-b-1 border-zinc-200" onClick={() => setIsOpen(!isOpen)}>
+            <div className="flex items-center justify-between pl-5 h-12 cursor-pointer border-b-1 border-zinc-200">
                 <div className="flex items-center">
                     <div className='w-8'>{icon && <span>{icon}</span>}</div>
                     <span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
                 </div>
-                <button className="shrink-0">
-                    <IconChevronDown size={18} />
+                <button onClick={toggleOpen} className="shrink-0 p-3">
+                    <motion.div
+                        initial={{ rotate: defaultOpen ? 90 : 0 }}
+                        animate={{ rotate: isOpen ? 90 : 0 }}
+                        transition={{ 
+                            duration: 0.2,
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 20
+                        }}
+                    >
+                        <IconChevronRight size={18} />
+                    </motion.div>
                 </button>
             </div>
             {isOpen && <ul>{children}</ul>}
@@ -43,13 +85,8 @@ export function SubMenu({ children, icon = null, title, defaultOpen = false }: {
     );
 }
 
-interface MenuItemProps {
-    path: string;
-    icon?: React.ReactNode;
-    title: string;
-    className?: string;
-}
 
+// Menu Items
 export function MenuItem({ path, icon, title, className = "" }: MenuItemProps) {
     const { toggleDrawer } = useSidebar();
 
@@ -57,7 +94,6 @@ export function MenuItem({ path, icon, title, className = "" }: MenuItemProps) {
         toggleDrawer();
     };
 
-    // Combine the provided className with the default classes
     const combinedClassName = `flex h-12 items-center px-5 hover:bg-primary hover:text-white ${className}`;
 
     return (
