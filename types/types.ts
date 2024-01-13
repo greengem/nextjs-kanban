@@ -23,7 +23,8 @@ export type TaskSummary = Pick<Task, 'id' | 'order' | 'title' | 'description' | 
 
 export type ChecklistItemSummary = Pick<ChecklistItem, 'id' | 'content' | 'isChecked' | 'createdAt'>;
 
-export type ChecklistSummary = Pick<Checklist, 'id' | 'title'> & {
+export type ChecklistSummary = Pick<Checklist, 'id'> & {
+    title?: string;
     items: ChecklistItemSummary[];
 };
 
