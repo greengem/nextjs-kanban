@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { BoardDetails, ColumnWithTasks, LabelSummary } from "@/types/types";
 import Board from "./components/Board";
 import BoardNavbar from "./components/BoardNavbar";
+import Image from 'next/image';
 
 export default async function BoardPage({
   params,
@@ -96,10 +97,18 @@ export default async function BoardPage({
     uniqueLabels
   };
 
-  const backgroundStyle = { backgroundImage: board.backgroundUrl ? `url(${board.backgroundUrl})` : 'none' };
-
   return (
-    <main className="flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-200" style={backgroundStyle}>
+    <main className="flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-200 relative">
+      {board.backgroundUrl && (
+        <Image 
+          className='z-0'
+          src={board.backgroundUrl} 
+          alt='Board Wallpaper' 
+          layout='fill'
+          objectFit='cover'
+          objectPosition='center'
+        />
+      )}
       <BoardNavbar board={boardDetails} />
       <Board board={boardDetails} session={session} />
     </main>
