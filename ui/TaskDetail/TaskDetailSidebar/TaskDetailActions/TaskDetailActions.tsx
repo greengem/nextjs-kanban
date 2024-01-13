@@ -7,7 +7,7 @@ export default function TaskDetailActions({
 }) {
     return (
         <>
-          <h4 className='text-sm text-zinc-500'>Actions</h4>
+          <h4 className='text-sm text-zinc-700 font-semibold mb-1'>Actions</h4>
           <ul className='text-sm space-y-2'>
             <li className='px-2 py-2 rounded-md bg-danger text-white'>
               <DeleteTaskForm 

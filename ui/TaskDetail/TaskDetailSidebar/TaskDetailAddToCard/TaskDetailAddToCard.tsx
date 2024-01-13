@@ -8,8 +8,8 @@ export default async function TaskDetailAddToCard({ task } : { task: ExpandedTas
     const labels = await getLabelsForBoard(task?.column.boardId);
 
     return (
-        <>
-            <h4 className='text-sm text-zinc-500'>Add to card</h4>
+        <div className='mb-5'>
+            <h4 className='text-sm text-zinc-700 font-semibold mb-1'>Add to card</h4>
             <ul className='text-sm space-y-2'>
                 {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconUser size={14} /> Members</li>*/}
                 <AddToCardLabels labels={labels} task={task} boardId={task.column.boardId} />
@@ -21,6 +21,6 @@ export default async function TaskDetailAddToCard({ task } : { task: ExpandedTas
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconPaint size={14} /> Cover</li>
                 */}
             </ul>
-        </>
+        </div>
     )
 }

@@ -9,7 +9,7 @@ export default function TaskDetailSidebar({
 }) {
 
   return (
-    <div className='col-span-1 space-y-2'>
+    <div className='col-span-1'>
         <TaskDetailAddToCard task={task} />
         <TaskDetailActions selectedTask={task} boardId={task.column.boardId} />
     </div>
