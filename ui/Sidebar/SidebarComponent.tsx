@@ -60,12 +60,12 @@ export function SubMenu({ children, icon, title, defaultOpen = false }: SubMenuP
 
     return (
         <li className="sub-menu">
-            <div className="flex items-center justify-between pl-5 h-12 cursor-pointer border-b-1 border-zinc-200">
+            <div className="flex items-center justify-between pl-5 h-12 cursor-pointer" onClick={toggleOpen}>
                 <div className="flex items-center">
-                    <div className='w-8'>{icon && <span>{icon}</span>}</div>
+                    <div className='w-8'>{icon && <span className='text-primary'>{icon}</span>}</div>
                     <span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
                 </div>
-                <button onClick={toggleOpen} className="shrink-0 p-3">
+                <button className="shrink-0 p-3">
                     <motion.div
                         initial={{ rotate: defaultOpen ? 90 : 0 }}
                         animate={{ rotate: isOpen ? 90 : 0 }}
@@ -97,9 +97,9 @@ export function MenuItem({ path, icon, title, className = "" }: MenuItemProps) {
     const combinedClassName = `flex h-12 items-center px-5 hover:bg-primary hover:text-white ${className}`;
 
     return (
-        <li className="menu-item border-b-1 border-zinc-200">
+        <li className="menu-item">
             <Link href={path} className={combinedClassName} onClick={handleClick}>
-                <div className='w-8 shrink-0'>{icon && <span>{icon}</span>}</div>
+                <div className='w-8 shrink-0'>{icon && <span className='text-primary'>{icon}</span>}</div>
                 <span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
             </Link>
         </li>
