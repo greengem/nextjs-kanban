@@ -23,7 +23,7 @@ export default async function OverdueTaskCount() {
                 },
             },
             dueDate: {
-                lt: today, // Tasks that are overdue
+                lt: today,
             }
         }
     });
