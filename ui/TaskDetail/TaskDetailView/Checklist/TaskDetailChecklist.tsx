@@ -15,7 +15,7 @@ import { ExpandedTask } from "@/types/types";
 import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 import {Progress} from "@nextui-org/progress";
-import { ChecklistSummary, ChecklistItemSummary } from "@/types/types";
+import { ChecklistSummary } from "@/types/types";
 
 interface TaskDetailChecklistProps {
     task: ExpandedTask;
@@ -119,13 +119,12 @@ export default function TaskDetailChecklist({
         }
     };
     
-
     return (
         <>
             {task.checklists.map(checklist => (
                 <div key={checklist.id}>
                     <TaskDetailItemHeading 
-                        title={checklist.title} 
+                        title={checklist.title || "Untitled Checklist"} 
                         icon={<IconCheckbox size={32} />} 
                         endContent={
                             <div className="flex gap-2">
