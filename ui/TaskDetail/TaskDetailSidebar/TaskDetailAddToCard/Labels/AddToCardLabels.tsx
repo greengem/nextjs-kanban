@@ -116,7 +116,7 @@ export default function AddToCardLabels({ labels, task, boardId }: { labels: Lab
                         }}
                     >
                         <div className={`bg-${label.color}-500 h-6 w-full rounded-md mr-2 py-1 px-2`}>
-                            {label.title && <p className='text-xs'>{label.title}</p>}
+                            {label.title && <p className='text-xs font-semibold text-white'>{label.title}</p>}
                         </div>
                         <button onClick={() => enterEditMode(label)}><IconEdit className='text-zinc-500 hover:text-primary' size={22} /></button>
                     </Checkbox>
@@ -171,7 +171,7 @@ export default function AddToCardLabels({ labels, task, boardId }: { labels: Lab
                     <button onClick={closePopover}><IconX size={20} /></button>
                 </div>
     
-                <div className={`bg-${tempLabelColor}-500 h-9 w-full mb-3 rounded-md p-2`}>
+                <div className={`bg-${tempLabelColor}-500 h-9 w-full mb-3 rounded-md p-2 font-semibold text-white`}>
                     {tempLabelTitle}
                 </div>
     
@@ -194,22 +194,21 @@ export default function AddToCardLabels({ labels, task, boardId }: { labels: Lab
                     ))}
                 </div>
     
+                <div className='grid grid-cols-2 gap-3'>
+                    <Button onClick={handleSave} size='sm' color='primary'><IconDeviceFloppy size={16} /> Save</Button>
+                    <Button onClick={exitEditMode} size='sm'><IconX size={16} /> Cancel</Button>
+                </div>
+
+                <hr className='my-3 border-zinc-200' />
+
                 { !isCreating && (
                     <Button className='w-full flex items-center gap-1' size='sm' color='danger' onClick={handleDelete}>
-                        <IconTrash size={18} />Delete Label
+                        <IconTrash size={16} />Delete Label
                     </Button>
                 )}
-    
-                <hr className='my-3 border-zinc-800' />
-    
-                <div className='flex justify-between'>
-                    <Button onClick={handleSave} size='sm' color='primary'><IconDeviceFloppy size={18} /> Save</Button>
-                    <Button onClick={exitEditMode} size='sm' color='danger'><IconX size={18} /> Cancel</Button>
-                </div>
             </div>
         );
     };
-
 
     return (
         <li className='bg-zinc-200 hover:bg-zinc-300 rounded-md'>
