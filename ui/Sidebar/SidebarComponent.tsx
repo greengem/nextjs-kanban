@@ -97,9 +97,9 @@ export function MenuItem({ path, icon, title, className = "" }: MenuItemProps) {
     const combinedClassName = `flex h-12 items-center px-5 hover:bg-primary hover:text-white ${className}`;
 
     return (
-        <li className="menu-item">
+        <li className="menu-item group">
             <Link href={path} className={combinedClassName} onClick={handleClick}>
-                <div className='w-8 shrink-0'>{icon && <span className='text-primary'>{icon}</span>}</div>
+                <div className='w-8 shrink-0'>{icon && <span className='text-primary group-hover:text-white'>{icon}</span>}</div>
                 <span className='text-sm whitespace-nowrap overflow-ellipsis block overflow-x-hidden'>{title}</span>
             </Link>
         </li>
