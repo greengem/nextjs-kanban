@@ -1,8 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import { Card, CardBody, CardHeader, Divider, Input } from "@nextui-org/react";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 import SignInGithub from "./SignInGithub";
-import { Button } from "@nextui-org/button";
 import { IconLayoutKanban, IconMail } from "@tabler/icons-react";
 import SignInGoogle from "./SignInGoogle";
 

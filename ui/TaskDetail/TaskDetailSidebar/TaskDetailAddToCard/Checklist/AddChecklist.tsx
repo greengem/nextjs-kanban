@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
-import { Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/input";
 import { IconCheckbox, IconPlus, IconX } from '@tabler/icons-react';
 import { Button } from "@nextui-org/button";
 import { handleCreateChecklist } from "@/actions/ChecklistServerActions";
