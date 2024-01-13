@@ -28,6 +28,7 @@ export default function CreateBoardForm() {
   };
 
   return (
+    <div>
     <div className='p-2 bg-white rounded-xl shadow-xl'>
         <div className="text-center">
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
@@ -39,6 +40,7 @@ export default function CreateBoardForm() {
               placeholder='Name of your board...'
               size='sm'
               isRequired
+              variant='underlined'
               isClearable
               minLength={3}
             />
@@ -65,6 +67,7 @@ export default function CreateBoardForm() {
 
           </form>
         </div>
+    </div>
     </div>
   );
 }
