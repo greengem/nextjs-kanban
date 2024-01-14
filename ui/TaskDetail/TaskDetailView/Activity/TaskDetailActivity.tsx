@@ -1,17 +1,13 @@
 'use client'
 import { Session } from "next-auth";
 import { useState } from "react";
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import toast from 'react-hot-toast';
 import TaskDetailActivityItem from "./TaskDetailActivityItem";
 import { Avatar } from "@nextui-org/avatar"
 import { Input } from "@nextui-org/input"
-import { Button, ButtonGroup } from "@nextui-org/button"
+import { Button } from "@nextui-org/button"
 import { IconActivity, IconX } from "@tabler/icons-react"
 import { handleCreateActivity } from "@/actions/ActivityServerActions";
-import { CreateActivitySchema } from "@/types/zodTypes";
-import { ActivityCreationData } from "@/types/types";
 import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 
@@ -23,34 +19,27 @@ interface TaskDetailActivityProps {
 export default function TaskDetailActivity({ task, session }: TaskDetailActivityProps) {
     const taskId = task.id;
     const boardId = task.column.boardId;
-    const columnTitle = task.column.columnTitle;
-    const activities = task.activities;
-
-    const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<ActivityCreationData>({
-        resolver: zodResolver(CreateActivitySchema),
-        defaultValues: { boardId, taskId }
-    });
 
     const [showForm, setShowForm] = useState(false);
-
-    const onSubmit: SubmitHandler<ActivityCreationData> = async (data) => {
-        const response = await handleCreateActivity(data);
-        if (response.success) {
-            toast.success('Activity Created');
-            handleCloseForm();
-            reset();
-        } else {
-            toast.error(response.message);
-        }
-    };
 
     const handleToggleForm = () => {
         setShowForm(!showForm);
     };
 
-    const handleCloseForm = () => {
-        setShowForm(false);
-        reset();
+    const onSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        try {
+            const response = await handleCreateActivity(taskId, boardId, formData);
+            if (response.success) {
+                toast.success(response.message);
+                handleToggleForm();
+            } else {
+                toast.error(response.message);
+            }
+        } catch (error) {
+            toast.error('An error occurred while submitting the form');
+        }
     };
 
     return (
@@ -70,38 +59,41 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
                     </div>
                     <div className="w-full">
                         {!showForm ? (
+
                             <div className="flex items-center h-[32px]">
                                 <p onClick={handleToggleForm} className="cursor-pointer text-primary pl-4">Add a comment</p>
                             </div>
+                            
                         ) : (
-                            <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+
+                            <form onSubmit={onSubmitForm} className="w-full">
                                 <Input
                                     className="mb-2"
-                                    placeholder="Enter a description..."
+                                    placeholder="Add a comment..."
+                                    label="Activity"
+                                    size="sm"
                                     autoFocus
-                                    labelPlacement="outside"
-                                    {...register('content')}
+                                    name="content"
                                 />
 
-                                <input type="hidden" {...register('boardId')} />
-                                <input type="hidden" {...register('taskId')} />
+                                <div className="flex items-center gap-2">
+                                    <Button size="sm" type="submit" color="primary">Save</Button>
+                                    <button onClick={handleToggleForm}><IconX size={20} /></button>
+                                </div>
 
-                                <ButtonGroup size="sm">
-                                    <Button type="submit" isLoading={isSubmitting}>Save</Button>
-                                    <Button color="danger" isIconOnly onClick={handleCloseForm}><IconX size={20} /></Button>
-                                </ButtonGroup>
                             </form>
+
                         )}
                     </div>
                 </div>
 
                 <ul className="space-y-3">
-                    {activities && activities.map((activity: any) => (
+                    {task.activities && task.activities.map((activity: any) => (
                         <TaskDetailActivityItem 
                             key={activity.id}
                             activity={activity}
-                            columnTitle={columnTitle}
-                            boardId={boardId}
+                            columnTitle={task.column.columnTitle}
+                            boardId={task.column.boardId}
                         />
                     ))}
                 </ul>
