@@ -74,6 +74,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
                                     size="sm"
                                     autoFocus
                                     name="content"
+                                    isRequired
                                 />
 
                                 <div className="flex items-center gap-2">
