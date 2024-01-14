@@ -1,9 +1,7 @@
-import { ReactNode } from "react";
-
 interface TaskDetailItemHeadingProps {
-    icon: ReactNode;
+    icon: React.ReactNode;
     title: string;
-    endContent?: ReactNode
+    endContent?: React.ReactNode
 }
 
 export default function TaskDetailItemHeading({
