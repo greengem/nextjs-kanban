@@ -2,43 +2,53 @@
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { revalidatePath } from 'next/cache'
-import { CreateActivitySchema } from '@/types/zodTypes';
-import { ActivityCreationData } from '@/types/types';
+import { z } from 'zod'
+
+const handleCreateActivitySchema = z.object({
+    content: z.string().trim().min(1, "Comment cannot be empty").max(500, "Comment is too long"),
+});
 
 // Create Activity
-export async function handleCreateActivity(data: ActivityCreationData) {
+export async function handleCreateActivity( taskId: string, boardId: string, formData: FormData) {
     const session = await auth();
     const userId = session?.user?.id;
 
-    // Check if user is authenticated
     if (!userId) {
         return { success: false, message: 'Authentication required' };
     }
 
-    const parse = CreateActivitySchema.safeParse(data);
+    const validatedFields = handleCreateActivitySchema.safeParse({
+        content: formData.get('content')?.toString(),
+    });
 
-    if (!parse.success) {
-        return { success: false, message: 'Failed to create activity' };
+    if (!validatedFields.success) {
+        const errorMessage = Object.values(validatedFields.error.flatten().fieldErrors).map(e => e.join(', ')).join('; ');
+    
+        return {
+            success: false,
+            message: `Validation failed: ${errorMessage}`,
+        };
     }
 
     try {
         await prisma.activity.create({
             data: {
                 type: 'COMMENT_ADDED',
-                content: parse.data.content,
+                content: validatedFields.data.content,
                 userId: userId,
-                taskId: parse.data.taskId,
-                boardId: parse.data.boardId
+                taskId: taskId,
+                boardId: boardId
             }
         });
 
-        revalidatePath(`/board/${parse.data.boardId}`);
+        revalidatePath(`/task/${taskId}`);
 
         return { success: true, message: 'Comment added successfully' };
     } catch (e) {
         return { success: false, message: 'Failed to create activity' };
     }
 }
+
 
 
 // Delete Activity
