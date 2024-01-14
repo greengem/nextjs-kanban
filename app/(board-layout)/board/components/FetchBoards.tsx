@@ -40,7 +40,7 @@ export default async function FetchBoards() {
                         </span>
                         
                         <h4 className="
-                            text-black font-semibold
+                            text-black font-semibold tracking-tight
                             z-20
                             drop-shadow-lg 
                             p-2 
