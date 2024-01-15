@@ -1,20 +1,16 @@
 'use client'
-import { useState } from "react";
 import { 
-    handleCreateChecklistItem, 
     handleDeleteChecklistItem, 
-    handleDeleteChecklist,
     handleToggleCheckedItem,
     handleEditChecklistName 
 } from "@/actions/ChecklistServerActions";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
-import { Input } from "@nextui-org/input";
-import { IconCheckbox, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
-import { Button } from "@nextui-org/button";
+import { IconCheckbox, IconEdit, IconTrash } from "@tabler/icons-react";
 import { ExpandedTask } from "@/types/types";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 import {Progress} from "@nextui-org/progress";
-import { ChecklistSummary } from "@/types/types";
+import TaskDetailChecklistItemForm from "./TaskDetailChecklistItemForm.client";
+import DeleteChecklistButton from "./DeleteChecklistButton.client";
 
 interface TaskDetailChecklistProps {
     task: ExpandedTask;
@@ -24,15 +20,6 @@ interface TaskDetailChecklistProps {
 export default function TaskDetailChecklist({
     task, boardId,
 }: TaskDetailChecklistProps) {
-    const [showInput, setShowInput] = useState<Record<string, boolean>>({});
-
-    // Toggle the visibility of the input field for a given checklist
-    const toggleInput = (checklistId: string) => {
-        setShowInput(prevShowInput => ({
-            ...prevShowInput,
-            [checklistId]: !prevShowInput[checklistId]
-        }));
-    };
 
     return (
         <>
@@ -54,26 +41,11 @@ export default function TaskDetailChecklist({
                                 {checklist.title || "Untitled Checklist"}
                             </h4>
                         </div>
-                        <Button 
-                            className="shrink-0 grow-0" 
-                            size="sm" 
-                            onClick={() => {
-                                if (window.confirm('Are you sure you want to delete this checklist?')) {
-                                handleDeleteChecklist({ checklistId: checklist.id, taskId: task.id });
-                                }
-                            }}
-                        >
-                            Delete
-                        </Button>
-
+                        <DeleteChecklistButton checklistId={checklist.id} taskId={task.id} />
                     </div>
 
                     <TaskDetailItemContent indented>
-                        <Progress 
-                            aria-label="Completion progress" 
-                            value={completionPercentage}
-                            className="w-full mb-3"
-                        />
+                        <Progress aria-label="Completion progress" value={completionPercentage} className="w-full mb-3"/>
                         
                         <CheckboxGroup className="mb-3"
                             defaultValue={checkedItemIds} 
@@ -103,21 +75,7 @@ export default function TaskDetailChecklist({
                                 </div>
                             ))}
                         </CheckboxGroup>
-                        
-                        {!showInput[checklist.id] && (
-                            <Button size="sm" onClick={() => toggleInput(checklist.id)}>Add an item</Button>
-                        )}
-                        {showInput[checklist.id] && (
-                            <form action={handleCreateChecklistItem}>
-                                <input type="hidden" name="checklistId" value={checklist.id} />
-                                <input type="hidden" name="taskId" value={task.id} />
-                                <Input variant="bordered" placeholder="Add an item..." name="content"  label="Checklist Item" size="sm" className="w-full mb-2" autoFocus />
-                                <div className="flex gap-2">
-                                    <Button type="submit" size="sm" color="primary">Add Item</Button>
-                                    <button onClick={() => toggleInput(checklist.id)}><IconX size={16} /></button>
-                                </div>
-                            </form>
-                        )}
+                        <TaskDetailChecklistItemForm checklistId={checklist.id} taskId={task.id}/>
                     </TaskDetailItemContent>
                 </div>
             );
