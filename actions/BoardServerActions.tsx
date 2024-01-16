@@ -130,6 +130,8 @@ export async function handleDeleteBoard(boardId: string) {
       });
     });
 
+    revalidatePath(`/board/`);
+
     return { success: true, message: 'Deleted board' };
   } catch (e) {
     const error = e as Error;
