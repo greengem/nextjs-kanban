@@ -54,7 +54,7 @@ const handleCreateChecklistItemSchema = z.object({
     taskId: z.string(),
 });
 
-export async function handleCreateChecklistItem(formData: FormData) {
+export async function handleCreateChecklistItem(prevState: any, formData: FormData) {
     const validatedFields = handleCreateChecklistItemSchema.safeParse({
         content: formData.get('content')?.toString(),
         checklistId: formData.get('checklistId')?.toString(),
@@ -116,7 +116,7 @@ const handleEditChecklistNameSchema = z.object({
     taskId: z.string(),
 });
 
-export async function handleEditChecklistName(formData: FormData) {
+export async function handleEditChecklistName(prevState: any, formData: FormData) {
     const validatedFields = handleEditChecklistNameSchema.safeParse({
         title: formData.get('title')?.toString(),
         checklistId: formData.get('checklistId')?.toString(),
