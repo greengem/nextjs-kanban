@@ -1,6 +1,5 @@
-'use client'
-import { useFormState } from 'react-dom'
-import { useState, useEffect } from 'react';
+'use client';
+import { useState } from 'react';
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconX } from "@tabler/icons-react";
@@ -11,28 +10,17 @@ interface ChecklistItemFormProps {
     taskId: string;
 }
 
-interface StateType {
-    success?: boolean;
-    message: string;
-}
-
-const initialState: StateType = {
-    message: '',
-    success: undefined,
-}
-
 export default function ChecklistItemForm({ checklistId, taskId }: ChecklistItemFormProps) {
-    const [state, formAction] = useFormState(handleCreateChecklistItem, initialState);
-
     const [showInput, setShowInput] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [error, setError] = useState("");
 
     const toggleInput = () => setShowInput(!showInput);
 
-    useEffect(() => {
-        if (state.success) {
-            toggleInput();
-        }
-    }, [state.success]);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value);
+        if (error) setError('');
+    };
 
     return(
         <div>
@@ -40,17 +28,30 @@ export default function ChecklistItemForm({ checklistId, taskId }: ChecklistItem
                 <Button size="sm" onClick={toggleInput}>Add an item</Button>
             )}
             {showInput && (
-                <form action={formAction}>
-                    <input type="hidden" name="checklistId" value={checklistId} />
-                    <input type="hidden" name="taskId" value={taskId} />
+                <form action={async (data) => {
+                    data.append('checklistId', checklistId);
+                    data.append('taskId', taskId);
+                
+                    const response = await handleCreateChecklistItem(data);
+                    if (response.success) {
+                        setInputValue("");
+                        toggleInput();
+                    } else { 
+                        setError(response.message);
+                    }
+                }}>
                     <Input 
                         variant="bordered" 
                         placeholder="Add an item..." 
-                        name="content"  
+                        name="content"
+                        value={inputValue}
+                        onChange={handleInputChange}
                         label="Checklist Item" 
                         size="sm" 
                         className="w-full mb-2" 
                         autoFocus 
+                        isInvalid={!!error}
+                        errorMessage={error}
                     />
                     <div className="flex gap-2">
                         <Button type="submit" size="sm" color="primary">Add Item</Button>
