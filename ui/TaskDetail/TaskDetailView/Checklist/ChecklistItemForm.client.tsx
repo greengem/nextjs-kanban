@@ -1,5 +1,6 @@
 'use client'
-import React, { useState } from "react";
+import { useFormState } from 'react-dom'
+import { useState, useEffect } from 'react';
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconX } from "@tabler/icons-react";
@@ -10,9 +11,28 @@ interface ChecklistItemFormProps {
     taskId: string;
 }
 
+interface StateType {
+    success?: boolean;
+    message: string;
+}
+
+const initialState: StateType = {
+    message: '',
+    success: undefined,
+}
+
 export default function ChecklistItemForm({ checklistId, taskId }: ChecklistItemFormProps) {
+    const [state, formAction] = useFormState(handleCreateChecklistItem, initialState);
+
     const [showInput, setShowInput] = useState(false);
+
     const toggleInput = () => setShowInput(!showInput);
+
+    useEffect(() => {
+        if (state.success) {
+            toggleInput();
+        }
+    }, [state.success]);
 
     return(
         <div>
@@ -20,7 +40,7 @@ export default function ChecklistItemForm({ checklistId, taskId }: ChecklistItem
                 <Button size="sm" onClick={toggleInput}>Add an item</Button>
             )}
             {showInput && (
-                <form action={handleCreateChecklistItem}>
+                <form action={formAction}>
                     <input type="hidden" name="checklistId" value={checklistId} />
                     <input type="hidden" name="taskId" value={taskId} />
                     <Input 
