@@ -1,5 +1,6 @@
 'use client'
-import { useState } from 'react';
+import { useFormState } from 'react-dom'
+import { useState, useEffect } from 'react';
 import { handleEditChecklistName } from "@/actions/ChecklistServerActions";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
@@ -11,17 +12,35 @@ interface ChecklistTitleFormProps {
     taskId: string;
 }
 
+interface StateType {
+    success?: boolean;
+    message: string;
+}
+
+const initialState: StateType = {
+    message: '',
+    success: undefined,
+}
+
 export default function ChecklistTitleForm({ checklistTitle, checklistId, taskId }: ChecklistTitleFormProps) {
+    const [state, formAction] = useFormState(handleEditChecklistName, initialState);
+
     const [isEditing, setIsEditing] = useState(false);
 
     const toggleEditState = () => {
         setIsEditing(!isEditing);
     };
 
+    useEffect(() => {
+        if (state.success) {
+            toggleEditState();
+        }
+    }, [state.success]);
+
     return (
         <>
             {isEditing ? (
-                <form action={handleEditChecklistName} className="flex grow justify-between gap-2 items-center">
+                <form action={formAction} className="flex grow justify-between gap-2 items-center">
                     <Input 
                         type="text" 
                         name="title" 
