@@ -50,11 +50,11 @@ export default function CreateTaskForm({
           <div className="mb-2">
             <Input 
               autoFocus 
-              autoComplete="new-password"
+              autoComplete="off"
               type="text" 
               id={`taskTitle_${boardId}_${columnId}`}
               placeholder='Enter a name for your task...'
-              {...register('title')}
+              {...register('taskTitle')}
               isRequired
               size='sm'
               label='Task Title'

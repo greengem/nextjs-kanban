@@ -32,7 +32,7 @@ export async function handleCreateTask(data: TaskCreationData) {
 
         const createdTask = await prisma.task.create({
             data: {
-                title: parse.data.title,
+                title: parse.data.taskTitle,
                 description: parse.data.description,
                 columnId: parse.data.columnId,
                 order: newOrder,

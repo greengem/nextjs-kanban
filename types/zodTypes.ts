@@ -35,7 +35,7 @@ export const DeleteColumnSchema = z.object({
 
 // Tasks
 export const CreateTaskSchema = z.object({
-    title: z.string().min(1), 
+    taskTitle: z.string().min(1), 
     description: z.union([z.string(), z.null()]).optional(),
     columnId: z.string().min(1),
     boardId: z.string().min(1),

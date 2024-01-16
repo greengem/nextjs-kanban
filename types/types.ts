@@ -67,7 +67,7 @@ export type ColumnDeletionData = {
 };
 
 export type TaskCreationData = {
-    title: Task['title'];
+    taskTitle: Task['title'];
     description?: Task['description'];
     boardId: Board['id'];
     columnId: Column['id'];
