@@ -26,7 +26,7 @@ export default function BoardAddUsersList({ owner, members, boardId, isOwner, lo
         try {
             const response = await handleRemoveUserFromBoard({ boardId, userId });
             if (response.success) {
-                router.push('/board/');
+                //router.push('/board/');
                 toast.success('User removed successfully');
             } else {
                 toast.error(response.message || 'Unknown error');

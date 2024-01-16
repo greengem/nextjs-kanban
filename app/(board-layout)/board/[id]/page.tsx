@@ -4,6 +4,7 @@ import { BoardDetails, ColumnWithTasks, LabelSummary } from "@/types/types";
 import Board from "./components/Board";
 import BoardNavbar from "./components/BoardNavbar";
 import Image from 'next/image';
+import { redirect } from 'next/navigation'
 
 export default async function BoardPage({
   params,
@@ -32,7 +33,7 @@ export default async function BoardPage({
   });
 
   if (!isMember) {
-    return <div>Access denied: User is not a member of this board</div>;
+    redirect('/board')
   }
 
   const board = await prisma.board.findUnique({
