@@ -14,7 +14,7 @@ export default async function TaskDetailView({ task } : { task: ExpandedTask }) 
             <TaskDetailLabels labels={task.labels} />
             <TaskDetailDates startDate={task.startDate} dueDate={task.dueDate} />
             <TaskDetailDescription selectedTask={task} boardId={task.column.boardId} />
-            <TaskDetailChecklist task={task} boardId={task.column.boardId} />
+            <TaskDetailChecklist task={task} />
             <TaskDetailActivity task={task} session={session} />
         </div>
     );
