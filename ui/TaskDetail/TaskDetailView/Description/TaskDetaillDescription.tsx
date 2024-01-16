@@ -82,6 +82,7 @@ export default function TaskDetailDescription({
                                 type='submit' 
                                 disabled={isSubmitting}
                                 size='sm'
+                                color='primary'
                                 className="flex justify-center items-center"
                             >
                                 {isSubmitting ? (
