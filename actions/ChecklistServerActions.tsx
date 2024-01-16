@@ -54,7 +54,7 @@ const handleCreateChecklistItemSchema = z.object({
     taskId: z.string(),
 });
 
-export async function handleCreateChecklistItem(prevState: any, formData: FormData) {
+export async function handleCreateChecklistItem(formData: FormData) {
     const validatedFields = handleCreateChecklistItemSchema.safeParse({
         content: formData.get('content')?.toString(),
         checklistId: formData.get('checklistId')?.toString(),
