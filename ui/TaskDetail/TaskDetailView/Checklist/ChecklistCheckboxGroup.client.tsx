@@ -41,6 +41,7 @@ export default function ChecklistCheckboxGroup({ checkedItemIds, checklist, task
                         {editingItemId === item.id && (
                             <form action={handleEditChecklistItemContent} className="flex gap-2 ml-2" onSubmit={handleCancelOrSubmit}>
                                 <Input 
+                                    autoComplete="off"
                                     size="sm"
                                     placeholder="Enter checklist item name..."
                                     labelPlacement="outside"

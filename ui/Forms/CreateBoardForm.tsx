@@ -33,6 +33,7 @@ export default function CreateBoardForm() {
         <div className="text-center">
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
             <Input 
+              autoComplete="off"
               type="text" 
               id="title" 
               {...register('title')}

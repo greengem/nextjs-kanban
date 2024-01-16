@@ -65,6 +65,7 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
             <form onSubmit={handleSubmit(onSubmit)} className="px-5 py-3">
                 <div className='flex gap-x-2'>
                     <Input
+                        autoComplete="off"
                         {...register('searchTerm')}
                         labelPlacement='outside'
                         placeholder="Search Unsplash..."

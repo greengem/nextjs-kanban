@@ -43,6 +43,7 @@ export default function ChecklistTitleForm({ checklistTitle, checklistId, taskId
                     }}
                 >
                     <Input 
+                        autoComplete="off"
                         type="text" 
                         name="title" 
                         value={inputValue}

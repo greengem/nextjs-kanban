@@ -37,6 +37,7 @@ export default function CreateColumnForm({
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
 
               <Input 
+                autoComplete="off"
                 type="text" 
                 id="columnTitle" 
                 {...register('title')}

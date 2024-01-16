@@ -41,6 +41,7 @@ export default function ChecklistItemForm({ checklistId, taskId }: ChecklistItem
                     }
                 }}>
                     <Input 
+                        autoComplete="off"
                         variant="bordered" 
                         placeholder="Add an item..." 
                         name="content"

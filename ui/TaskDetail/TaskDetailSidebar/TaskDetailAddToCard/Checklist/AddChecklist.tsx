@@ -58,6 +58,7 @@ export default function AddChecklist({
                 <PopoverContent className='w-64'>
                     <form onSubmit={handleSubmit(onSubmit)} className="px-1 py-2 w-full space-y-3">
                         <Input 
+                            autoComplete="off"
                             label="Checklist title (Optional)"
                             placeholder="Checklist"
                             {...register('title')}

@@ -58,6 +58,7 @@ export default function BoardTitle({
             {isEditing && (
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-wrap md:flex-nowrap gap-2">
                     <Input 
+                        autoComplete="off"
                         value={titleValue}
                         size='sm'
                         labelPlacement='outside'

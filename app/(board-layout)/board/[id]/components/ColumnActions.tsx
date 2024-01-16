@@ -67,6 +67,7 @@ export default function ColumnActions({
                 <div className="flex-col w-full">
                     <form onSubmit={(e) => { e.preventDefault(); handleSave(); }}>
                         <Input 
+                            autoComplete="off"
                             label="Column Title"
                             placeholder="Enter a column name"
                             value={editedTitle}

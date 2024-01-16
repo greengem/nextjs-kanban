@@ -29,6 +29,7 @@ export default function BoardAddUsersForm({ boardId, isOwner, onInvitationLinkCh
         return (
             <form className="space-y-2" onSubmit={handleInvite}>
                 <Input 
+                    autoComplete="off"
                     type="email" 
                     variant='bordered'
                     size="sm" 

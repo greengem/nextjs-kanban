@@ -68,6 +68,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
 
                             <form onSubmit={onSubmitForm} className="w-full">
                                 <Input
+                                    autoComplete="off"
                                     className="mb-2"
                                     placeholder="Add a comment..."
                                     label="Activity"

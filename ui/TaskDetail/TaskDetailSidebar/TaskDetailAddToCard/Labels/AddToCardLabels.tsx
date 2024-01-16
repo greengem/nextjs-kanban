@@ -178,6 +178,7 @@ export default function AddToCardLabels({ labels, task, boardId }: { labels: Lab
                 <div className='mb-3'>
                     <h4 className='uppercase font-semibold text-xs text-zinc-500 mb-1'>Title</h4>
                     <Input 
+                        autoComplete="off"
                         labelPlacement='outside' 
                         placeholder='Enter a title' 
                         size='sm' 
