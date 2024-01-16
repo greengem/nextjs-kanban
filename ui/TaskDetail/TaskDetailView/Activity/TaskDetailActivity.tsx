@@ -46,7 +46,7 @@ export default function TaskDetailActivity({ task, session }: TaskDetailActivity
         <>
             <TaskDetailItemHeading title="Activity" icon={<IconActivity size={32} />} />
 
-            <TaskDetailItemContent>
+            <TaskDetailItemContent indented>
                 <div className="flex items-start mb-5 mt-4">
                     <div className="w-[40px]">
                         <Avatar 
