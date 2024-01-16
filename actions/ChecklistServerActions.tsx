@@ -147,3 +147,40 @@ export async function handleEditChecklistName(formData: FormData) {
     }
 
 }
+
+
+const handleEditChecklistItemContentSchema = z.object({
+    content: z.string().trim().min(1).max(100),
+    checklistItemId: z.string(),
+    taskId: z.string(),
+});
+
+export async function handleEditChecklistItemContent(formData: FormData) {
+    const validatedFields = handleEditChecklistItemContentSchema.safeParse({
+        content: formData.get('content')?.toString(),
+        checklistItemId: formData.get('checklistItemId')?.toString(),
+        taskId: formData.get('taskId')?.toString(),
+    });
+
+    if (!validatedFields.success) {
+        const errorMessage = Object.values(validatedFields.error.flatten().fieldErrors).map(e => e.join(', ')).join('; ');
+        return {
+            success: false,
+            message: `Validation failed: ${errorMessage}`,
+        };
+    }
+
+    try {
+        await prisma.checklistItem.update({
+            where: { id: validatedFields.data.checklistItemId },
+            data: { content: validatedFields.data.content },
+        });
+
+        revalidatePath(`/task/${validatedFields.data.taskId}`);
+
+        return { success: true, message: 'Checklist item content updated' };
+    } catch (e) {
+        console.error(e);
+        return { success: false, message: 'Failed to update checklist item content' };
+    }
+}
