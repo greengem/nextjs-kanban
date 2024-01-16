@@ -53,7 +53,7 @@ export default function BoardTitle({
     return (
         <>
             {!isEditing && (
-                <h2 onClick={toggleEdit} className="cursor-pointer whitespace-nowrap overflow-ellipsis block overflow-x-hidden max-w-64">{boardTitle}</h2>
+                <h2 onClick={toggleEdit} className="cursor-pointer whitespace-nowrap overflow-ellipsis block overflow-x-hidden max-w-32 md:max-w-64">{boardTitle}</h2>
             )}
             {isEditing && (
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-wrap md:flex-nowrap gap-2">

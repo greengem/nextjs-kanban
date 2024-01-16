@@ -12,7 +12,7 @@ import { IconLoader2 } from "@tabler/icons-react";
 export default async function BoardNavbar({ board } : { board: BoardSummary }) {
     return (
         <div className="mb-5 z-10">
-            <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2 overflow-x-auto no-scrollbar">
+            <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2 overflow-x-auto no-scrollbar gap-2">
                 <div className="flex gap-2 items-center">
                     <BoardTitle boardTitle={board.title} boardId={board.id} />
                     <BoardFavourite board={board} />
