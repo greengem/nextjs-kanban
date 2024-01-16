@@ -5,12 +5,12 @@ import { Button } from "@nextui-org/button";
 import { IconX } from "@tabler/icons-react";
 import { handleCreateChecklistItem } from "@/actions/ChecklistServerActions";
 
-interface TaskDetailChecklistItemFormProps {
+interface ChecklistItemFormProps {
     checklistId: string;
     taskId: string;
 }
 
-export default function TaskDetailChecklistItemForm({ checklistId, taskId }: TaskDetailChecklistItemFormProps) {
+export default function ChecklistItemForm({ checklistId, taskId }: ChecklistItemFormProps) {
     const [showInput, setShowInput] = useState(false);
     const toggleInput = () => setShowInput(!showInput);
 
