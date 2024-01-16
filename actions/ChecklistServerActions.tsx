@@ -116,7 +116,7 @@ const handleEditChecklistNameSchema = z.object({
     taskId: z.string(),
 });
 
-export async function handleEditChecklistName(prevState: any, formData: FormData) {
+export async function handleEditChecklistName(formData: FormData) {
     const validatedFields = handleEditChecklistNameSchema.safeParse({
         title: formData.get('title')?.toString(),
         checklistId: formData.get('checklistId')?.toString(),
