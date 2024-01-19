@@ -102,7 +102,8 @@ export default function AddToCardDatesCalendar({
             selected={selectedDate}
             onSelect={handleDateSelect}
             footer={footer}
-            showOutsideDays fixedWeeks
+            showOutsideDays 
+            fixedWeeks
             disabled={disabledDays}
         />
     );

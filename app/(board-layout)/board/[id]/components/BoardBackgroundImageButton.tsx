@@ -9,6 +9,7 @@ export default function BoardBackgroundImageButton() {
     return (
         <Button 
             color="primary" 
+            variant="ghost"
             size="sm" 
             isIconOnly
             onClick={toggleBackgroundImageSelector}

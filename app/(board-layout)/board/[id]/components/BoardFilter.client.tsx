@@ -52,7 +52,7 @@ export default function BoardFilter({
             onOpenChange={setPopoverOpen}
         >
             <PopoverTrigger>
-                <Button color="primary" size="sm" isIconOnly>
+                <Button color="primary" size="sm" isIconOnly variant="ghost">
                     {isFilterActive ? (
                         <IconFilterFilled size={16} />
                     ) : (
