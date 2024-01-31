@@ -124,16 +124,8 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
 
   return (
     <div className='p-3 md:p-5 flex flex-col grow relative'>
-      {task.column.board.backgroundUrl && (
-        <Image 
-          className='object-cover object-center z-0'
-          src={task.column.board.backgroundUrl} 
-          alt='Board Wallpaper' 
-          fill
-        />
-      )}
 
-      <div className="flex-none mb-3 md:mb-5 z-10">
+      <div className="flex-none mb-3 md:mb-5 z-1 hidden">
         <Button
           as={Link}
           className="inline-flex"

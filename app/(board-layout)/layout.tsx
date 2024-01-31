@@ -1,13 +1,15 @@
 import DashboardLayout from "@/ui/DashboardLayout"
 
 export default function RootLayout({
-  children
+  children, modal
 }: {
   children: React.ReactNode
+  modal: React.ReactNode
 }) {
   return (
     <DashboardLayout>
-      {children}
+        {children}
+        {modal}
     </DashboardLayout>
   )
 }
