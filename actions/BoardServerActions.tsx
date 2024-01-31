@@ -109,8 +109,9 @@ export async function handleDeleteBoard(boardId: string) {
   }
 
   try {
-    await prisma.$transaction(async (prisma: PrismaClient) => {
-      const owner = await prisma.boardMember.findFirst({
+    // Use prisma.$transaction without explicit type annotation
+    await prisma.$transaction(async (tx: any) => {
+      const owner = await tx.boardMember.findFirst({
         where: {
           boardId: boardId,
           userId: userId,
@@ -122,15 +123,17 @@ export async function handleDeleteBoard(boardId: string) {
         throw new Error('Only board owners can delete the board');
       }
 
-      await prisma.boardMember.deleteMany({
+      // Perform deletion operations within the transaction
+      await tx.boardMember.deleteMany({
         where: { boardId: boardId },
       });
 
-      await prisma.board.delete({
+      await tx.board.delete({
         where: { id: boardId },
       });
     });
 
+    // Revalidate the path after successful deletion
     revalidatePath(`/board/`);
 
     return { success: true, message: 'Deleted board' };
@@ -139,7 +142,6 @@ export async function handleDeleteBoard(boardId: string) {
     return { success: false, message: error.message || 'Failed to delete board' };
   }
 }
-
 
 
 
