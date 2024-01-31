@@ -1,6 +1,7 @@
 'use server';
 import { auth } from "@/auth";
 import prisma from '@/db/prisma';
+import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from 'next/cache';
 import { CreateBoardSchema, EditBoardSchema } from '@/types/zodTypes';
 import { BoardCreationData, BoardEditData } from "@/types/types";
@@ -108,7 +109,7 @@ export async function handleDeleteBoard(boardId: string) {
   }
 
   try {
-    await prisma.$transaction(async (prisma) => {
+    await prisma.$transaction(async (prisma: PrismaClient) => {
       const owner = await prisma.boardMember.findFirst({
         where: {
           boardId: boardId,
