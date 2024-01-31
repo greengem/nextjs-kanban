@@ -17,7 +17,7 @@
     "@prisma/client": "^5.7.1",
     "@tabler/icons-react": "^2.42.0",
     "date-fns": "^3.0.6",
-    "framer-motion": "^10.16.15",
+    "framer-motion": "^11.0.3",
     "next": "^14.0.3",
     "next-auth": "^5.0.0-beta.4",
     "next-themes": "^0.2.1",
@@ -27,7 +27,6 @@
     "react-dom": "^18",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
-    "resend": "^2.1.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
