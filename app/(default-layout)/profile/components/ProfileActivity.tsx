@@ -82,8 +82,8 @@ export default async function ProfileActivity() {
 
     return (
         <>
-            {activities.map((activity, index) => (
-                <li key={index} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
+            {activities.map((activity: ActivityWithUser) => (
+                <li key={activity.id} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
                     {getActivityMessage(activity)}
                 </li>
             ))}

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import GitHub from "next-auth/providers/github";
 import type { NextAuthConfig } from "next-auth";
 

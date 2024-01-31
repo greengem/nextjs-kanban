@@ -94,9 +94,10 @@ export default async function BoardPage({
   const boardDetails: BoardDetails & { uniqueLabels: LabelSummary[] } = {
     ...board,
     isFavorited: !!board.favoritedBy?.length,
-    tasksCount: board.columns?.reduce((sum, column) => sum + column.tasks.length, 0) ?? 0,
+    tasksCount: board.columns?.reduce((sum: number, column: ColumnWithTasks) => sum + column.tasks.length, 0) ?? 0,
     uniqueLabels
-  };
+};
+
 
   return (
     <main className="flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-200 relative">

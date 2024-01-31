@@ -12,7 +12,7 @@ export default async function AcceptInvitation({ searchParams }: { searchParams:
         return <p>Invalid or missing token.</p>;
     }
 
-    if (!session || !session.user || !session.user.email) {
+    if (!session || !session.user || !session.user.email || !session.user.id) {
         return <p><Link className='text-primary' href='/api/auth/signin'>Login or create an account</Link> to view this invitation.</p>;
     }
 

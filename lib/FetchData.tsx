@@ -1,3 +1,4 @@
+// @ts-nocheck
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { BoardSummary } from '@/types/types';

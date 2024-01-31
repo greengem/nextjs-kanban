@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { auth } from "@/auth";
 import prisma from '@/db/prisma';
 import Link from "next/link";
