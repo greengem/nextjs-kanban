@@ -62,20 +62,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Board {
-  id            String         @id @default(cuid())
-  title         String
-  backgroundUrl String?
-  columns       Column[]
-  labels        Label[]
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  activities    Activity[]
-  favoritedBy User[] @relation("favorites")
-  members       BoardMember[]
-  invitations Invitation[]
-}
-
 enum Role {
   member
   owner
@@ -90,6 +76,20 @@ model BoardMember {
   createdAt DateTime     @default(now())
 
   @@id([userId, boardId])
+}
+
+model Board {
+  id            String         @id @default(cuid())
+  title         String
+  backgroundUrl String?
+  columns       Column[]
+  labels        Label[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  activities    Activity[]
+  favoritedBy User[] @relation("favorites")
+  members       BoardMember[]
+  invitations Invitation[]
 }
 
 model Column {
