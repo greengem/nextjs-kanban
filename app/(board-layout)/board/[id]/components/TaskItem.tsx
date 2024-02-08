@@ -1,11 +1,16 @@
+import { Task, Label } from '@prisma/client';
 import { format } from 'date-fns';
 import { IconClock, IconFileDescription, IconGripVertical } from '@tabler/icons-react';
-import { TaskSummary, ExpandedTask } from '@/types/types';
+import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
 import Link from 'next/link';
 
+interface ExtendedTask extends Task {
+  labels: Label[];
+}
+
 interface TaskItemProps {
-  task: TaskSummary;
-  dragHandleProps: any;
+  task: ExtendedTask;
+  dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
