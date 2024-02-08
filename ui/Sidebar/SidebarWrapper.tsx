@@ -1,10 +1,10 @@
 'use client'
+import { BoardSummarySidebar } from "@/types/types";
 import { useSidebar } from "@/contexts/SidebarContext";
-import { BoardSummary } from "@/types/types";
 import SidebarMenu from "./SidebarMenu";
 import SidebarOverlay from "./SidebarOverlay";
 
-export default function SidebarWrapper({ boards } : { boards: BoardSummary[]}) {
+export default function SidebarWrapper({ boards } : { boards: BoardSummarySidebar[]}) {
     const { isOpen, toggleDrawer } = useSidebar();
     return (
         <>

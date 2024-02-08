@@ -1,8 +1,8 @@
-import { BoardSummary } from "@/types/types";
+import { BoardSummarySidebar } from "@/types/types";
 import { IconCalendar, IconDashboard, IconLayoutKanban, IconTextCaption, IconUser } from "@tabler/icons-react";
 import { Sidebar, Menu, SubMenu, MenuItem } from "./SidebarComponent";
 
-export default function SidebarMenu({ boards } : { boards: BoardSummary[]}) {
+export default function SidebarMenu({ boards }: { boards: BoardSummarySidebar[] }) {
     return (
         <Sidebar>
             <Menu>
@@ -11,13 +11,13 @@ export default function SidebarMenu({ boards } : { boards: BoardSummary[]}) {
                     <MenuItem path="/board" title="All Boards" />
                 </SubMenu>
                 <SubMenu title="Boards" defaultOpen icon={<IconLayoutKanban size={18} />}>
-                    {boards.map((board) => (
-                        <MenuItem key={board.id} path={`/board/${board.id}`} title={board.title} />
+                    {boards.map((boardMember) => (
+                        <MenuItem key={boardMember.board.id} path={`/board/${boardMember.board.id}`} title={boardMember.board.title} />
                     ))}
                 </SubMenu>
                 <MenuItem path="/calendars" title="Calendars" icon={<IconCalendar size={18} />} />
                 <MenuItem path="/docs" title="Docs" icon={<IconTextCaption size={18} />} />
             </Menu>
         </Sidebar>
-    )
+    );
 }
