@@ -47,9 +47,10 @@ model User {
   sessions      Session[]
   labels        Label[]
   activities    Activity[]
-  favoriteBoards FavoriteBoard[]
+  favoriteBoards Board[] @relation("favorites")
   memberBoards  BoardMember[]
-  createdTasks    Task[]
+  assignedTasks Task[] @relation("AssignedToRelation")
+  createdTasks  Task[] @relation("CreatedByRelation")
   sentInvitations Invitation[] @relation("UserToInvitation")
 }
 
@@ -70,32 +71,20 @@ model Board {
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
   activities    Activity[]
-  favoritedBy   FavoriteBoard[]
+  favoritedBy User[] @relation("favorites")
   members       BoardMember[]
   invitations Invitation[]
 }
 
-model Invitation {
-  id         String   @id @default(cuid())
-  boardId    String
-  email      String
-  token      String   @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  board      Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  inviterId  String
-  inviter    User @relation(name: "UserToInvitation", fields: [inviterId], references: [id], onDelete: Cascade)
-
-  @@unique([boardId, email])
+enum Role {
+  member
+  owner
 }
-
-
 
 model BoardMember {
   userId    String
   boardId   String
-  role      String
+  role      Role
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
   board     Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   createdAt DateTime     @default(now())
@@ -132,16 +121,25 @@ model Task {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   activities  Activity[]
+  assignedToId String?
+  assignedTo User? @relation("AssignedToRelation", fields: [assignedToId], references: [id])
   createdByUserId String
-  createdBy       User @relation(fields: [createdByUserId], references: [id], onDelete: Cascade)
+  createdBy User @relation("CreatedByRelation", fields: [createdByUserId], references: [id], onDelete: Cascade)
 }
 
-model FavoriteBoard {
-  userId  String
-  boardId String
-  user    User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  board   Board @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  @@id([userId, boardId])
+model Invitation {
+  id         String   @id @default(cuid())
+  boardId    String
+  email      String
+  token      String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  board      Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  inviterId  String
+  inviter    User @relation(name: "UserToInvitation", fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@unique([boardId, email])
 }
 
 model Label {
