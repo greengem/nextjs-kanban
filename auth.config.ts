@@ -1,12 +1,7 @@
 import GitHub from "next-auth/providers/github";
-import type { NextAuthConfig, Session } from "next-auth";
-import type { JWT } from "next-auth/jwt";
-import type { User } from "next-auth";
+import type { NextAuthConfig } from "next-auth";
 
 export default {
-  pages: {
-    signIn: '/login',
-  },
   providers: [
     GitHub({
       clientId: process.env.GITHUB_ID,
@@ -21,9 +16,9 @@ export default {
       }
       return token;
     },
-    session: async ({ session, token }: { session: Session; token: JWT }) => {
+    session: async ({ session, token }) => {
       if (session?.user) {
-        (session.user as User).id = token.uid as string;
+        (session.user as any).id = token.uid;
       }
       return session;
     },
