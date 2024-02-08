@@ -3,7 +3,7 @@ import prisma from '@/db/prisma';
 import Link from "next/link";
 import Image from "next/image";
 import { IconList } from "@tabler/icons-react";
-import { BoardDetails, ColumnWithTasks } from "@/types/types";
+import { ColumnWithTasks } from "@/types/types";
 
 type FavoriteBoard = {
     board: {
@@ -11,9 +11,26 @@ type FavoriteBoard = {
         title: string;
         backgroundUrl: string | null;
         columns: {
+            id: string;
+            title: string;
+            order: number;
             tasks: { id: string }[];
         }[];
     };
+};
+
+type BoardDetails = {
+    tasksCount: number;
+    isFavorited: boolean;
+    id: string;
+    title: string;
+    backgroundUrl: string | null;
+    columns: {
+        id: string;
+        title: string;
+        order: number;
+        tasks: { id: string }[];
+    }[];
 };
 
 export default async function ProfileBoards() {
@@ -36,6 +53,9 @@ export default async function ProfileBoards() {
                     backgroundUrl: true,
                     columns: {
                         select: {
+                            id: true,
+                            title: true,
+                            order: true,
                             tasks: {
                                 select: { id: true },
                             }
@@ -49,7 +69,9 @@ export default async function ProfileBoards() {
     const boards = favoriteBoards.map((fav: FavoriteBoard) => ({
         ...fav.board,
         tasksCount: fav.board.columns.reduce((sum: number, column) => sum + column.tasks.length, 0),
+        isFavorited: true,
     }));
+    
 
     if (boards.length === 0) {
         return <p>No favorite boards found.</p>;
