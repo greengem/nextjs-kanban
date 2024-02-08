@@ -1,21 +1,31 @@
 'use client';
+import { Board as BoardType, Column, Task, Label } from '@prisma/client';
 import { useState, useEffect } from 'react';
-import { Session } from "next-auth";
 import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
-import { BoardDetails } from "@/types/types";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 import TaskItem from './TaskItem';
 import CreateTaskFormSimple from '@/ui/Forms/CreateTaskFormSimple';
 import ColumnActions from './ColumnActions';
 
+type ExtendedTask = Task & {
+  labels: Label[];
+};
+
+type ExtendedColumn = Column & {
+  tasks: ExtendedTask[];
+};
+
+type ExtendedBoard = BoardType & {
+  columns: ExtendedColumn[];
+};
+
 interface BoardProps {
-  board: BoardDetails;
-  session: Session | null;
+  board: ExtendedBoard;
 }
 
-export default function Board({ board: initialBoard, session }: BoardProps) {
-  const [board, setBoard] = useState(initialBoard);
+export default function Board({ board: initialBoard }: BoardProps) {
+  const [board, setBoard] = useState<ExtendedBoard>(initialBoard);
   
   // Handle DnD Drag End
   const onDragEnd = async (result: DropResult) => {
