@@ -1,7 +1,11 @@
-// @ts-nocheck
 import prisma from '@/db/prisma';
 import { auth } from "@/auth";
 import { BoardSummary } from '@/types/types';
+import { Board, Column } from "@prisma/client";
+
+type ColumnWithTaskIds = Pick<Column, 'id' | 'title' | 'order'> & {
+    tasks: { id: string }[];
+};
 
 export async function getBoardsSummary(): Promise<BoardSummary[]> {
     const session = await auth();
@@ -43,9 +47,9 @@ export async function getBoardsSummary(): Promise<BoardSummary[]> {
         }
     });
 
-    return boardMemberships.map(({ board }) => ({
+    return boardMemberships.map(({ board }: { board: Board }): BoardSummary => ({
         ...board,
-        tasksCount: board.columns.reduce((sum, column) => sum + column.tasks.length, 0),
+        tasksCount: board.columns.reduce((sum: number, column: ColumnWithTaskIds) => sum + column.tasks.length, 0),
         isFavorited: board.favoritedBy.length > 0
     }));
 }

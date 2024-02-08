@@ -1,9 +1,20 @@
-// @ts-nocheck
 import { auth } from "@/auth";
 import prisma from '@/db/prisma';
 import Link from "next/link";
 import Image from "next/image";
 import { IconList } from "@tabler/icons-react";
+import { BoardDetails, ColumnWithTasks } from "@/types/types";
+
+type FavoriteBoard = {
+    board: {
+        id: string;
+        title: string;
+        backgroundUrl: string | null;
+        columns: {
+            tasks: { id: string }[];
+        }[];
+    };
+};
 
 export default async function ProfileBoards() {
     const session = await auth();
@@ -35,9 +46,9 @@ export default async function ProfileBoards() {
         },
     });
 
-    const boards = favoriteBoards.map(fav => ({
+    const boards = favoriteBoards.map((fav: FavoriteBoard) => ({
         ...fav.board,
-        tasksCount: fav.board.columns.reduce((sum, column) => sum + column.tasks.length, 0),
+        tasksCount: fav.board.columns.reduce((sum: number, column) => sum + column.tasks.length, 0),
     }));
 
     if (boards.length === 0) {
@@ -46,7 +57,7 @@ export default async function ProfileBoards() {
 
     return (
         <>
-            {boards.map((board) => (
+            {boards.map((board: BoardDetails) => (
                 <Link key={board.id} href={`/board/${board.id}`}>
                 <div className="h-32 flex flex-col justify-end relative rounded-xl shadow-lg bg-white hover:bg-zinc-100 relative overflow-hidden">
                     <div className="absolute top-0 bottom-0 left-0 right-0 bg-white/40 backdrop-blur-md z-10"></div>

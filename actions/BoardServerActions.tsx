@@ -110,7 +110,7 @@ export async function handleDeleteBoard(boardId: string) {
 
   try {
     // Use prisma.$transaction without explicit type annotation
-    await prisma.$transaction(async (tx: any) => {
+    await prisma.$transaction(async (tx) => {
       const owner = await tx.boardMember.findFirst({
         where: {
           boardId: boardId,

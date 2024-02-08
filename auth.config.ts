@@ -1,6 +1,7 @@
-// @ts-nocheck
 import GitHub from "next-auth/providers/github";
-import type { NextAuthConfig } from "next-auth";
+import type { NextAuthConfig, Session } from "next-auth";
+import type { JWT } from "next-auth/jwt";
+import type { User } from "next-auth";
 
 export default {
   pages: {
@@ -20,9 +21,9 @@ export default {
       }
       return token;
     },
-    session: async ({ session, token }) => {
+    session: async ({ session, token }: { session: Session; token: JWT }) => {
       if (session?.user) {
-        (session.user as any).id = token.uid;
+        (session.user as User).id = token.uid as string;
       }
       return session;
     },
@@ -38,4 +39,3 @@ export default {
     },
   }
 } as NextAuthConfig;
-
