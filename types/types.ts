@@ -1,12 +1,18 @@
 import { Board, Column, Task, Activity, User, Label, Checklist, ChecklistItem, BoardMember } from "@prisma/client";
 
+// NEW TYPES
+export type BoardSummarySidebar = BoardMember & {
+    board: Pick<Board, 'id' | 'title'>;
+};
+
+// OLD TYPES
 export type BoardMemberSummary = Pick<BoardMember, 'role'> & {
     user: Pick<User, 'id' | 'name' | 'image'>;
 };
 
 export type BoardSummary = Pick<Board, 'id' | 'title' | 'backgroundUrl'> & {
     tasksCount: number;
-    isFavorited: boolean;
+    isFavorited?: boolean;
 };
 
 export type BoardDetails = BoardSummary & {
