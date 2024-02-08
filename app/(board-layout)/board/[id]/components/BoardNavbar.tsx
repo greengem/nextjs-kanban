@@ -1,15 +1,23 @@
+import { Board as BoardType, Column, Task } from '@prisma/client';
 import { Suspense } from "react";
 import BoardMenu from "../components/BoardMenu";
 import BoardFavourite from "../components/BoardFavourite";
 import BoardTitle from "../components/BoardTitle";
 import BoardFilterFetch from "./BoardFilter";
-import { BoardSummary } from "@/types/types";
 import BoardBackgroundImage from "./BoardBackgroundImage";
 import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
 import BoardUsers from "./BoardUsers";
 import { IconLoader2 } from "@tabler/icons-react";
 
-export default async function BoardNavbar({ board } : { board: BoardSummary }) {
+type ExtendedColumn = Column & {
+    tasks: Task[];
+};
+  
+type ExtendedBoard = BoardType & {
+    columns: ExtendedColumn[];
+};
+
+export default async function BoardNavbar({ board } : { board: ExtendedBoard }) {
     return (
         <div className="mb-5 z-10">
             <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2 overflow-x-auto no-scrollbar gap-2">
