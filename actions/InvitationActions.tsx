@@ -39,7 +39,7 @@ export async function handleSendBoardInvitation({ boardId, userEmail }: { boardI
     });
 
     // Generate the invitation link
-    const baseUrl = process.env.NEXTAUTH_URL;
+    const baseUrl = process.env.AUTH_URL;
     const invitationLink = `${baseUrl}/accept-invitation?token=${token}`;
 
     revalidatePath(`/profile/`);
