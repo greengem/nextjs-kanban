@@ -9,6 +9,7 @@ const SignInGoogle = () => {
       onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
       type="button"
       variant="ghost"
+      isDisabled
     >
       <IconBrandGoogle size={20} />Sign In With Google
     </Button>
