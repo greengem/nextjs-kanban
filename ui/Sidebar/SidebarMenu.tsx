@@ -15,7 +15,7 @@ export default function SidebarMenu({ boards }: { boards: BoardSummarySidebar[] 
                         <MenuItem key={boardMember.board.id} path={`/board/${boardMember.board.id}`} title={boardMember.board.title} />
                     ))}
                 </SubMenu>
-                <MenuItem path="/calendars" title="Calendars" icon={<IconCalendar size={18} />} />
+                <MenuItem path="/calendar" title="Calendar" icon={<IconCalendar size={18} />} />
                 <MenuItem path="/docs" title="Docs" icon={<IconTextCaption size={18} />} />
             </Menu>
         </Sidebar>
