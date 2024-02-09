@@ -12,7 +12,7 @@ export default function NavbarWrapper() {
                 <NavbarSidebarToggle />
                 <NavbarTitle />
             </div>
-            
+
             <div className="flex gap-5 items-center justify-between">
                 <ColourPicker />
                 <Suspense fallback={<Avatar showFallback isBordered size="sm" className="dark" />}>
