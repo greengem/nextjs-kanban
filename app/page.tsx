@@ -1,28 +1,71 @@
 import Link from "next/link";
-import { IconBrandGithub, IconLayoutKanban } from "@tabler/icons-react";
+import { IconBrandGithub, IconLayoutKanban, IconHeartHandshake, IconWand, IconChartBar, IconRocket } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
+import Image from "next/image";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
 export default function Home() {
+
+  const cardData = [
+    {
+      icon: IconLayoutKanban,
+      title: "Organize Projects Effortlessly",
+      body: "Create custom boards, lists, and cards to organize everything from daily tasks to complex projects. Drag and drop to prioritize and adjust plans on the fly."
+    },
+    {
+      icon: IconHeartHandshake,
+      title: "Collaborate Anywhere, Anytime",
+      body: "Invite team members to collaborate in real-time. Share feedback, assign tasks, and stay updated with seamless notifications and activity logs."
+    },
+    {
+      icon: IconWand,
+      title: "Customize Your Workflow",
+      body: "Tailor your boards with custom labels, checklists, due dates, and more. Automate repetitive tasks with built-in workflow automation tools to save time and stay focused."
+    },
+    {
+      icon: IconChartBar,
+      title: "Access Insights & Analytics",
+      body: "Visualize your project's progress with powerful analytics and reporting tools. Make informed decisions with at-a-glance dashboards and detailed reports."
+    }
+  ];
+
   return (
-    <main className="h-dvh bg-black text-white flex flex-col justify-center">
+    <main className="min-h-dvh text-white bg-gradient-to-br from-black to-primary-100 dark">
+      <nav className="px-10 py-3 mb-5">
+        <h4 className="flex items-center text-lg gap-3 font-semibold tracking-tight"><IconLayoutKanban className="text-primary" /> NextBoard</h4>
+      </nav>
 
-      <h1 className="text-7xl tracking-tight font-bold flex flex-wrap items-center justify-center mb-5">
-        <span><IconLayoutKanban size={80} className="text-primary" /></span>
-        <span className="mr-2">
-          <span className="text-primary">N</span>ext
-        </span> 
-        <span>
-          <span className="text-primary">K</span>anban
-        </span>
-      </h1>
+      <section className="mb-10 py-5 px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          <div className="flex flex-col justify-center">
+            <h4 className="text-lg font-semibold mb-5 text-zinc-500 flex items-center gap-1">Project Management</h4>
+            <h1 className="text-8xl tracking-tighter font-bold mb-5">Plan, Track, and Achieve</h1>
+            <p className="text-lg text-zinc-500 mb-5">The perfect solution to all of your task management needs, <span className="text-primary">powered by AI</span></p>
+            <div className="flex gap-5">
+              <Button color="primary" size="lg" as={Link} href="/board"><IconRocket />Get Started</Button>
+              <Button size="lg" as={Link} href='https://github.com/greengem/nextjs-kanban'><IconBrandGithub />Github</Button>
+            </div>
+          </div>
+          <div>
+            <Image src="/ss.webp" alt="Screenshot of NextBoard" width={2000} height={1250} className="w-full h-auto rounded-xl shadow-xl" />
+          </div>
+        </div>
+      </section>
 
-      <div className="text-center mb-10 mx-auto">
-        <h1 className="text-4xl font-bold tracking-tighter">Revolutionizing Task Management With <span className="text-primary">AI</span></h1>
-      </div>
-
-      <div className="flex items-center justify-center gap-2 text-center dark">
-        <Button variant="ghost" as={Link} href="/board">🚀 Get Started</Button>
-        <Button variant="ghost" as={Link} href='https://github.com/greengem/nextjs-kanban'><IconBrandGithub size={16} />Github</Button>
-      </div>
+      <section className="mb-10 py-5 px-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+          {cardData.map((card, index) => (
+            <Card key={index} className="bg-zinc-900/50 backdrop-blur-md shadow-xl" shadow="none">
+              <CardHeader className="font-bold gap-3">
+                <span className="flex items-center justify-center bg-primary rounded-full h-10 w-10 shrink-0">
+                  <card.icon size={22} />
+                </span>
+                {card.title}
+              </CardHeader>
+              <CardBody>{card.body}</CardBody>
+            </Card>
+          ))}
+        </div>
+      </section>
 
     </main>
   );
