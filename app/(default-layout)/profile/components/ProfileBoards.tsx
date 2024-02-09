@@ -3,35 +3,6 @@ import prisma from '@/db/prisma';
 import Link from "next/link";
 import Image from "next/image";
 import { IconList } from "@tabler/icons-react";
-import { ColumnWithTasks } from "@/types/types";
-
-type FavoriteBoard = {
-    board: {
-        id: string;
-        title: string;
-        backgroundUrl: string | null;
-        columns: {
-            id: string;
-            title: string;
-            order: number;
-            tasks: { id: string }[];
-        }[];
-    };
-};
-
-type BoardDetails = {
-    tasksCount: number;
-    isFavorited: boolean;
-    id: string;
-    title: string;
-    backgroundUrl: string | null;
-    columns: {
-        id: string;
-        title: string;
-        order: number;
-        tasks: { id: string }[];
-    }[];
-};
 
 export default async function ProfileBoards() {
     const session = await auth();
@@ -41,37 +12,32 @@ export default async function ProfileBoards() {
         throw new Error("User not authenticated");
     }
 
-    const favoriteBoards = await prisma.favoriteBoard.findMany({
+    const user = await prisma.user.findUnique({
         where: {
-            userId: userId,
+            id: userId,
         },
-        select: {
-            board: {
-                select: {
-                    id: true,
-                    title: true,
-                    backgroundUrl: true,
+        include: {
+            favoriteBoards: {
+                include: {
                     columns: {
-                        select: {
-                            id: true,
-                            title: true,
-                            order: true,
-                            tasks: {
-                                select: { id: true },
-                            }
-                        }
+                        include: {
+                            tasks: true,
+                        },
                     },
                 },
             },
         },
     });
 
-    const boards = favoriteBoards.map((fav: FavoriteBoard) => ({
-        ...fav.board,
-        tasksCount: fav.board.columns.reduce((sum: number, column) => sum + column.tasks.length, 0),
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    const boards = user.favoriteBoards.map((board) => ({
+        ...board,
+        tasksCount: board.columns.reduce((sum: number, column) => sum + column.tasks.length, 0),
         isFavorited: true,
     }));
-    
 
     if (boards.length === 0) {
         return <p>No favorite boards found.</p>;
@@ -79,7 +45,7 @@ export default async function ProfileBoards() {
 
     return (
         <>
-            {boards.map((board: BoardDetails) => (
+            {boards.map((board) => (
                 <Link key={board.id} href={`/board/${board.id}`}>
                 <div className="h-32 flex flex-col justify-end relative rounded-xl shadow-lg bg-white hover:bg-zinc-100 relative overflow-hidden">
                     <div className="absolute top-0 bottom-0 left-0 right-0 bg-white/40 backdrop-blur-md z-10"></div>
