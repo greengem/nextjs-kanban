@@ -29,7 +29,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-dvh text-white bg-gradient-to-br from-black to-primary-100 dark">
+    <main className="min-h-dvh text-white bg-gradient-to-br from-black to-purple-900">
       <nav className="px-10 py-3 mb-5">
         <h4 className="flex items-center text-lg gap-3 font-semibold tracking-tight"><IconLayoutKanban className="text-primary" /> NextBoard</h4>
       </nav>
@@ -38,7 +38,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex flex-col justify-center">
             <h4 className="text-lg font-semibold mb-5 text-zinc-500 flex items-center gap-1">Project Management</h4>
-            <h1 className="text-8xl tracking-tighter font-bold mb-5">Plan, Track, and Achieve</h1>
+            <h1 className="text-4xl md:text-8xl tracking-tighter font-bold mb-5">Plan, Track, and Achieve</h1>
             <p className="text-lg text-zinc-500 mb-5">The perfect solution to all of your task management needs, <span className="text-primary">powered by AI</span></p>
             <div className="flex gap-5">
               <Button color="primary" size="lg" as={Link} href="/board"><IconRocket />Get Started</Button>
@@ -52,12 +52,12 @@ export default function Home() {
       </section>
 
       <section className="mb-10 py-5 px-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {cardData.map((card, index) => (
-            <Card key={index} className="bg-zinc-900/50 backdrop-blur-md shadow-xl" shadow="none">
+            <Card key={index} className="text-zinc-200 bg-zinc-900/50 backdrop-blur-md shadow-xl" shadow="none">
               <CardHeader className="font-bold gap-3">
-                <span className="flex items-center justify-center bg-primary rounded-full h-10 w-10 shrink-0">
-                  <card.icon size={22} />
+                <span className="flex items-center justify-center bg-primary rounded-full h-8 w-8 shrink-0">
+                  <card.icon size={20} />
                 </span>
                 {card.title}
               </CardHeader>
