@@ -35,24 +35,24 @@ export default function Home() {
         <Link href='https://github.com/greengem/nextjs-kanban'><IconBrandGithub /></Link>
       </nav>
 
-      <section className="mb-10 py-5 px-10">
+      <section className="mb-10 py-5 px-3 md:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex flex-col justify-center">
             <h4 className="text-lg font-semibold mb-5 text-zinc-500 flex items-center gap-1">Project Management</h4>
-            <h1 className="text-4xl md:text-8xl tracking-tighter font-bold mb-5">Plan, Track, and <span className="from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent bg-gradient-to-b">Achieve</span></h1>
+            <h1 className="text-4xl md:text-6xl xl:text-8xl tracking-tighter font-bold mb-5">Plan, Track, and <span className="from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent bg-gradient-to-b">Achieve</span></h1>
             <p className="text-lg text-zinc-500 mb-5">The perfect <strong>solution</strong> to all of your task management needs, <span className="text-purple-500">powered by AI</span></p>
             <div className="flex gap-5">
               <Button color="secondary"  as={Link} href="/board"><IconRocket />Get Started</Button>
               <Button as={Link} href="/board"><IconBook />Docs</Button>
             </div>
           </div>
-          <div>
+          <div className="hidden lg:block">
             <Image src="/ss.webp" alt="Screenshot of NextBoard" width={2000} height={1250} className="w-full h-auto rounded-xl shadow-xl" />
           </div>
         </div>
       </section>
 
-      <section className="mb-10 py-5 px-10">
+      <section className="mb-10 py-5 px-3 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {cardData.map((card, index) => (
             <Card key={index} className="text-zinc-200 bg-zinc-900/50 backdrop-blur-md shadow-xl" shadow="none">
