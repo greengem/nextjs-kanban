@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { IconBrandGithub, IconLayoutKanban, IconHeartHandshake, IconWand, IconChartBar, IconRocket } from "@tabler/icons-react";
-import { Button } from "@nextui-org/button";
+import { IconBrandGithub, IconLayoutKanban, IconHeartHandshake, IconWand, IconChartBar, IconRocket, IconBook, IconBook2 } from "@tabler/icons-react";
 import Image from "next/image";
+import { Button } from "@nextui-org/button";
 import { Card, CardBody, CardHeader } from "@nextui-org/card";
 export default function Home() {
 
@@ -29,20 +29,21 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-dvh text-white bg-gradient-to-br from-black to-purple-900">
-      <nav className="px-10 py-3 mb-5">
-        <h4 className="flex items-center text-lg gap-3 font-semibold tracking-tight"><IconLayoutKanban className="text-primary" /> NextBoard</h4>
+    <main className="min-h-dvh text-white bg-gradient-to-br from-black to-zinc-900 dark">
+      <nav className="px-10 py-3 mb-5 flex justify-between items-center">
+        <h4 className="flex items-center text-lg gap-3 font-semibold tracking-tight"><IconLayoutKanban className="text-purple-500" /> NextBoard</h4>
+        <Link href='https://github.com/greengem/nextjs-kanban'><IconBrandGithub /></Link>
       </nav>
 
       <section className="mb-10 py-5 px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           <div className="flex flex-col justify-center">
             <h4 className="text-lg font-semibold mb-5 text-zinc-500 flex items-center gap-1">Project Management</h4>
-            <h1 className="text-4xl md:text-8xl tracking-tighter font-bold mb-5">Plan, Track, and Achieve</h1>
-            <p className="text-lg text-zinc-500 mb-5">The perfect solution to all of your task management needs, <span className="text-primary">powered by AI</span></p>
+            <h1 className="text-4xl md:text-8xl tracking-tighter font-bold mb-5">Plan, Track, and <span className="from-[#FF1CF7] to-[#b249f8] bg-clip-text text-transparent bg-gradient-to-b">Achieve</span></h1>
+            <p className="text-lg text-zinc-500 mb-5">The perfect <strong>solution</strong> to all of your task management needs, <span className="text-purple-500">powered by AI</span></p>
             <div className="flex gap-5">
-              <Button color="primary" size="lg" as={Link} href="/board"><IconRocket />Get Started</Button>
-              <Button size="lg" as={Link} href='https://github.com/greengem/nextjs-kanban'><IconBrandGithub />Github</Button>
+              <Button color="secondary"  as={Link} href="/board"><IconRocket />Get Started</Button>
+              <Button as={Link} href="/board"><IconBook />Docs</Button>
             </div>
           </div>
           <div>
@@ -56,7 +57,7 @@ export default function Home() {
           {cardData.map((card, index) => (
             <Card key={index} className="text-zinc-200 bg-zinc-900/50 backdrop-blur-md shadow-xl" shadow="none">
               <CardHeader className="font-bold gap-3">
-                <span className="flex items-center justify-center bg-primary rounded-full h-8 w-8 shrink-0">
+                <span className="flex items-center justify-center bg-purple-500 rounded-full h-8 w-8 shrink-0 text-black">
                   <card.icon size={20} />
                 </span>
                 {card.title}
