@@ -12,16 +12,30 @@ export async function handleFavoriteBoard(boardId: string) {
             return { success: false, message: 'Authentication required', status: 401 };
         }
 
-        const favorite = await prisma.favoriteBoard.findUnique({
+        const user = await prisma.user.findUnique({
             where: {
-                userId_boardId: { userId, boardId },
+                id: userId,
+            },
+            include: {
+                favoriteBoards: {
+                    where: {
+                        id: boardId,
+                    },
+                },
             },
         });
 
-        if (favorite) {
-            await prisma.favoriteBoard.delete({
+        if (user && user.favoriteBoards.length > 0) {
+            await prisma.user.update({
                 where: {
-                    userId_boardId: { userId, boardId },
+                    id: userId,
+                },
+                data: {
+                    favoriteBoards: {
+                        disconnect: {
+                            id: boardId,
+                        },
+                    },
                 },
             });
 
@@ -29,10 +43,16 @@ export async function handleFavoriteBoard(boardId: string) {
             
             return { success: true, favorited: false, message: 'Board unfavorited', status: 200 };
         } else {
-            await prisma.favoriteBoard.create({
+            await prisma.user.update({
+                where: {
+                    id: userId,
+                },
                 data: {
-                    userId,
-                    boardId,
+                    favoriteBoards: {
+                        connect: {
+                            id: boardId,
+                        },
+                    },
                 },
             });
 

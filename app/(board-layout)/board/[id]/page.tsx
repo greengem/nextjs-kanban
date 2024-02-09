@@ -47,7 +47,6 @@ export default async function BoardPage({ params, searchParams }: { params: { id
       },
     },
   });
-  
 
   if (!board) { return <div>Board not found</div> };
 

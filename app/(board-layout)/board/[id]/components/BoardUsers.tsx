@@ -16,8 +16,8 @@ export default async function BoardUsers({ boardId }: { boardId: string }) {
     }
 
     const boardMembers = await prisma.boardMember.findMany({
-    where: { boardId: boardId },
-    include: { user: true }
+      where: { boardId: boardId },
+      include: { user: true }
     }) as BoardMemberWithUser[];
 
     const owner = boardMembers.find((member) => member.role === 'owner')?.user ?? null;

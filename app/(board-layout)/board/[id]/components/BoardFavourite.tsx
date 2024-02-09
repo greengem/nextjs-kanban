@@ -1,20 +1,22 @@
-'use client';
-import { IconStar, IconStarFilled } from "@tabler/icons-react";
-import { handleFavoriteBoard } from "@/actions/UserServerActions";
+import { auth } from "@/auth";
+import prisma from '@/db/prisma';
+import BoardFavouriteClient from "./BoardFavourite.client";
 
-export default function BoardFavourite({ 
-    board 
-} : {
-    board: any
-}) {
+export default async function BoardFavourite({ boardId } : { boardId: string }) {
+  const session = await auth();
+  const userId = session?.user?.id;
+  if (!userId) { return <div>User not authenticated</div> };
 
-    const handleToggleFavorite = async () => {
-        handleFavoriteBoard(board.id)
-    };
+  const board = await prisma.board.findUnique({
+      where: {
+        id: boardId,
+      },
+      include: {
+        favoritedBy: true,
+      },
+  });
 
-    return (
-        <button onClick={handleToggleFavorite} className="mx-3">
-            {board.isFavorited ? <IconStarFilled className="text-primary" size={18} /> : <IconStar size={18} />}
-        </button>
-    )
+  const isFavorite = board?.favoritedBy.some(user => user.id === userId) || false;
+
+  return <BoardFavouriteClient isFavorite={isFavorite} boardId={boardId} />;
 }

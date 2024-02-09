@@ -23,7 +23,9 @@ export default async function BoardNavbar({ board } : { board: ExtendedBoard }) 
             <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2 overflow-x-auto no-scrollbar gap-2">
                 <div className="flex gap-2 items-center">
                     <BoardTitle boardTitle={board.title} boardId={board.id} />
-                    <BoardFavourite board={board} />
+                    <Suspense fallback={<IconLoader2 className="animate-spin mx-3" size={18} />}>
+                        <BoardFavourite boardId={board.id} />
+                    </Suspense>
                     <Suspense fallback={<IconLoader2 className="animate-spin" size={16} />}>
                         <BoardFilterFetch boardId={board.id} />
                     </Suspense>
