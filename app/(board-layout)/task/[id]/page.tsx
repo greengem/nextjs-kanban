@@ -6,8 +6,10 @@ interface BoardProps {
 
 export default async function Task({ params }: BoardProps) {
   return (
-    <main className="flex flex-col grow bg-zinc-200">
-      <TaskDetail taskId={params.id} />
+    <main className="flex flex-col grow bg-zinc-900">
+      <div className='p-3 md:p-5 flex flex-col grow relative'>
+        <TaskDetail taskId={params.id} />
+      </div>
     </main>
     );
 }
