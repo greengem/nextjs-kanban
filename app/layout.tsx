@@ -22,8 +22,8 @@ export default function RootLayout({
 }) {
 
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.className} h-dvh flex flex-col antialiased`}>
-      <body className='flex flex-col grow'>
+    <html lang="en" suppressHydrationWarning className={`${inter.className} h-dvh flex flex-col`}>
+      <body className='flex flex-col grow text-zinc-200'>
         <Toaster />
         <Providers>
           {children}
