@@ -123,7 +123,7 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
   }
 
   return (
-    <div className='p-3 md:p-5 flex flex-col grow relative'>
+    <div>
 
       <div className="flex-none mb-3 md:mb-5 z-1 hidden">
         <Button
@@ -138,7 +138,7 @@ export default async function TaskDetail({ taskId }: { taskId: string }) {
       </div>
 
       <Card className="z-10">
-        <CardBody className="bg-white">
+        <CardBody className="bg-zinc-950">
           <TaskDetailTitle selectedTask={task} boardId={task?.column.boardId} />
           <div className="grid grid-cols-1 md:grid-cols-4 p-3 md:p-5 gap-x-5">
             <TaskDetailView task={task} />

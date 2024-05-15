@@ -35,7 +35,7 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
   };
 
   return (
-    <div className='bg-white flex select-none rounded-md ring-1 ring-zinc-200 hover:shadow-md ring-0 hover:ring-2 hover:ring-primary'>
+    <div className='bg-zinc-800 flex select-none rounded-md hover:shadow-md hover:ring-2 hover:ring-primary'>
 
       <div className='pl-1 pr-1 flex items-center cursor-grab touch-none' {...dragHandleProps}>
         <IconGripVertical className='text-primary' size={24} />
@@ -59,7 +59,7 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
           <div className='flex gap-3 items-center mt-1'>
 
             {renderDateInfo() && (
-              <div className='flex items-center gap-1 text-xs text-zinc-500'>
+              <div className='flex items-center gap-1 text-xs text-zinc-400'>
                 <IconClock size={14} /> {renderDateInfo()}
               </div>
             )}

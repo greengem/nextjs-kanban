@@ -29,7 +29,7 @@ export default function CreateBoardForm() {
 
   return (
     <div>
-    <div className='p-2 bg-white rounded-xl shadow-xl'>
+    <div className='p-2 bg-zinc-700 rounded-xl shadow-xl'>
         <div className="text-center">
           <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
             <Input 
@@ -39,7 +39,6 @@ export default function CreateBoardForm() {
               {...register('title')}
               label="Board Title"
               placeholder='Name of your board...'
-              size='sm'
               isRequired
               variant='underlined'
               isClearable

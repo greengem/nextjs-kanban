@@ -20,7 +20,7 @@ type ExtendedBoard = BoardType & {
 export default async function BoardNavbar({ board } : { board: ExtendedBoard }) {
     return (
         <div className="mb-5 z-10">
-            <div className="flex justify-between items-center bg-white/60 backdrop-blur-md px-5 py-2 overflow-x-auto no-scrollbar gap-2">
+            <div className="flex justify-between items-center bg-zinc-900 px-5 py-2 overflow-x-auto no-scrollbar gap-2">
                 <div className="flex gap-2 items-center">
                     <BoardTitle boardTitle={board.title} boardId={board.id} />
                     <Suspense fallback={<IconLoader2 className="animate-spin mx-3" size={18} />}>

@@ -37,18 +37,9 @@ export default async function FetchBoards() {
         <>
             {boards.map((boardMember) => (
                 <Link key={boardMember.board.id} href={`/board/${boardMember.board.id}`}>
-                    <div className="h-32 flex flex-col justify-end relative rounded-xl shadow-lg bg-white hover:bg-zinc-100 relative overflow-hidden">
-                        <div className="absolute top-0 bottom-0 left-0 right-0 bg-white/40 backdrop-blur-md z-10"></div>
-                        {boardMember.board.backgroundUrl && (
-                            <Image 
-                                className='object-cover object-center z-0'
-                                src={boardMember.board.backgroundUrl} 
-                                alt='Board Wallpaper' 
-                                fill
-                            />
-                        )}
+                    <div className="h-32 flex flex-col justify-end rounded-xl shadow-lg bg-zinc-700 hover:bg-zinc-900 relative overflow-hidden">
                         <h4 className="
-                            text-black font-semibold tracking-tight
+                            font-semibold tracking-tight
                             z-20
                             drop-shadow-lg 
                             p-2 

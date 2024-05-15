@@ -86,7 +86,7 @@ export default function ColumnActions({
                   <h3 className="text-large" onClick={() => setIsEditing(true)}>{columnTitle}</h3>
                   <Dropdown>
                       <DropdownTrigger>
-                          <button className="bg-zinc-200 p-1 rounded-md"><IconMenu2 size={18} /></button>
+                          <button className="bg-zinc-800 p-2 rounded-md"><IconMenu2 size={18} /></button>
                       </DropdownTrigger>
                       <DropdownMenu aria-label="Column Actions" onAction={(key) => handleAction(key as 'delete-column' | 'delete-tasks')}>
                           <DropdownItem key="delete-tasks" className="text-danger" color="danger" startContent={<IconTrash size={18} />}>Delete all tasks in this column</DropdownItem>

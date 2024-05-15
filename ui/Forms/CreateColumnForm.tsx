@@ -32,8 +32,8 @@ export default function CreateColumnForm({
   };
 
   return (
-    <div className="shrink-0 w-64 ml-2">
-        <div className='bg-white p-2 rounded-xl shadow-xl'>
+    <div className="shrink-0 w-64 md:w-72 lg:w-80 ml-2">
+        <div className='bg-zinc-900 p-2 rounded-xl shadow-xl'>
           <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
 
               <Input 
@@ -58,7 +58,6 @@ export default function CreateColumnForm({
               type="submit" 
               disabled={isSubmitting}
               className='w-full gap-1'
-              color='primary'
             >
             {isSubmitting ? (
               <>

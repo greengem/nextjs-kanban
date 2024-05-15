@@ -61,14 +61,14 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
     };
 
     return (
-        <div className="bg-white/60 backdrop-blur-md shadow-inner">
-            <form onSubmit={handleSubmit(onSubmit)} className="px-5 py-3">
+        <div className="bg-zinc-900 shadow-inner border-t-1 border-zinc-700">
+            <form onSubmit={handleSubmit(onSubmit)} className="px-5 py-2">
                 <div className='flex gap-x-2'>
                     <Input
                         autoComplete="off"
                         {...register('searchTerm')}
                         labelPlacement='outside'
-                        placeholder="Search Unsplash..."
+                        placeholder="Search for background images..."
                     />
                     <Button type="submit" color="primary">Search</Button>
                     <Button isIconOnly type="button" onClick={handleClose}><IconX size={16} /></Button>
@@ -77,7 +77,7 @@ export default function BoardBackgroundImage({ boardId } : {boardId: string}) {
 
                 {
                     images.length > 0 && (
-                        <div className="flex gap-3 overflow-x-scroll no-scrollbar mt-3">
+                        <div className="flex gap-3 overflow-x-scroll no-scrollbar mt-2">
                             {images.map((image, index) => (
                                 <div key={index} className='relative h-24 w-32 shrink-0 grow-0'>
                                 <Image 

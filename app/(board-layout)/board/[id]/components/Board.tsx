@@ -134,22 +134,22 @@ export default function Board({ board: initialBoard }: BoardProps) {
                           showGrab
                           dragHandleProps={provided.dragHandleProps ?? undefined}
                         >
-                          <div className='flex justify-between items-center gap-2 pl-1'>
+                          <div className='flex justify-between items-center gap-2'>
                             <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
                           </div>
                         </CardHeader>
     
                         <Droppable droppableId={column.id} type="TASK">
                           {(provided) => (
-                            <CardBody className='bg-white'>
+                            <CardBody className='bg-zinc-900'>
                               <div ref={provided.innerRef} {...provided.droppableProps}>
                                 {column.tasks.length === 0 ? (
                                   <div className="
-                                    bg-zinc-100
+                                    bg-zinc-800
                                     text-center text-xs
                                     py-4
                                     rounded-lg
-                                    border-dashed border-2 border-zinc-200
+                                    border-dashed border-2 border-zinc-700
                                   ">
                                     Drop here
                                   </div>
@@ -160,7 +160,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
                                         <div
                                           ref={provided.innerRef}
                                           {...provided.draggableProps}
-                                          className="mb-2"
+                                          className="mb-3"
                                         >
                                           <TaskItem
                                             task={task}

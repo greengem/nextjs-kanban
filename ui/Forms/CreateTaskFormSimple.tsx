@@ -12,7 +12,7 @@ import { Button } from '@nextui-org/button';
 
 function CloseButton({ onClick }: { onClick: () => void }) {
   return (
-    <Button type="button" size='sm' isIconOnly aria-label="Close form" onClick={onClick}>
+    <Button type="button" isIconOnly aria-label="Close form" onClick={onClick}>
       <IconX size={16} />
     </Button>
   );
@@ -68,13 +68,11 @@ export default function CreateTaskForm({
             <Button 
               type="submit" 
               disabled={isSubmitting}
-              size='sm'
-              color='primary'
               className='grow'
             >
               {isSubmitting ? (
                 <>
-                  <IconLoader2 size={14} className="animate-spin mr-2" />
+                  <IconLoader2 size={18} className="animate-spin mr-1" />
                   <span>Creating...</span>
                 </>
               ) : (

@@ -77,13 +77,13 @@ export default async function ProfileActivity() {
     });
 
     if (activities.length === 0) {
-        return <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">No activities found</li>;
+        return <li className="border-b-1 last:border-b-0 border-zinc-700 py-1">No activities found</li>;
     }
 
     return (
         <>
             {activities.map((activity: ActivityWithUser) => (
-                <li key={activity.id} className="border-b-1 last:border-b-0 border-zinc-300 py-1">
+                <li key={activity.id} className="border-b-1 last:border-b-0 border-zinc-700 py-1 text-sm">
                     {getActivityMessage(activity)}
                 </li>
             ))}

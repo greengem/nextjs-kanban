@@ -51,7 +51,7 @@ export default async function BoardPage({ params, searchParams }: { params: { id
   if (!board) { return <div>Board not found</div> };
 
   return (
-    <main className="flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-200 relative">
+    <main className="flex flex-col grow min-w-0 bg-cover bg-center bg-zinc-800 relative">
       {board.backgroundUrl && (
           <Image 
           className='object-cover object-center z-0'
