@@ -8,7 +8,7 @@ export default function SidebarWrapper({ boards } : { boards: BoardSummarySideba
     const { isOpen, toggleDrawer } = useSidebar();
     return (
         <>
-            <SidebarOverlay isVisible={isOpen} onClick={toggleDrawer} />
+            {/* <SidebarOverlay isVisible={isOpen} onClick={toggleDrawer} /> */}
             <SidebarMenu boards={boards} />
         </>
     )
