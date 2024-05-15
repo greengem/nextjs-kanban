@@ -30,7 +30,8 @@ export default function NavbarAvatarClient({
                     name={userName}
                     src={userImage}
                     size="sm" 
-                    className="cursor-pointer transition-transform dark" 
+                    color="primary"
+                    className="cursor-pointer transition-transform" 
                 />
             </DropdownTrigger>
             <DropdownMenu aria-label="User Actions" onAction={(key) => handleAction(key as 'profile' | 'signout')}>
