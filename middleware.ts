@@ -1,8 +1,16 @@
-import NextAuth from 'next-auth';
-import authConfig from './auth.config';
+import { auth } from "@/auth";
 
-export default NextAuth(authConfig).auth;
+export default auth((req) => {
+  const protectedPaths = ['/dashboard', '/board', '/task', '/profile'];
+  const isProtectedRoute = protectedPaths.some(path => req.nextUrl.pathname.startsWith(path));
 
+  if (isProtectedRoute && !req.auth) {
+    const newUrl = new URL("/login", req.nextUrl.origin);
+    return Response.redirect(newUrl);
+  }
+});
+
+// Optionally, don't invoke Middleware on some paths
 export const config = {
-    matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 };
