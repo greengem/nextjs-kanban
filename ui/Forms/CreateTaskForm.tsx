@@ -47,6 +47,7 @@ export default function CreateTaskForm({
     <div>
       {isEditing ? (
         <form onSubmit={handleSubmit(onSubmit)}>
+          <hr className='border-zinc-800 mb-3' />
           <div className="mb-2">
             <Input 
               autoFocus 

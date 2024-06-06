@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
 import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
 import TaskItem from './TaskItem';
-import CreateTaskFormSimple from '@/ui/Forms/CreateTaskFormSimple';
+import CreateTaskForm from '@/ui/Forms/CreateTaskForm';
 import ColumnActions from './ColumnActions';
 
 type ExtendedTask = Task & {
@@ -179,7 +179,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
                         </Droppable>
     
                         <CardFooter>
-                          <CreateTaskFormSimple boardId={board.id} columnId={column.id} />
+                          <CreateTaskForm boardId={board.id} columnId={column.id} />
                         </CardFooter>
                       </Card>
                     </div>

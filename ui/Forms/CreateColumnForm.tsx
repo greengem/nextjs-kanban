@@ -53,11 +53,12 @@ export default function CreateColumnForm({
               type="hidden" 
               {...register('boardId')}
             />
-
+            <div>
             <Button 
               type="submit" 
               disabled={isSubmitting}
-              className='w-full gap-1'
+              className='gap-1'
+              color='primary'
             >
             {isSubmitting ? (
               <>
@@ -71,6 +72,7 @@ export default function CreateColumnForm({
               </>
             )}
             </Button>
+            </div>
           </form>
         </div>
       </div>

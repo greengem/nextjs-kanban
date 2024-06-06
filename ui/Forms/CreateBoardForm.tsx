@@ -29,9 +29,8 @@ export default function CreateBoardForm() {
 
   return (
     <div>
-    <div className='p-2 bg-zinc-700 rounded-xl shadow-xl'>
-        <div className="text-center">
-          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2'>
+    <div className='p-2 bg-zinc-900 rounded-xl shadow-xl h-32'>
+          <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col space-y-2 h-full justify-between'>
             <Input 
               autoComplete="off"
               type="text" 
@@ -40,34 +39,32 @@ export default function CreateBoardForm() {
               label="Board Title"
               placeholder='Name of your board...'
               isRequired
-              variant='underlined'
               isClearable
               minLength={3}
             />
-
-            <Button 
-              type="submit" 
-              color='primary'
-              className='gap-1'
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? (
-                <>
-                  <IconLoader2 size={16} className="animate-spin shrink-0" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <IconPlus size={16} className='shrink-0' />
-                  Create
-                </>
-              )}
-            </Button>
-
+            <div>
+              <Button 
+                type="submit" 
+                color='primary'
+                className='gap-1'
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <>
+                    <IconLoader2 size={16} className="animate-spin shrink-0" />
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <IconPlus size={16} className='shrink-0' />
+                    Create
+                  </>
+                )}
+              </Button>
+            </div>
 
           </form>
         </div>
-    </div>
     </div>
   );
 }
