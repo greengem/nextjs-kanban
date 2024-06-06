@@ -1,4 +1,6 @@
 import { auth } from "@/auth";
+import { Suspense } from "react";
+import { Avatar } from "@nextui-org/avatar";
 import NavbarAvatarClient from "./NavbarAvatar.client";
 
 export default async function NavbarAvatar() {
@@ -11,5 +13,13 @@ export default async function NavbarAvatar() {
   const userName = session.user?.name ?? "";
   const userImage = session.user?.image ?? "";
 
-  return <NavbarAvatarClient userName={userName} userImage={userImage} />;
+  return (
+    <Suspense
+    fallback={
+      <Avatar showFallback isBordered size="sm" className="dark" />
+    }
+  >
+      <NavbarAvatarClient userName={userName} userImage={userImage} />
+    </Suspense>
+  );
 }
