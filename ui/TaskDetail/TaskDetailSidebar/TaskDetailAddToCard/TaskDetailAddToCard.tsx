@@ -14,8 +14,7 @@ export default async function TaskDetailAddToCard({ task } : { task: ExpandedTas
                 {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconUser size={14} /> Members</li>*/}
                 <AddToCardLabels labels={labels} task={task} boardId={task.column.boardId} />
                 <AddChecklist taskId={task.id} boardId={task.column.boardId} />
-                <AddToCardDates task={task} dateType="startDate" />
-                <AddToCardDates task={task} dateType="dueDate" />
+                <AddToCardDates task={task} />
                 {/*
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconPaperclip size={14} /> Attachement</li>
                 <li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconPaint size={14} /> Cover</li>

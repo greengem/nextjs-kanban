@@ -1,38 +1,39 @@
 'use client'
 import { useState } from 'react';
-import { format } from 'date-fns';
-import { DayPicker } from 'react-day-picker';
-import { Button } from '@nextui-org/button';
+import { RangeCalendar, DateValue, RangeValue } from '@nextui-org/react';
 import { handleAddDate, handleRemoveDate } from '@/actions/TaskServerActions';
 import toast from 'react-hot-toast';
+import { format } from 'date-fns';
+import { parseDate, today, getLocalTimeZone } from '@internationalized/date';
 
-import 'react-day-picker/dist/style.css';
-import './DayPicker.css';
+export default function AddToCardDatesCalendar({ task } : { task: any }) {
+    const startDate = task.startDate ? format(new Date(task.startDate), 'yyyy-MM-dd') : undefined;
+    const dueDate = task.dueDate ? format(new Date(task.dueDate), 'yyyy-MM-dd') : undefined;
+    const taskId: string = task.id;
+    const boardId: string = task.column.boardId;
 
-export default function AddToCardDatesCalendar({ 
-    task, dateType
-} : {
-    task: any; dateType: 'startDate' | 'dueDate';
-}) {
-    const startDate = task.startDate;
-    const dueDate = task.dueDate;
-    const taskId = task.id;
-    const boardId = task.column.boardId;
+    const [selectedRange, setSelectedRange] = useState<RangeValue<DateValue>>({
+        start: startDate ? parseDate(startDate) : today(getLocalTimeZone()),
+        end: dueDate ? parseDate(dueDate) : today(getLocalTimeZone()).add({ weeks: 1 })
+    });
 
-    const initialDate = dateType === 'startDate' ? (startDate ?? undefined) : (dueDate ?? undefined);
-    const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
+    const handleRangeSelect = async (range: RangeValue<DateValue>) => {
+        if (!range.start || !range.end) return;
 
-    const handleDateSelect = (newDate: Date | undefined) => {
-        if (!newDate) return;
+        setSelectedRange(range);
 
-        const currentDate = dateType === 'startDate' ? startDate : dueDate;
-        if (!currentDate || currentDate.toISOString() !== newDate.toISOString()) {
-            setSelectedDate(newDate);
-            sendDateRequest(newDate);
+        const newStartDate = new Date(range.start.year, range.start.month - 1, range.start.day);
+        const newDueDate = new Date(range.end.year, range.end.month - 1, range.end.day);
+
+        if (startDate !== format(newStartDate, 'yyyy-MM-dd')) {
+            await sendDateRequest(newStartDate, 'startDate');
         }
-    }
+        if (dueDate !== format(newDueDate, 'yyyy-MM-dd')) {
+            await sendDateRequest(newDueDate, 'dueDate');
+        }
+    };
 
-    const sendDateRequest = async (newDate: Date) => {
+    const sendDateRequest = async (newDate: Date, dateType: 'startDate' | 'dueDate') => {
         try {
             const formattedDate = format(newDate, 'yyyy-MM-dd');
             const data = {
@@ -40,7 +41,7 @@ export default function AddToCardDatesCalendar({
                 date: formattedDate,
                 boardId: boardId,
                 dateType: dateType
-            }
+            };
 
             const response = await handleAddDate(data);
 
@@ -52,59 +53,40 @@ export default function AddToCardDatesCalendar({
         } catch (error) {
             toast.error(`Failed to Update ${dateType === 'dueDate' ? 'Due Date' : 'Start Date'}`);
         }
-    }
+    };
 
-    const removeDate = async () => {
+    const removeDates = async () => {
         try {
-            const data = {
+            const dataStartDate = {
                 taskId: taskId,
                 boardId: boardId,
-                dateType: dateType
+                dateType: 'startDate' as 'startDate'
             };
-    
-            const response = await handleRemoveDate(data);
-    
-            if (response.success) {
-                toast.success(response.message);
-                setSelectedDate(undefined);
+            const dataDueDate = {
+                taskId: taskId,
+                boardId: boardId,
+                dateType: 'dueDate' as 'dueDate'
+            };
+
+            const responseStartDate = await handleRemoveDate(dataStartDate);
+            const responseDueDate = await handleRemoveDate(dataDueDate);
+
+            if (responseStartDate.success && responseDueDate.success) {
+                toast.success("Dates removed successfully");
+                setSelectedRange({ start: today(getLocalTimeZone()), end: today(getLocalTimeZone()).add({ weeks: 1 }) });
             } else {
-                throw new Error(response.message);
+                throw new Error(responseStartDate.message || responseDueDate.message);
             }
         } catch (error) {
-            toast.error(`Failed to Remove ${dateType === 'dueDate' ? 'Due Date' : 'Start Date'}`);
+            toast.error(`Failed to Remove Dates`);
         }
-    }
-
-    const footer = (
-        <Button 
-            size='sm' 
-            variant='ghost' 
-            color='danger' 
-            onClick={removeDate}
-            isDisabled={!selectedDate}
-        >
-            Remove
-        </Button>
-    );
-
-    let disabledDays;
-    if (dateType === 'dueDate' && startDate) {
-        disabledDays = { before: startDate };
-    } else if (dateType === 'startDate' && dueDate) {
-        disabledDays = { after: dueDate };
-    } else {
-        disabledDays = [];
-    }
+    };
 
     return (
-        <DayPicker
-            mode="single"
-            selected={selectedDate}
-            onSelect={handleDateSelect}
-            footer={footer}
-            showOutsideDays 
-            fixedWeeks
-            disabled={disabledDays}
-        />
+            <RangeCalendar
+                aria-label="Date Range"
+                value={selectedRange}
+                onChange={handleRangeSelect}
+            />
     );
 }
