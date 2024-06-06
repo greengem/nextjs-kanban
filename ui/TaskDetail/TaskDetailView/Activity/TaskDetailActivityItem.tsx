@@ -97,9 +97,9 @@ export default function TaskDetailActivityItem({ activity, boardId }: TaskDetail
                 
             ) : (
 
-                <div className='bg-zinc-900 px-5 py-3 rounded-xl'>
+                <div className='bg-zinc-900 px-4 py-3 rounded-md'>
                     <div>
-                        <span className="font-semibold">{activity.user.name} </span> 
+                        <span className="font-semibold text-sm">{activity.user.name} </span> 
                         {getActivityMessage(activity)}
                     </div>
                     <div className="text-xs text-zinc-500">
