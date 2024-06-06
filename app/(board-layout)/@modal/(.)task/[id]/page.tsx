@@ -6,9 +6,9 @@ interface BoardProps {
 }
 
 export default async function Task({ params }: BoardProps) {
-    return (
-        <TaskModal>
-            <TaskDetail taskId={params.id} />
-        </TaskModal>
-    );
+  return (
+    <TaskModal>
+      <TaskDetail taskId={params.id} />
+    </TaskModal>
+  );
 }

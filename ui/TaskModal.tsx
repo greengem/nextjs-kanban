@@ -1,9 +1,9 @@
-'use client'
-import { useRouter } from 'next/navigation'
+"use client";
+import { useRouter } from "next/navigation";
 import { Modal, ModalContent, ModalBody } from "@nextui-org/modal";
 import { useDisclosure } from "@nextui-org/use-disclosure";
 
-export default function TaskModal({ children } : { children: React.ReactNode }) {
+export default function TaskModal({ children }: { children: React.ReactNode }) {
   const { isOpen } = useDisclosure({ defaultOpen: true });
   const router = useRouter();
 
@@ -12,11 +12,14 @@ export default function TaskModal({ children } : { children: React.ReactNode }) 
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={handleClose} size="4xl" scrollBehavior='outside'>
+    <Modal
+      isOpen={isOpen}
+      onClose={handleClose}
+      size="4xl"
+      scrollBehavior="outside"
+    >
       <ModalContent>
-        <ModalBody className='p-0 gap-0'>
-          {children}
-        </ModalBody>
+        <ModalBody className="p-0 gap-0">{children}</ModalBody>
       </ModalContent>
     </Modal>
   );

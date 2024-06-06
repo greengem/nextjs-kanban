@@ -11,7 +11,8 @@ const SignInGoogle = () => {
       variant="ghost"
       isDisabled
     >
-      <IconBrandGoogle size={20} />Sign In With Google
+      <IconBrandGoogle size={20} />
+      Sign In With Google
     </Button>
   );
 };

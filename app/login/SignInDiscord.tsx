@@ -11,7 +11,8 @@ const SignInDiscord = () => {
       variant="ghost"
       isDisabled
     >
-      <IconBrandDiscord size={20} />Sign In With Discord
+      <IconBrandDiscord size={20} />
+      Sign In With Discord
     </Button>
   );
 };

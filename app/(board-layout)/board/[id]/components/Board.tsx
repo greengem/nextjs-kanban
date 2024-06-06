@@ -1,12 +1,17 @@
-'use client';
-import { Board as BoardType, Column, Task, Label } from '@prisma/client';
-import { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable, DropResult } from '@hello-pangea/dnd';
+"use client";
+import { Board as BoardType, Column, Task, Label } from "@prisma/client";
+import { useState, useEffect } from "react";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+} from "@hello-pangea/dnd";
 import CreateColumnForm from "@/ui/Forms/CreateColumnForm";
-import { Card, CardHeader, CardBody, CardFooter } from '@/ui/Card/Card';
-import TaskItem from './TaskItem';
-import CreateTaskForm from '@/ui/Forms/CreateTaskForm';
-import ColumnActions from './ColumnActions';
+import { Card, CardHeader, CardBody, CardFooter } from "@/ui/Card/Card";
+import TaskItem from "./TaskItem";
+import CreateTaskForm from "@/ui/Forms/CreateTaskForm";
+import ColumnActions from "./ColumnActions";
 
 type ExtendedTask = Task & {
   labels: Label[];
@@ -26,94 +31,101 @@ interface BoardProps {
 
 export default function Board({ board: initialBoard }: BoardProps) {
   const [board, setBoard] = useState<ExtendedBoard>(initialBoard);
-  
+
   // Handle DnD Drag End
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
-  
+
     if (!destination) {
       return;
     }
-  
+
     let newBoard = { ...board };
-  
+
     if (type === "COLUMN") {
       const newColumns = Array.from(board.columns);
       const [removedColumn] = newColumns.splice(source.index, 1);
       newColumns.splice(destination.index, 0, removedColumn);
-      newColumns.forEach((col, index) => col.order = index + 1);
-  
+      newColumns.forEach((col, index) => (col.order = index + 1));
+
       newBoard = {
         ...board,
-        columns: newColumns
+        columns: newColumns,
       };
     } else {
-      const sourceColumn = board.columns.find(col => col.id === source.droppableId);
-      const destColumn = board.columns.find(col => col.id === destination.droppableId);
-  
+      const sourceColumn = board.columns.find(
+        (col) => col.id === source.droppableId,
+      );
+      const destColumn = board.columns.find(
+        (col) => col.id === destination.droppableId,
+      );
+
       if (!sourceColumn || !destColumn) return;
-  
+
       if (source.droppableId === destination.droppableId) {
         const copiedTasks = [...sourceColumn.tasks];
         const [removed] = copiedTasks.splice(source.index, 1);
         copiedTasks.splice(destination.index, 0, removed);
-        copiedTasks.forEach((task, index) => task.order = index + 1);
-  
+        copiedTasks.forEach((task, index) => (task.order = index + 1));
+
         newBoard = {
           ...board,
-          columns: board.columns.map(col => 
-            col.id === sourceColumn.id ? {...col, tasks: copiedTasks} : col
-          )
+          columns: board.columns.map((col) =>
+            col.id === sourceColumn.id ? { ...col, tasks: copiedTasks } : col,
+          ),
         };
       } else {
         const sourceTasks = [...sourceColumn.tasks];
         const destTasks = [...destColumn.tasks];
         const [removed] = sourceTasks.splice(source.index, 1);
         destTasks.splice(destination.index, 0, removed);
-  
-        sourceTasks.forEach((task, index) => task.order = index + 1);
-        destTasks.forEach((task, index) => task.order = index + 1);
-  
+
+        sourceTasks.forEach((task, index) => (task.order = index + 1));
+        destTasks.forEach((task, index) => (task.order = index + 1));
+
         newBoard = {
           ...board,
-          columns: board.columns.map(col => {
+          columns: board.columns.map((col) => {
             if (col.id === sourceColumn.id) {
-              return {...col, tasks: sourceTasks};
+              return { ...col, tasks: sourceTasks };
             } else if (col.id === destColumn.id) {
-              return {...col, tasks: destTasks};
+              return { ...col, tasks: destTasks };
             } else {
               return col;
             }
-          })
+          }),
         };
       }
     }
-  
+
     setBoard(newBoard);
-  
+
     try {
       await fetch(`/api/board/${board.id}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ boardData: newBoard }),
       });
-
     } catch (error) {
-      console.error('Error updating board:', error);
+      console.error("Error updating board:", error);
     }
   };
-  
+
   // Update the state when the db is changed and refetched
   useEffect(() => {
     setBoard(initialBoard);
   }, [initialBoard]);
-  
+
   return (
-    <div className='z-10 flex flex-col grow'>
+    <div className="z-10 flex flex-col grow">
       <DragDropContext onDragEnd={onDragEnd}>
-        <Droppable droppableId="all-columns" direction="horizontal" type="COLUMN">
+        <Droppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="COLUMN"
+        >
           {(provided) => (
             <div
               className="grow flex overflow-x-scroll px-2 "
@@ -121,41 +133,60 @@ export default function Board({ board: initialBoard }: BoardProps) {
               {...provided.droppableProps}
             >
               {board.columns.map((column, columnIndex) => (
-                <Draggable key={column.id} draggableId={column.id} index={columnIndex}>
+                <Draggable
+                  key={column.id}
+                  draggableId={column.id}
+                  index={columnIndex}
+                >
                   {(provided) => (
                     <div
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      className='shrink-0 w-64 md:w-72 lg:w-80 mx-2'
+                      className="shrink-0 w-64 md:w-72 lg:w-80 mx-2"
                     >
                       <Card>
-                        <CardHeader 
-                          className='tracking-tight' 
+                        <CardHeader
+                          className="tracking-tight"
                           showGrab
-                          dragHandleProps={provided.dragHandleProps ?? undefined}
+                          dragHandleProps={
+                            provided.dragHandleProps ?? undefined
+                          }
                         >
-                          <div className='flex justify-between items-center gap-2'>
-                            <ColumnActions columnId={column.id} boardId={board.id} columnTitle={column.title} />
+                          <div className="flex justify-between items-center gap-2">
+                            <ColumnActions
+                              columnId={column.id}
+                              boardId={board.id}
+                              columnTitle={column.title}
+                            />
                           </div>
                         </CardHeader>
-    
+
                         <Droppable droppableId={column.id} type="TASK">
                           {(provided) => (
-                            <CardBody className='bg-zinc-900'>
-                              <div ref={provided.innerRef} {...provided.droppableProps}>
+                            <CardBody className="bg-zinc-900">
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                              >
                                 {column.tasks.length === 0 ? (
-                                  <div className="
+                                  <div
+                                    className="
                                     bg-zinc-800
                                     text-center text-xs
                                     py-4
                                     rounded-lg
                                     border-dashed border-2 border-zinc-700
-                                  ">
+                                  "
+                                  >
                                     Drop here
                                   </div>
                                 ) : (
                                   column.tasks.map((task, taskIndex) => (
-                                    <Draggable key={task.id} draggableId={task.id} index={taskIndex}>
+                                    <Draggable
+                                      key={task.id}
+                                      draggableId={task.id}
+                                      index={taskIndex}
+                                    >
                                       {(provided) => (
                                         <div
                                           ref={provided.innerRef}
@@ -163,7 +194,9 @@ export default function Board({ board: initialBoard }: BoardProps) {
                                         >
                                           <TaskItem
                                             task={task}
-                                            dragHandleProps={provided.dragHandleProps}
+                                            dragHandleProps={
+                                              provided.dragHandleProps
+                                            }
                                           />
                                         </div>
                                       )}
@@ -173,12 +206,14 @@ export default function Board({ board: initialBoard }: BoardProps) {
                                 {provided.placeholder}
                               </div>
                             </CardBody>
-
                           )}
                         </Droppable>
-    
+
                         <CardFooter>
-                          <CreateTaskForm boardId={board.id} columnId={column.id} />
+                          <CreateTaskForm
+                            boardId={board.id}
+                            columnId={column.id}
+                          />
                         </CardFooter>
                       </Card>
                     </div>

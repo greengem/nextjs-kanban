@@ -1,9 +1,9 @@
-import DashboardLayout from "@/ui/DashboardLayout"
+import DashboardLayout from "@/ui/DashboardLayout";
 
 export default function RootLayout({
-  children
+  children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <DashboardLayout>
@@ -11,5 +11,5 @@ export default function RootLayout({
         {children}
       </main>
     </DashboardLayout>
-  )
+  );
 }

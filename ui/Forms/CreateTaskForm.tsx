@@ -1,14 +1,14 @@
-'use client'
-import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import toast from 'react-hot-toast';
+"use client";
+import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
 import { handleCreateTask } from "@/actions/TaskServerActions";
-import { CreateTaskSchema } from '@/types/zodTypes';
-import { TaskCreationData } from '@/types/types';
+import { CreateTaskSchema } from "@/types/zodTypes";
+import { TaskCreationData } from "@/types/types";
 import { IconLoader2, IconPlus, IconX } from "@tabler/icons-react";
-import { Input } from '@nextui-org/input';
-import { Button } from '@nextui-org/button';
+import { Input } from "@nextui-org/input";
+import { Button } from "@nextui-org/button";
 
 function CloseButton({ onClick }: { onClick: () => void }) {
   return (
@@ -18,24 +18,31 @@ function CloseButton({ onClick }: { onClick: () => void }) {
   );
 }
 
-export default function CreateTaskForm({ 
-  boardId, columnId 
-} : { 
-  boardId: string; columnId: string; 
+export default function CreateTaskForm({
+  boardId,
+  columnId,
+}: {
+  boardId: string;
+  columnId: string;
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const toggleEdit = () => setIsEditing(!isEditing);
 
-  const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<TaskCreationData>({
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { isSubmitting },
+  } = useForm<TaskCreationData>({
     resolver: zodResolver(CreateTaskSchema),
-    defaultValues: { boardId, columnId }
+    defaultValues: { boardId, columnId },
   });
 
   const onSubmit: SubmitHandler<TaskCreationData> = async (data) => {
     const response = await handleCreateTask(data);
 
     if (response.success) {
-      toast.success('Task Created');
+      toast.success("Task Created");
       reset();
       setIsEditing(false);
     } else {
@@ -47,30 +54,34 @@ export default function CreateTaskForm({
     <div>
       {isEditing ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <hr className='border-zinc-800 mb-3' />
+          <hr className="border-zinc-800 mb-3" />
           <div className="mb-2">
-            <Input 
-              autoFocus 
+            <Input
+              autoFocus
               autoComplete="off"
-              type="text" 
+              type="text"
               id={`taskTitle_${boardId}_${columnId}`}
-              placeholder='Enter a name for your task...'
-              {...register('taskTitle')}
+              placeholder="Enter a name for your task..."
+              {...register("taskTitle")}
               isRequired
-              size='sm'
-              label='Task Title'
+              size="sm"
+              label="Task Title"
             />
           </div>
 
-          <input type="hidden" id={`boardId_${boardId}`} {...register('boardId')} />
-          <input type="hidden" id={`columnId_${columnId}`} {...register('columnId')} />
+          <input
+            type="hidden"
+            id={`boardId_${boardId}`}
+            {...register("boardId")}
+          />
+          <input
+            type="hidden"
+            id={`columnId_${columnId}`}
+            {...register("columnId")}
+          />
 
           <div className="flex justify-between items-center gap-2">
-            <Button 
-              type="submit" 
-              disabled={isSubmitting}
-              className='grow'
-            >
+            <Button type="submit" disabled={isSubmitting} className="grow">
               {isSubmitting ? (
                 <>
                   <IconLoader2 size={18} className="animate-spin mr-1" />
@@ -88,10 +99,14 @@ export default function CreateTaskForm({
           </div>
         </form>
       ) : (
-        <button onClick={toggleEdit} className="text-sm flex items-center gap-2 w-full">
-          <IconPlus size={16} />Add a task
+        <button
+          onClick={toggleEdit}
+          className="text-sm flex items-center gap-2 w-full"
+        >
+          <IconPlus size={16} />
+          Add a task
         </button>
       )}
     </div>
-  )
+  );
 }

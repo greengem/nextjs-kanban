@@ -1,15 +1,17 @@
 .rdp-caption {
-    @apply text-primary;
+  @apply text-primary;
 }
 
 .rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
-    @apply bg-primary
+  @apply bg-primary;
 }
 
-.rdp-day_selected, .rdp-day_selected:focus-visible, .rdp-day_selected:hover {
-    @apply bg-primary;
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  @apply bg-primary;
 }
 
 .rdp-day_selected {
-    @apply bg-primary;
+  @apply bg-primary;
 }
