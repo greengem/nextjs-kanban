@@ -1,41 +1,19 @@
-import { BoardSummarySidebar } from "@/types/types";
-import {
-  IconCalendar,
-  IconDashboard,
-  IconLayoutKanban,
-  IconTextCaption,
-  IconUser,
-} from "@tabler/icons-react";
+// SidebarMenu.tsx
 import { Sidebar, Menu, MenuItem } from "./SidebarComponent";
+import navData from "@/data/navData";
 
-export default function SidebarMenu({
-  boards,
-}: {
-  boards: BoardSummarySidebar[];
-}) {
+export default function SidebarMenu() {
   return (
     <Sidebar>
       <Menu>
-        <MenuItem
-          path="/profile"
-          title="Profile"
-          icon={<IconUser stroke={1.5} size={24} />}
-        />
-        <MenuItem
-          path="/board"
-          title="All Boards"
-          icon={<IconLayoutKanban stroke={1.5} size={24} />}
-        />
-        <MenuItem
-          path="/calendar"
-          title="Calendar"
-          icon={<IconCalendar stroke={1.5} size={24} />}
-        />
-        <MenuItem
-          path="/docs"
-          title="Docs"
-          icon={<IconTextCaption stroke={1.5} size={24} />}
-        />
+        {navData.map((item, index) => (
+          <MenuItem
+            key={index}
+            path={item.path}
+            title={item.title}
+            icon={item.icon}
+          />
+        ))}
       </Menu>
     </Sidebar>
   );
