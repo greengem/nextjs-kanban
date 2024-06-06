@@ -160,7 +160,6 @@ export default function Board({ board: initialBoard }: BoardProps) {
                                         <div
                                           ref={provided.innerRef}
                                           {...provided.draggableProps}
-                                          className="mb-3"
                                         >
                                           <TaskItem
                                             task={task}
