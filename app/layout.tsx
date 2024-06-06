@@ -2,6 +2,12 @@ import './globals.css'
 import { Providers } from './providers'
 import { Toaster } from 'react-hot-toast'
 import { Inter } from 'next/font/google'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'NextBoard',
+  description: 'Kanban board for Next.js',
+}
 
 export function generateViewport() {
   return {
