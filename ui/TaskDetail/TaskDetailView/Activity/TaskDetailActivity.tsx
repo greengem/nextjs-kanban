@@ -1,7 +1,7 @@
 "use client";
 import { Session } from "next-auth";
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 import TaskDetailActivityItem from "./TaskDetailActivityItem";
 import { Avatar } from "@nextui-org/avatar";
 import { Input } from "@nextui-org/input";

@@ -15,10 +15,8 @@ export default async function NavbarAvatar() {
 
   return (
     <Suspense
-    fallback={
-      <Avatar showFallback isBordered size="sm" className="dark" />
-    }
-  >
+      fallback={<Avatar showFallback isBordered size="sm" className="dark" />}
+    >
       <NavbarAvatarClient userName={userName} userImage={userImage} />
     </Suspense>
   );

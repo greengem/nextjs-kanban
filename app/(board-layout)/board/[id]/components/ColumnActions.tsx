@@ -8,7 +8,7 @@ import {
 } from "@nextui-org/dropdown";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { IconEdit, IconMenu2, IconTrash, IconX } from "@tabler/icons-react";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 import {
   handleDeleteColumn,
   handleEditColumn,
@@ -111,7 +111,7 @@ export default function ColumnActions({
         </div>
       ) : (
         <>
-          <h3 className="text-large" onClick={() => setIsEditing(true)}>
+          <h3 className="text-large text-zinc-300" onClick={() => setIsEditing(true)}>
             {columnTitle}
           </h3>
           <Dropdown>

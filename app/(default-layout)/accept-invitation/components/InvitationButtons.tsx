@@ -5,7 +5,7 @@ import {
   handleRejectInvitation,
 } from "@/actions/InvitationActions";
 import { Button } from "@nextui-org/button";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 
 export default function InvitationButtons({
   token,

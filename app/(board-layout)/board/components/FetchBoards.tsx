@@ -41,15 +41,7 @@ export default async function FetchBoards() {
           href={`/board/${boardMember.board.id}`}
         >
           <div className="h-32 flex flex-col justify-end rounded-xl shadow-lg bg-zinc-900 hover:bg-zinc-700 relative overflow-hidden">
-            <h4
-              className="
-                            font-semibold tracking-tight
-                            z-20
-                            drop-shadow-lg 
-                            py-3 px-4
-                            overflow-ellipsis overflow-x-hidden whitespace-nowrap block
-                            "
-            >
+            <h4 className="font-semibold tracking-tight z-20 drop-shadow-lg py-3 px-4 overflow-ellipsis overflow-x-hidden whitespace-nowrap block">
               {boardMember.board.title}
             </h4>
           </div>

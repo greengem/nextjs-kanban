@@ -1,7 +1,7 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 import { handleDeleteColumn } from "@/actions/ColumnServerActions";
 import { DeleteColumnSchema } from "@/types/zodTypes";
 import { ColumnDeletionData } from "@/types/types";

@@ -42,7 +42,7 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
   };
 
   return (
-    <div className="bg-zinc-800 flex select-none rounded-md hover:shadow-md hover:ring-2 hover:ring-primary">
+    <div className="bg-zinc-800 text-white flex select-none rounded-md hover:shadow-md hover:ring-2 hover:ring-primary">
       <div
         className="pl-1 pr-1 flex items-center cursor-grab touch-none"
         {...dragHandleProps}

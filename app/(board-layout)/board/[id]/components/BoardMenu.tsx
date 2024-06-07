@@ -8,7 +8,7 @@ import {
   DropdownItem,
 } from "@nextui-org/dropdown";
 import { IconMenu2, IconTrash } from "@tabler/icons-react";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 import { handleDeleteBoard } from "@/actions/BoardServerActions";
 export default function BoardMenu({ boardId }: { boardId: string }) {
   const router = useRouter();

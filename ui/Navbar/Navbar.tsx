@@ -1,11 +1,15 @@
-'use client';
+"use client";
 import { useState } from "react";
 import NavbarTitle from "./NavbarTitle";
 import ColourPicker from "./ColourPicker";
 import { IconMenu2 } from "@tabler/icons-react";
 import navData from "@/data/navData";
 
-export default function NavbarWrapper({ children }: { children: React.ReactNode }) {
+export default function NavbarWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {

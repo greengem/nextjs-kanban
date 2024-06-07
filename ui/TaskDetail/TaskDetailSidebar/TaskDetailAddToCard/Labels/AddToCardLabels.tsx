@@ -21,7 +21,7 @@ import {
 } from "@/actions/LabelServerActions";
 import { Button } from "@nextui-org/button";
 import { colorOptions } from "./ColorOptions";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 
 type Label = {
   id: string;

@@ -5,7 +5,7 @@ import { Avatar } from "@nextui-org/avatar";
 import { IconMinus } from "@tabler/icons-react";
 import { BoardMemberSummary } from "@/types/types";
 import { handleRemoveUserFromBoard } from "@/actions/InvitationActions";
-import toast from "react-hot-toast";
+import { toast } from 'sonner';
 
 type UserSummary = BoardMemberSummary["user"];
 

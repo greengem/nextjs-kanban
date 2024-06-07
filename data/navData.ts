@@ -2,8 +2,9 @@ import React from "react";
 import {
   IconCalendar,
   IconLayoutKanban,
-  IconTextCaption,
+  IconLayoutBoard,
   IconUser,
+  IconLayoutAlignMiddle,
 } from "@tabler/icons-react";
 
 interface NavItem {
@@ -24,14 +25,9 @@ const navData: NavItem[] = [
     icon: React.createElement(IconLayoutKanban, { stroke: 1.5, size: 24 }),
   },
   {
-    path: "/calendar",
-    title: "Calendar",
-    icon: React.createElement(IconCalendar, { stroke: 1.5, size: 24 }),
-  },
-  {
-    path: "/docs",
-    title: "Docs",
-    icon: React.createElement(IconTextCaption, { stroke: 1.5, size: 24 }),
+    path: "/flow",
+    title: "Flow",
+    icon: React.createElement(IconLayoutAlignMiddle, { stroke: 1.5, size: 24 }),
   },
 ];
 
