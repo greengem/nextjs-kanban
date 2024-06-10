@@ -24,11 +24,6 @@ const navData: NavItem[] = [
     title: "All Boards",
     icon: React.createElement(IconLayoutKanban, { stroke: 1.5, size: 24 }),
   },
-  {
-    path: "/flow",
-    title: "Flow",
-    icon: React.createElement(IconLayoutAlignMiddle, { stroke: 1.5, size: 24 }),
-  },
 ];
 
 export default navData;
