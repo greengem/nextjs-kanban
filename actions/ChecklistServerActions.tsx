@@ -140,7 +140,7 @@ const handleEditChecklistNameSchema = z.object({
     .string()
     .trim()
     .min(1, "Title cannot be empty")
-    .max(30, "Title is too long"),
+    .max(100, "Title is too long"),
   checklistId: z.string(),
   taskId: z.string(),
 });
