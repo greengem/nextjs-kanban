@@ -36,7 +36,7 @@ export default function ChecklistCheckboxGroup({
     <CheckboxGroup className="mb-3" defaultValue={checkedItemIds}>
       {checklist.items.map((item: ChecklistItemSummary) => (
         <div
-          className="flex justify-between gap-5 hover:bg-zinc-300 py-1 px-2 rounded-md"
+          className="flex justify-between gap-5 hover:bg-zinc-900 py-1 px-2 rounded-md"
           key={item.id}
         >
           <div className="flex grow items-center">
