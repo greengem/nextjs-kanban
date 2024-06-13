@@ -1,17 +1,61 @@
-import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
+import prisma from "@/prisma/prisma";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { id: string } },
-) {
-  const taskId = params.id;
+interface Task {
+  id: string;
+  title: string;
+  description: string | null;
+  dueDate: Date | null;
+  startDate: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  order: number;
+  columnId: string;
+  column: {
+    title: string;
+    boardId: string;
+    board: {
+      backgroundUrl: string | null;
+    };
+  };
+  labels: {
+    id: string;
+    title: string | null;
+    color: string;
+  }[];
+  checklists: {
+    id: string;
+    title: string | null;
+    items: {
+      id: string;
+      content: string;
+      isChecked: boolean;
+      createdAt: Date;
+    }[];
+  }[];
+  activities: {
+    id: string;
+    type: string;
+    content: string | null;
+    createdAt: Date;
+    startDate: Date | null;
+    dueDate: Date | null;
+    oldColumn: { title: string } | null;
+    newColumn: { title: string } | null;
+    originalColumn: { title: string } | null;
+    task: { title: string } | null;
+    user: { id: string; name: string | null; image: string | null };
+  }[];
+}
 
-  // Authenticate and get the user session
+export default async function FetchTask({
+  taskId,
+}: {
+  taskId: string;
+}): Promise<Task | null> {
   const session = await auth();
   const userId = session?.user?.id;
 
-  // Check if the user is a member of the board associated with the task
   const boardMembership = await prisma.boardMember.findFirst({
     where: {
       userId: userId,
@@ -27,22 +71,10 @@ export async function GET(
     },
   });
 
-  // If the user is not a board member, return an error response
   if (!boardMembership) {
-    return new Response(
-      JSON.stringify({
-        error: "Access denied: User is not authorized to view this task",
-      }),
-      {
-        status: 403,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      },
-    );
+    return null;
   }
 
-  // Fetch the task details
   const task = await prisma.task.findUnique({
     where: {
       id: taskId,
@@ -129,20 +161,9 @@ export async function GET(
     },
   });
 
-  // Return the task details in the response
-  if (task) {
-    return new Response(JSON.stringify(task), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  } else {
-    return new Response(JSON.stringify({ error: "Task not found" }), {
-      status: 404,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  if (!task) {
+    return null;
   }
+
+  return task;
 }
