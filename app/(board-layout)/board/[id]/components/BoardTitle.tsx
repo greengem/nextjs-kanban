@@ -4,7 +4,7 @@ import { Input } from "@nextui-org/input";
 import { Button, ButtonGroup } from "@nextui-org/button";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { handleEditBoard } from "@/actions/BoardServerActions";
 import { BoardEditData } from "@/types/types";
 import { EditBoardSchema } from "@/types/zodTypes";

@@ -6,7 +6,7 @@ import { Input } from "@nextui-org/input";
 import { IconCheckbox, IconPlus, IconX } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
 import { handleCreateChecklist } from "@/actions/ChecklistServerActions";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 
 interface FormValues {
   title: string;

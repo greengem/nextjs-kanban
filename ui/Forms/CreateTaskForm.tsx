@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { handleCreateTask } from "@/actions/TaskServerActions";
 import { CreateTaskSchema } from "@/types/zodTypes";
 import { TaskCreationData } from "@/types/types";

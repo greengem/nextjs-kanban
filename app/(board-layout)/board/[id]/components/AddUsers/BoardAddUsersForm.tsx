@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { handleSendBoardInvitation } from "@/actions/InvitationActions";
 
 export default function BoardAddUsersForm({

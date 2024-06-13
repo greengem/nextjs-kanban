@@ -1,6 +1,6 @@
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { IconCopy } from "@tabler/icons-react";
 
 const copyToClipboard = async (text: string) => {

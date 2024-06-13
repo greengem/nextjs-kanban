@@ -5,7 +5,7 @@ import { useUIContext } from "@/contexts/UIContext";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import Image from "next/image";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { fetchUnsplashImages } from "@/actions/FetchUnsplashImages";
 import {
   handleEditBoardImage,

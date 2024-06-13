@@ -1,7 +1,7 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { handleCreateColumn } from "@/actions/ColumnServerActions";
 import { CreateColumnSchema } from "@/types/zodTypes";
 import { ColumnCreationData } from "@/types/types";

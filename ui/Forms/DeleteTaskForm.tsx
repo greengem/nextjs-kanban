@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { handleDeleteTask } from "@/actions/TaskServerActions";
 import { IconLoader2, IconTrash } from "@tabler/icons-react";
 import { useState } from "react";

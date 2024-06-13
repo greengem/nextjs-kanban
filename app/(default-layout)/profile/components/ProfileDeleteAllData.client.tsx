@@ -2,7 +2,7 @@
 import { handleDeleteAccount } from "@/actions/UserServerActions";
 import { Button } from "@nextui-org/button";
 import { IconExclamationCircle } from "@tabler/icons-react";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { signOut } from "next-auth/react";
 
 export default function ProfileDeleteAllData() {

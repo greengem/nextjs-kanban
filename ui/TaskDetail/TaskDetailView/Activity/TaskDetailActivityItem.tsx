@@ -1,5 +1,5 @@
 "use client";
-import { toast } from 'sonner';
+import { toast } from "sonner";
 import { format } from "date-fns";
 import { ActivityWithUser } from "@/types/types";
 import { Avatar } from "@nextui-org/avatar";
