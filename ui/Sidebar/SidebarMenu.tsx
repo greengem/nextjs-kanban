@@ -12,6 +12,7 @@ export default function SidebarMenu() {
             path={item.path}
             title={item.title}
             icon={item.icon}
+            badgeContent={item.badgeContent}
           />
         ))}
       </Menu>

@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import clsx from "clsx";
+import { Badge } from "@nextui-org/badge";
 import { usePathname } from "next/navigation";
 
 interface SidebarProps {
@@ -16,6 +17,7 @@ interface MenuItemProps {
   icon?: React.ReactNode;
   title: string;
   active?: boolean;
+  badgeContent?: number;
 }
 
 // Sidebar Parent
@@ -35,21 +37,35 @@ export function Menu({ children }: MenuProps) {
 }
 
 // Menu Items
-export function MenuItem({ path, icon }: MenuItemProps) {
+export function MenuItem({ path, icon, badgeContent }: MenuItemProps) {
   const pathname = usePathname();
   const isActive = pathname === path;
 
   return (
     <li className="menu-item group">
-      <Link
-        href={path}
-        className={clsx(
-          "flex items-center hover:text-white rounded-md hover:bg-zinc-900",
-          { "bg-zinc-900": isActive },
-        )}
-      >
-        <div className="p-2 rounded-lg text-primary">{icon}</div>
-      </Link>
+      {badgeContent !== undefined ? (
+        <Badge content={badgeContent} color="primary">
+          <Link
+            href={path}
+            className={clsx(
+              "flex items-center hover:text-white rounded-md hover:bg-zinc-900",
+              { "bg-zinc-900": isActive },
+            )}
+          >
+            <div className="p-2 rounded-lg text-primary">{icon}</div>
+          </Link>
+        </Badge>
+      ) : (
+        <Link
+          href={path}
+          className={clsx(
+            "flex items-center hover:text-white rounded-md hover:bg-zinc-900",
+            { "bg-zinc-900": isActive },
+          )}
+        >
+          <div className="p-2 rounded-lg text-primary">{icon}</div>
+        </Link>
+      )}
     </li>
   );
 }
