@@ -18,7 +18,8 @@ export default async function TaskDetailAddToCard({
         {/*<li className='flex items-center gap-2 bg-zinc-800 px-2 py-2 rounded-md'><IconUser size={14} /> Members</li>*/}
         <AddToCardLabels
           labels={labels}
-          task={task}
+          taskId={task.id}
+          activeLabels={task.labels}
           boardId={task.column.boardId}
         />
         <AddChecklist taskId={task.id} boardId={task.column.boardId} />
