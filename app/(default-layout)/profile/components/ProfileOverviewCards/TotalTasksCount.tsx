@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 
 export default async function TotalTasksCount() {
   const session = await auth();

@@ -1,9 +1,9 @@
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string } }
 ) {
   const taskId = params.id;
 
@@ -38,7 +38,7 @@ export async function GET(
         headers: {
           "Content-Type": "application/json",
         },
-      },
+      }
     );
   }
 

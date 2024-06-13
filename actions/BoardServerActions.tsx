@@ -1,6 +1,6 @@
 "use server";
 import { auth } from "@/auth";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { CreateBoardSchema, EditBoardSchema } from "@/types/zodTypes";

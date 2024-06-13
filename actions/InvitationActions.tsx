@@ -1,6 +1,6 @@
 "use server";
 import { auth } from "@/auth";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import crypto from "crypto";
 import { revalidatePath } from "next/cache";
 

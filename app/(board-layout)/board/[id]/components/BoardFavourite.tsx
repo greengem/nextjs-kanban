@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import BoardFavouriteClient from "./BoardFavourite.client";
 
 export default async function BoardFavourite({ boardId }: { boardId: string }) {

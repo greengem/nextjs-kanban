@@ -1,5 +1,5 @@
 import { Board as BoardType, Column, Task, Label } from "@prisma/client";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
 import Board from "./components/Board";
 import BoardNavbar from "./components/BoardNavbar";

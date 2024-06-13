@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import BoardAddUsers from "./AddUsers/BoardAddUsers";
 import { BoardMember, User } from "@prisma/client";
 

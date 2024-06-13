@@ -1,4 +1,4 @@
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 
 // Fetch labels
 export async function getLabelsForBoard(boardId: string) {

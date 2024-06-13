@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import Link from "next/link";
 import Image from "next/image";
 import { IconList } from "@tabler/icons-react";

@@ -1,4 +1,4 @@
-import prisma from "@/db/prisma";
+import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
 import InvitationButtons from "./components/InvitationButtons";
 import Link from "next/link";
