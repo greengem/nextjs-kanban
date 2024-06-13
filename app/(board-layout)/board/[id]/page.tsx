@@ -41,6 +41,9 @@ export default async function BoardPage({
     redirect("/board");
   }
 
+  // Parse labels from searchParams
+  const labelFilter = searchParams.labels?.split(",") || [];
+
   const board: ExtendedBoard | null = await prisma.board.findUnique({
     where: { id: params.id },
     include: {
@@ -49,6 +52,18 @@ export default async function BoardPage({
         include: {
           tasks: {
             orderBy: { order: "asc" },
+            where:
+              labelFilter.length > 0
+                ? {
+                    labels: {
+                      some: {
+                        id: {
+                          in: labelFilter,
+                        },
+                      },
+                    },
+                  }
+                : undefined,
             include: {
               labels: true,
             },
