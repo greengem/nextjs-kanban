@@ -15,8 +15,9 @@ export default function TaskModal({ children }: { children: React.ReactNode }) {
     <Modal
       isOpen={isOpen}
       onClose={handleClose}
-      size="4xl"
+      size="5xl"
       scrollBehavior="outside"
+      backdrop="blur"
     >
       <ModalContent>
         <ModalBody className="p-0 gap-0">{children}</ModalBody>

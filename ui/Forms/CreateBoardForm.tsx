@@ -33,7 +33,7 @@ export default function CreateBoardForm() {
 
   return (
     <div>
-      <div className="p-2 bg-zinc-900 rounded-xl shadow-xl h-32">
+      <div className="p-3 bg-zinc-950 rounded-xl shadow-xl h-32">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col space-y-2 h-full justify-between"
@@ -46,13 +46,14 @@ export default function CreateBoardForm() {
             label="Board Title"
             placeholder="Name of your board..."
             isRequired
+            size="sm"
             isClearable
             minLength={3}
           />
           <div>
             <Button
               type="submit"
-              color="primary"
+              variant="flat"
               className="gap-1"
               disabled={isSubmitting}
             >

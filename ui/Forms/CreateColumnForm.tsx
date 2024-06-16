@@ -34,7 +34,7 @@ export default function CreateColumnForm({ boardId }: { boardId: string }) {
 
   return (
     <div className="shrink-0 w-64 md:w-72 lg:w-80 ml-2">
-      <div className="bg-zinc-900 p-2 rounded-xl shadow-md">
+      <div className="bg-zinc-950 p-2 rounded-xl shadow-md">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
           <Input
             autoComplete="off"

@@ -1,3 +1,5 @@
+import PageHeading from "@/ui/PageHeading";
+
 export default function ChatPage() {
-  return <p>Coming Soon</p>;
+  return <PageHeading title="Chat" />;
 }

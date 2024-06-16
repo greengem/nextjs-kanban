@@ -2,7 +2,6 @@ import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
 import InvitationButtons from "./components/InvitationButtons";
 import Link from "next/link";
-import { Card } from "@/ui/Card/Card";
 
 export default async function AcceptInvitation({
   searchParams,
@@ -50,12 +49,12 @@ export default async function AcceptInvitation({
 
     return (
       <div className="flex flex-col grow justify-center items-center">
-        <div className="shadow-xl rounded-xl bg-white p-3 max-w-96 mx-auto w-full text-center">
+        <div className="shadow-xl rounded-xl bg-zinc-900 p-3 max-w-96 mx-auto w-full text-center">
           <div className="my-5">
             <h1 className="text-4xl font-semibold tracking-tight">
               You're Invited!
             </h1>
-            <p className="text-zinc-800 text-sm">
+            <p className="text-zinc-400 text-sm">
               A new opportunity to collaborate awaits you ✨
             </p>
           </div>

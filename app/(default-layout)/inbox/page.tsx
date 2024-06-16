@@ -1,3 +1,5 @@
+import PageHeading from "@/ui/PageHeading";
+
 export default function InboxPage() {
-  return <p>Coming Soon</p>;
+  return <PageHeading title="Inbox" />;
 }

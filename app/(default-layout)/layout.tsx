@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <DashboardLayout>
-      <main className="p-3 md:p-5 flex flex-col grow bg-zinc-800">
+      <main className="p-3 md:p-5 flex flex-col grow bg-zinc-900">
         {children}
       </main>
     </DashboardLayout>

@@ -24,7 +24,7 @@ export function CardHeaderGrab({
   return (
     <div
       {...dragHandleProps}
-      className="py-4 text-primary bg-zinc-900 cursor-grab flex justify-center items-center rounded-t-xl"
+      className="py-4 text-primary bg-zinc-950 cursor-grab flex justify-center items-center rounded-t-xl"
     >
       <div className="h-1 w-24 bg-zinc-700 rounded-full" />
     </div>
@@ -46,7 +46,7 @@ export function CardHeader({
     <div className={`${showGrab ? "" : "rounded-t-xl"} ${className}`}>
       {showGrab && <CardHeaderGrab dragHandleProps={dragHandleProps} />}
       <div
-        className={`bg-zinc-900 px-3 pt-0 ${showGrab ? "" : "rounded-t-xl"}`}
+        className={`bg-zinc-950 px-3 pt-0 ${showGrab ? "" : "rounded-t-xl"}`}
       >
         {children}
       </div>
@@ -81,7 +81,7 @@ export function CardFooter({
   className?: string;
 }) {
   return (
-    <div className={`bg-zinc-900 px-3 pb-3 rounded-b-xl ${className}`}>
+    <div className={`bg-zinc-950 px-3 pb-3 rounded-b-xl ${className}`}>
       {children}
     </div>
   );

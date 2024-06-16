@@ -50,7 +50,7 @@ export default async function ProfileBoards() {
     <>
       {boards.map((board) => (
         <Link key={board.id} href={`/board/${board.id}`}>
-          <div className="h-32 flex flex-col justify-end rounded-xl shadow-md bg-zinc-700 hover:bg-zinc-900 relative overflow-hidden">
+          <div className="h-32 flex flex-col justify-end rounded-xl shadow-md bg-zinc-800 hover:bg-zinc-950 relative overflow-hidden">
             {/* <div className="absolute top-0 bottom-0 left-0 right-0 bg-white/40 backdrop-blur-md z-10"></div> */}
             {board.backgroundUrl && (
               <Image

@@ -14,7 +14,7 @@ export default function ProfileCard({
   label,
 }: ProfileCardProps) {
   return (
-    <div className="text-center space-y-2 bg-zinc-700 p-5 shadow-md rounded-xl">
+    <div className="text-center space-y-2 bg-zinc-800 p-5 shadow-md rounded-xl">
       <div className="flex justify-center">{icon}</div>
       <div className="font-semibold text-xl flex flex-col items-center">
         <Suspense fallback={<IconLoader2 size={28} className="animate-spin" />}>
