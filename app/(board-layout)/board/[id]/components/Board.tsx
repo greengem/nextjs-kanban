@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useTransition } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -12,9 +12,12 @@ import TaskItem from "./TaskItem";
 import CreateTaskForm from "@/ui/Forms/CreateTaskForm";
 import ColumnActions from "./ColumnActions";
 import { BoardWithColumns } from "@/types/types";
+import { handleUpdateBoard } from "@/actions/BoardServerActions";
+import { toast } from "sonner";
 
 export default function Board({ board }: { board: BoardWithColumns }) {
   const [currentBoard, setCurrentBoard] = useState<BoardWithColumns>(board);
+  const [isPending, startTransition] = useTransition();
 
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
@@ -83,17 +86,20 @@ export default function Board({ board }: { board: BoardWithColumns }) {
 
     setCurrentBoard(newBoard);
 
-    try {
-      await fetch(`/api/board/${currentBoard.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ boardData: newBoard }),
-      });
-    } catch (error) {
-      console.error("Error updating board:", error);
-    }
+    // Use the server action
+    startTransition(() => {
+      handleUpdateBoard(currentBoard.id, { columns: newBoard.columns })
+        .then((result) => {
+          if (result.success) {
+            toast.success(result.message);
+          } else {
+            toast.error(result.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error updating board:", error);
+        });
+    });
   };
 
   useEffect(() => {

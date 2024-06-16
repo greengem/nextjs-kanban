@@ -205,3 +205,88 @@ export async function handleRemoveBoardImage(boardId: string) {
     return { success: false, message: "Failed to remove board image" };
   }
 }
+
+
+interface TaskData {
+  id: string;
+  order: number;
+  columnId: string;
+}
+
+interface ColumnData {
+  id: string;
+  order: number;
+  tasks: TaskData[];
+}
+
+interface BoardData {
+  columns: ColumnData[];
+}
+
+// Server action for saving board and task positions.
+export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
+  try {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    if (!userId) {
+      return { success: false, message: "User not authenticated" };
+    }
+
+    await prisma.$transaction(async (prisma) => {
+      // Updating columns
+      for (const column of boardData.columns) {
+        if (column.id) {
+          await prisma.column.update({
+            where: { id: column.id },
+            data: { order: column.order },
+          });
+        }
+      }
+
+      // Updating tasks and creating activity entries if needed
+      for (const column of boardData.columns) {
+        for (const task of column.tasks) {
+          if (task.id) {
+            // Fetch the original task data
+            const originalTask = await prisma.task.findUnique({
+              where: { id: task.id },
+            });
+
+            // Update the task
+            await prisma.task.update({
+              where: { id: task.id },
+              data: {
+                order: task.order,
+                columnId: column.id,
+              },
+            });
+
+            // Check if the task has been moved to a different column
+            if (originalTask && originalTask.columnId !== column.id) {
+              // Create a 'TASK_MOVED' activity entry
+              await prisma.activity.create({
+                data: {
+                  type: "TASK_MOVED",
+                  userId: userId,
+                  taskId: task.id,
+                  boardId: boardId,
+                  oldColumnId: originalTask.columnId,
+                  newColumnId: column.id,
+                },
+              });
+            }
+          }
+        }
+      }
+    });
+
+    revalidatePath(`/board/${boardId}`);
+
+    return { success: true, message: "Saved changes" };
+  } catch (error) {
+    console.error("Error updating board:", error);
+
+    return { success: false, message: "Error saving changes" };
+  }
+}
