@@ -1,31 +1,33 @@
 "use client";
 import { useState } from "react";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
-import { Label } from "./LabelTypes";
+import { Label } from "@prisma/client";
 import { LabelView } from "./LabelView";
 import { LabelEditMode } from "./LabelEditMode";
 import { saveLabel, removeLabel } from "./LabelActions";
 import { IconTag } from "@tabler/icons-react";
+
+interface AddToCardLabelsProps {
+  labels: Label[];
+  activeLabels: Label[];
+  taskId: string;
+  boardId: string;
+}
 
 export default function AddToCardLabels({
   labels,
   activeLabels,
   taskId,
   boardId,
-}: {
-  labels: Label[];
-  activeLabels: Label[];
-  taskId: string;
-  boardId: string;
-}) {
+}: AddToCardLabelsProps) {
   const [selectedLabels, setSelectedLabels] = useState<string[]>(
     activeLabels.map((label) => label.id),
   );
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const [editingLabel, setEditingLabel] = useState<Label | null>(null);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const [tempLabelTitle, setTempLabelTitle] = useState("");
-  const [tempLabelColor, setTempLabelColor] = useState("");
+  const [isPopoverOpen, setIsPopoverOpen] = useState<boolean>(false);
+  const [tempLabelTitle, setTempLabelTitle] = useState<string>("");
+  const [tempLabelColor, setTempLabelColor] = useState<string>("");
 
   const handleCheckboxChange = async (values: string[]) => {
     const newLabel = values.find(
@@ -80,7 +82,7 @@ export default function AddToCardLabels({
             <IconTag size={14} /> Labels
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-64">
+        <PopoverContent>
           {editMode ? (
             <LabelEditMode
               editingLabel={editingLabel}
