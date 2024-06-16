@@ -8,43 +8,81 @@ import {
   Checklist,
   ChecklistItem,
   BoardMember,
+  TaskAssignment,
 } from "@prisma/client";
 
 // NEW TYPES
-export type BoardSummarySidebar = BoardMember & {
-  board: Pick<Board, "id" | "title">;
-};
+// Extend TaskAssignment to include the nested user object
+export interface TaskAssignmentWithUser extends TaskAssignment {
+  user: User;
+}
+
+// Extend Checklist to include the nested items array
+export interface ChecklistWithItems extends Checklist {
+  items: ChecklistItem[];
+}
+
+// Extend Activity to include the nested user, task, board, and column objects
+export interface ActivityWithRelations extends Activity {
+  user: User;
+  task: Task | null;
+  board: Board | null;
+  oldColumn: Column | null;
+  newColumn: Column | null;
+  originalColumn: Column | null;
+}
+
+// All Task Details, this is used for detailed task view.
+export interface DetailedTask {
+  id: string;
+  title: string;
+  description: string | null;
+  dueDate: Date | null;
+  startDate: Date | null;
+  createdAt: Date;
+  updatedAt: Date;
+  order: number;
+  columnId: string;
+  column: {
+    title: string;
+    boardId: string;
+    board: {
+      backgroundUrl: string | null;
+    };
+  };
+  labels: Label[];
+  checklists: ChecklistWithItems[];
+  activities: ActivityWithRelations[];
+  assignedUsers: TaskAssignmentWithUser[];
+}
+
+// Extend BoardMember to include the nested user object
+export interface BoardMemberWithUser extends BoardMember {
+  user: User;
+}
+
+// Extend CardMember to include the nested user object
+export interface CardMemberWithUser {
+  user: User;
+}
+
+// Simplified Task for Board View
+export interface BoardTask extends Task {
+  labels: Label[];
+  assignedUsers: TaskAssignmentWithUser[];
+}
+
+// Extend Column to include the nested tasks
+export interface ColumnWithTasks extends Column {
+  tasks: BoardTask[];
+}
+
+// Extend Board to include the nested columns
+export interface BoardWithColumns extends Board {
+  columns: ColumnWithTasks[];
+}
 
 // OLD TYPES
-export type BoardMemberSummary = Pick<BoardMember, "role"> & {
-  user: Pick<User, "id" | "name" | "image">;
-};
-
-export type BoardSummary = Pick<Board, "id" | "title" | "backgroundUrl"> & {
-  tasksCount: number;
-  isFavorited?: boolean;
-};
-
-export type BoardDetails = BoardSummary & {
-  columns: ColumnWithTasks[];
-};
-
-export type ColumnWithTasks = Pick<Column, "id" | "title" | "order"> & {
-  tasks: TaskSummary[];
-};
-
-export type TaskSummary = Pick<
-  Task,
-  | "id"
-  | "order"
-  | "title"
-  | "description"
-  | "columnId"
-  | "dueDate"
-  | "startDate"
-> & {
-  labels: LabelSummary[];
-};
 
 export type ChecklistItemSummary = Pick<
   ChecklistItem,
@@ -54,26 +92,6 @@ export type ChecklistItemSummary = Pick<
 export type ChecklistSummary = Pick<Checklist, "id"> & {
   title: string | null;
   items: ChecklistItemSummary[];
-};
-
-export type ExpandedTask = Pick<
-  Task,
-  | "id"
-  | "order"
-  | "title"
-  | "description"
-  | "dueDate"
-  | "startDate"
-  | "createdAt"
-  | "updatedAt"
-  | "columnId"
-> & {
-  activities: ActivityWithUser[];
-  column: Pick<Column, "title" | "boardId"> & {
-    board: Pick<Board, "backgroundUrl">;
-  };
-  labels: LabelSummary[];
-  checklists: ChecklistSummary[];
 };
 
 export type LabelSummary = Pick<Label, "id" | "title" | "color">;
