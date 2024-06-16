@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect } from "react";
 import {
   DragDropContext,
   Droppable,
@@ -17,7 +17,6 @@ import { toast } from "sonner";
 
 export default function Board({ board }: { board: BoardWithColumns }) {
   const [currentBoard, setCurrentBoard] = useState<BoardWithColumns>(board);
-  const [isPending, startTransition] = useTransition();
 
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
@@ -86,20 +85,17 @@ export default function Board({ board }: { board: BoardWithColumns }) {
 
     setCurrentBoard(newBoard);
 
-    // Use the server action
-    startTransition(() => {
-      handleUpdateBoard(currentBoard.id, { columns: newBoard.columns })
-        .then((result) => {
-          if (result.success) {
-            toast.success(result.message);
-          } else {
-            toast.error(result.message);
-          }
-        })
-        .catch((error) => {
-          console.error("Error updating board:", error);
-        });
-    });
+    try {
+      const result = await handleUpdateBoard(currentBoard.id, { columns: newBoard.columns });
+      if (result.success) {
+        toast.success(result.message);
+      } else {
+        toast.error(result.message);
+      }
+    } catch (error) {
+      console.error("Error updating board:", error);
+      toast.error("Error saving changes");
+    }
   };
 
   useEffect(() => {
