@@ -1,5 +1,5 @@
 import { IconCheckbox } from "@tabler/icons-react";
-import { ExpandedTask } from "@/types/types";
+import { ChecklistWithItems, DetailedTask } from "@/types/types";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 import { Progress } from "@nextui-org/progress";
 import ChecklistItemForm from "./ChecklistItemForm.client";
@@ -7,10 +7,16 @@ import DeleteChecklistButton from "./DeleteChecklistButton.client";
 import ChecklistCheckboxGroup from "./ChecklistCheckboxGroup.client";
 import ChecklistTitleForm from "./ChecklistTitleForm.client";
 
-export default function TaskDetailChecklist({ task }: { task: ExpandedTask }) {
+export default function TaskDetailChecklist({
+  taskId,
+  checklists,
+}: {
+  taskId: string;
+  checklists: ChecklistWithItems[];
+}) {
   return (
     <>
-      {task.checklists.map((checklist) => {
+      {checklists.map((checklist) => {
         const totalItems = checklist.items.length;
         const completedItems = checklist.items.filter(
           (item) => item.isChecked,
@@ -32,12 +38,12 @@ export default function TaskDetailChecklist({ task }: { task: ExpandedTask }) {
                 <ChecklistTitleForm
                   checklistTitle={checklist.title}
                   checklistId={checklist.id}
-                  taskId={task.id}
+                  taskId={taskId}
                 />
               </div>
               <DeleteChecklistButton
                 checklistId={checklist.id}
-                taskId={task.id}
+                taskId={taskId}
               />
             </div>
             <TaskDetailItemContent indented>
@@ -47,11 +53,11 @@ export default function TaskDetailChecklist({ task }: { task: ExpandedTask }) {
                 className="w-full mb-3"
               />
               <ChecklistCheckboxGroup
-                taskId={task.id}
+                taskId={taskId}
                 checkedItemIds={checkedItemIds}
                 checklist={checklist}
               />
-              <ChecklistItemForm checklistId={checklist.id} taskId={task.id} />
+              <ChecklistItemForm checklistId={checklist.id} taskId={taskId} />
             </TaskDetailItemContent>
           </div>
         );
