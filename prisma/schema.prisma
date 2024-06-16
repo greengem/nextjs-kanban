@@ -49,7 +49,7 @@ model User {
   activities    Activity[]
   favoriteBoards Board[] @relation("favorites")
   memberBoards  BoardMember[]
-  assignedTasks Task[] @relation("AssignedToRelation")
+  assignedTasks TaskAssignment[] @relation("UserAssignments")
   createdTasks  Task[] @relation("CreatedByRelation")
   sentInvitations Invitation[] @relation("UserToInvitation")
 }
@@ -121,10 +121,18 @@ model Task {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   activities  Activity[]
-  assignedToId String?
-  assignedTo User? @relation("AssignedToRelation", fields: [assignedToId], references: [id])
+  assignedUsers TaskAssignment[] @relation("TaskAssignments")
   createdByUserId String
   createdBy User @relation("CreatedByRelation", fields: [createdByUserId], references: [id], onDelete: Cascade)
+}
+
+model TaskAssignment {
+  userId String
+  taskId String
+  user   User @relation(name: "UserAssignments", fields: [userId], references: [id], onDelete: Cascade)
+  task   Task @relation(name: "TaskAssignments", fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@id([userId, taskId])
 }
 
 model Invitation {
@@ -133,7 +141,7 @@ model Invitation {
   email      String
   token      String   @unique
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime @default(now())
 
   board      Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
   inviterId  String
@@ -192,7 +200,6 @@ model Activity {
   originalColumn Column?       @relation("OriginalColumn", fields: [originalColumnId], references: [id])
 }
 
-
 enum ActivityType {
   TASK_CREATED
   TASK_UPDATED
@@ -206,4 +213,6 @@ enum ActivityType {
   DUE_DATE_ADDED
   DUE_DATE_UPDATED
   DUE_DATE_REMOVED
+  TASK_ASSIGNED
+  TASK_UNASSIGNED
 }
