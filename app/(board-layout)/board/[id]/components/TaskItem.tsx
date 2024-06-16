@@ -1,24 +1,24 @@
-import { Task, Label } from "@prisma/client";
+"use client";
 import { format } from "date-fns";
 import {
   IconClock,
   IconFileDescription,
   IconGripVertical,
 } from "@tabler/icons-react";
-import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
 import Link from "next/link";
-
-interface ExtendedTask extends Task {
-  labels: Label[];
-}
+import { useMemo } from "react";
+import { Avatar, AvatarGroup } from "@nextui-org/avatar";
+import { Chip } from "@nextui-org/chip";
+import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
+import { BoardTask } from "@/types/types";
 
 interface TaskItemProps {
-  task: ExtendedTask;
+  task: BoardTask;
   dragHandleProps: DraggableProvidedDragHandleProps | null;
 }
 
 export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
-  const renderDateInfo = () => {
+  const renderDateInfo = useMemo(() => {
     const startDate = task.startDate
       ? format(new Date(task.startDate), "d MMM")
       : null;
@@ -35,14 +35,24 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
     } else {
       return null;
     }
-  };
+  }, [task.startDate, task.dueDate]);
 
-  const showInfo = () => {
-    return task.description || task.startDate || task.dueDate;
-  };
+  const showInfo = useMemo(() => {
+    return (
+      task.description ||
+      task.startDate ||
+      task.dueDate ||
+      task.assignedUsers.length > 0
+    );
+  }, [
+    task.description,
+    task.startDate,
+    task.dueDate,
+    task.assignedUsers.length,
+  ]);
 
   return (
-    <div className="bg-zinc-800 text-white flex select-none rounded-md hover:shadow-md hover:ring-2 hover:ring-primary">
+    <div className="bg-zinc-900 text-white flex select-none rounded-md hover:shadow-md hover:ring-2 hover:ring-primary">
       <div
         className="pl-1 pr-1 flex items-center cursor-grab touch-none"
         {...dragHandleProps}
@@ -51,7 +61,7 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
       </div>
 
       <Link className="flex-grow pr-3 py-2" href={`/task/${task.id}`}>
-        {task.labels && task.labels.length > 0 && (
+        {task.labels.length > 0 && (
           <div className="grid grid-cols-5 gap-1 w-full mb-1">
             {task.labels.map((label) => (
               <span
@@ -64,21 +74,45 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
 
         <div className="text-sm cursor-pointer">{task.title}</div>
 
-        {showInfo() && (
-          <div className="flex gap-3 items-center mt-1">
-            {renderDateInfo() && (
-              <div className="flex items-center gap-1 text-xs text-zinc-400">
-                <IconClock size={14} /> {renderDateInfo()}
-              </div>
-            )}
+        {showInfo && (
+          <div className="flex gap-3 items-center justify-between mt-1">
+            <div className="flex gap-3 items-center">
+              {renderDateInfo && (
+                <div className="flex items-center gap-1 text-xs text-zinc-400">
+                  <IconClock size={14} /> {renderDateInfo}
+                </div>
+              )}
 
-            {task.description && (
-              <div className="text-zinc-500">
-                <IconFileDescription size={14} />
-              </div>
-            )}
+              {task.description && (
+                <div className="text-zinc-500">
+                  <IconFileDescription size={14} />
+                </div>
+              )}
+            </div>
           </div>
         )}
+        <div className="flex justify-between items-center mt-3">
+          {task.assignedUsers.length > 0 ? (
+            <AvatarGroup size="sm">
+              {task.assignedUsers.map((assignment) => (
+                <Avatar
+                  key={assignment.user.id}
+                  showFallback
+                  name={assignment.user.name || "Unknown"}
+                  src={assignment.user.image || undefined}
+                />
+              ))}
+            </AvatarGroup>
+          ) : (
+            <div />
+          )}
+          <div className="flex gap-x-1">
+            <Chip color="primary" size="sm">
+              Hi!
+            </Chip>
+            <Chip size="sm">Hi!</Chip>
+          </div>
+        </div>
       </Link>
     </div>
   );
