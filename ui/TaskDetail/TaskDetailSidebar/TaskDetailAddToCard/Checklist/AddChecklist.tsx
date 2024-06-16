@@ -7,6 +7,8 @@ import { IconCheckbox, IconPlus, IconX } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
 import { handleCreateChecklist } from "@/actions/ChecklistServerActions";
 import { toast } from "sonner";
+import TaskPopoverWrapper from "../components/TaskPopoverWrapper";
+import TaskPopoverHeading from "../components/TaskPopoverHeading";
 
 interface FormValues {
   title: string;
@@ -69,34 +71,38 @@ export default function AddChecklist({
             <IconCheckbox size={14} /> Checklist
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-64">
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="px-1 py-2 w-full space-y-3"
-          >
-            <Input
-              autoComplete="off"
-              label="Checklist title (Optional)"
-              placeholder="Checklist"
-              {...register("title")}
-            />
+        <PopoverContent>
+          <TaskPopoverWrapper>
+            <TaskPopoverHeading title="Checklists" />
 
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                color="primary"
-                className="flex items-center"
-                type="submit"
-              >
-                <IconPlus size={16} />
-                Create Checklist
-              </Button>
-              <Button size="sm" onClick={closePopover}>
-                <IconX size={16} className="flex items-center" />
-                Cancel
-              </Button>
-            </div>
-          </form>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="px-1 py-2 w-full space-y-3"
+            >
+              <Input
+                autoComplete="off"
+                label="Checklist title (Optional)"
+                placeholder="Checklist"
+                {...register("title")}
+              />
+
+              <div className="flex gap-2">
+                <Button
+                  size="sm"
+                  color="primary"
+                  className="flex items-center"
+                  type="submit"
+                >
+                  <IconPlus size={16} />
+                  Create Checklist
+                </Button>
+                <Button size="sm" onClick={closePopover}>
+                  <IconX size={16} className="flex items-center" />
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </TaskPopoverWrapper>
         </PopoverContent>
       </Popover>
     </li>
