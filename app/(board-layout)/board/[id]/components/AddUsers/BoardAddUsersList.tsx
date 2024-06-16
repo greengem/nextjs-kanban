@@ -46,10 +46,12 @@ export default function BoardAddUsersList({
   return (
     <ul className="mb-5">
       {owner && (
-        <li className="flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-2">
+        <li className="flex gap-2 items-center border-b-1 border-zinc-800 last:border-b-0 py-3">
           <Avatar
             className="shrink-0 grow-0"
             showFallback
+            isBordered
+            color="primary"
             name={owner.name || ""}
             src={owner.image || undefined}
           />
@@ -62,11 +64,12 @@ export default function BoardAddUsersList({
       {members.map((member) => (
         <li
           key={member.id}
-          className="flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-2"
+          className="flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-3"
         >
           <Avatar
             className="shrink-0 grow-0"
             showFallback
+            isBordered
             name={member.name || ""}
             src={member.image || undefined}
           />
