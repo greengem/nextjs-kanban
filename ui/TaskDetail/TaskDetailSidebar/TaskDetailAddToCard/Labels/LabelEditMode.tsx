@@ -10,6 +10,9 @@ import {
 import { Label } from "./LabelTypes";
 import { createLabel, updateLabel, deleteLabel } from "./LabelActions";
 import { colorOptions } from "./ColorOptions";
+import TaskPopoverHeading from "../components/TaskPopoverHeading";
+import TaskPopoverWrapper from "../components/TaskPopoverWrapper";
+import TaskPopoverSubtitle from "../components/TaskPopoverSubtitle";
 
 export function LabelEditMode({
   editingLabel,
@@ -60,17 +63,21 @@ export function LabelEditMode({
   };
 
   return (
-    <div className="px-1 py-2 w-full">
-      <div className="flex justify-between mb-3 items-center">
-        <button onClick={exitEditMode}>
-          <IconArrowLeft size={20} />
-        </button>
-        <h4 className="text-center font-semibold text-lg">{title}</h4>
-        <button onClick={closePopover}>
-          <IconX size={20} />
-        </button>
-      </div>
-
+    <TaskPopoverWrapper>
+      <TaskPopoverHeading
+        title={title}
+        beforeContent={
+          <button onClick={exitEditMode}>
+            <IconArrowLeft size={20} />
+          </button>
+        }
+        afterContent={
+          <button onClick={closePopover}>
+            <IconX size={20} />
+          </button>
+        }
+      />
+      <TaskPopoverSubtitle>Preview</TaskPopoverSubtitle>
       <div
         className={`bg-${tempLabelColor}-500 h-9 w-full mb-3 rounded-md p-2 font-semibold text-white`}
       >
@@ -78,9 +85,8 @@ export function LabelEditMode({
       </div>
 
       <div className="mb-3">
-        <h4 className="uppercase font-semibold text-xs text-zinc-500 mb-1">
-          Title
-        </h4>
+        <TaskPopoverSubtitle>Title</TaskPopoverSubtitle>
+
         <Input
           autoComplete="off"
           labelPlacement="outside"
@@ -127,6 +133,6 @@ export function LabelEditMode({
           </Button>
         </>
       )}
-    </div>
+    </TaskPopoverWrapper>
   );
 }
