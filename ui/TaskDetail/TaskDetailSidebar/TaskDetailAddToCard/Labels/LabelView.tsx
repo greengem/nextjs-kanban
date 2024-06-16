@@ -2,7 +2,9 @@
 import { Button } from "@nextui-org/button";
 import { IconArrowLeft, IconPlus, IconX } from "@tabler/icons-react";
 import { LabelCheckboxGroup } from "./LabelCheckboxGroup";
-import { Label } from "./LabelTypes";
+import { Label } from "@prisma/client";
+import TaskPopoverHeading from "../components/TaskPopoverHeading";
+import TaskPopoverWrapper from "../components/TaskPopoverWrapper";
 
 export function LabelView({
   labels,
@@ -20,22 +22,30 @@ export function LabelView({
   closePopover: () => void;
 }) {
   return (
-    <div className="px-1 py-2 w-full">
-      <div className="flex justify-between items-center mb-3">
-        <div className="opacity-0">
-          <IconArrowLeft className="hidden" size={20} />
-        </div>
-        <h4 className="text-center font-semibold text-lg">Labels</h4>
-        <button onClick={closePopover}>
-          <IconX size={20} />
-        </button>
-      </div>
+    <TaskPopoverWrapper>
+      <TaskPopoverHeading
+        title="Labels"
+        beforeContent={
+          <div className="opacity-0">
+            <IconArrowLeft className="hidden" size={20} />
+          </div>
+        }
+        afterContent={
+          <button onClick={closePopover}>
+            <IconX size={20} />
+          </button>
+        }
+      />
+
       <LabelCheckboxGroup
         labels={labels}
         selectedLabels={selectedLabels}
         handleCheckboxChange={handleCheckboxChange}
         enterEditMode={enterEditMode}
       />
+
+      <hr className="mb-3 border-zinc-800" />
+
       <Button
         className="w-full flex items-center gap-1"
         color="primary"
@@ -44,6 +54,6 @@ export function LabelView({
       >
         <IconPlus size={18} /> Create a new label
       </Button>
-    </div>
+    </TaskPopoverWrapper>
   );
 }
