@@ -1,5 +1,4 @@
 "use client";
-import { Session } from "next-auth";
 import { useState } from "react";
 import { toast } from "sonner";
 import TaskDetailActivityItem from "./TaskDetailActivityItem";
@@ -10,19 +9,25 @@ import { IconActivity, IconX } from "@tabler/icons-react";
 import { handleCreateActivity } from "@/actions/ActivityServerActions";
 import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
+import { ActivityWithRelations } from "@/types/types";
 
 interface TaskDetailActivityProps {
-  task: any;
-  session: Session | null;
+  taskId: string;
+  boardId: string;
+  activities: ActivityWithRelations[];
+  columnTitle: string;
+  userName: string | null;
+  userImage: string | null;
 }
 
 export default function TaskDetailActivity({
-  task,
-  session,
+  taskId,
+  boardId,
+  activities,
+  columnTitle,
+  userName,
+  userImage,
 }: TaskDetailActivityProps) {
-  const taskId = task.id;
-  const boardId = task.column.boardId;
-
   const [showForm, setShowForm] = useState(false);
 
   const handleToggleForm = () => {
@@ -58,8 +63,8 @@ export default function TaskDetailActivity({
             <Avatar
               showFallback
               size="sm"
-              name={session?.user?.name ?? "Unknown"}
-              src={session?.user?.image ?? undefined}
+              name={userName ?? "Unknown"}
+              src={userImage ?? undefined}
               className="shrink-0"
             />
           </div>
@@ -100,13 +105,13 @@ export default function TaskDetailActivity({
         </div>
 
         <ul className="space-y-3">
-          {task.activities &&
-            task.activities.map((activity: any) => (
+          {activities &&
+            activities.map((activity: any) => (
               <TaskDetailActivityItem
                 key={activity.id}
                 activity={activity}
-                columnTitle={task.column.columnTitle}
-                boardId={task.column.boardId}
+                columnTitle={columnTitle}
+                boardId={boardId}
               />
             ))}
         </ul>
