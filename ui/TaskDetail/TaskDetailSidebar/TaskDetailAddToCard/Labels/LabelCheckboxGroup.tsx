@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxGroup } from "@nextui-org/checkbox";
 import { IconEdit } from "@tabler/icons-react";
-import { Label } from "./LabelTypes";
+import { Label } from "@prisma/client";
 
 export function LabelCheckboxGroup({
   labels,
