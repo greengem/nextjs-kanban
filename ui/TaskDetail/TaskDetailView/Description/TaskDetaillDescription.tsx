@@ -1,11 +1,11 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 
 import { EditTaskSchema } from "@/types/zodTypes";
-import { ExpandedTask, TaskEditData } from "@/types/types";
+import { TaskEditData } from "@/types/types";
 
 import {
   handleEditTask,
@@ -19,10 +19,12 @@ import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 
 export default function TaskDetailDescription({
-  selectedTask,
+  taskId,
+  taskDescription,
   boardId,
 }: {
-  selectedTask: ExpandedTask;
+  taskId: string;
+  taskDescription: string | null;
   boardId: string;
 }) {
   const [isEditingDescription, setIsEditingDescription] = useState(false);
@@ -38,9 +40,9 @@ export default function TaskDetailDescription({
   } = useForm<TaskEditData>({
     resolver: zodResolver(EditTaskSchema),
     defaultValues: {
-      id: selectedTask.id,
+      id: taskId,
       boardId,
-      description: selectedTask.description,
+      description: taskDescription,
     },
   });
 
@@ -57,15 +59,12 @@ export default function TaskDetailDescription({
   };
 
   const handleDeleteDescription = async () => {
-    const response = await handleDeleteTaskDescription(
-      selectedTask.id,
-      boardId,
-    );
+    const response = await handleDeleteTaskDescription(taskId, boardId);
 
     if (response.success) {
       toast.success(response.message);
       setIsEditingDescription(false);
-      reset({ ...selectedTask, description: null });
+      reset({ id: taskId, boardId, description: null }); // Only reset relevant fields
     } else {
       toast.error(response.message);
     }
@@ -80,8 +79,8 @@ export default function TaskDetailDescription({
       <TaskDetailItemContent indented>
         {!isEditingDescription ? (
           <p onClick={toggleEditDescription} className="cursor-pointer">
-            {selectedTask.description ? (
-              selectedTask.description
+            {taskDescription ? (
+              taskDescription
             ) : (
               <span className="text-primary">Add a description</span>
             )}
@@ -94,7 +93,7 @@ export default function TaskDetailDescription({
               placeholder="Enter your description"
               autoFocus
               label="Description"
-              defaultValue={selectedTask.description || ""}
+              defaultValue={taskDescription || ""}
               className="w-full mb-2 mt-1 border-none focus:outline-none"
               {...register("description")}
             />
@@ -118,7 +117,7 @@ export default function TaskDetailDescription({
               <Button size="sm" onClick={toggleEditDescription} type="button">
                 Cancel
               </Button>
-              {selectedTask.description && (
+              {taskDescription && (
                 <Button
                   size="sm"
                   onClick={handleDeleteDescription}
