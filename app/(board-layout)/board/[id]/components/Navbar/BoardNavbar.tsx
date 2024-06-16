@@ -1,12 +1,11 @@
-import { Board as BoardType, Column, Task } from "@prisma/client";
 import { Suspense } from "react";
-import BoardMenu from "../components/BoardMenu";
-import BoardFavourite from "../components/BoardFavourite";
-import BoardTitle from "../components/BoardTitle";
+import BoardMenu from "./BoardMenu";
+import BoardFavourite from "./BoardFavourite";
+import BoardTitle from "./BoardTitle";
 import BoardFilterFetch from "./BoardFilter";
-import BoardBackgroundImage from "./BoardBackgroundImage";
-import BoardBackgroundImageButton from "./BoardBackgroundImageButton";
-import BoardUsers from "./BoardUsers";
+import BoardBackgroundImage from "../Wallpaper/BoardBackgroundImage";
+import BoardBackgroundImageButton from "../Wallpaper/BoardBackgroundImageButton";
+import BoardUsers from "./AddUsers/BoardUsers";
 import { IconLoader2 } from "@tabler/icons-react";
 
 export default async function BoardNavbar({

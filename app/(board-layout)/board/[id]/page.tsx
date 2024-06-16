@@ -1,7 +1,7 @@
 import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
 import Board from "./components/Board";
-import BoardNavbar from "./components/BoardNavbar";
+import BoardNavbar from "./components/Navbar/BoardNavbar";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { BoardWithColumns } from "@/types/types";

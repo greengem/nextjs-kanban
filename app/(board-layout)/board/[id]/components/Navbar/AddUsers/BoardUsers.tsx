@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import prisma from "@/prisma/prisma";
-import BoardAddUsers from "./AddUsers/BoardAddUsers";
+import BoardAddUsers from "../AddUsers/BoardAddUsers";
 
 export default async function BoardUsers({ boardId }: { boardId: string }) {
   const session = await auth();
@@ -15,7 +15,8 @@ export default async function BoardUsers({ boardId }: { boardId: string }) {
     include: { user: true },
   });
 
-  const owner = boardMembers.find((member) => member.role === "owner")?.user ?? null;
+  const owner =
+    boardMembers.find((member) => member.role === "owner")?.user ?? null;
   const isOwner = owner?.id === userId;
 
   const members = boardMembers.filter((member) => member.role === "member");
