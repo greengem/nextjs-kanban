@@ -3,15 +3,14 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Avatar } from "@nextui-org/avatar";
 import { IconMinus } from "@tabler/icons-react";
-import { BoardMemberSummary } from "@/types/types";
 import { handleRemoveUserFromBoard } from "@/actions/InvitationActions";
 import { toast } from "sonner";
-
-type UserSummary = BoardMemberSummary["user"];
+import { BoardMemberWithUser } from "@/types/types";
+import { User } from "@prisma/client";
 
 interface BoardAddUsersListProps {
-  owner: UserSummary | null;
-  members: UserSummary[];
+  owner: User | null;
+  members: BoardMemberWithUser[];
   boardId: string;
   isOwner: boolean;
   loggedInUserId: string;
@@ -63,25 +62,25 @@ export default function BoardAddUsersList({
       )}
       {members.map((member) => (
         <li
-          key={member.id}
+          key={member.user.id}
           className="flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-3"
         >
           <Avatar
             className="shrink-0 grow-0"
             showFallback
             isBordered
-            name={member.name || ""}
-            src={member.image || undefined}
+            name={member.user.name || ""}
+            src={member.user.image || undefined}
           />
           <div className="grow">
-            <p>{member.name || ""}</p>
+            <p>{member.user.name || ""}</p>
             <p className="text-xs">Member</p>
           </div>
-          {(isOwner || member.id === loggedInUserId) && (
+          {(isOwner || member.user.id === loggedInUserId) && (
             <Button
               size="sm"
               isIconOnly
-              onClick={() => handleRemoveUser(member.id)}
+              onClick={() => handleRemoveUser(member.user.id)}
             >
               <IconMinus size={16} />
             </Button>

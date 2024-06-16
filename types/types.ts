@@ -82,6 +82,10 @@ export interface BoardWithColumns extends Board {
   columns: ColumnWithTasks[];
 }
 
+export interface BoardMemberWithUser extends BoardMember {
+  user: User;
+}
+
 // OLD TYPES
 
 export type ChecklistItemSummary = Pick<

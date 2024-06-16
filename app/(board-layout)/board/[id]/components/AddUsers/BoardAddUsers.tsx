@@ -6,14 +6,13 @@ import { IconUser } from "@tabler/icons-react";
 import BoardAddUsersList from "./BoardAddUsersList";
 import BoardAddUsersLink from "./BoardAddUsersLink";
 import BoardAddUsersForm from "./BoardAddUsersForm";
-import { BoardMemberSummary } from "@/types/types";
-
-type UserSummary = BoardMemberSummary["user"];
+import { BoardMemberWithUser } from "@/types/types";
+import { User } from "@prisma/client";
 
 interface BoardAddUsersProps {
   boardId: string;
-  owner: UserSummary | null;
-  members: UserSummary[];
+  owner: User | null;
+  members: BoardMemberWithUser[];
   isOwner: boolean;
   loggedInUserId: string;
 }
