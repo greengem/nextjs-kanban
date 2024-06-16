@@ -1,58 +1,12 @@
 import { auth } from "@/auth";
 import prisma from "@/prisma/prisma";
-
-interface Task {
-  id: string;
-  title: string;
-  description: string | null;
-  dueDate: Date | null;
-  startDate: Date | null;
-  createdAt: Date;
-  updatedAt: Date;
-  order: number;
-  columnId: string;
-  column: {
-    title: string;
-    boardId: string;
-    board: {
-      backgroundUrl: string | null;
-    };
-  };
-  labels: {
-    id: string;
-    title: string | null;
-    color: string;
-  }[];
-  checklists: {
-    id: string;
-    title: string | null;
-    items: {
-      id: string;
-      content: string;
-      isChecked: boolean;
-      createdAt: Date;
-    }[];
-  }[];
-  activities: {
-    id: string;
-    type: string;
-    content: string | null;
-    createdAt: Date;
-    startDate: Date | null;
-    dueDate: Date | null;
-    oldColumn: { title: string } | null;
-    newColumn: { title: string } | null;
-    originalColumn: { title: string } | null;
-    task: { title: string } | null;
-    user: { id: string; name: string | null; image: string | null };
-  }[];
-}
+import { DetailedTask } from "@/types/types";
 
 export default async function FetchTask({
   taskId,
 }: {
   taskId: string;
-}): Promise<Task | null> {
+}): Promise<DetailedTask | null> {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -79,16 +33,7 @@ export default async function FetchTask({
     where: {
       id: taskId,
     },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      dueDate: true,
-      startDate: true,
-      createdAt: true,
-      updatedAt: true,
-      order: true,
-      columnId: true,
+    include: {
       column: {
         select: {
           title: true,
@@ -100,62 +45,32 @@ export default async function FetchTask({
           },
         },
       },
-      labels: {
-        select: {
-          id: true,
-          title: true,
-          color: true,
-        },
-      },
+      labels: true,
       checklists: {
-        select: {
-          id: true,
-          title: true,
+        include: {
           items: {
             orderBy: {
               createdAt: "asc",
-            },
-            select: {
-              id: true,
-              content: true,
-              isChecked: true,
-              createdAt: true,
             },
           },
         },
       },
       activities: {
+        include: {
+          user: true,
+          oldColumn: true,
+          newColumn: true,
+          originalColumn: true,
+          task: true,
+          board: true,
+        },
         orderBy: {
           createdAt: "desc",
         },
-        select: {
-          id: true,
-          type: true,
-          content: true,
-          createdAt: true,
-          startDate: true,
-          dueDate: true,
-          oldColumn: {
-            select: { title: true },
-          },
-          newColumn: {
-            select: { title: true },
-          },
-          originalColumn: {
-            select: { title: true },
-          },
-          task: {
-            select: {
-              title: true,
-            },
-          },
-          user: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            },
-          },
+      },
+      assignedUsers: {
+        include: {
+          user: true,
         },
       },
     },
@@ -165,5 +80,5 @@ export default async function FetchTask({
     return null;
   }
 
-  return task;
+  return task as DetailedTask;
 }
