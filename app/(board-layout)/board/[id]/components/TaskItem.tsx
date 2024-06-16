@@ -106,12 +106,13 @@ export default function TaskItem({ task, dragHandleProps }: TaskItemProps) {
           ) : (
             <div />
           )}
+          {/* 
           <div className="flex gap-x-1">
             <Chip color="primary" size="sm">
               Hi!
             </Chip>
             <Chip size="sm">Hi!</Chip>
-          </div>
+          </div> */}
         </div>
       </Link>
     </div>
