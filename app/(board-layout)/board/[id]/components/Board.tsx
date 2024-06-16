@@ -1,5 +1,4 @@
 "use client";
-import { Board as BoardType, Column, Task, Label } from "@prisma/client";
 import { useState, useEffect } from "react";
 import {
   DragDropContext,
@@ -12,27 +11,11 @@ import { Card, CardHeader, CardBody, CardFooter } from "@/ui/Card/Card";
 import TaskItem from "./TaskItem";
 import CreateTaskForm from "@/ui/Forms/CreateTaskForm";
 import ColumnActions from "./ColumnActions";
+import { BoardWithColumns } from "@/types/types";
 
-type ExtendedTask = Task & {
-  labels: Label[];
-};
+export default function Board({ board }: { board: BoardWithColumns }) {
+  const [currentBoard, setCurrentBoard] = useState<BoardWithColumns>(board);
 
-type ExtendedColumn = Column & {
-  tasks: ExtendedTask[];
-};
-
-type ExtendedBoard = BoardType & {
-  columns: ExtendedColumn[];
-};
-
-interface BoardProps {
-  board: ExtendedBoard;
-}
-
-export default function Board({ board: initialBoard }: BoardProps) {
-  const [board, setBoard] = useState<ExtendedBoard>(initialBoard);
-
-  // Handle DnD Drag End
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
 
@@ -40,23 +23,23 @@ export default function Board({ board: initialBoard }: BoardProps) {
       return;
     }
 
-    let newBoard = { ...board };
+    let newBoard = { ...currentBoard };
 
     if (type === "COLUMN") {
-      const newColumns = Array.from(board.columns);
+      const newColumns = Array.from(currentBoard.columns);
       const [removedColumn] = newColumns.splice(source.index, 1);
       newColumns.splice(destination.index, 0, removedColumn);
       newColumns.forEach((col, index) => (col.order = index + 1));
 
       newBoard = {
-        ...board,
+        ...currentBoard,
         columns: newColumns,
       };
     } else {
-      const sourceColumn = board.columns.find(
+      const sourceColumn = currentBoard.columns.find(
         (col) => col.id === source.droppableId,
       );
-      const destColumn = board.columns.find(
+      const destColumn = currentBoard.columns.find(
         (col) => col.id === destination.droppableId,
       );
 
@@ -69,8 +52,8 @@ export default function Board({ board: initialBoard }: BoardProps) {
         copiedTasks.forEach((task, index) => (task.order = index + 1));
 
         newBoard = {
-          ...board,
-          columns: board.columns.map((col) =>
+          ...currentBoard,
+          columns: currentBoard.columns.map((col) =>
             col.id === sourceColumn.id ? { ...col, tasks: copiedTasks } : col,
           ),
         };
@@ -84,8 +67,8 @@ export default function Board({ board: initialBoard }: BoardProps) {
         destTasks.forEach((task, index) => (task.order = index + 1));
 
         newBoard = {
-          ...board,
-          columns: board.columns.map((col) => {
+          ...currentBoard,
+          columns: currentBoard.columns.map((col) => {
             if (col.id === sourceColumn.id) {
               return { ...col, tasks: sourceTasks };
             } else if (col.id === destColumn.id) {
@@ -98,10 +81,10 @@ export default function Board({ board: initialBoard }: BoardProps) {
       }
     }
 
-    setBoard(newBoard);
+    setCurrentBoard(newBoard);
 
     try {
-      await fetch(`/api/board/${board.id}`, {
+      await fetch(`/api/board/${currentBoard.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -113,10 +96,9 @@ export default function Board({ board: initialBoard }: BoardProps) {
     }
   };
 
-  // Update the state when the db is changed and refetched
   useEffect(() => {
-    setBoard(initialBoard);
-  }, [initialBoard]);
+    setCurrentBoard(board);
+  }, [board]);
 
   return (
     <div className="z-10 flex flex-col grow">
@@ -128,11 +110,11 @@ export default function Board({ board: initialBoard }: BoardProps) {
         >
           {(provided) => (
             <div
-              className="grow flex overflow-x-scroll px-2 "
+              className="grow flex overflow-x-scroll px-2"
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {board.columns.map((column, columnIndex) => (
+              {currentBoard.columns.map((column, columnIndex) => (
                 <Draggable
                   key={column.id}
                   draggableId={column.id}
@@ -155,29 +137,20 @@ export default function Board({ board: initialBoard }: BoardProps) {
                           <div className="flex justify-between items-center gap-2">
                             <ColumnActions
                               columnId={column.id}
-                              boardId={board.id}
+                              boardId={currentBoard.id}
                               columnTitle={column.title}
                             />
                           </div>
                         </CardHeader>
-
                         <Droppable droppableId={column.id} type="TASK">
                           {(provided) => (
-                            <CardBody className="bg-zinc-900">
+                            <CardBody className="bg-zinc-950">
                               <div
                                 ref={provided.innerRef}
                                 {...provided.droppableProps}
                               >
                                 {column.tasks.length === 0 ? (
-                                  <div
-                                    className="
-                                    bg-zinc-800
-                                    text-center text-xs
-                                    py-4
-                                    rounded-lg
-                                    border-dashed border-2 border-zinc-700
-                                  "
-                                  >
+                                  <div className="bg-zinc-900 text-center text-xs py-4 rounded-lg border-dashed border-2 border-zinc-700">
                                     Drop here
                                   </div>
                                 ) : (
@@ -209,10 +182,9 @@ export default function Board({ board: initialBoard }: BoardProps) {
                             </CardBody>
                           )}
                         </Droppable>
-
                         <CardFooter>
                           <CreateTaskForm
-                            boardId={board.id}
+                            boardId={currentBoard.id}
                             columnId={column.id}
                           />
                         </CardFooter>
@@ -222,7 +194,7 @@ export default function Board({ board: initialBoard }: BoardProps) {
                 </Draggable>
               ))}
               {provided.placeholder}
-              <CreateColumnForm boardId={board.id} />
+              <CreateColumnForm boardId={currentBoard.id} />
             </div>
           )}
         </Droppable>
