@@ -257,3 +257,84 @@ export async function handleDeleteTaskDescription(
     return { success: false, message: "Failed to delete description" };
   }
 }
+
+// Add User to Task
+export async function handleAddUserToTask(
+  userId: string,
+  taskId: string,
+  boardId: string,
+) {
+  try {
+    const session = await auth();
+    const currentUserId = session?.user?.id;
+
+    if (!currentUserId) {
+      return { success: false, message: "User is not authenticated" };
+    }
+
+    await prisma.taskAssignment.create({
+      data: {
+        userId: userId,
+        taskId: taskId,
+      },
+    });
+
+    await prisma.activity.create({
+      data: {
+        type: "TASK_ASSIGNED",
+        userId: currentUserId,
+        taskId: taskId,
+        boardId: boardId,
+      },
+    });
+
+    revalidatePath(`/board/${boardId}`);
+
+    return { success: true, message: `User ${userId} added to task ${taskId}` };
+  } catch (e) {
+    return { success: false, message: `Failed to add user to task` };
+  }
+}
+
+// Remove User from Task
+export async function handleRemoveUserFromTask(
+  userId: string,
+  taskId: string,
+  boardId: string,
+) {
+  try {
+    const session = await auth();
+    const currentUserId = session?.user?.id;
+
+    if (!currentUserId) {
+      return { success: false, message: "User is not authenticated" };
+    }
+
+    await prisma.taskAssignment.delete({
+      where: {
+        userId_taskId: {
+          userId: userId,
+          taskId: taskId,
+        },
+      },
+    });
+
+    await prisma.activity.create({
+      data: {
+        type: "TASK_UNASSIGNED",
+        userId: currentUserId,
+        taskId: taskId,
+        boardId: boardId,
+      },
+    });
+
+    revalidatePath(`/board/${boardId}`);
+
+    return {
+      success: true,
+      message: `User ${userId} removed from task ${taskId}`,
+    };
+  } catch (e) {
+    return { success: false, message: `Failed to remove user from task` };
+  }
+}
