@@ -6,20 +6,25 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { parseDate, today, getLocalTimeZone } from "@internationalized/date";
 
-export default function AddToCardDatesCalendar({ task }: { task: any }) {
-  const startDate = task.startDate
-    ? format(new Date(task.startDate), "yyyy-MM-dd")
-    : undefined;
-  const dueDate = task.dueDate
-    ? format(new Date(task.dueDate), "yyyy-MM-dd")
-    : undefined;
-  const taskId: string = task.id;
-  const boardId: string = task.column.boardId;
+interface AddToCardDatesCalendarProps {
+  taskId: string;
+  boardId: string;
+  startDate: Date | null;
+  dueDate: Date | null;
+}
 
+export default function AddToCardDatesCalendar({
+  taskId,
+  boardId,
+  startDate,
+  dueDate,
+}: AddToCardDatesCalendarProps) {
   const [selectedRange, setSelectedRange] = useState<RangeValue<DateValue>>({
-    start: startDate ? parseDate(startDate) : today(getLocalTimeZone()),
+    start: startDate
+      ? parseDate(format(startDate, "yyyy-MM-dd"))
+      : today(getLocalTimeZone()),
     end: dueDate
-      ? parseDate(dueDate)
+      ? parseDate(format(dueDate, "yyyy-MM-dd"))
       : today(getLocalTimeZone()).add({ weeks: 1 }),
   });
 
@@ -39,10 +44,16 @@ export default function AddToCardDatesCalendar({ task }: { task: any }) {
       range.end.day,
     );
 
-    if (startDate !== format(newStartDate, "yyyy-MM-dd")) {
+    if (
+      startDate &&
+      format(startDate, "yyyy-MM-dd") !== format(newStartDate, "yyyy-MM-dd")
+    ) {
       await sendDateRequest(newStartDate, "startDate");
     }
-    if (dueDate !== format(newDueDate, "yyyy-MM-dd")) {
+    if (
+      dueDate &&
+      format(dueDate, "yyyy-MM-dd") !== format(newDueDate, "yyyy-MM-dd")
+    ) {
       await sendDateRequest(newDueDate, "dueDate");
     }
   };
