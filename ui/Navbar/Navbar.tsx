@@ -2,11 +2,7 @@
 import { useState } from "react";
 import NavbarTitle from "./NavbarTitle";
 import ColourPicker from "./ColourPicker";
-import {
-  IconMenu2,
-  IconLayoutKanban,
-  IconUser,
-} from "@tabler/icons-react";
+import { IconMenu2, IconLayoutKanban, IconUser } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
 

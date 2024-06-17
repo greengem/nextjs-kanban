@@ -2,7 +2,6 @@
 import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { UIProvider } from "@/contexts/UIContext";
-import { SidebarProvider } from "@/contexts/SidebarContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -30,9 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
           "rose",
         ]}
       >
-        <UIProvider>
-          <SidebarProvider>{children}</SidebarProvider>
-        </UIProvider>
+        <UIProvider>{children}</UIProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );
