@@ -2,8 +2,29 @@
 import { useState } from "react";
 import NavbarTitle from "./NavbarTitle";
 import ColourPicker from "./ColourPicker";
-import { IconMenu2 } from "@tabler/icons-react";
-import navData from "@/data/navData";
+import { IconMenu2, IconLayoutKanban, IconUser, IconInbox, IconMessage } from "@tabler/icons-react";
+import Link from "next/link";
+import React from "react";
+
+interface NavItem {
+  path: string;
+  title: string;
+  icon: React.ReactNode;
+  badgeContent?: number;
+}
+
+const navData: NavItem[] = [
+  {
+    path: "/profile",
+    title: "Profile",
+    icon: <IconUser stroke={1.5} size={24} />,
+  },
+  {
+    path: "/board",
+    title: "All Boards",
+    icon: <IconLayoutKanban stroke={1.5} size={24} />,
+  },
+];
 
 export default function NavbarWrapper({
   children,
@@ -38,9 +59,13 @@ export default function NavbarWrapper({
           <ul className="flex flex-col">
             {navData.map((item, index) => (
               <li key={index} className="px-5 py-2 hover:bg-zinc-800">
-                <a href={item.path} className="flex items-center gap-2 text-sm">
+                <Link
+                  href={item.path}
+                  className="flex items-center gap-2 text-sm"
+                >
+                  {item.icon}
                   {item.title}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
