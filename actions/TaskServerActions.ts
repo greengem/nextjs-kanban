@@ -12,6 +12,7 @@ import {
   TaskEditData,
   TaskDeletionData,
 } from "@/types/types";
+import { ActivityType } from "@prisma/client";
 
 // Create Task
 export async function handleCreateTask(data: TaskCreationData) {
@@ -51,7 +52,7 @@ export async function handleCreateTask(data: TaskCreationData) {
     if (createdTask) {
       await prisma.activity.create({
         data: {
-          type: "TASK_CREATED",
+          type: ActivityType.TASK_CREATED,
           userId: userId,
           taskId: createdTask.id,
           boardId: parse.data.boardId,
@@ -88,9 +89,8 @@ export async function handleEditTask(data: TaskEditData) {
     });
 
     revalidatePath(`/board/${parse.data.boardId}`);
-    //revalidatePath(`/task/${parse.data.id}`);
 
-    return { success: true, message: `Edited task sucessfully!` };
+    return { success: true, message: `Edited task successfully!` };
   } catch (e) {
     return { success: false, message: `Failed to edit task` };
   }
@@ -132,7 +132,7 @@ export async function handleDeleteTask(data: TaskDeletionData) {
   }
 }
 
-// Add/update a date. NOTE: we expect a string since server actions need to be serialised
+// Add/update a date. NOTE: we expect a string since server actions need to be serialized
 export async function handleAddDate(data: {
   taskId: string;
   date: string;
@@ -165,11 +165,11 @@ export async function handleAddDate(data: {
     const activityType =
       existingTask && existingTask[data.dateType]
         ? data.dateType === "dueDate"
-          ? "DUE_DATE_UPDATED"
-          : "START_DATE_UPDATED"
+          ? ActivityType.DUE_DATE_UPDATED
+          : ActivityType.START_DATE_UPDATED
         : data.dateType === "dueDate"
-          ? "DUE_DATE_ADDED"
-          : "START_DATE_ADDED";
+          ? ActivityType.DUE_DATE_ADDED
+          : ActivityType.START_DATE_ADDED;
 
     await prisma.activity.create({
       data: {
@@ -216,7 +216,9 @@ export async function handleRemoveDate(data: {
     });
 
     const activityType =
-      data.dateType === "dueDate" ? "DUE_DATE_REMOVED" : "START_DATE_REMOVED";
+      data.dateType === "dueDate"
+        ? ActivityType.DUE_DATE_REMOVED
+        : ActivityType.START_DATE_REMOVED;
 
     await prisma.activity.create({
       data: {
@@ -260,7 +262,7 @@ export async function handleDeleteTaskDescription(
 
 // Add User to Task
 export async function handleAddUserToTask(
-  userId: string,
+  targetUserId: string,
   taskId: string,
   boardId: string,
 ) {
@@ -274,23 +276,27 @@ export async function handleAddUserToTask(
 
     await prisma.taskAssignment.create({
       data: {
-        userId: userId,
+        userId: targetUserId,
         taskId: taskId,
       },
     });
 
     await prisma.activity.create({
       data: {
-        type: "TASK_ASSIGNED",
+        type: ActivityType.TASK_ASSIGNED,
         userId: currentUserId,
         taskId: taskId,
         boardId: boardId,
+        targetUserId: targetUserId,
       },
     });
 
     revalidatePath(`/board/${boardId}`);
 
-    return { success: true, message: `User ${userId} added to task ${taskId}` };
+    return {
+      success: true,
+      message: `User ${targetUserId} added to task ${taskId}`,
+    };
   } catch (e) {
     return { success: false, message: `Failed to add user to task` };
   }
@@ -298,7 +304,7 @@ export async function handleAddUserToTask(
 
 // Remove User from Task
 export async function handleRemoveUserFromTask(
-  userId: string,
+  targetUserId: string,
   taskId: string,
   boardId: string,
 ) {
@@ -313,7 +319,7 @@ export async function handleRemoveUserFromTask(
     await prisma.taskAssignment.delete({
       where: {
         userId_taskId: {
-          userId: userId,
+          userId: targetUserId,
           taskId: taskId,
         },
       },
@@ -321,10 +327,11 @@ export async function handleRemoveUserFromTask(
 
     await prisma.activity.create({
       data: {
-        type: "TASK_UNASSIGNED",
+        type: ActivityType.TASK_UNASSIGNED,
         userId: currentUserId,
         taskId: taskId,
         boardId: boardId,
+        targetUserId: targetUserId,
       },
     });
 
@@ -332,7 +339,7 @@ export async function handleRemoveUserFromTask(
 
     return {
       success: true,
-      message: `User ${userId} removed from task ${taskId}`,
+      message: `User ${targetUserId} removed from task ${taskId}`,
     };
   } catch (e) {
     return { success: false, message: `Failed to remove user from task` };

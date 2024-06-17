@@ -1,19 +1,27 @@
 "use server";
 import { auth } from "@/auth";
 import prisma from "@/prisma/prisma";
-import { PrismaClient } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { CreateBoardSchema, EditBoardSchema } from "@/types/zodTypes";
 import { BoardCreationData, BoardEditData } from "@/types/types";
+import { ActivityType } from "@prisma/client";
 
-// Define default label colors
-const DEFAULT_LABEL_COLORS = [
-  "green",
-  "yellow",
-  "orange",
-  "red",
-  "purple",
-  "blue",
+enum LabelColor {
+  GREEN = "green",
+  YELLOW = "yellow",
+  ORANGE = "orange",
+  RED = "red",
+  PURPLE = "purple",
+  BLUE = "blue",
+}
+
+const DEFAULT_LABEL_COLORS: LabelColor[] = [
+  LabelColor.GREEN,
+  LabelColor.YELLOW,
+  LabelColor.ORANGE,
+  LabelColor.RED,
+  LabelColor.PURPLE,
+  LabelColor.BLUE,
 ];
 
 export async function handleCreateBoard(data: BoardCreationData) {
@@ -48,7 +56,6 @@ export async function handleCreateBoard(data: BoardCreationData) {
       },
     });
 
-    // Create default labels for the new board
     await createDefaultLabelsForBoard(createdBoard.id, session.user.id);
 
     revalidatePath("/board/");
@@ -85,7 +92,7 @@ export async function handleEditBoard(data: BoardEditData) {
   const parse = EditBoardSchema.safeParse(data);
 
   if (!parse.success) {
-    return { success: false, message: "Failed to edit task" };
+    return { success: false, message: "Failed to edit board" };
   }
 
   try {
@@ -100,9 +107,9 @@ export async function handleEditBoard(data: BoardEditData) {
 
     revalidatePath(`/board/${parse.data.id}`);
 
-    return { success: true, message: `Edited task sucessfully!` };
+    return { success: true, message: `Edited board successfully!` };
   } catch (e) {
-    return { success: false, message: `Failed to edit task` };
+    return { success: false, message: `Failed to edit board` };
   }
 }
 
@@ -120,7 +127,6 @@ export async function handleDeleteBoard(boardId: string) {
   }
 
   try {
-    // Use prisma.$transaction without explicit type annotation
     await prisma.$transaction(async (tx) => {
       const owner = await tx.boardMember.findFirst({
         where: {
@@ -206,7 +212,6 @@ export async function handleRemoveBoardImage(boardId: string) {
   }
 }
 
-
 interface TaskData {
   id: string;
   order: number;
@@ -267,7 +272,7 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
               // Create a 'TASK_MOVED' activity entry
               await prisma.activity.create({
                 data: {
-                  type: "TASK_MOVED",
+                  type: ActivityType.TASK_MOVED,
                   userId: userId,
                   taskId: task.id,
                   boardId: boardId,

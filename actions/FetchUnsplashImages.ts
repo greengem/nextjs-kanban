@@ -15,7 +15,7 @@ export async function fetchUnsplashImages(query: string): Promise<string[]> {
 
     if (!res.ok) {
       throw new Error(
-        `Failed to fetch images: ${res.status} ${res.statusText}`,
+        `Failed to fetch images: ${res.status} ${res.statusText}`
       );
     }
 

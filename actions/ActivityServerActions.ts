@@ -3,6 +3,7 @@ import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { ActivityType } from "@prisma/client";
 
 const handleCreateActivitySchema = z.object({
   content: z
@@ -45,7 +46,7 @@ export async function handleCreateActivity(
   try {
     await prisma.activity.create({
       data: {
-        type: "COMMENT_ADDED",
+        type: ActivityType.COMMENT_ADDED,
         content: validatedFields.data.content,
         userId: userId,
         taskId: taskId,
