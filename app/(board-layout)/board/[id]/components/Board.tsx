@@ -86,7 +86,9 @@ export default function Board({ board }: { board: BoardWithColumns }) {
     setCurrentBoard(newBoard);
 
     try {
-      const result = await handleUpdateBoard(currentBoard.id, { columns: newBoard.columns });
+      const result = await handleUpdateBoard(currentBoard.id, {
+        columns: newBoard.columns,
+      });
       if (result.success) {
         toast.success(result.message);
       } else {

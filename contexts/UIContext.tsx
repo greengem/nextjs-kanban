@@ -8,18 +8,15 @@ interface UIState {
 interface UIContextType {
   uiState: UIState;
   toggleBackgroundImageSelector: () => void;
-  // Add other toggle functions or a generic toggle function
 }
 
 const defaultUIState: UIState = {
   isBackgroundImageSelectorOpen: false,
-  // Initialize other states
 };
 
 const UIContext = createContext<UIContextType>({
   uiState: defaultUIState,
-  toggleBackgroundImageSelector: () => {}, // Placeholder function
-  // Add other initial toggle functions
+  toggleBackgroundImageSelector: () => {},
 });
 
 export const UIProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
