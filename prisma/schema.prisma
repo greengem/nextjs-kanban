@@ -52,7 +52,9 @@ model User {
   assignedTasks TaskAssignment[] @relation("UserAssignments")
   createdTasks  Task[] @relation("CreatedByRelation")
   sentInvitations Invitation[] @relation("UserToInvitation")
+  targetActivities Activity[] @relation("TargetUser")
 }
+
 
 model VerificationToken {
   identifier String
@@ -187,7 +189,7 @@ model Activity {
   startDate      DateTime?
   dueDate        DateTime?
   userId         String
-  user           User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   taskId         String?
   task           Task?         @relation(fields: [taskId], references: [id], onDelete: Cascade)
   boardId        String?
@@ -198,7 +200,11 @@ model Activity {
   newColumn      Column?       @relation("NewColumn", fields: [newColumnId], references: [id])
   originalColumnId String?
   originalColumn Column?       @relation("OriginalColumn", fields: [originalColumnId], references: [id])
+  targetUserId   String?
+  targetUser     User?         @relation("TargetUser", fields: [targetUserId], references: [id])
 }
+
+
 
 enum ActivityType {
   TASK_CREATED
