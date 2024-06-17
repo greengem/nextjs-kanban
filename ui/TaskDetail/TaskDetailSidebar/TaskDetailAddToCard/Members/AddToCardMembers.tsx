@@ -7,7 +7,7 @@ import TaskPopoverHeading from "../components/TaskPopoverHeading";
 import { Input } from "@nextui-org/input";
 import { Avatar } from "@nextui-org/avatar";
 import TaskPopoverSubtitle from "../components/TaskPopoverSubtitle";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import {
   handleAddUserToTask,
   handleRemoveUserFromTask,

@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { handleCreateBoard } from "@/server-actions/BoardServerActions";
 import { CreateBoardSchema } from "@/types/zodTypes";
-import { Card, CardBody } from "@/ui/Card/Card";
 import { BoardCreationData } from "@/types/types";
 import { IconLoader2, IconPlug, IconPlus } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";

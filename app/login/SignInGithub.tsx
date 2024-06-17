@@ -1,6 +1,6 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { Button } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 import { IconBrandGithub } from "@tabler/icons-react";
 
 const SignInGithub = () => {
