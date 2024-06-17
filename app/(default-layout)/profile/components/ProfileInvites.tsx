@@ -83,10 +83,6 @@ export default async function ProfileInvites() {
                 className="flex gap-1 items-center border-b-1 last:border-b-0 border-zinc-300 py-1"
               >
                 <ProfileInviteSentActions invite={invite} />
-                <p>
-                  Sent to <strong>{invite.email}</strong> for Board{" "}
-                  <strong>{invite.board.title}</strong>
-                </p>
               </li>
             ))}
           </ul>
