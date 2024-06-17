@@ -13,18 +13,3 @@
     scrollbar-width: none;
   }
 }
-
-.sub-menu .menu-item {
-  background-color: #f4f4f5;
-}
-
-.fc-scrollgrid {
-  @apply bg-zinc-900;
-}
-.fc-event {
-  @apply bg-primary border-transparent;
-}
-
-.fc-event-title {
-  @apply text-black;
-}
