@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@nextui-org/button";
-import { handleDeleteChecklist } from "@/actions/ChecklistServerActions";
+import { handleDeleteChecklist } from "@/server-actions/ChecklistServerActions";
 
 export default function DeleteChecklistButton({
   checklistId,

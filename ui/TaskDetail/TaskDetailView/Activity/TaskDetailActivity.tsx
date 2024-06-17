@@ -6,7 +6,7 @@ import { Avatar } from "@nextui-org/avatar";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconActivity, IconX } from "@tabler/icons-react";
-import { handleCreateActivity } from "@/actions/ActivityServerActions";
+import { handleCreateActivity } from "@/server-actions/ActivityServerActions";
 import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
 import { ActivityWithRelations } from "@/types/types";

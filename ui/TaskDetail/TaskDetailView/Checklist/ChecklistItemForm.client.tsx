@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconX } from "@tabler/icons-react";
-import { handleCreateChecklistItem } from "@/actions/ChecklistServerActions";
+import { handleCreateChecklistItem } from "@/server-actions/ChecklistServerActions";
 
 interface ChecklistItemFormProps {
   checklistId: string;

@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { handleEditChecklistName } from "@/actions/ChecklistServerActions";
+import { handleEditChecklistName } from "@/server-actions/ChecklistServerActions";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconX } from "@tabler/icons-react";

@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import {
   handleAcceptInvitation,
   handleRejectInvitation,
-} from "@/actions/InvitationActions";
+} from "@/server-actions/InvitationActions";
 import { Button } from "@nextui-org/button";
 import { toast } from "sonner";
 

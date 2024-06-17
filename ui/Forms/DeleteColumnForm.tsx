@@ -2,7 +2,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { handleDeleteColumn } from "@/actions/ColumnServerActions";
+import { handleDeleteColumn } from "@/server-actions/ColumnServerActions";
 import { DeleteColumnSchema } from "@/types/zodTypes";
 import { ColumnDeletionData } from "@/types/types";
 import { IconLoader2, IconTrash } from "@tabler/icons-react";

@@ -6,7 +6,7 @@ import DeleteChecklistItemButton from "./DeleteChecklistItemButton.client";
 import {
   handleEditChecklistItemContent,
   handleToggleCheckedItem,
-} from "@/actions/ChecklistServerActions";
+} from "@/server-actions/ChecklistServerActions";
 import { ChecklistSummary, ChecklistItemSummary } from "@/types/types";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";

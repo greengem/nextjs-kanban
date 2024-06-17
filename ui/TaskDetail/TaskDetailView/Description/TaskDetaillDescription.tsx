@@ -10,7 +10,7 @@ import { TaskEditData } from "@/types/types";
 import {
   handleEditTask,
   handleDeleteTaskDescription,
-} from "@/actions/TaskServerActions";
+} from "@/server-actions/TaskServerActions";
 
 import { Textarea } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";

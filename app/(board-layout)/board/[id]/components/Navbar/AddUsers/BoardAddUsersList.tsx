@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Avatar } from "@nextui-org/avatar";
 import { IconMinus } from "@tabler/icons-react";
-import { handleRemoveUserFromBoard } from "@/actions/InvitationActions";
+import { handleRemoveUserFromBoard } from "@/server-actions/InvitationActions";
 import { toast } from "sonner";
 import { BoardMemberWithUser } from "@/types/types";
 import { User } from "@prisma/client";

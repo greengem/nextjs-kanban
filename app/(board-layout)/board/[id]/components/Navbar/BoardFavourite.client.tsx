@@ -1,6 +1,6 @@
 "use client";
 import { IconStar, IconStarFilled } from "@tabler/icons-react";
-import { handleFavoriteBoard } from "@/actions/UserServerActions";
+import { handleFavoriteBoard } from "@/server-actions/UserServerActions";
 
 export default function BoardFavouriteClient({
   isFavorite,

@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { ActivityWithUser } from "@/types/types";
 import { Avatar } from "@nextui-org/avatar";
 import { IconEdit, IconMoodPlus, IconTrash } from "@tabler/icons-react";
-import { handleDeleteActivity } from "@/actions/ActivityServerActions";
+import { handleDeleteActivity } from "@/server-actions/ActivityServerActions";
 
 interface TaskDetailActivityItemProps {
   activity: ActivityWithUser;

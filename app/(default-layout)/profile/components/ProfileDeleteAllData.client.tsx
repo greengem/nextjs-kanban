@@ -1,5 +1,5 @@
 "use client";
-import { handleDeleteAccount } from "@/actions/UserServerActions";
+import { handleDeleteAccount } from "@/server-actions/UserServerActions";
 import { Button } from "@nextui-org/button";
 import { IconExclamationCircle } from "@tabler/icons-react";
 import { toast } from "sonner";

@@ -11,7 +11,7 @@ import { Button } from "@nextui-org/react";
 import {
   handleAddUserToTask,
   handleRemoveUserFromTask,
-} from "@/actions/TaskServerActions";
+} from "@/server-actions/TaskServerActions";
 import { BoardMemberWithUser, CardMemberWithUser } from "@/types/types";
 
 interface AddToCardMembersProps {

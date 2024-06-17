@@ -12,7 +12,7 @@ import TaskItem from "./TaskItem";
 import CreateTaskForm from "@/ui/Forms/CreateTaskForm";
 import ColumnActions from "./ColumnActions";
 import { BoardWithColumns } from "@/types/types";
-import { handleUpdateBoard } from "@/actions/BoardServerActions";
+import { handleUpdateBoard } from "@/server-actions/BoardServerActions";
 import { toast } from "sonner";
 
 export default function Board({ board }: { board: BoardWithColumns }) {

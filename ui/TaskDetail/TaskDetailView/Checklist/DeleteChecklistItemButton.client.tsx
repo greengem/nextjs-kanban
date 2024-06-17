@@ -1,5 +1,5 @@
 "use client";
-import { handleDeleteChecklistItem } from "@/actions/ChecklistServerActions";
+import { handleDeleteChecklistItem } from "@/server-actions/ChecklistServerActions";
 import { IconTrash } from "@tabler/icons-react";
 
 export default function DeleteChecklistItemButton({

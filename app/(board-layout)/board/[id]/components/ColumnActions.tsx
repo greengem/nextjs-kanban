@@ -13,7 +13,7 @@ import {
   handleDeleteColumn,
   handleEditColumn,
   handleDeleteColumnTasks,
-} from "@/actions/ColumnServerActions";
+} from "@/server-actions/ColumnServerActions";
 import { Input } from "@nextui-org/input";
 import { useState } from "react";
 

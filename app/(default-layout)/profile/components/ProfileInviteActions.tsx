@@ -4,7 +4,7 @@ import { IconCheck, IconShare, IconX } from "@tabler/icons-react";
 import {
   handleRejectInvitation,
   handleAcceptInvitation,
-} from "@/actions/InvitationActions";
+} from "@/server-actions/InvitationActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
