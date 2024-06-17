@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@nextui-org/button";
-import { IconCheck, IconX } from "@tabler/icons-react";
+import { IconCheck, IconShare, IconX } from "@tabler/icons-react";
 import {
   handleRejectInvitation,
   handleAcceptInvitation,
@@ -24,6 +24,7 @@ interface Invitation {
 
 interface SentInvitation {
   id: string;
+  email: string;
   token: string;
   board: {
     title: string;
@@ -102,7 +103,6 @@ export function ProfileInviteSentActions({
   invite: SentInvitation;
 }) {
   const handleCancelInvitation = async (token: string) => {
-    // Directly use window.confirm to decide whether to proceed
     if (window.confirm("Are you sure you want to cancel this invitation?")) {
       try {
         const result = await handleRejectInvitation({ token });
@@ -118,9 +118,22 @@ export function ProfileInviteSentActions({
     }
   };
 
+  const invitationLink = `${process.env.NEXT_PUBLIC_AUTH_URL}/accept-invitation?token=${invite.token}`;
+
   return (
-    <button onClick={() => handleCancelInvitation(invite.token)}>
-      <IconX className="text-danger" size={16} />
-    </button>
+    <div className="flex gap-2 items-center">
+      <button onClick={() => handleCancelInvitation(invite.token)}>
+        <IconX className="text-danger" size={16} />
+      </button>
+      <p>
+        Sent to <strong>{invite.email}</strong> for Board{" "}
+        <strong>{invite.board.title}</strong>
+      </p>
+      <span>
+        <Link href={invitationLink} className="text-blue-500 underline">
+          <IconShare size={16} />
+        </Link>
+      </span>
+    </div>
   );
 }
