@@ -109,6 +109,7 @@ export type ActivityWithUser = Pick<
   newColumn: Pick<Column, "title"> | null;
   originalColumn: Pick<Column, "title"> | null;
   task: Pick<Task, "title"> | null;
+  targetUser: Pick<User, "id" | "name"> | null;
 };
 
 // Form validation
