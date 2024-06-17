@@ -69,9 +69,9 @@ export default function Home() {
                 <IconRocket />
                 Get Started
               </Button>
-              <Button as={Link} href="/board">
+              <Button as={Link} href="/board" isDisabled>
                 <IconBook />
-                Docs
+                Docs (Coming Soon)
               </Button>
             </div>
           </div>
