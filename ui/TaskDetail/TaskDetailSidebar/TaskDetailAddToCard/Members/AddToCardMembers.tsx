@@ -33,7 +33,6 @@ export default function AddToCardMembers({
     return cardMembers.some((member) => member.user.id === userId);
   };
 
-  // Filter out board members who are already assigned to the task
   const availableBoardMembers = boardMembers.filter(
     (member) => !isMemberInCard(member.user.id),
   );
@@ -44,16 +43,16 @@ export default function AddToCardMembers({
       member.user.email?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleAddClick = async (userId: string) => {
-    const result = await handleAddUserToTask(userId, taskId, boardId);
-    console.log(result);
-    // Optionally, update the UI based on the result
+  const handleAddClick = async (targetUserId: string) => {
+    const result = await handleAddUserToTask(targetUserId, taskId, boardId);
   };
 
-  const handleRemoveClick = async (userId: string) => {
-    const result = await handleRemoveUserFromTask(userId, taskId, boardId);
-    console.log(result);
-    // Optionally, update the UI based on the result
+  const handleRemoveClick = async (targetUserId: string) => {
+    const result = await handleRemoveUserFromTask(
+      targetUserId,
+      taskId,
+      boardId,
+    );
   };
 
   return (
@@ -159,7 +158,7 @@ function MemberListItem({
             variant="flat"
             onClick={() => onRemoveClick(member.user.id)}
           >
-            <IconMinus size={18} /> {/* Change to minus icon */}
+            <IconMinus size={18} />
           </Button>
         ) : (
           <Button
