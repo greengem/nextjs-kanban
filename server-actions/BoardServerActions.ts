@@ -36,7 +36,7 @@ export async function handleCreateBoard(data: BoardCreationData) {
   if (!parse.success) {
     return {
       success: false,
-      message: "Failed to create board due to validation error",
+      message: parse.error.errors.map((e) => e.message).join(", "),
     };
   }
 

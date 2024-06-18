@@ -1,60 +1,68 @@
 "use client";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { handleCreateBoard } from "@/server-actions/BoardServerActions";
-import { CreateBoardSchema } from "@/types/zodTypes";
-import { BoardCreationData } from "@/types/types";
-import { IconLoader2, IconPlug, IconPlus } from "@tabler/icons-react";
+import { IconLoader2, IconPlus } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 
 export default function CreateBoardForm() {
   const router = useRouter();
-  const {
-    register,
-    handleSubmit,
-    formState: { isSubmitting },
-  } = useForm<BoardCreationData>({
-    resolver: zodResolver(CreateBoardSchema),
-  });
+  const [title, setTitle] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const onSubmit: SubmitHandler<BoardCreationData> = async (data) => {
-    const response = await handleCreateBoard(data);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    // Reset previous validation states
+    setIsInvalid(false);
+    setErrorMessage("");
+
+    setIsSubmitting(true);
+    const response = await handleCreateBoard({ title });
+    setIsSubmitting(false);
+
     if (response.success && response.boardId) {
       router.push(`/board/${response.boardId}`);
       toast.success("Board Created!");
     } else {
+      if (response.message) {
+        setIsInvalid(true);
+        setErrorMessage(response.message);
+      }
       toast.error(response.message);
     }
   };
 
   return (
-    <div>
       <div className="p-3 bg-zinc-950 rounded-xl shadow-xl h-32">
         <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-col space-y-2 h-full justify-between"
+          onSubmit={handleSubmit}
+          className="flex flex-col h-full justify-between"
         >
           <Input
             autoComplete="off"
             type="text"
             id="title"
-            {...register("title")}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             label="Board Title"
             placeholder="Name of your board..."
-            isRequired
             size="sm"
             isClearable
-            minLength={3}
+            isInvalid={isInvalid}
+            errorMessage={errorMessage}
           />
           <div>
             <Button
               type="submit"
+              size="sm"
               variant="flat"
               className="gap-1"
-              disabled={isSubmitting}
+              isDisabled={isSubmitting}
             >
               {isSubmitting ? (
                 <>
@@ -71,6 +79,5 @@ export default function CreateBoardForm() {
           </div>
         </form>
       </div>
-    </div>
   );
 }
