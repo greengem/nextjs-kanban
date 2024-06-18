@@ -140,7 +140,7 @@ export async function handleEditBoard(data: {
 }
 
 // Delete Board
-export async function handleDeleteBoard(data: { boardId: string }) {
+export async function handleDeleteBoard(boardId: string) {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -148,11 +148,9 @@ export async function handleDeleteBoard(data: { boardId: string }) {
     return { success: false, message: MESSAGES.AUTH.REQUIRED };
   }
 
-  const DeleteBoardSchema = z.object({
-    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
-  });
+  const DeleteBoardSchema = z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED);
 
-  const parse = DeleteBoardSchema.safeParse(data);
+  const parse = DeleteBoardSchema.safeParse(boardId);
 
   if (!parse.success) {
     return {
@@ -165,7 +163,7 @@ export async function handleDeleteBoard(data: { boardId: string }) {
     await prisma.$transaction(async (tx) => {
       const owner = await tx.boardMember.findFirst({
         where: {
-          boardId: parse.data.boardId,
+          boardId: parse.data,
           userId: userId,
           role: "owner",
         },
@@ -176,11 +174,11 @@ export async function handleDeleteBoard(data: { boardId: string }) {
       }
 
       await tx.boardMember.deleteMany({
-        where: { boardId: parse.data.boardId },
+        where: { boardId: parse.data },
       });
 
       await tx.board.delete({
-        where: { id: parse.data.boardId },
+        where: { id: parse.data },
       });
     });
 
@@ -198,10 +196,7 @@ export async function handleDeleteBoard(data: { boardId: string }) {
 }
 
 // Edit Background Image
-export async function handleEditBoardImage(data: {
-  url: string;
-  boardId: string;
-}) {
+export async function handleEditBoardImage(url: string, boardId: string) {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -214,7 +209,7 @@ export async function handleEditBoardImage(data: {
     boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
   });
 
-  const parse = EditBoardImageSchema.safeParse(data);
+  const parse = EditBoardImageSchema.safeParse({ url, boardId });
 
   if (!parse.success) {
     return {
@@ -243,7 +238,7 @@ export async function handleEditBoardImage(data: {
 }
 
 // Remove Background Image
-export async function handleRemoveBoardImage(data: { boardId: string }) {
+export async function handleRemoveBoardImage(boardId: string) {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -255,7 +250,7 @@ export async function handleRemoveBoardImage(data: { boardId: string }) {
     boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
   });
 
-  const parse = RemoveBoardImageSchema.safeParse(data);
+  const parse = RemoveBoardImageSchema.safeParse({ boardId });
 
   if (!parse.success) {
     return {
@@ -301,10 +296,7 @@ interface BoardData {
   columns: ColumnData[];
 }
 
-export async function handleUpdateBoard(data: {
-  boardId: string;
-  boardData: BoardData;
-}) {
+export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
   const session = await auth();
   const userId = session?.user?.id;
 
@@ -331,7 +323,7 @@ export async function handleUpdateBoard(data: {
     }),
   });
 
-  const parse = UpdateBoardSchema.safeParse(data);
+  const parse = UpdateBoardSchema.safeParse({ boardId, boardData });
 
   if (!parse.success) {
     return {
@@ -342,46 +334,59 @@ export async function handleUpdateBoard(data: {
 
   try {
     await prisma.$transaction(async (tx) => {
-      for (const column of parse.data.boardData.columns) {
-        await tx.column.update({
-          where: { id: column.id },
-          data: { order: column.order },
-        });
+      // Updating columns
+      for (const column of boardData.columns) {
+        if (column.id) {
+          await tx.column.update({
+            where: { id: column.id },
+            data: { order: column.order },
+          });
+        }
+      }
 
+      // Updating tasks and creating activity entries if needed
+      for (const column of boardData.columns) {
         for (const task of column.tasks) {
-          const originalTask = await tx.task.findUnique({
-            where: { id: task.id },
-          });
+          if (task.id) {
+            // Fetch the original task data
+            const originalTask = await tx.task.findUnique({
+              where: { id: task.id },
+            });
 
-          await tx.task.update({
-            where: { id: task.id },
-            data: {
-              order: task.order,
-              columnId: column.id,
-            },
-          });
-
-          if (originalTask && originalTask.columnId !== column.id) {
-            await tx.activity.create({
+            // Update the task
+            await tx.task.update({
+              where: { id: task.id },
               data: {
-                type: ActivityType.TASK_MOVED,
-                userId: userId,
-                taskId: task.id,
-                boardId: parse.data.boardId,
-                oldColumnId: originalTask.columnId,
-                newColumnId: column.id,
+                order: task.order,
+                columnId: column.id,
               },
             });
+
+            // Check if the task has been moved to a different column
+            if (originalTask && originalTask.columnId !== column.id) {
+              // Create a 'TASK_MOVED' activity entry
+              await tx.activity.create({
+                data: {
+                  type: ActivityType.TASK_MOVED,
+                  userId: userId,
+                  taskId: task.id,
+                  boardId: boardId,
+                  oldColumnId: originalTask.columnId,
+                  newColumnId: column.id,
+                },
+              });
+            }
           }
         }
       }
     });
 
-    revalidatePath(`/board/${parse.data.boardId}`);
+    revalidatePath(`/board/${boardId}`);
 
     return { success: true, message: MESSAGES.BOARD.UPDATE_SUCCESS };
-  } catch (e) {
-    console.error("Error updating board:", e);
+  } catch (error) {
+    console.error("Error updating board:", error);
+
     return { success: false, message: MESSAGES.BOARD.UPDATE_FAILURE };
   }
 }
