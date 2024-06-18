@@ -294,6 +294,7 @@ interface ColumnData {
 
 interface BoardData {
   columns: ColumnData[];
+  originalColumns: ColumnData[];
 }
 
 export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
@@ -304,22 +305,23 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
     return { success: false, message: MESSAGES.AUTH.REQUIRED };
   }
 
+  const taskSchema = z.object({
+    id: z.string().min(1, MESSAGES.BOARD.TASK_ID_REQUIRED),
+    order: z.number(),
+    columnId: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
+  });
+
+  const columnSchema = z.object({
+    id: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
+    order: z.number(),
+    tasks: z.array(taskSchema),
+  });
+
   const UpdateBoardSchema = z.object({
     boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
     boardData: z.object({
-      columns: z.array(
-        z.object({
-          id: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
-          order: z.number(),
-          tasks: z.array(
-            z.object({
-              id: z.string().min(1, MESSAGES.BOARD.TASK_ID_REQUIRED),
-              order: z.number(),
-              columnId: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
-            })
-          ),
-        })
-      ),
+      columns: z.array(columnSchema),
+      originalColumns: z.array(columnSchema),
     }),
   });
 
@@ -346,13 +348,12 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
 
       // Updating tasks and creating activity entries if needed
       for (const column of boardData.columns) {
+        const originalColumn = boardData.originalColumns.find(
+          (col) => col.id === column.id
+        );
+
         for (const task of column.tasks) {
           if (task.id) {
-            // Fetch the original task data
-            const originalTask = await tx.task.findUnique({
-              where: { id: task.id },
-            });
-
             // Update the task
             await tx.task.update({
               where: { id: task.id },
@@ -363,6 +364,10 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
             });
 
             // Check if the task has been moved to a different column
+            const originalTask = originalColumn?.tasks.find(
+              (t) => t.id === task.id
+            );
+
             if (originalTask && originalTask.columnId !== column.id) {
               // Create a 'TASK_MOVED' activity entry
               await tx.activity.create({
@@ -381,7 +386,7 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
       }
     });
 
-    revalidatePath(`/board/${boardId}`);
+    revalidatePath(`/board/${parse.data.boardId}`);
 
     return { success: true, message: MESSAGES.BOARD.UPDATE_SUCCESS };
   } catch (error) {

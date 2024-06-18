@@ -91,7 +91,6 @@ export default async function BoardPage({
       </main>
     );
   } catch (error) {
-    console.error("Error fetching board data:", error);
     return <div>Failed to load board</div>;
   }
 }

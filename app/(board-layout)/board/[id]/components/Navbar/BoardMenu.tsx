@@ -10,6 +10,7 @@ import {
 import { IconMenu2, IconTrash } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { handleDeleteBoard } from "@/server-actions/BoardServerActions";
+
 export default function BoardMenu({ boardId }: { boardId: string }) {
   const router = useRouter();
 

@@ -14,9 +14,16 @@ import ColumnActions from "./ColumnActions";
 import { BoardWithColumns } from "@/types/types";
 import { handleUpdateBoard } from "@/server-actions/BoardServerActions";
 import { toast } from "sonner";
+import { Spinner } from "@nextui-org/spinner";
 
 export default function Board({ board }: { board: BoardWithColumns }) {
   const [currentBoard, setCurrentBoard] = useState<BoardWithColumns>(board);
+  const [originalBoard, setOriginalBoard] = useState<BoardWithColumns>(board);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const onDragStart = () => {
+    setOriginalBoard({ ...currentBoard });
+  };
 
   const onDragEnd = async (result: DropResult) => {
     const { source, destination, type } = result;
@@ -39,10 +46,10 @@ export default function Board({ board }: { board: BoardWithColumns }) {
       };
     } else {
       const sourceColumn = currentBoard.columns.find(
-        (col) => col.id === source.droppableId,
+        (col) => col.id === source.droppableId
       );
       const destColumn = currentBoard.columns.find(
-        (col) => col.id === destination.droppableId,
+        (col) => col.id === destination.droppableId
       );
 
       if (!sourceColumn || !destColumn) return;
@@ -56,7 +63,7 @@ export default function Board({ board }: { board: BoardWithColumns }) {
         newBoard = {
           ...currentBoard,
           columns: currentBoard.columns.map((col) =>
-            col.id === sourceColumn.id ? { ...col, tasks: copiedTasks } : col,
+            col.id === sourceColumn.id ? { ...col, tasks: copiedTasks } : col
           ),
         };
       } else {
@@ -84,18 +91,20 @@ export default function Board({ board }: { board: BoardWithColumns }) {
     }
 
     setCurrentBoard(newBoard);
+    setIsSaving(true);
 
     try {
       const result = await handleUpdateBoard(currentBoard.id, {
         columns: newBoard.columns,
+        originalColumns: originalBoard.columns,
       });
-      if (result.success) {
-        toast.success(result.message);
-      } else {
+      setIsSaving(false);
+      if (!result.success) {
         toast.error(result.message);
       }
     } catch (error) {
       console.error("Error updating board:", error);
+      setIsSaving(false);
       toast.error("Error saving changes");
     }
   };
@@ -106,7 +115,7 @@ export default function Board({ board }: { board: BoardWithColumns }) {
 
   return (
     <div className="z-10 flex flex-col grow">
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
         <Droppable
           droppableId="all-columns"
           direction="horizontal"
@@ -203,6 +212,11 @@ export default function Board({ board }: { board: BoardWithColumns }) {
           )}
         </Droppable>
       </DragDropContext>
+      {isSaving && (
+        <div className="fixed bottom-5 right-5 z-20">
+          <Spinner color="primary" />
+        </div>
+      )}
     </div>
   );
 }
