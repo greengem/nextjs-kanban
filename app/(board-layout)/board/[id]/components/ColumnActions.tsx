@@ -35,14 +35,13 @@ export default function ColumnActions({
       action === "delete-column" &&
       window.confirm("Are you sure you want to delete this column?")
     ) {
-      const response = await handleDeleteColumn({ id: columnId, boardId });
+      const response = await handleDeleteColumn({ columnId: columnId, boardId });
       if (response.success) {
         toast.success(response.message);
       } else {
         toast.error(response.message);
       }
 
-      // Delete all the tasks within a column but keep the column
     } else if (
       action === "delete-tasks" &&
       window.confirm(

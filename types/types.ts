@@ -117,16 +117,6 @@ export type BoardCreationData = Pick<Board, "title">;
 
 export type BoardEditData = Pick<Board, "title" | "id">;
 
-export type ColumnCreationData = {
-  boardId: Board["id"];
-  title: Column["title"];
-};
-
-export type ColumnDeletionData = {
-  boardId: Board["id"];
-  id: Column["id"];
-};
-
 export type TaskCreationData = {
   taskTitle: Task["title"];
   description?: Task["description"];

@@ -14,23 +14,6 @@ export const DeleteBoardSchema = z.object({
   id: z.string().min(1, "ID is required"),
 });
 
-// Columns
-export const CreateColumnSchema = z.object({
-  boardId: z.string().min(1, "ID is required"),
-  title: z.string().min(3),
-});
-
-export const EditColumnSchema = z.object({
-  title: z.string().min(3),
-  columnId: z.string().min(1, "ID is required"),
-  boardId: z.string().min(1, "ID is required"),
-});
-
-export const DeleteColumnSchema = z.object({
-  id: z.string().min(1, "ID is required"),
-  boardId: z.string().min(1, "ID is required"),
-});
-
 // Tasks
 export const CreateTaskSchema = z.object({
   taskTitle: z.string().min(1),
