@@ -37,8 +37,11 @@ export default function CreateColumnForm({ boardId }: { boardId: string }) {
 
   return (
     <div>
-    <div className="shrink-0 w-64 md:w-72 h-32 lg:w-80 ml-2 bg-zinc-950 p-3 rounded-xl shadow-md">
-        <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full">
+      <div className="shrink-0 w-64 md:w-72 h-32 lg:w-80 ml-2 bg-zinc-950 p-3 rounded-xl shadow-md">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col justify-between h-full"
+        >
           <Input
             autoComplete="off"
             type="text"
@@ -76,6 +79,6 @@ export default function CreateColumnForm({ boardId }: { boardId: string }) {
           </div>
         </form>
       </div>
-      </div>
+    </div>
   );
 }

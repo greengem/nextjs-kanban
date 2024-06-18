@@ -2,10 +2,11 @@
 import { auth } from "@/auth";
 import prisma from "@/prisma/prisma";
 import { revalidatePath } from "next/cache";
-import { CreateBoardSchema, EditBoardSchema } from "@/types/zodTypes";
-import { BoardCreationData, BoardEditData } from "@/types/types";
+import { z } from "zod";
+import { MESSAGES } from "@/utils/messages";
 import { ActivityType } from "@prisma/client";
 
+// Enums
 enum LabelColor {
   GREEN = "green",
   YELLOW = "yellow",
@@ -24,12 +25,18 @@ const DEFAULT_LABEL_COLORS: LabelColor[] = [
   LabelColor.BLUE,
 ];
 
-export async function handleCreateBoard(data: BoardCreationData) {
+// Create Board
+export async function handleCreateBoard(data: { title: string }) {
   const session = await auth();
+  const userId = session?.user?.id;
 
-  if (!session?.user?.id) {
-    return { success: false, message: "User is not authenticated" };
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
   }
+
+  const CreateBoardSchema = z.object({
+    title: z.string().min(3, MESSAGES.BOARD.TITLE_TOO_SHORT),
+  });
 
   const parse = CreateBoardSchema.safeParse(data);
 
@@ -41,7 +48,6 @@ export async function handleCreateBoard(data: BoardCreationData) {
   }
 
   try {
-    // Create the board
     const createdBoard = await prisma.board.create({
       data: {
         title: parse.data.title,
@@ -51,22 +57,23 @@ export async function handleCreateBoard(data: BoardCreationData) {
     await prisma.boardMember.create({
       data: {
         boardId: createdBoard.id,
-        userId: session.user.id,
+        userId: userId,
         role: "owner",
       },
     });
 
-    await createDefaultLabelsForBoard(createdBoard.id, session.user.id);
+    await createDefaultLabelsForBoard(createdBoard.id, userId);
 
     revalidatePath("/board/");
 
     return {
       success: true,
-      message: "Board Created",
+      message: MESSAGES.BOARD.CREATE_SUCCESS,
       boardId: createdBoard.id,
     };
   } catch (e) {
-    return { success: false, message: "Failed to create board" };
+    console.error("Error creating board:", e);
+    return { success: false, message: MESSAGES.BOARD.CREATE_FAILURE };
   }
 }
 
@@ -88,129 +95,195 @@ async function createDefaultLabelsForBoard(boardId: string, userId: string) {
 }
 
 // Edit Board
-export async function handleEditBoard(data: BoardEditData) {
+export async function handleEditBoard(data: {
+  boardId: string;
+  title: string;
+}) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const EditBoardSchema = z.object({
+    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+    title: z.string().min(3, MESSAGES.BOARD.TITLE_TOO_SHORT),
+  });
+
   const parse = EditBoardSchema.safeParse(data);
 
   if (!parse.success) {
-    return { success: false, message: "Failed to edit board" };
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
   }
 
   try {
     await prisma.board.update({
       where: {
-        id: parse.data.id,
+        id: parse.data.boardId,
       },
       data: {
         title: parse.data.title,
       },
     });
 
-    revalidatePath(`/board/${parse.data.id}`);
+    revalidatePath(`/board/${parse.data.boardId}`);
 
-    return { success: true, message: `Edited board successfully!` };
+    return { success: true, message: MESSAGES.BOARD.UPDATE_SUCCESS };
   } catch (e) {
-    return { success: false, message: `Failed to edit board` };
+    console.error("Error editing board:", e);
+    return { success: false, message: MESSAGES.BOARD.UPDATE_FAILURE };
   }
 }
 
 // Delete Board
-export async function handleDeleteBoard(boardId: string) {
+export async function handleDeleteBoard(data: { boardId: string }) {
   const session = await auth();
   const userId = session?.user?.id;
 
   if (!userId) {
-    return { success: false, message: "User is not authenticated" };
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
   }
 
-  if (!boardId) {
-    return { success: false, message: "Board ID is missing" };
+  const DeleteBoardSchema = z.object({
+    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+  });
+
+  const parse = DeleteBoardSchema.safeParse(data);
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
   }
 
   try {
     await prisma.$transaction(async (tx) => {
       const owner = await tx.boardMember.findFirst({
         where: {
-          boardId: boardId,
+          boardId: parse.data.boardId,
           userId: userId,
           role: "owner",
         },
       });
 
       if (!owner) {
-        throw new Error("Only board owners can delete the board");
+        throw new Error(MESSAGES.BOARD.OWNER_ONLY_DELETE);
       }
 
-      // Perform deletion operations within the transaction
       await tx.boardMember.deleteMany({
-        where: { boardId: boardId },
+        where: { boardId: parse.data.boardId },
       });
 
       await tx.board.delete({
-        where: { id: boardId },
+        where: { id: parse.data.boardId },
       });
     });
 
-    // Revalidate the path after successful deletion
     revalidatePath(`/board/`);
 
-    return { success: true, message: "Deleted board" };
+    return { success: true, message: MESSAGES.BOARD.DELETE_SUCCESS };
   } catch (e) {
+    console.error("Error deleting board:", e);
     const error = e as Error;
     return {
       success: false,
-      message: error.message || "Failed to delete board",
+      message: error.message || MESSAGES.BOARD.DELETE_FAILURE,
     };
   }
 }
 
 // Edit Background Image
-export async function handleEditBoardImage(url: string, boardId: string) {
-  if (!url) {
-    return { success: false, message: "No url provided" };
+export async function handleEditBoardImage(data: {
+  url: string;
+  boardId: string;
+}) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const EditBoardImageSchema = z.object({
+    url: z.string().min(1, MESSAGES.BOARD.IMAGE_URL_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+  });
+
+  const parse = EditBoardImageSchema.safeParse(data);
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
   }
 
   try {
     await prisma.board.update({
       where: {
-        id: boardId,
+        id: parse.data.boardId,
       },
       data: {
-        backgroundUrl: url,
+        backgroundUrl: parse.data.url,
       },
     });
 
-    revalidatePath(`/board/${boardId}`);
+    revalidatePath(`/board/${parse.data.boardId}`);
 
-    return { success: true, message: `Board image saved` };
+    return { success: true, message: MESSAGES.BOARD.IMAGE_SAVE_SUCCESS };
   } catch (e) {
     console.error("Error updating board image:", e);
-    return { success: false, message: `Failed to save board image` };
+    return { success: false, message: MESSAGES.BOARD.IMAGE_SAVE_FAILURE };
   }
 }
 
-// Set Background Image to Null
-export async function handleRemoveBoardImage(boardId: string) {
-  if (!boardId) {
-    return { success: false, message: "No board ID provided" };
+// Remove Background Image
+export async function handleRemoveBoardImage(data: { boardId: string }) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const RemoveBoardImageSchema = z.object({
+    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+  });
+
+  const parse = RemoveBoardImageSchema.safeParse(data);
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
   }
 
   try {
     await prisma.board.update({
       where: {
-        id: boardId,
+        id: parse.data.boardId,
       },
       data: {
         backgroundUrl: null,
       },
     });
 
-    revalidatePath(`/board/${boardId}`);
+    revalidatePath(`/board/${parse.data.boardId}`);
 
-    return { success: true, message: "Board image removed" };
+    return { success: true, message: MESSAGES.BOARD.IMAGE_REMOVE_SUCCESS };
   } catch (e) {
-    return { success: false, message: "Failed to remove board image" };
+    console.error("Error removing board image:", e);
+    return { success: false, message: MESSAGES.BOARD.IMAGE_REMOVE_FAILURE };
   }
 }
+
+// Server action for saving board and task positions.
 
 interface TaskData {
   id: string;
@@ -228,70 +301,87 @@ interface BoardData {
   columns: ColumnData[];
 }
 
-// Server action for saving board and task positions.
-export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
+export async function handleUpdateBoard(data: {
+  boardId: string;
+  boardData: BoardData;
+}) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const UpdateBoardSchema = z.object({
+    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+    boardData: z.object({
+      columns: z.array(
+        z.object({
+          id: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
+          order: z.number(),
+          tasks: z.array(
+            z.object({
+              id: z.string().min(1, MESSAGES.BOARD.TASK_ID_REQUIRED),
+              order: z.number(),
+              columnId: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
+            })
+          ),
+        })
+      ),
+    }),
+  });
+
+  const parse = UpdateBoardSchema.safeParse(data);
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
+  }
+
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
+    await prisma.$transaction(async (tx) => {
+      for (const column of parse.data.boardData.columns) {
+        await tx.column.update({
+          where: { id: column.id },
+          data: { order: column.order },
+        });
 
-    if (!userId) {
-      return { success: false, message: "User not authenticated" };
-    }
-
-    await prisma.$transaction(async (prisma) => {
-      // Updating columns
-      for (const column of boardData.columns) {
-        if (column.id) {
-          await prisma.column.update({
-            where: { id: column.id },
-            data: { order: column.order },
-          });
-        }
-      }
-
-      // Updating tasks and creating activity entries if needed
-      for (const column of boardData.columns) {
         for (const task of column.tasks) {
-          if (task.id) {
-            // Fetch the original task data
-            const originalTask = await prisma.task.findUnique({
-              where: { id: task.id },
-            });
+          const originalTask = await tx.task.findUnique({
+            where: { id: task.id },
+          });
 
-            // Update the task
-            await prisma.task.update({
-              where: { id: task.id },
+          await tx.task.update({
+            where: { id: task.id },
+            data: {
+              order: task.order,
+              columnId: column.id,
+            },
+          });
+
+          if (originalTask && originalTask.columnId !== column.id) {
+            await tx.activity.create({
               data: {
-                order: task.order,
-                columnId: column.id,
+                type: ActivityType.TASK_MOVED,
+                userId: userId,
+                taskId: task.id,
+                boardId: parse.data.boardId,
+                oldColumnId: originalTask.columnId,
+                newColumnId: column.id,
               },
             });
-
-            // Check if the task has been moved to a different column
-            if (originalTask && originalTask.columnId !== column.id) {
-              // Create a 'TASK_MOVED' activity entry
-              await prisma.activity.create({
-                data: {
-                  type: ActivityType.TASK_MOVED,
-                  userId: userId,
-                  taskId: task.id,
-                  boardId: boardId,
-                  oldColumnId: originalTask.columnId,
-                  newColumnId: column.id,
-                },
-              });
-            }
           }
         }
       }
     });
 
-    revalidatePath(`/board/${boardId}`);
+    revalidatePath(`/board/${parse.data.boardId}`);
 
-    return { success: true, message: "Saved changes" };
-  } catch (error) {
-    console.error("Error updating board:", error);
-
-    return { success: false, message: "Error saving changes" };
+    return { success: true, message: MESSAGES.BOARD.UPDATE_SUCCESS };
+  } catch (e) {
+    console.error("Error updating board:", e);
+    return { success: false, message: MESSAGES.BOARD.UPDATE_FAILURE };
   }
 }

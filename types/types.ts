@@ -113,9 +113,6 @@ export type ActivityWithUser = Pick<
 };
 
 // Form validation
-export type BoardCreationData = Pick<Board, "title">;
-
-export type BoardEditData = Pick<Board, "title" | "id">;
 
 export type TaskCreationData = {
   taskTitle: Task["title"];

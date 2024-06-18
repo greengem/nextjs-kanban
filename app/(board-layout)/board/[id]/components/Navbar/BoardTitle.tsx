@@ -1,13 +1,9 @@
 "use client";
 import { useState } from "react";
 import { Input } from "@nextui-org/input";
-import { Button, ButtonGroup } from "@nextui-org/button";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@nextui-org/button";
 import { toast } from "sonner";
 import { handleEditBoard } from "@/server-actions/BoardServerActions";
-import { BoardEditData } from "@/types/types";
-import { EditBoardSchema } from "@/types/zodTypes";
 import { IconX } from "@tabler/icons-react";
 
 export default function BoardTitle({
@@ -18,43 +14,44 @@ export default function BoardTitle({
   boardTitle: string;
 }) {
   const [isEditing, setIsEditing] = useState(false);
-
-  const {
-    register,
-    handleSubmit,
-    reset,
-    setValue,
-    watch,
-    formState: { isSubmitting },
-  } = useForm<BoardEditData>({
-    resolver: zodResolver(EditBoardSchema),
-    defaultValues: {
-      title: boardTitle,
-      id: boardId,
-    },
-  });
-
-  const titleValue = watch("title");
-
-  const handleTitleChange = (newValue: string) => {
-    setValue("title", newValue, { shouldValidate: true });
-  };
+  const [title, setTitle] = useState(boardTitle);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isInvalid, setIsInvalid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const toggleEdit = () => {
     setIsEditing(!isEditing);
     if (isEditing) {
-      reset();
+      setTitle(boardTitle);
+      setIsInvalid(false);
+      setErrorMessage("");
     }
   };
 
-  const onSubmit: SubmitHandler<BoardEditData> = async (data) => {
-    const response = await handleEditBoard(data);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    setIsInvalid(false);
+    setErrorMessage("");
+
+    if (title.trim().length < 3) {
+      setIsInvalid(true);
+      setErrorMessage("Title must be at least 3 characters long");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const response = await handleEditBoard({ boardId, title });
+    setIsSubmitting(false);
 
     if (response.success) {
       toast.success("Board Edited");
-      reset({ ...data, title: data.title });
       setIsEditing(false);
     } else {
+      if (response.message) {
+        setIsInvalid(true);
+        setErrorMessage(response.message);
+      }
       toast.error(response.message);
     }
   };
@@ -71,24 +68,25 @@ export default function BoardTitle({
       )}
       {isEditing && (
         <form
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit}
           className="flex flex-wrap md:flex-nowrap gap-2"
         >
           <Input
             autoComplete="off"
-            value={titleValue}
+            value={title}
             size="sm"
             labelPlacement="outside"
-            onValueChange={handleTitleChange}
+            onChange={(e) => setTitle(e.target.value)}
             autoFocus
             className="grow shrink"
+            isInvalid={isInvalid}
+            errorMessage={errorMessage}
           />
-          <input type="hidden" {...register("id")} />
           <Button
             type="submit"
             color="primary"
             size="sm"
-            disabled={isSubmitting}
+            isDisabled={isSubmitting}
           >
             Save
           </Button>
