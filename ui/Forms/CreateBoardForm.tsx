@@ -62,19 +62,10 @@ export default function CreateBoardForm() {
             size="sm"
             variant="flat"
             className="gap-1"
-            isDisabled={isSubmitting}
+            isLoading={isSubmitting}
           >
-            {isSubmitting ? (
-              <>
-                <IconLoader2 size={16} className="animate-spin shrink-0" />
-                Creating...
-              </>
-            ) : (
-              <>
-                <IconPlus size={16} className="shrink-0" />
-                Create Board
-              </>
-            )}
+            <IconPlus size={16} className="shrink-0" />
+            Create Board
           </Button>
         </div>
       </form>

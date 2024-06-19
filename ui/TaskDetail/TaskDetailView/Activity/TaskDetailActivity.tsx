@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { toast } from "sonner";
-import TaskDetailActivityItem from "./TaskDetailActivityItem";
 import { Avatar } from "@nextui-org/avatar";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconActivity, IconX } from "@tabler/icons-react";
+import TaskDetailActivityItem from "./TaskDetailActivityItem";
 import { handleCreateActivity } from "@/server-actions/ActivityServerActions";
 import TaskDetailItemHeading from "../ui/TaskDetailItemHeading";
 import TaskDetailItemContent from "../ui/TaskDetailItemContent";
@@ -29,24 +29,38 @@ export default function TaskDetailActivity({
   userImage,
 }: TaskDetailActivityProps) {
   const [showForm, setShowForm] = useState(false);
+  const [content, setContent] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleToggleForm = () => {
     setShowForm(!showForm);
+    setContent("");
+    setError(null);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(e.target.value);
   };
 
   const onSubmitForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    setIsSubmitting(true);
+
     try {
-      const response = await handleCreateActivity(taskId, boardId, formData);
+      const response = await handleCreateActivity(taskId, boardId, content);
       if (response.success) {
         toast.success(response.message);
         handleToggleForm();
       } else {
         toast.error(response.message);
+        setError(response.message);
       }
     } catch (error) {
       toast.error("An error occurred while submitting the form");
+      setError("An error occurred while submitting the form");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -88,16 +102,25 @@ export default function TaskDetailActivity({
                   size="sm"
                   autoFocus
                   name="content"
+                  value={content}
+                  onChange={handleChange}
+                  isInvalid={!!error}
+                  errorMessage={error}
                   isRequired
                 />
 
                 <div className="flex items-center gap-2">
-                  <Button size="sm" type="submit" color="primary">
+                  <Button
+                    size="sm"
+                    type="submit"
+                    color="primary"
+                    isLoading={isSubmitting}
+                  >
                     Save
                   </Button>
-                  <button onClick={handleToggleForm}>
+                  <Button size="sm" onClick={handleToggleForm} isIconOnly>
                     <IconX size={20} />
-                  </button>
+                  </Button>
                 </div>
               </form>
             )}

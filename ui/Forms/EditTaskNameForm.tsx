@@ -1,12 +1,9 @@
 "use client";
 import { useState } from "react";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { handleEditTask } from "@/server-actions/TaskServerActions";
-import { EditTaskSchema } from "@/types/zodTypes";
 import { TaskEditData } from "@/types/types";
-import { IconDeviceFloppy, IconLoader2, IconX } from "@tabler/icons-react";
+import { IconDeviceFloppy, IconX } from "@tabler/icons-react";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 
@@ -20,36 +17,42 @@ export default function EditTaskNameForm({
   boardId: string;
 }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [formData, setFormData] = useState<TaskEditData>({
+    id: taskId,
+    boardId,
+    title,
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const toggleEdit = () => setIsEditing(!isEditing);
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    reset,
-    formState: { isSubmitting },
-  } = useForm<TaskEditData>({
-    resolver: zodResolver(EditTaskSchema),
-    defaultValues: { id: taskId, boardId, title },
-  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-  const onSubmit: SubmitHandler<TaskEditData> = async (data) => {
-    const response = await handleEditTask(data);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const response = await handleEditTask(formData);
 
     if (response.success) {
-      toast.success("Task Edited");
-      reset({ ...data, title: data.title });
+      toast.success(response.message);
       setIsEditing(false);
+      setError(null);
     } else {
       toast.error(response.message);
+      setError(response.message);
     }
+
+    setIsSubmitting(false);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <input type="hidden" {...register("id")} />
-      <input type="hidden" {...register("boardId")} />
+    <form onSubmit={handleSubmit}>
+      <input type="hidden" name="id" value={formData.id} />
+      <input type="hidden" name="boardId" value={formData.boardId} />
 
       {!isEditing ? (
         <div className="flex justify-between">
@@ -62,40 +65,29 @@ export default function EditTaskNameForm({
         </div>
       ) : (
         <div>
-          <Controller
+          <Input
+            autoComplete="off"
+            autoFocus
+            isRequired
+            label="Task Name"
+            placeholder="Enter a name for your task"
+            type="text"
+            className="mb-2"
             name="title"
-            control={control}
-            render={({ field }) => (
-              <Input
-                autoComplete="off"
-                autoFocus
-                isRequired
-                label="Task Name"
-                placeholder="Enter a name for your task"
-                type="text"
-                className="mb-2"
-                {...field}
-              />
-            )}
+            value={formData.title}
+            onChange={handleChange}
+            isInvalid={!!error}
+            errorMessage={error}
           />
           <div className="flex gap-1">
             <Button
               type="submit"
               size="sm"
-              disabled={isSubmitting}
+              isLoading={isSubmitting}
               className="shrink-0 grow-0"
             >
-              {isSubmitting ? (
-                <>
-                  <IconLoader2 size={16} className="animate-spin mr-2" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <IconDeviceFloppy size={16} />
-                  Save Title
-                </>
-              )}
+              <IconDeviceFloppy size={16} />
+              Save Title
             </Button>
 
             <Button

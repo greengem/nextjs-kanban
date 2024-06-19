@@ -80,14 +80,14 @@ export default async function ProfileInvites() {
             {sentInvitations.map((invite: SentInvitation) => (
               <li
                 key={invite.id}
-                className="flex gap-1 items-center border-b-1 last:border-b-0 border-zinc-300 py-1"
+                className="flex gap-1 items-center border-b-1 last:border-b-0 border-zinc-700 py-1 text-zinc-300"
               >
                 <ProfileInviteSentActions invite={invite} />
               </li>
             ))}
           </ul>
         ) : (
-          <p>No sent invitations.</p>
+          <p className="text-zinc-300">No sent invitations.</p>
         )}
       </div>
 

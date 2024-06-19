@@ -49,22 +49,28 @@ export default async function AcceptInvitation({
 
     return (
       <div className="flex flex-col grow justify-center items-center">
-        <div className="shadow-xl rounded-xl bg-zinc-900 p-3 max-w-96 mx-auto w-full text-center">
+        <div className="shadow-md rounded-2xl bg-zinc-950 max-w-96 mx-auto w-full text-center">
           <div className="my-5">
-            <h1 className="text-4xl font-semibold tracking-tight">
+            <h1 className="text-5xl font-semibold tracking-tighter mb-3">
               You're Invited!
             </h1>
-            <p className="text-zinc-400 text-sm">
-              A new opportunity to collaborate awaits you ✨
+            <p className="text-zinc-400 text-xs">
+              A new opportunity to collaborate awaits ✨
             </p>
           </div>
 
-          <div className="my-5">
+          <div className=" flex flex-col gap-y-2">
             <h2>
-              <strong>Invited by:</strong> {foundInvitation.inviter.name}
+              <span>Invited by: </span>
+              <span className="text-primary">
+                {foundInvitation.inviter.name}
+              </span>
             </h2>
             <h2>
-              <strong>Board:</strong> {foundInvitation.board.title}
+              <span>Board: </span>
+              <span className="text-primary">
+                {foundInvitation.board.title}
+              </span>
             </h2>
           </div>
 

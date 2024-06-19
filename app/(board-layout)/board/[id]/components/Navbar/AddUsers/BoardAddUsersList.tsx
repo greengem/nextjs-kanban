@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@nextui-org/button";
 import { Avatar } from "@nextui-org/avatar";
 import { IconMinus } from "@tabler/icons-react";
-import { handleRemoveUserFromBoard } from "@/server-actions/InvitationActions";
+import { handleRemoveUserFromBoard } from "@/server-actions/InvitationServerActions";
 import { toast } from "sonner";
 import { BoardMemberWithUser } from "@/types/types";
 import { User } from "@prisma/client";
@@ -63,7 +63,7 @@ export default function BoardAddUsersList({
       {members.map((member) => (
         <li
           key={member.user.id}
-          className="flex gap-2 items-center border-b-1 border-zinc-300 last:border-b-0 py-3"
+          className="flex gap-2 items-center border-b-1 border-zinc-700 last:border-b-0 py-3"
         >
           <Avatar
             className="shrink-0 grow-0"

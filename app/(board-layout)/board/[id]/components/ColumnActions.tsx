@@ -6,7 +6,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "@nextui-org/dropdown";
-import { Button, ButtonGroup } from "@nextui-org/button";
+import { Button } from "@nextui-org/button";
 import { IconEdit, IconMenu2, IconTrash, IconX } from "@tabler/icons-react";
 import { toast } from "sonner";
 import {
@@ -28,6 +28,8 @@ export default function ColumnActions({
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(columnTitle);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleAction = async (action: "delete-column" | "delete-tasks") => {
     // Delete column and tasks within
@@ -60,6 +62,8 @@ export default function ColumnActions({
   };
 
   const handleSave = async () => {
+    setIsSubmitting(true);
+
     const editData = {
       columnId: columnId,
       title: editedTitle,
@@ -71,14 +75,19 @@ export default function ColumnActions({
     if (response.success) {
       toast.success(response.message);
       setIsEditing(false);
+      setError(null);
     } else {
       toast.error(response.message);
+      setError(response.message);
     }
+
+    setIsSubmitting(false);
   };
 
   const handleCancel = () => {
     setIsEditing(false);
     setEditedTitle(columnTitle);
+    setError(null);
   };
 
   return (
@@ -96,12 +105,19 @@ export default function ColumnActions({
               label="Column Title"
               placeholder="Enter a column name"
               value={editedTitle}
-              onChange={(e) => setEditedTitle(e.target.value)}
+              onValueChange={setEditedTitle}
+              isInvalid={!!error}
+              errorMessage={error}
               className="pl-0 mb-2"
               autoFocus
             />
             <div className="flex gap-2">
-              <Button size="sm" color="primary" type="submit">
+              <Button
+                size="sm"
+                color="primary"
+                type="submit"
+                isLoading={isSubmitting}
+              >
                 Save
               </Button>
               <Button size="sm" onClick={handleCancel} isIconOnly>

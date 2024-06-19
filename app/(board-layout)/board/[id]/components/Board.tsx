@@ -46,10 +46,10 @@ export default function Board({ board }: { board: BoardWithColumns }) {
       };
     } else {
       const sourceColumn = currentBoard.columns.find(
-        (col) => col.id === source.droppableId
+        (col) => col.id === source.droppableId,
       );
       const destColumn = currentBoard.columns.find(
-        (col) => col.id === destination.droppableId
+        (col) => col.id === destination.droppableId,
       );
 
       if (!sourceColumn || !destColumn) return;
@@ -63,7 +63,7 @@ export default function Board({ board }: { board: BoardWithColumns }) {
         newBoard = {
           ...currentBoard,
           columns: currentBoard.columns.map((col) =>
-            col.id === sourceColumn.id ? { ...col, tasks: copiedTasks } : col
+            col.id === sourceColumn.id ? { ...col, tasks: copiedTasks } : col,
           ),
         };
       } else {

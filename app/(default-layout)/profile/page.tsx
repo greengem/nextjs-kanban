@@ -19,7 +19,7 @@ export default function ProfilePage() {
       <ul className="mb-10">
         <Suspense
           fallback={
-            <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">
+            <li className="border-b-1 last:border-b-0 border-zinc-700 py-1">
               Loading activity...
             </li>
           }
@@ -47,7 +47,7 @@ export default function ProfilePage() {
       <ul className="mb-10">
         <Suspense
           fallback={
-            <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">
+            <li className="border-b-1 last:border-b-0 border-zinc-700 py-1">
               Loading invites...
             </li>
           }

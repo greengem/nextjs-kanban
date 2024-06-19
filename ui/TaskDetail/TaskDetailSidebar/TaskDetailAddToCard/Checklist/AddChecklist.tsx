@@ -33,8 +33,10 @@ export default function AddChecklist({
   });
 
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    setIsLoading(true);
     try {
       const response = await handleCreateChecklist({
         title: data.title || undefined,
@@ -51,6 +53,7 @@ export default function AddChecklist({
     } catch (e) {
       toast.error("An error occurred while creating the checklist.");
     }
+    setIsLoading(false);
   };
 
   const closePopover = () => {
@@ -92,11 +95,12 @@ export default function AddChecklist({
                   color="primary"
                   className="flex items-center"
                   type="submit"
+                  isLoading={isLoading}
                 >
                   <IconPlus size={16} />
                   Create Checklist
                 </Button>
-                <Button size="sm" onClick={closePopover}>
+                <Button size="sm" onClick={closePopover} isDisabled={isLoading}>
                   <IconX size={16} className="flex items-center" />
                   Cancel
                 </Button>

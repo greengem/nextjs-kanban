@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { CheckboxGroup, Checkbox } from "@nextui-org/checkbox";
 import { IconEdit, IconX } from "@tabler/icons-react";
+import { toast } from "sonner";
 import DeleteChecklistItemButton from "./DeleteChecklistItemButton.client";
 import {
   handleEditChecklistItemContent,
@@ -23,6 +24,7 @@ export default function ChecklistCheckboxGroup({
   taskId,
 }: ChecklistCheckboxGroupProps) {
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
+  const [inputErrors, setInputErrors] = useState<Record<string, string>>({});
 
   const handleEditClick = (itemId: string) => {
     setEditingItemId(itemId);
@@ -30,6 +32,32 @@ export default function ChecklistCheckboxGroup({
 
   const handleCancelOrSubmit = () => {
     setEditingItemId(null);
+    setInputErrors({});
+  };
+
+  const handleToggle = async (checklistItemId: string, isChecked: boolean) => {
+    const response = await handleToggleCheckedItem({
+      checklistItemId,
+      isChecked,
+      taskId,
+    });
+    if (response.success) {
+      toast.success(response.message);
+    } else {
+      toast.error(response.message);
+    }
+  };
+
+  const handleEditSubmit = async (data: FormData) => {
+    const response = await handleEditChecklistItemContent(data);
+    if (response.success) {
+      toast.success(response.message);
+      handleCancelOrSubmit();
+    } else {
+      toast.error(response.message);
+      const itemId = data.get("checklistItemId") as string;
+      setInputErrors({ [itemId]: response.message });
+    }
   };
 
   return (
@@ -42,22 +70,18 @@ export default function ChecklistCheckboxGroup({
           <div className="flex grow items-center">
             <Checkbox
               value={item.id}
-              onChange={(event) =>
-                handleToggleCheckedItem({
-                  checklistItemId: item.id,
-                  isChecked: event.target.checked,
-                  taskId: taskId,
-                })
-              }
+              onChange={(event) => handleToggle(item.id, event.target.checked)}
             >
               {editingItemId !== item.id && <span>{item.content}</span>}
             </Checkbox>
 
             {editingItemId === item.id && (
               <form
-                action={handleEditChecklistItemContent}
                 className="flex gap-2 ml-2"
-                onSubmit={handleCancelOrSubmit}
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleEditSubmit(new FormData(e.currentTarget));
+                }}
               >
                 <Input
                   autoComplete="off"
@@ -66,15 +90,22 @@ export default function ChecklistCheckboxGroup({
                   labelPlacement="outside"
                   name="content"
                   defaultValue={item.content}
+                  isInvalid={!!inputErrors[item.id]}
+                  errorMessage={inputErrors[item.id]}
                 />
                 <input type="hidden" name="checklistItemId" value={item.id} />
                 <input type="hidden" name="taskId" value={taskId} />
                 <Button type="submit" size="sm" color="primary">
                   Save
                 </Button>
-                <button type="button" onClick={handleCancelOrSubmit}>
+                <Button
+                  size="sm"
+                  type="button"
+                  onClick={handleCancelOrSubmit}
+                  isIconOnly
+                >
                   <IconX size={16} />
-                </button>
+                </Button>
               </form>
             )}
           </div>

@@ -59,22 +59,13 @@ export default function CreateColumnForm({ boardId }: { boardId: string }) {
           <div>
             <Button
               type="submit"
-              isDisabled={isSubmitting}
+              isLoading={isSubmitting}
               className="gap-1"
               size="sm"
               variant="flat"
             >
-              {isSubmitting ? (
-                <>
-                  <IconLoader2 size={16} className="animate-spin" />
-                  Adding...
-                </>
-              ) : (
-                <>
-                  <IconPlus size={16} />
-                  Add Column
-                </>
-              )}
+              <IconPlus size={16} />
+              Add Column
             </Button>
           </div>
         </form>

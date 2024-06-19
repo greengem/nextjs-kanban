@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import {
   handleAcceptInvitation,
   handleRejectInvitation,
-} from "@/server-actions/InvitationActions";
+} from "@/server-actions/InvitationServerActions";
 import { Button } from "@nextui-org/button";
 import { toast } from "sonner";
 
@@ -29,7 +29,6 @@ export default function InvitationButtons({
       }
     } catch (error) {
       toast.error("Failed to accept the invitation.");
-      console.error("Error accepting invitation:", error);
     }
   };
 
@@ -49,7 +48,7 @@ export default function InvitationButtons({
   };
 
   return (
-    <div className="flex justify-center items-center gap-2 my-5">
+    <div className="flex justify-center items-center gap-3 my-5">
       <Button color="primary" onClick={handleAccept}>
         Accept
       </Button>

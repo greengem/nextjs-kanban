@@ -4,6 +4,7 @@ import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { IconX } from "@tabler/icons-react";
 import { handleCreateChecklistItem } from "@/server-actions/ChecklistServerActions";
+import { toast } from "sonner";
 
 interface ChecklistItemFormProps {
   checklistId: string;
@@ -17,12 +18,30 @@ export default function ChecklistItemForm({
   const [showInput, setShowInput] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleInput = () => setShowInput(!showInput);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     if (error) setError("");
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const data = { content: inputValue, checklistId, taskId };
+
+    const response = await handleCreateChecklistItem(data);
+    if (response.success) {
+      setInputValue("");
+      toggleInput();
+      toast.success(response.message);
+    } else {
+      setError(response.message);
+      toast.error(response.message);
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -33,20 +52,7 @@ export default function ChecklistItemForm({
         </Button>
       )}
       {showInput && (
-        <form
-          action={async (data) => {
-            data.append("checklistId", checklistId);
-            data.append("taskId", taskId);
-
-            const response = await handleCreateChecklistItem(data);
-            if (response.success) {
-              setInputValue("");
-              toggleInput();
-            } else {
-              setError(response.message);
-            }
-          }}
-        >
+        <form onSubmit={handleSubmit}>
           <Input
             autoComplete="off"
             variant="bordered"
@@ -62,12 +68,23 @@ export default function ChecklistItemForm({
             errorMessage={error}
           />
           <div className="flex gap-2">
-            <Button type="submit" size="sm" color="primary">
+            <Button
+              type="submit"
+              size="sm"
+              color="primary"
+              isLoading={isLoading}
+            >
               Add Item
             </Button>
-            <button type="button" onClick={toggleInput}>
+            <Button
+              type="button"
+              size="sm"
+              onClick={toggleInput}
+              isIconOnly
+              isDisabled={isLoading}
+            >
               <IconX size={16} />
-            </button>
+            </Button>
           </div>
         </form>
       )}

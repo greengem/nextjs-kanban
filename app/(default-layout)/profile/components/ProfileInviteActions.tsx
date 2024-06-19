@@ -1,13 +1,15 @@
 "use client";
+import { useState } from "react";
 import { Button } from "@nextui-org/button";
 import { IconCheck, IconShare, IconX } from "@tabler/icons-react";
 import {
   handleRejectInvitation,
   handleAcceptInvitation,
-} from "@/server-actions/InvitationActions";
+} from "@/server-actions/InvitationServerActions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Spinner } from "@nextui-org/react";
 
 interface Invitation {
   id: string;
@@ -40,8 +42,11 @@ export function ProfileInviteReceivedActions({
   userId: string;
 }) {
   const router = useRouter();
+  const [isAccepting, setIsAccepting] = useState(false);
+  const [isRejecting, setIsRejecting] = useState(false);
 
   const handleAccept = async (token: string) => {
+    setIsAccepting(true);
     try {
       const result = await handleAcceptInvitation({ token, userId });
       if (result.success) {
@@ -51,12 +56,15 @@ export function ProfileInviteReceivedActions({
         toast.error(result.message);
       }
     } catch (error) {
-      console.error("Failed to accept invitation:", error);
+      toast.error("An error occurred while accepting the invitation.");
+    } finally {
+      setIsAccepting(false);
     }
   };
 
   const handleReject = async (token: string) => {
     if (window.confirm("Are you sure you want to reject this invitation?")) {
+      setIsRejecting(true);
       try {
         const result = await handleRejectInvitation({ token });
         if (result.success) {
@@ -65,14 +73,16 @@ export function ProfileInviteReceivedActions({
           toast.error(result.message);
         }
       } catch (error) {
-        console.error("Failed to reject invitation:", error);
+        toast.error("An error occurred while rejecting the invitation.");
+      } finally {
+        setIsRejecting(false);
       }
     }
   };
 
   return (
-    <li className="border-b-1 last:border-b-0 border-zinc-300 py-1">
-      <p>
+    <li className="border-b-1 last:border-b-0 border-zinc-700 py-1">
+      <p className="mb-1">
         Invited to Board <strong>{invite.board.title}</strong> by{" "}
         <strong>{invite.inviter.name ?? "Unknown"}</strong> (
         {invite.inviter.email ?? "No Email"}) -{" "}
@@ -83,13 +93,23 @@ export function ProfileInviteReceivedActions({
           View
         </Link>
       </p>
-      <div className="flex gap-2">
-        <Button size="sm" onClick={() => handleAccept(invite.token)}>
-          <IconCheck className="text-success" size={16} />
+      <div className="flex gap-3">
+        <Button
+          size="sm"
+          onClick={() => handleAccept(invite.token)}
+          isLoading={isAccepting}
+          className="flex items-center"
+        >
+          <IconCheck size={16} />
           Accept
         </Button>
-        <Button size="sm" onClick={() => handleReject(invite.token)}>
-          <IconX className="text-danger" size={16} />
+        <Button
+          size="sm"
+          onClick={() => handleReject(invite.token)}
+          isLoading={isRejecting}
+          className="flex items-center"
+        >
+          <IconX size={16} />
           Reject
         </Button>
       </div>
@@ -102,8 +122,11 @@ export function ProfileInviteSentActions({
 }: {
   invite: SentInvitation;
 }) {
+  const [isCancelling, setIsCancelling] = useState(false);
+
   const handleCancelInvitation = async (token: string) => {
     if (window.confirm("Are you sure you want to cancel this invitation?")) {
+      setIsCancelling(true);
       try {
         const result = await handleRejectInvitation({ token });
         if (result.success) {
@@ -112,8 +135,9 @@ export function ProfileInviteSentActions({
           toast.error(result.message);
         }
       } catch (error) {
-        console.error("Failed to cancel invitation:", error);
         toast.error("Failed to cancel invitation.");
+      } finally {
+        setIsCancelling(false);
       }
     }
   };
@@ -121,9 +145,16 @@ export function ProfileInviteSentActions({
   const invitationLink = `${process.env.NEXT_PUBLIC_AUTH_URL}/accept-invitation?token=${invite.token}`;
 
   return (
-    <div className="flex gap-2 items-center">
-      <button onClick={() => handleCancelInvitation(invite.token)}>
-        <IconX className="text-danger" size={16} />
+    <div className="flex gap-1 items-center">
+      <button
+        className="text-danger"
+        onClick={() => handleCancelInvitation(invite.token)}
+      >
+        {isCancelling ? (
+          <Spinner size="sm" color="danger" />
+        ) : (
+          <IconX size={22} />
+        )}
       </button>
       <p>
         Sent to <strong>{invite.email}</strong> for Board{" "}
