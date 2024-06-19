@@ -1,35 +1,41 @@
 "use server";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+import { ActivityType } from "@prisma/client";
 import prisma from "@/prisma/prisma";
 import { auth } from "@/auth";
-import { revalidatePath } from "next/cache";
-import {
-  CreateTaskSchema,
-  EditTaskSchema,
-  DeleteTaskSchema,
-} from "@/types/zodTypes";
 import {
   TaskCreationData,
   TaskEditData,
   TaskDeletionData,
 } from "@/types/types";
-import { ActivityType } from "@prisma/client";
+import { MESSAGES } from "@/utils/messages";
 
 // Create Task
 export async function handleCreateTask(data: TaskCreationData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const CreateTaskSchema = z.object({
+    taskTitle: z.string().min(1, MESSAGES.TASK.TITLE_TOO_SHORT),
+    columnId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+  });
+
+  const parse = CreateTaskSchema.safeParse(data);
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
+  }
+
   try {
-    const session = await auth();
-    const userId = session?.user?.id;
-
-    if (!userId) {
-      return { success: false, message: "User is not authenticated" };
-    }
-
-    const parse = CreateTaskSchema.safeParse(data);
-
-    if (!parse.success) {
-      return { success: false, message: "Failed to create task" };
-    }
-
     const maxOrderTask = await prisma.task.findFirst({
       where: { columnId: parse.data.columnId },
       orderBy: { order: "desc" },
@@ -41,14 +47,12 @@ export async function handleCreateTask(data: TaskCreationData) {
     const createdTask = await prisma.task.create({
       data: {
         title: parse.data.taskTitle,
-        description: parse.data.description,
         columnId: parse.data.columnId,
         order: newOrder,
         createdByUserId: userId,
       },
     });
 
-    // Add activity logging
     if (createdTask) {
       await prisma.activity.create({
         data: {
@@ -63,25 +67,43 @@ export async function handleCreateTask(data: TaskCreationData) {
 
     revalidatePath(`/board/${parse.data.boardId}`);
 
-    return { success: true, message: `Added task` };
+    return {
+      success: true,
+      message: MESSAGES.TASK.CREATE_SUCCESS,
+    };
   } catch (e) {
-    return { success: false, message: `Failed to create task` };
+    return { success: false, message: MESSAGES.TASK.CREATE_FAILURE };
   }
 }
 
-// EDIT TASK
+// Edit Task
 export async function handleEditTask(data: TaskEditData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const EditTaskSchema = z.object({
+    id: z.string().min(1, MESSAGES.COMMON.TASK_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+    title: z.string().min(1, MESSAGES.TASK.TITLE_TOO_SHORT),
+    description: z.union([z.string(), z.null()]).optional(),
+  });
+
   const parse = EditTaskSchema.safeParse(data);
 
   if (!parse.success) {
-    return { success: false, message: "Failed to edit task" };
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
   }
 
   try {
     await prisma.task.update({
-      where: {
-        id: parse.data.id,
-      },
+      where: { id: parse.data.id },
       data: {
         title: parse.data.title,
         description: parse.data.description,
@@ -90,20 +112,33 @@ export async function handleEditTask(data: TaskEditData) {
 
     revalidatePath(`/board/${parse.data.boardId}`);
 
-    return { success: true, message: `Edited task successfully!` };
+    return { success: true, message: MESSAGES.TASK.UPDATE_SUCCESS };
   } catch (e) {
-    return { success: false, message: `Failed to edit task` };
+    return { success: false, message: MESSAGES.TASK.UPDATE_FAILURE };
   }
 }
 
-// DELETE TASK
+// Delete Task
 export async function handleDeleteTask(data: TaskDeletionData) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const DeleteTaskSchema = z.object({
+    id: z.string().min(1, MESSAGES.COMMON.TASK_ID_REQUIRED),
+    columnId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+  });
+
   const parse = DeleteTaskSchema.safeParse(data);
 
   if (!parse.success) {
     return {
       success: false,
-      message: "Failed to delete task due to validation error",
+      message: parse.error.errors.map((e) => e.message).join(", "),
     };
   }
 
@@ -126,222 +161,8 @@ export async function handleDeleteTask(data: TaskDeletionData) {
     }
 
     revalidatePath(`/board/${parse.data.boardId}`);
-    return { success: true, message: `Deleted task` };
+    return { success: true, message: MESSAGES.TASK.DELETE_SUCCESS };
   } catch (e) {
-    return { success: false, message: "Failed to delete task" };
-  }
-}
-
-// Add/update a date. NOTE: we expect a string since server actions need to be serialized
-export async function handleAddDate(data: {
-  taskId: string;
-  date: string;
-  boardId: string;
-  dateType: "startDate" | "dueDate";
-}) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!data.boardId || !data.taskId || !data.date || !userId) {
-    return {
-      success: false,
-      message: `Board ID, Task ID, ${data.dateType}, or User ID is missing`,
-    };
-  }
-
-  try {
-    const dateObject = new Date(data.date);
-
-    const existingTask = await prisma.task.findUnique({
-      where: { id: data.taskId },
-      select: { [data.dateType]: true },
-    });
-
-    await prisma.task.update({
-      where: { id: data.taskId },
-      data: { [data.dateType]: dateObject },
-    });
-
-    const activityType =
-      existingTask && existingTask[data.dateType]
-        ? data.dateType === "dueDate"
-          ? ActivityType.DUE_DATE_UPDATED
-          : ActivityType.START_DATE_UPDATED
-        : data.dateType === "dueDate"
-          ? ActivityType.DUE_DATE_ADDED
-          : ActivityType.START_DATE_ADDED;
-
-    await prisma.activity.create({
-      data: {
-        type: activityType,
-        taskId: data.taskId,
-        userId: userId,
-        [data.dateType]: dateObject,
-      },
-    });
-
-    revalidatePath(`/board/${data.boardId}`);
-    return {
-      success: true,
-      message: `${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)} Updated`,
-    };
-  } catch (e) {
-    return {
-      success: false,
-      message: `Failed to Update ${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)}`,
-    };
-  }
-}
-
-// Remove a date.
-export async function handleRemoveDate(data: {
-  taskId: string;
-  boardId: string;
-  dateType: "startDate" | "dueDate";
-}) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!data.boardId || !data.taskId || !userId) {
-    return {
-      success: false,
-      message: `Board ID, Task ID, or User ID is missing`,
-    };
-  }
-
-  try {
-    await prisma.task.update({
-      where: { id: data.taskId },
-      data: { [data.dateType]: null },
-    });
-
-    const activityType =
-      data.dateType === "dueDate"
-        ? ActivityType.DUE_DATE_REMOVED
-        : ActivityType.START_DATE_REMOVED;
-
-    await prisma.activity.create({
-      data: {
-        type: activityType,
-        taskId: data.taskId,
-        userId: userId,
-      },
-    });
-
-    revalidatePath(`/board/${data.boardId}`);
-    return {
-      success: true,
-      message: `${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)} Removed`,
-    };
-  } catch (e) {
-    return {
-      success: false,
-      message: `Failed to Remove ${data.dateType.charAt(0).toUpperCase() + data.dateType.slice(1)}`,
-    };
-  }
-}
-
-// DELETE TASK DESCRIPTION
-export async function handleDeleteTaskDescription(
-  taskId: string,
-  boardId: string,
-) {
-  try {
-    await prisma.task.update({
-      where: { id: taskId },
-      data: { description: null },
-    });
-
-    revalidatePath(`/board/${boardId}`);
-
-    return { success: true, message: "Description deleted successfully" };
-  } catch (e) {
-    return { success: false, message: "Failed to delete description" };
-  }
-}
-
-// Add User to Task
-export async function handleAddUserToTask(
-  targetUserId: string,
-  taskId: string,
-  boardId: string,
-) {
-  try {
-    const session = await auth();
-    const currentUserId = session?.user?.id;
-
-    if (!currentUserId) {
-      return { success: false, message: "User is not authenticated" };
-    }
-
-    await prisma.taskAssignment.create({
-      data: {
-        userId: targetUserId,
-        taskId: taskId,
-      },
-    });
-
-    await prisma.activity.create({
-      data: {
-        type: ActivityType.TASK_ASSIGNED,
-        userId: currentUserId,
-        taskId: taskId,
-        boardId: boardId,
-        targetUserId: targetUserId,
-      },
-    });
-
-    revalidatePath(`/board/${boardId}`);
-
-    return {
-      success: true,
-      message: `User ${targetUserId} added to task ${taskId}`,
-    };
-  } catch (e) {
-    return { success: false, message: `Failed to add user to task` };
-  }
-}
-
-// Remove User from Task
-export async function handleRemoveUserFromTask(
-  targetUserId: string,
-  taskId: string,
-  boardId: string,
-) {
-  try {
-    const session = await auth();
-    const currentUserId = session?.user?.id;
-
-    if (!currentUserId) {
-      return { success: false, message: "User is not authenticated" };
-    }
-
-    await prisma.taskAssignment.delete({
-      where: {
-        userId_taskId: {
-          userId: targetUserId,
-          taskId: taskId,
-        },
-      },
-    });
-
-    await prisma.activity.create({
-      data: {
-        type: ActivityType.TASK_UNASSIGNED,
-        userId: currentUserId,
-        taskId: taskId,
-        boardId: boardId,
-        targetUserId: targetUserId,
-      },
-    });
-
-    revalidatePath(`/board/${boardId}`);
-
-    return {
-      success: true,
-      message: `User ${targetUserId} removed from task ${taskId}`,
-    };
-  } catch (e) {
-    return { success: false, message: `Failed to remove user from task` };
+    return { success: false, message: MESSAGES.TASK.DELETE_FAILURE };
   }
 }

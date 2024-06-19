@@ -107,7 +107,7 @@ export async function handleEditBoard(data: {
   }
 
   const EditBoardSchema = z.object({
-    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
     title: z.string().min(3, MESSAGES.BOARD.TITLE_TOO_SHORT),
   });
 
@@ -148,7 +148,9 @@ export async function handleDeleteBoard(boardId: string) {
     return { success: false, message: MESSAGES.AUTH.REQUIRED };
   }
 
-  const DeleteBoardSchema = z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED);
+  const DeleteBoardSchema = z
+    .string()
+    .min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED);
 
   const parse = DeleteBoardSchema.safeParse(boardId);
 
@@ -195,91 +197,7 @@ export async function handleDeleteBoard(boardId: string) {
   }
 }
 
-// Edit Background Image
-export async function handleEditBoardImage(url: string, boardId: string) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return { success: false, message: MESSAGES.AUTH.REQUIRED };
-  }
-
-  const EditBoardImageSchema = z.object({
-    url: z.string().min(1, MESSAGES.BOARD.IMAGE_URL_REQUIRED),
-    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
-  });
-
-  const parse = EditBoardImageSchema.safeParse({ url, boardId });
-
-  if (!parse.success) {
-    return {
-      success: false,
-      message: parse.error.errors.map((e) => e.message).join(", "),
-    };
-  }
-
-  try {
-    await prisma.board.update({
-      where: {
-        id: parse.data.boardId,
-      },
-      data: {
-        backgroundUrl: parse.data.url,
-      },
-    });
-
-    revalidatePath(`/board/${parse.data.boardId}`);
-
-    return { success: true, message: MESSAGES.BOARD.IMAGE_SAVE_SUCCESS };
-  } catch (e) {
-    console.error("Error updating board image:", e);
-    return { success: false, message: MESSAGES.BOARD.IMAGE_SAVE_FAILURE };
-  }
-}
-
-// Remove Background Image
-export async function handleRemoveBoardImage(boardId: string) {
-  const session = await auth();
-  const userId = session?.user?.id;
-
-  if (!userId) {
-    return { success: false, message: MESSAGES.AUTH.REQUIRED };
-  }
-
-  const RemoveBoardImageSchema = z.object({
-    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
-  });
-
-  const parse = RemoveBoardImageSchema.safeParse({ boardId });
-
-  if (!parse.success) {
-    return {
-      success: false,
-      message: parse.error.errors.map((e) => e.message).join(", "),
-    };
-  }
-
-  try {
-    await prisma.board.update({
-      where: {
-        id: parse.data.boardId,
-      },
-      data: {
-        backgroundUrl: null,
-      },
-    });
-
-    revalidatePath(`/board/${parse.data.boardId}`);
-
-    return { success: true, message: MESSAGES.BOARD.IMAGE_REMOVE_SUCCESS };
-  } catch (e) {
-    console.error("Error removing board image:", e);
-    return { success: false, message: MESSAGES.BOARD.IMAGE_REMOVE_FAILURE };
-  }
-}
-
 // Server action for saving board and task positions.
-
 interface TaskData {
   id: string;
   order: number;
@@ -306,19 +224,19 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
   }
 
   const taskSchema = z.object({
-    id: z.string().min(1, MESSAGES.BOARD.TASK_ID_REQUIRED),
+    id: z.string().min(1, MESSAGES.COMMON.TASK_ID_REQUIRED),
     order: z.number(),
-    columnId: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
+    columnId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
   });
 
   const columnSchema = z.object({
-    id: z.string().min(1, MESSAGES.BOARD.COLUMN_ID_REQUIRED),
+    id: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
     order: z.number(),
     tasks: z.array(taskSchema),
   });
 
   const UpdateBoardSchema = z.object({
-    boardId: z.string().min(1, MESSAGES.BOARD.BOARD_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
     boardData: z.object({
       columns: z.array(columnSchema),
       originalColumns: z.array(columnSchema),
@@ -369,7 +287,6 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
             );
 
             if (originalTask && originalTask.columnId !== column.id) {
-              // Create a 'TASK_MOVED' activity entry
               await tx.activity.create({
                 data: {
                   type: ActivityType.TASK_MOVED,
@@ -393,5 +310,88 @@ export async function handleUpdateBoard(boardId: string, boardData: BoardData) {
     console.error("Error updating board:", error);
 
     return { success: false, message: MESSAGES.BOARD.UPDATE_FAILURE };
+  }
+}
+
+// Edit Background Image
+export async function handleEditBoardImage(url: string, boardId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const EditBoardImageSchema = z.object({
+    url: z.string().min(1, MESSAGES.BG_IMAGE.IMAGE_URL_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+  });
+
+  const parse = EditBoardImageSchema.safeParse({ url, boardId });
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
+  }
+
+  try {
+    await prisma.board.update({
+      where: {
+        id: parse.data.boardId,
+      },
+      data: {
+        backgroundUrl: parse.data.url,
+      },
+    });
+
+    revalidatePath(`/board/${parse.data.boardId}`);
+
+    return { success: true, message: MESSAGES.BG_IMAGE.IMAGE_SAVE_SUCCESS };
+  } catch (e) {
+    console.error("Error updating board image:", e);
+    return { success: false, message: MESSAGES.BG_IMAGE.IMAGE_SAVE_FAILURE };
+  }
+}
+
+// Remove Background Image
+export async function handleRemoveBoardImage(boardId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const RemoveBoardImageSchema = z.object({
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+  });
+
+  const parse = RemoveBoardImageSchema.safeParse({ boardId });
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
+  }
+
+  try {
+    await prisma.board.update({
+      where: {
+        id: parse.data.boardId,
+      },
+      data: {
+        backgroundUrl: null,
+      },
+    });
+
+    revalidatePath(`/board/${parse.data.boardId}`);
+
+    return { success: true, message: MESSAGES.BG_IMAGE.IMAGE_REMOVE_SUCCESS };
+  } catch (e) {
+    console.error("Error removing board image:", e);
+    return { success: false, message: MESSAGES.BG_IMAGE.IMAGE_REMOVE_FAILURE };
   }
 }

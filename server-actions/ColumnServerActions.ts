@@ -18,7 +18,7 @@ export async function handleCreateColumn(data: {
   }
 
   const CreateColumnSchema = z.object({
-    boardId: z.string().min(1, MESSAGES.COLUMN.ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
     title: z.string().min(3, MESSAGES.COLUMN.TITLE_TOO_SHORT),
   });
 
@@ -70,8 +70,8 @@ export async function handleEditColumn(data: {
   }
 
   const EditColumnSchema = z.object({
-    columnId: z.string().min(1, MESSAGES.COLUMN.COLUMN_ID_REQUIRED),
-    boardId: z.string().min(1, MESSAGES.COLUMN.BOARD_ID_REQUIRED),
+    columnId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
     title: z.string().min(3, MESSAGES.COLUMN.TITLE_TOO_SHORT),
   });
 
@@ -112,8 +112,8 @@ export async function handleDeleteColumn(data: {
   }
 
   const DeleteColumnSchema = z.object({
-    columnId: z.string().min(1, MESSAGES.COLUMN.COLUMN_ID_REQUIRED),
-    boardId: z.string().min(1, MESSAGES.COLUMN.BOARD_ID_REQUIRED),
+    columnId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
   });
 
   const parse = DeleteColumnSchema.safeParse(data);
@@ -163,8 +163,8 @@ export async function handleDeleteColumnTasks(data: {
   }
 
   const DeleteColumnTasksSchema = z.object({
-    columnId: z.string().min(1, MESSAGES.COLUMN.COLUMN_ID_REQUIRED),
-    boardId: z.string().min(1, MESSAGES.COLUMN.BOARD_ID_REQUIRED),
+    columnId: z.string().min(1, MESSAGES.COMMON.COLUMN_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
   });
 
   const parse = DeleteColumnTasksSchema.safeParse(data);

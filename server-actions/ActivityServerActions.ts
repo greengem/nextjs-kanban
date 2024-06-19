@@ -1,45 +1,42 @@
 "use server";
-import prisma from "@/prisma/prisma";
-import { auth } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { ActivityType } from "@prisma/client";
-
-const handleCreateActivitySchema = z.object({
-  content: z
-    .string()
-    .trim()
-    .min(1, "Comment cannot be empty")
-    .max(500, "Comment is too long"),
-});
+import prisma from "@/prisma/prisma";
+import { auth } from "@/auth";
+import { MESSAGES } from "@/utils/messages";
 
 // Create Activity
 export async function handleCreateActivity(
   taskId: string,
   boardId: string,
-  formData: FormData,
+  content: string
 ) {
   const session = await auth();
   const userId = session?.user?.id;
 
   if (!userId) {
-    return { success: false, message: "Authentication required" };
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
   }
 
-  const validatedFields = handleCreateActivitySchema.safeParse({
-    content: formData.get("content")?.toString(),
+  const data = { taskId, boardId, content };
+
+  const CreateActivitySchema = z.object({
+    taskId: z.string().min(1, MESSAGES.COMMON.TASK_ID_REQUIRED),
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+    content: z
+      .string()
+      .trim()
+      .min(1, MESSAGES.ACTIVITY.CONTENT_TOO_SHORT)
+      .max(500, MESSAGES.ACTIVITY.CONTENT_TOO_LONG),
   });
 
-  if (!validatedFields.success) {
-    const errorMessage = Object.values(
-      validatedFields.error.flatten().fieldErrors,
-    )
-      .map((e) => e.join(", "))
-      .join("; ");
+  const parse = CreateActivitySchema.safeParse(data);
 
+  if (!parse.success) {
     return {
       success: false,
-      message: `Validation failed: ${errorMessage}`,
+      message: parse.error.errors.map((e) => e.message).join(", "),
     };
   }
 
@@ -47,18 +44,18 @@ export async function handleCreateActivity(
     await prisma.activity.create({
       data: {
         type: ActivityType.COMMENT_ADDED,
-        content: validatedFields.data.content,
+        content: parse.data.content,
         userId: userId,
-        taskId: taskId,
-        boardId: boardId,
+        taskId: parse.data.taskId,
+        boardId: parse.data.boardId,
       },
     });
 
     revalidatePath(`/task/${taskId}`);
 
-    return { success: true, message: "Comment added successfully" };
+    return { success: true, message: MESSAGES.ACTIVITY.CREATE_SUCCESS };
   } catch (e) {
-    return { success: false, message: "Failed to create activity" };
+    return { success: false, message: MESSAGES.ACTIVITY.CREATE_FAILURE };
   }
 }
 
@@ -67,18 +64,35 @@ export async function handleDeleteActivity(data: {
   boardId: string;
   activityId: string;
 }) {
-  if (!data.boardId || !data.activityId) {
-    return { success: false, message: "Board ID or Activity ID is missing" };
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  if (!userId) {
+    return { success: false, message: MESSAGES.AUTH.REQUIRED };
+  }
+
+  const DeleteActivitySchema = z.object({
+    boardId: z.string().min(1, MESSAGES.COMMON.BOARD_ID_REQUIRED),
+    activityId: z.string().min(1, MESSAGES.COMMON.ACTIVITY_ID_REQUIRED),
+  });
+
+  const parse = DeleteActivitySchema.safeParse(data);
+
+  if (!parse.success) {
+    return {
+      success: false,
+      message: parse.error.errors.map((e) => e.message).join(", "),
+    };
   }
 
   try {
     await prisma.activity.delete({
-      where: { id: data.activityId },
+      where: { id: parse.data.activityId },
     });
 
-    revalidatePath(`/board/${data.boardId}`);
-    return { success: true, message: "Deleted activity" };
+    revalidatePath(`/board/${parse.data.boardId}`);
+    return { success: true, message: MESSAGES.ACTIVITY.DELETE_SUCCESS };
   } catch (e) {
-    return { success: false, message: "Failed to delete activity" };
+    return { success: false, message: MESSAGES.ACTIVITY.DELETE_FAILURE };
   }
 }
