@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "format": "prettier --write actions/ app/ contexts/ db/ lib/ prisma/ types/ ui/"
+    "format": "prettier --write actions/ app/ contexts/ prisma/ types/ ui/"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.2.0",
