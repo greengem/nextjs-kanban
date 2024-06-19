@@ -35,6 +35,7 @@ export default function RootLayout({
     >
       <body className="flex flex-col grow text-zinc-200">
         <Toaster />
+        <Analytics />
         <Providers>{children}</Providers>
       </body>
     </html>
