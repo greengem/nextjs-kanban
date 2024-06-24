@@ -115,6 +115,7 @@ model Task {
   description String?
   dueDate     DateTime?
   startDate   DateTime?
+  coverImage  String?
   columnId    String
   column      Column       @relation(fields: [columnId], references: [id], onDelete: Cascade)
   labels      Label[]
